@@ -1,0 +1,11 @@
+# .gitignore의 주석 : #(샾)
+# .git이 있는 프로젝트 내에서 깃에 연동하지 않을 내용을 정리
+
+# node_modules 폴더 무시
+node_modules/
+*/node_modules
+
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
