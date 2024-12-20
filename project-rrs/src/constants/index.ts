@@ -1,13 +1,15 @@
-export const MAIN_PATH = '/api/v1';
-export const MAIN_URL = `http://localhost:4040/api/v1`;
+export const MAIN_PATH = '';
+export const MAIN_URL = `http://localhost:3000`;
 
 export const AUTH_PATH = '/auth';
 export const USER_PATH = '/user';
 
+// Todo
 export const TODO_PATH = '/todos';
 export const TODO_CREATE_PATH = '/todos/write';
 export const TODO_UPDATE_PATH = (todoId: number) => `/todos/${todoId}`;
 
+// Reservation
 export const RESERVATION_PATH = '/reservations';
 export const RESERVATION_CREATE_PATH = '/reservations/write';
 export const RESERVATION_DETAIL_PATH = (reservationId: number) => `/reservations/${reservationId}`;
@@ -17,10 +19,8 @@ export const RESERVATION_UPDATE_PATH = (reservationId: number) => `/reservations
 export const RESERVATION_UPDATE_STATUS_PATH = '/update-reservation-status';
 export const FIND_PROVIDER_BY_DATE_PATH = '/get-provider';
 
+// Review
 export const REVIEW_PATH = '/reviews';
-export const CUSTOMER_SUPPORT_PATH = '/customer-supports'
 
-// export const BOARD_LIST_PATH = '/board';
-// export const BOARD_DETAIL_PATH = (boardNumber: number | string) => `/board/detail/${boardNumber}`;
-// export const BOARD_WRITE_PATH = '/board/write';
-// export const BOARD_UPDATE_PATH = (boardNumber: number | string) => `/board/update/${boardNumber}`;
+// CustomerSupport
+export const CUSTOMER_SUPPORT_PATH = '/customer-supports'
