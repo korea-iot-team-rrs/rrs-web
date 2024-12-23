@@ -1,7 +1,6 @@
 import React from 'react'
 
-export default function AuthLayout() {
+export default function SignUpView() {
   return <>
-  
   </>
 }

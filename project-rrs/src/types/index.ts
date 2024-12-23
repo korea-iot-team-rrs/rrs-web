@@ -2,7 +2,7 @@
 
 export interface User {
     userId: number;
-    namd: string;
+    name: string;
     username: string;
     password: string;
     nickname: string;
