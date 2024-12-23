@@ -1,14 +1,24 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // 올바른 import 경로
 import './App.css';
-import MainPage from '../src/views/Main'; // 올바른 컴포넌트 경로
+import Navbar from './layouts/Navbar';
+import Footer from './layouts/Footer';
+import { Route, Routes } from 'react-router-dom';
+import Main from './views/Main';
+import LoginView from './views/Authentication/LoginView';
+import SignUpView from './views/Authentication';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-      </Routes>
-    </Router>
+    <div className="app-container">
+      <Navbar />
+        <div className="content">
+          <Routes>
+            <Route path="/" element={<Main />} />
+            <Route path="/login" element={<LoginView />} />       
+            <Route path="/signup" element={<SignUpView />} />       
+          </Routes>
+        </div>
+      <Footer />
+    </div>
   );
 }
 
