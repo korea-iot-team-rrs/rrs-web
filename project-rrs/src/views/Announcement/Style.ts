@@ -1,17 +1,18 @@
-// Style.ts
 import { css } from '@emotion/react';
 
 export const container = css`
   display: flex;
   width: 100%;
-  align-items: flex-start; // 상단 정렬
+  align-items: flex-start;
 `;
 
 export const listBox = css`
+  list-style-type: none;
+  line-height: 2;
   width: 200px;
-  margin-right: 20px;
-  padding: 10px;
-  border-radius: 8px;
+  margin: 50px;
+  padding: 25px;
+  border-radius: 30px;
   background-color: white;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   height: auto;
@@ -20,13 +21,14 @@ export const listBox = css`
 
 export const listItem = css`
   cursor: pointer;
-  margin: 5px 0;
+  margin: 8px 0;
   &:hover {
-    background-color: #f4f4f4;
+    color: #2194ff;
   }
 `;
 
 export const contentArea = css`
+  margin: 50px;
   flex-grow: 1;
   background-color: white;
   padding: 20px;
@@ -38,7 +40,7 @@ export const tableStyle = css`
   width: 100%;
   border-collapse: collapse;
   th, td {
-    text-align: left;
+    text-align: center;
     padding: 8px;
     border-bottom: 1px solid #eee;
   }
@@ -64,11 +66,28 @@ export const pageButton = css`
   &:disabled {
     background-color: #ccc;
   }
-  
-`;export const headerStyle = css`
-font-size: 24px; // 글자 크기 설정
-color: #333; // 글자색
-margin-bottom: 20px; // 하단 여백
-padding: 10px 0; // 상하 패딩
-border-bottom: 1px solid #ddd; // 하단 테두리
+`;
+
+export const headerStyle = css`
+  font-size: 24px;
+  color: black;
+  margin-bottom: 20px;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const numberColumn = css`
+  width: 10%;
+`;
+
+export const titleColumn = css`
+  width: 70%;
+`;
+
+export const dateColumn = css`
+  width: 20%;
 `;

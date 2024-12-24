@@ -5,6 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 import Main from './views/Main';
 import LoginView from './views/Authentication/LoginView';
 import SignUpView from './views/Authentication';
+import Announcement from './views/Announcement';
 
 function App() {
   return (
@@ -14,7 +15,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="/login" element={<LoginView />} />       
-            <Route path="/signup" element={<SignUpView />} />       
+            <Route path="/signup" element={<SignUpView />} />
+            <Route path="/announcements" element={<Announcement />} />    
           </Routes>
         </div>
       <Footer />
