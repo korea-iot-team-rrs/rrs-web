@@ -1,0 +1,10 @@
+.pet_diary_container {
+    display: flex;
+    padding: 1% 10%;
+    gap: 50px;
+}
+
+.pet_diary_container > *{
+  flex: 1;
+  /* border: 1px solid rebeccapurple; */
+}
