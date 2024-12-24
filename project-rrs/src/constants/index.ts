@@ -1,8 +1,12 @@
-export const MAIN_PATH = '';
-export const MAIN_URL = `http://localhost:3000`;
+export const MAIN_PATH = 'http://localhost:3000';
+export const MAIN_URL = 'http://localhost:4040/api/v1';
 
-export const AUTH_PATH = '/auth';
 export const USER_PATH = '/user';
+
+//auth
+export const AUTH_PATH = '/auth';
+export const LOGIN = '/auth/login';
+export const SIGN_UP = '/auth/sign-up';
 
 // Todo
 export const TODO_PATH = '/todos';
