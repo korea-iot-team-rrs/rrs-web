@@ -5,6 +5,9 @@ import Main from './views/Main';
 import LoginView from './views/Authentication/LoginView';
 import SignUpView from './views/Authentication';
 import Header from './layouts/Header';
+
+import PetDiary from './components/PetDiary';
+import Announcement from './views/Announcement';
 import PetDiaryView from './views/PetDiaryView/PetDiaryView';
 
 function App() {
@@ -15,8 +18,9 @@ function App() {
           <Routes>
             
             <Route path="/" element={<Main />} />
-            <Route path="/login" element={<LoginView />} />      
-            <Route path="/signup" element={<SignUpView />} />  
+            <Route path="/login" element={<LoginView />} />       
+            <Route path="/signup" element={<SignUpView />} /> 
+            <Route path="/announcements" element={<Announcement />} />
             <Route path="/petdiary" element={<PetDiaryView />} />     
           </Routes>
         </div>
