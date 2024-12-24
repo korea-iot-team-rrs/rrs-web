@@ -89,11 +89,9 @@ export default function SignUp() {
         <div>
             <div>
                 <h1>회원가입</h1>
-
                 <div>
                     <label htmlFor="">개인 프로필 사진</label>
-                    <img src="https://via.placeholder.com/100" alt="profileImageUrl" />
-                    <button type='button'>+</button>
+                    {userInfo.profileImageUrl && <img src={userInfo.profileImageUrl} alt="profile" />}
                 </div>
 
                 <form>
