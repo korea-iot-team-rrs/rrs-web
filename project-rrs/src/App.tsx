@@ -6,7 +6,6 @@ import LoginView from './views/Authentication/LoginView';
 import SignUpView from './views/Authentication';
 import Header from './layouts/Header';
 
-import PetDiary from './components/PetDiary';
 import Announcement from './views/Announcement';
 import PetDiaryView from './views/PetDiaryView/PetDiaryView';
 
