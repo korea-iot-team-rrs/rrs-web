@@ -10,23 +10,21 @@
 
 .login img  {
   height: 110px;
+  margin-bottom: 10px;
 }
 
 .login h4 {
   color: #959595;
   font-weight: 400;
+  font-size: 20px;
   cursor: default;
 }
 
 .login form {
+  margin-top: 15px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
-
-.login-input-container {
-  display: flex;
-  position: relative;
 }
 
 .login input {
@@ -43,13 +41,17 @@
   background-color: #2194FF;
   border-radius: 15px;
   border: none;
-  height: 25px;
+  height: 30px;
   color: #fff;
   cursor: pointer;
 }
 
 .login button:hover {
   background-color: #1c82e0;
+}
+
+.login .error-message + button {
+  margin-top: 15px; /* 에러 메시지 이후 버튼 위치를 더 내려줌 */
 }
 
 .login-links {
@@ -73,9 +75,5 @@
 .login .error-message {
   color: red;
   font-size: 14px;
-  position: absolute; /* input 오른쪽 옆에 배치하기 위해 절대 위치 설정 */
-  left: 100%; /* input 바로 옆에 배치 */
-  margin-left: 10px; /* 간격 추가 */
-  transform: translateY(-50%); /* 세로 중앙 정렬 */
-  white-space: nowrap; /* 텍스트가 길어도 한 줄로 표시 */
+  margin-top: 10px;
 }
