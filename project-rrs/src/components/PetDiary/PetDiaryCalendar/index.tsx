@@ -8,7 +8,7 @@ const Styles = () => {
 
 export default function PetDiaryCalendar() {
   return <>
-    <div className="pet_diary_calendar">
+    <div className="petDiaryCalendar">
       <Styles />
       <Calendar
         bordered

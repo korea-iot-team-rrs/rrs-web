@@ -1,0 +1,47 @@
+.petDiaryTodoConatiner header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 5%;
+}
+
+.petDiaryTodoConatiner header div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.petDiaryTodoConatiner header div h2{
+    font-size: 20px;
+}
+.petDiaryTodoConatiner header div span{
+    padding-left: 10px;
+    font-size: 13.65px;
+    color: #6D6D6D;
+}
+
+.petDiaryTodoConatiner ul {
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+.petDiaryTodoConatiner li {
+    display: flex;
+    align-items: center;
+    margin: 10px;
+    list-style-type: none;
+    height: 60px;
+    width: 90%;
+    border: 2px solid #e3e3e3;
+    border-radius: 15px;
+    font-size: 13.65px;
+    justify-content: space-between;
+}
+
+.petDiaryTodoConatiner li > * {
+    padding: 0 20px;
+}

@@ -37,17 +37,18 @@
 .rs-calendar-table-cell.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content {
   margin: 0px;
   padding: 10px;
-  background-color: #d2e9ff;
+  background-color: #ebebeb;
   border-radius: 10px;
 }
 
 .rs-calendar-table-cell.rs-calendar-table-cell-is-today .rs-calendar-table-cell-day {
   margin: 0px;
-  padding: 6px;
+  padding: 4px 0px;
+  text-align: center;
   width: 30px;
   height: 30px;
   border-radius: 30%;
-  background-color: #3DA1FF;
+  background-color: #6b6b6b;
 }
 
 
@@ -57,9 +58,26 @@
 }
 
 .rs-calendar-panel .rs-calendar-table-cell-selected .rs-calendar-table-cell-content {
-  background-color: #ECECEC;
+  margin: 0px;
+  padding: 6px;
+  display: flex;
+  background-color: #d2e9ff;
   border-radius: 10px;
   color: inherit;
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
+  font-weight: bold;
 }
+
+.rs-calendar-panel .rs-calendar-table-cell-selected .rs-calendar-table-cell-content .rs-calendar-table-cell-day{
+  font-weight: bold;
+  margin: 0px;
+  padding: 4px 0px;
+  width: 30px;
+  height: 30px;
+  border-radius: 30%;
+  background-color: #3DA1FF;
+  color: #FFFFFF !important;
+  text-align: center;
+}
+
