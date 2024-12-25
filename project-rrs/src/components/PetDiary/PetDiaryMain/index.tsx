@@ -4,6 +4,9 @@ import PetDiaryTodo from "./PetDiaryTodo";
 import PetDiaryHealthRecord from "./PetDiaryHealthRecord";
 import PetDiaryWalkingRecord from "./PetDiaryWalkingRecord";
 import { PetDiaryMainProps } from "../../../types/petDiary";
+import { RiTodoLine } from "react-icons/ri";
+import { PiDogFill } from "react-icons/pi";
+import { FaNotesMedical } from "react-icons/fa";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -42,9 +45,10 @@ export default function PetDiaryMain({ selectedDate }: PetDiaryMainProps) {
 
   return (
     <Box sx={{ bgcolor: "background.paper", width: "100%" }}>
-      <AppBar position="static"
+      <AppBar
+        position="static"
         style={{
-          backgroundColor: "#303030"
+          backgroundColor: "#303030",
         }}
       >
         <Tabs
@@ -57,7 +61,7 @@ export default function PetDiaryMain({ selectedDate }: PetDiaryMainProps) {
           }}
           TabIndicatorProps={{
             style: {
-              top: "50px", // 상단에서의 거리 (탭 아래로 이동)
+              top: "60px", // 상단에서의 거리 (탭 아래로 이동)
               left: "0px",
               position: "absolute",
               height: "50px",
@@ -68,27 +72,39 @@ export default function PetDiaryMain({ selectedDate }: PetDiaryMainProps) {
           }}
         >
           <Tab
-            label="오늘할일"
+            icon={<FaNotesMedical />}
+            label={<span>&nbsp;오늘할일</span>}
             sx={{
+              display: "flex",
+              flexDirection: "row",
               height: "60px",
               backgroundColor: "#ff6b6b",
-              color: "#fff"
+              color: "#fff",
+              fontSize: "16px",
             }}
             {...a11yProps(0)}
           />
           <Tab
-            label="산책기록"
+            icon={<PiDogFill />}
+            label={<span>&nbsp;산책기록</span>}
             sx={{
+              display: "flex",
+              flexDirection: "row",
               backgroundColor: "#ffa726",
-              color: "#fff"
+              color: "#ffffff",
+              fontSize: "16px",
             }}
             {...a11yProps(1)}
           />
           <Tab
-            label="건강기록"
+            icon={<RiTodoLine />}
+            label={<span>&nbsp;건강기록</span>}
             sx={{
+              display: "flex",
+              flexDirection: "row",
               backgroundColor: "#7e57c2",
-              color: "#fff"
+              color: "#fff",
+              fontSize: "16px",
             }}
             {...a11yProps(2)}
           />
