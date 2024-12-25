@@ -17,7 +17,6 @@ export default function PetDiaryTodo({ selectedDate }: PetDiaryTodoProps) {
     // const token = cookies.token;
     const token =
       "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzM1MTIzMjgwLCJleHAiOjE3MzUxNTkyODB9.YKgHgC-ZukRkvIQSH-ImfXRHe-Qre9ph4lAC_kgj_Kc";
-
     if (!token) {
       console.error("Token not found");
       return;
