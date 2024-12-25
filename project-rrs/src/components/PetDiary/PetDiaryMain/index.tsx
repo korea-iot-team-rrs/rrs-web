@@ -3,6 +3,7 @@ import { AppBar, Tabs, Tab, Box } from "@mui/material";
 import PetDiaryTodo from "./PetDiaryTodo";
 import PetDiaryHealthRecord from "./PetDiaryHealthRecord";
 import PetDiaryWalkingRecord from "./PetDiaryWalkingRecord";
+import { PetDiaryMainProps } from "../../../types/petDiary";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -32,8 +33,7 @@ function a11yProps(index: number) {
     "aria-controls": `full-width-tabpanel-${index}`,
   };
 }
-
-export default function FullWidthTabs() {
+export default function PetDiaryMain({ selectedDate }: PetDiaryMainProps) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -95,7 +95,7 @@ export default function FullWidthTabs() {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <PetDiaryTodo />
+        <PetDiaryTodo selectedDate={selectedDate} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <PetDiaryHealthRecord />

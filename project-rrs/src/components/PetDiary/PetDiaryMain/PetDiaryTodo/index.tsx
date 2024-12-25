@@ -6,15 +6,18 @@ import PlusIcon from "@rsuite/icons/Plus";
 import { useCookies } from "react-cookie";
 import { TodoRespDto } from "../../../../types/todoType";
 import { fetchTodosByDay } from "../../../../apis/todo";
+import { PetDiaryTodoProps } from "../../../../types/petDiary";
 
-export default function PetDiaryTodo() {
+export default function PetDiaryTodo({ selectedDate }: PetDiaryTodoProps) {
   const [todos, setTodos] = useState<TodoRespDto[]>([]);
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const [cookies] = useCookies(["token"]);
 
   const fetchTodoByDay = async () => {
     // const token = cookies.token;
-    const token = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzM1MTIzMjgwLCJleHAiOjE3MzUxNTkyODB9.YKgHgC-ZukRkvIQSH-ImfXRHe-Qre9ph4lAC_kgj_Kc";
+    const token =
+      "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzM1MTIzMjgwLCJleHAiOjE3MzUxNTkyODB9.YKgHgC-ZukRkvIQSH-ImfXRHe-Qre9ph4lAC_kgj_Kc";
+
     if (!token) {
       console.error("Token not found");
       return;
@@ -22,23 +25,20 @@ export default function PetDiaryTodo() {
 
     try {
       const userId = 1;
-      const today = new Date().toISOString().split('T')[0];
-      const todos = await fetchTodosByDay(userId, today, token);
-      console.log(todos); // fetchTodosByDay 이후 setTodos 호출 전 콘솔 출력
+      const todos = await fetchTodosByDay(userId, selectedDate, token);
+
       setTodos(todos);
     } catch (error) {
       console.error("Failed to fetch todo data", error);
+      setTodos([]);
     }
   };
 
   useEffect(() => {
-    fetchTodoByDay();
-  }, []);
-
-
-  useEffect(() => {
-    fetchTodoByDay();
-  }, []);
+    if (selectedDate) {
+      fetchTodoByDay();
+    }
+  }, [selectedDate]);
 
   return (
     <>
@@ -46,7 +46,15 @@ export default function PetDiaryTodo() {
         <header>
           <div>
             <h2>오늘 할 일</h2>
-            <span>Today's Date</span>
+            <span>
+              {selectedDate && (
+                <>
+                  {selectedDate.split("-")[0]}년 &nbsp;
+                  {selectedDate.split("-")[1]}월 &nbsp;
+                  {selectedDate.split("-")[2]}일
+                </>
+              )}
+            </span>
           </div>
           <div>
             <Button

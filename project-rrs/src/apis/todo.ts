@@ -19,19 +19,36 @@ export const fetchTodos = async (id: number) => {
   return response.data.data;
 }
 
-export const fetchTodosByDay = async (userId: number ,day: string, token: string): Promise<TodoRespDto[]> => {
-  const response = await axios.get<ResponseDto<TodoRespDto[]>>(`http://localhost:4040/api/v1/todos/day`, {
-    params: { day },
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+export const fetchTodosByDay = async (
+  userId: number,
+  day: string,
+  token: string
+): Promise<TodoRespDto[]> => {
+  try {
+    const response = await axios.get<ResponseDto<TodoRespDto[]>>(
+      `http://localhost:4040/api/v1/todos/day`,
+      {
+        params: { day },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-  if (!response.data.result) {
-    throw new Error(response.data.message);
+    const todos = response.data.data;
+
+    // 빈 배열일 경우 빈 배열을 반환
+    if (!todos || todos.length === 0) {
+      console.log("No todos found for the selected day.");
+      return [];
+    }
+
+    return todos;
+  } catch (error) {
+    console.error("Failed to fetch todo data", error);
+    return []; // 오류가 발생하면 빈 배열을 반환
   }
-  return response.data.data;
 };
 
 export const deleteTodo = async ( todoId :number ) => {
