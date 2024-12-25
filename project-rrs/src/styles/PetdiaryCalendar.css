@@ -1,0 +1,65 @@
+@import "rsuite/dist/rsuite.css";
+
+.pet_diary_calendar {
+  display: flex;
+}
+
+.rs-calendar-bordered .rs-calendar-table  {
+  border-radius: 20px;
+}
+
+.panel .table-cell-day {
+  display: block;
+  text-align: left;
+}
+
+.rs-calendar {
+  text-align: left !important;
+}
+
+.rs-calendar-table-cell,
+.rs-calendar-table-header-cell {
+  text-align: left;
+  padding-left: 15px;
+}
+
+.rs-calendar-table-cell-week-number {
+  text-align: left;
+}
+
+.rs-calendar-panel .rs-calendar-table-cell-day {
+  display: block;
+  text-align: left;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+.rs-calendar-table-cell.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content {
+  margin: 0px;
+  padding: 10px;
+  background-color: #d2e9ff;
+  border-radius: 10px;
+}
+
+.rs-calendar-table-cell.rs-calendar-table-cell-is-today .rs-calendar-table-cell-day {
+  margin: 0px;
+  padding: 6px;
+  width: 30px;
+  height: 30px;
+  border-radius: 30%;
+  background-color: #3DA1FF;
+}
+
+
+.rs-calendar-btn-today {
+  background-color:  #3DA1FF !important; /* 원하는 색상으로 변경 */
+  color: #FFFFFF !important;           /* 텍스트 색상 */
+}
+
+.rs-calendar-panel .rs-calendar-table-cell-selected .rs-calendar-table-cell-content {
+  background-color: #ECECEC;
+  border-radius: 10px;
+  color: inherit;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
