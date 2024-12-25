@@ -2,15 +2,18 @@ export interface Todo {
     todoId: number;
     userId: number; // FK
     todoPreparationContent: string;
-    todoCreateAt: Date
+    todoCreateAt: string;
+    todoStatus: string;
 }
 
 export interface TodoReqDto {
-    "todoPreparationContent": string;
-    "todoCreateAt": Date;
+    todoPreparationContent: string;
+    todoCreateAt: string;
+    todoStatus: string;
 }
 
 export interface TodoRespDto {
-    "todoPreparationContent": string;
-    "todoCreateAt": Date;
+    todoPreparationContent: string;
+    todoCreateAt: string;
+    todoStatus: string;
 }

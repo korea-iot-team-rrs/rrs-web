@@ -1,5 +1,6 @@
 import axios from "axios";
 import { TodoRespDto } from '../types/todoType'
+import { ResponseDto } from "../types";
 
 const TODO_API_URL = `%{MAIN_URL}/todos`
 
@@ -13,15 +14,25 @@ export const updateTodo = async ( todoId :number , constent: string, createaAt: 
   return response.data.data;
 }
 
-export const fetchTodos = async () => {
+export const fetchTodos = async (id: number) => {
   const response = await axios.get<{ data: TodoRespDto[] }>(TODO_API_URL);
   return response.data.data;
 }
 
-export const fetchTodosByDay = async ( day: Date ) => {
-  const response = await axios.get<{ data: TodoRespDto[] }>(TODO_API_URL, { params: { day } });
+export const fetchTodosByDay = async (userId: number ,day: string, token: string): Promise<TodoRespDto[]> => {
+  const response = await axios.get<ResponseDto<TodoRespDto[]>>(`http://localhost:4040/api/v1/todos/day`, {
+    params: { day },
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.data.result) {
+    throw new Error(response.data.message);
+  }
   return response.data.data;
-}
+};
 
 export const deleteTodo = async ( todoId :number ) => {
   await axios.delete(`${TODO_API_URL}/${todoId}`)

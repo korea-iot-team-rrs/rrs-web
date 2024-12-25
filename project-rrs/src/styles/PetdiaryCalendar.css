@@ -54,7 +54,9 @@
 
 .rs-calendar-btn-today {
   background-color:  #3DA1FF !important; /* 원하는 색상으로 변경 */
-  color: #FFFFFF !important;           /* 텍스트 색상 */
+  color: #FFFFFF !important;       /* 텍스트 색상 */
+  border-radius: 13px;
+  text-align: center;
 }
 
 .rs-calendar-panel .rs-calendar-table-cell-selected .rs-calendar-table-cell-content {
