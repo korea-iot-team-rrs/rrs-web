@@ -44,8 +44,7 @@ export default function FullWidthTabs() {
     <Box sx={{ bgcolor: "background.paper", width: "100%" }}>
       <AppBar position="static"
         style={{
-          borderTopRightRadius: "10px",
-          backgroundColor: "#333333"
+          backgroundColor: "#303030"
         }}
       >
         <Tabs
@@ -54,7 +53,6 @@ export default function FullWidthTabs() {
           textColor="inherit"
           variant="fullWidth"
           sx={{
-            borderTopRightRadius: "10px",
             position: "relative", // 부모 컨테이너를 relative로 설정
           }}
           TabIndicatorProps={{
@@ -72,8 +70,7 @@ export default function FullWidthTabs() {
           <Tab
             label="오늘할일"
             sx={{
-              height: "70px",
-              borderTopRightRadius: "10px",
+              height: "60px",
               backgroundColor: "#ff6b6b",
               color: "#fff"
             }}
@@ -82,7 +79,6 @@ export default function FullWidthTabs() {
           <Tab
             label="산책기록"
             sx={{
-              borderTopRightRadius: "10px",
               backgroundColor: "#ffa726",
               color: "#fff"
             }}
@@ -91,7 +87,6 @@ export default function FullWidthTabs() {
           <Tab
             label="건강기록"
             sx={{
-              borderTopRightRadius: "10px",
               backgroundColor: "#7e57c2",
               color: "#fff"
             }}
