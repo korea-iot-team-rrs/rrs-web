@@ -1,7 +1,8 @@
 {
-  "name": "my-app",
+  "name": "project-rrs",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:4040",
   "dependencies": {
     "@emotion/babel-plugin": "^11.12.0",
     "@emotion/react": "^11.13.3",
