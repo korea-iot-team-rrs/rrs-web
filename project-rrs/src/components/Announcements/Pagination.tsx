@@ -1,16 +1,11 @@
-import React from 'react';
-
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
+import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 
-import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
-
-interface PaginationProp {
+interface PaginationProps {
   pageList: number[];
   currentPage: number;
-
   handlePageClick: (page: number) => void;
-
   handlePreSectionClick: () => void;
   handleNextSectionClick: () => void;
 }
@@ -18,17 +13,17 @@ interface PaginationProp {
 const paginationBoxStyle = css`
   display: flex;
   align-items: center;
+  justify-content: center;
+  margin-top: 20px;
   gap: 24px;
 `;
 
 const buttonStyle = css`
   width: 40px;
   height: 40px;
-  
   display: flex;
   justify-content: center;
   align-items: center;
-
   border: none;
   background-color: transparent;
   cursor: pointer;
@@ -39,7 +34,7 @@ const buttonStyle = css`
   }
 
   &:focus {
-    outline: 2px solid #1a73e8
+    outline: 2px solid #1a73e8;
   }
 `;
 
@@ -49,14 +44,14 @@ const pageListStyle = css`
 `;
 
 const pageStyle = (isActive: boolean) => css`
-  color: ${isActive ? '#1a73e8' : '#6b7280'};
+  color: ${isActive ? "#1a73e8" : "#6b7280"};
   font-size: 14px;
-  font-weight: ${isActive ? '700' : '400'};
-  cursor: ${isActive ? 'default' : 'pointer'};
+  font-weight: ${isActive ? "700" : "400"};
+  cursor: ${isActive ? "default" : "pointer"};
   transition: color 0.3s;
 
   &:hover {
-    color: ${!isActive && '#374151'};
+    color: ${!isActive && "#374151"};
   }
 `;
 
@@ -65,21 +60,20 @@ export default function Pagination({
   currentPage,
   handlePageClick,
   handlePreSectionClick,
-  handleNextSectionClick
-}: PaginationProp) {
+  handleNextSectionClick,
+}: PaginationProps) {
   return (
     <div css={paginationBoxStyle}>
-
-      <button 
+      <button
         css={buttonStyle}
         onClick={handlePreSectionClick}
+        disabled={currentPage === 1}
       >
         <AiOutlineLeft size={24} />
       </button>
 
       <div css={pageListStyle}>
-
-        {pageList.map(page => (
+        {pageList.map((page) => (
           <div
             key={page}
             css={pageStyle(page === currentPage)}
@@ -90,12 +84,13 @@ export default function Pagination({
         ))}
       </div>
 
-      <button 
+      <button
         css={buttonStyle}
         onClick={handleNextSectionClick}
+        disabled={currentPage === pageList.length}
       >
         <AiOutlineRight size={24} />
       </button>
     </div>
-  )
+  );
 }
