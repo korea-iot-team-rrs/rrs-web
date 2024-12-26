@@ -1,58 +1,102 @@
 .petDiaryTodoConatiner header {
-    display: flex;
-    justify-content: space-between;
-    padding: 0px 5%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 5%;
 }
 
-.petDiaryTodoConatiner header div{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+.petDiaryTodoConatiner header div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-.petDiaryTodoConatiner header div h2{
-    font-size: 20px;
+.petDiaryTodoConatiner header div h2 {
+  font-size: 20px;
 }
-.petDiaryTodoConatiner header div span{
-    padding-left: 10px;
-    font-size: 13.65px;
-    color: #6D6D6D;
+.petDiaryTodoConatiner header div span {
+  padding-left: 10px;
+  font-size: 13.65px;
+  color: #6d6d6d;
 }
 
 .petDiaryTodoConatiner ul {
-    padding: 0px;
-    margin: 0px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-content: center;
+  padding: 0px;
+  margin: 0px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
 }
 
 .petDiaryTodoConatiner li {
-    display: flex;
-    align-items: center;
-    margin: 10px;
-    list-style-type: none;
-    height: 60px;
-    width: 90%;
-    border: 2px solid #e3e3e3;
-    border-radius: 15px;
-    font-size: 13.65px;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  margin: 10px;
+  list-style-type: none;
+  height: 60px;
+  width: 90%;
+  border: 2px solid #e3e3e3;
+  border-radius: 15px;
+  font-size: 13.65px;
+  justify-content: space-between;
 }
 
 .petDiaryTodoConatiner li > * {
-    padding: 0 20px;
+  padding: 0 20px;
 }
 
 .petDiaryTodoConatiner ul div {
-    display: flex;
-    min-height: 550px;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    font-weight: bold;
-    color: #818181;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #818181;
+}
+
+.css-19kzrtu {
+  display: flex;
+  flex-direction: column;
+}
+
+.createTodoBox {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 20px;
+  height: 150px;
+  background-color: #ffffff;
+  border: #dcdcdc 2px solid;
+}
+
+.createTodoBox input {
+  border: none;
+  background-color: transparent;
+  padding: 5px 10px;
+  height: 70%;
+  font-size: 24px;
+}
+
+.createTodoBox input:focus {
+  outline: none;
+  border: none;
+}
+
+.createTodoInputBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.createTodoInputBtn button {
+  width: 20%;
+  background-color: #2194FF;
+  color: #fff;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
 }

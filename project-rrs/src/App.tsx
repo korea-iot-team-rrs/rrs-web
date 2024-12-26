@@ -20,7 +20,11 @@ function App() {
             <Route path="/login" element={<LoginView />} />       
             <Route path="/signup" element={<SignUpView />} /> 
             <Route path="/announcements" element={<Announcement />} />
-            <Route path="/petdiary" element={<PetDiaryView />} />     
+            <Route path="/petdiary" element={<PetDiaryView />} />
+            <Route path="/pet-sitter" />
+            <Route path="/community" />
+            <Route path="/map" />
+
           </Routes>
         </div>
       <Footer />
