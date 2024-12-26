@@ -5,15 +5,3 @@ export interface Todo {
     todoCreateAt: string;
     todoStatus: string;
 }
-
-export interface TodoReqDto {
-    todoPreparationContent: string;
-    todoCreateAt: string;
-    todoStatus: string;
-}
-
-export interface TodoRespDto {
-    todoPreparationContent: string;
-    todoCreateAt: string;
-    todoStatus: string;
-}

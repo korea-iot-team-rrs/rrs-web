@@ -57,11 +57,11 @@ export default function PetDiaryMain({ selectedDate }: PetDiaryMainProps) {
           textColor="inherit"
           variant="fullWidth"
           sx={{
-            position: "relative", // 부모 컨테이너를 relative로 설정
+            position: "relative",
           }}
           TabIndicatorProps={{
             style: {
-              top: "60px", // 상단에서의 거리 (탭 아래로 이동)
+              top: "60px",
               left: "0px",
               position: "absolute",
               height: "50px",

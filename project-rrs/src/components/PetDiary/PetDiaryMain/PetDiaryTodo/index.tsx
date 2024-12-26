@@ -4,28 +4,26 @@ import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import PlusIcon from "@rsuite/icons/Plus";
 import { useCookies } from "react-cookie";
-import { TodoRespDto } from "../../../../types/todoType";
-import { fetchTodosByDay } from "../../../../apis/todo";
+import { fetchTodosByDay, updateTodo } from "../../../../apis/todo";
 import { PetDiaryTodoProps } from "../../../../types/petDiary";
+import { Todo } from "../../../../types/todoType";
 
 export default function PetDiaryTodo({ selectedDate }: PetDiaryTodoProps) {
-  const [todos, setTodos] = useState<TodoRespDto[]>([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const [cookies] = useCookies(["token"]);
 
   const fetchTodoByDay = async () => {
-    // const token = cookies.token;
     const token =
-      "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzM1MTIzMjgwLCJleHAiOjE3MzUxNTkyODB9.YKgHgC-ZukRkvIQSH-ImfXRHe-Qre9ph4lAC_kgj_Kc";
+      "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzM1MTc3NDgzLCJleHAiOjE3MzUyMTM0ODN9.UztFizkay5CaN2haUHo3pLgBQbdrbSthezdWhKj3x7s";
+
     if (!token) {
       console.error("Token not found");
       return;
     }
 
     try {
-      const userId = 1;
-      const todos = await fetchTodosByDay(userId, selectedDate, token);
-
+      const todos = await fetchTodosByDay(selectedDate, token);
       setTodos(todos);
     } catch (error) {
       console.error("Failed to fetch todo data", error);
@@ -38,6 +36,43 @@ export default function PetDiaryTodo({ selectedDate }: PetDiaryTodoProps) {
       fetchTodoByDay();
     }
   }, [selectedDate]);
+
+  const addButtonOnclickHandler = () => {
+    console.log("Add button clicked!");
+  };
+
+  const todoCheckBoxOnChangeHandler = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+    todo: Todo
+  ) => {
+    const isChecked = event.target.checked;
+    const newStatus = isChecked ? "1" : "0";
+
+    const token =
+      "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzM1MTc3NDgzLCJleHAiOjE3MzUyMTM0ODN9.UztFizkay5CaN2haUHo3pLgBQbdrbSthezdWhKj3x7s";
+
+    if (!token) {
+      console.error("Token not found");
+      return;
+    }
+
+    const requestData: Partial<{ todoPreparationContent: string; todoCreateAt: string; todoStatus: string }> = {
+      todoPreparationContent: todo.todoPreparationContent,
+      todoCreateAt: todo.todoCreateAt,
+      todoStatus: newStatus,
+    };
+
+    try {
+      const updatedTodo = await updateTodo(todo.todoId, requestData, token);
+      setTodos((prevTodos) =>
+        prevTodos.map((t) =>
+          t.todoId === updatedTodo.todoId ? { ...t, todoStatus: newStatus } : t
+        )
+      );
+    } catch (error) {
+      console.error("Failed to update todo status", error);
+    }
+  };
 
   return (
     <>
@@ -57,6 +92,7 @@ export default function PetDiaryTodo({ selectedDate }: PetDiaryTodoProps) {
           </div>
           <div>
             <Button
+              onClick={addButtonOnclickHandler}
               variant="contained"
               sx={{
                 backgroundColor: "#3DA1FF",
@@ -79,6 +115,7 @@ export default function PetDiaryTodo({ selectedDate }: PetDiaryTodoProps) {
               <li key={index}>
                 <span>{todo.todoPreparationContent}</span>
                 <Checkbox
+                  onChange={(e) => todoCheckBoxOnChangeHandler(e, todo)}
                   {...label}
                   checked={todo.todoStatus === "1"}
                   sx={{
