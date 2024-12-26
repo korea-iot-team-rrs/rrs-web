@@ -1,4 +1,9 @@
 //entity들
+export interface ResponseDto<D> {
+    result: boolean;
+    message: string;
+    data: D;
+  }
 
 export interface User {
     userId: number;

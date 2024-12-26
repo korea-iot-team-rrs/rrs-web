@@ -3,6 +3,10 @@ import { AppBar, Tabs, Tab, Box } from "@mui/material";
 import PetDiaryTodo from "./PetDiaryTodo";
 import PetDiaryHealthRecord from "./PetDiaryHealthRecord";
 import PetDiaryWalkingRecord from "./PetDiaryWalkingRecord";
+import { PetDiaryMainProps } from "../../../types/petDiary";
+import { RiTodoLine } from "react-icons/ri";
+import { PiDogFill } from "react-icons/pi";
+import { FaNotesMedical } from "react-icons/fa";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -32,8 +36,7 @@ function a11yProps(index: number) {
     "aria-controls": `full-width-tabpanel-${index}`,
   };
 }
-
-export default function FullWidthTabs() {
+export default function PetDiaryMain({ selectedDate }: PetDiaryMainProps) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -42,10 +45,10 @@ export default function FullWidthTabs() {
 
   return (
     <Box sx={{ bgcolor: "background.paper", width: "100%" }}>
-      <AppBar position="static"
+      <AppBar
+        position="static"
         style={{
-          borderTopRightRadius: "10px",
-          backgroundColor: "#333333"
+          backgroundColor: "#303030",
         }}
       >
         <Tabs
@@ -54,12 +57,11 @@ export default function FullWidthTabs() {
           textColor="inherit"
           variant="fullWidth"
           sx={{
-            borderTopRightRadius: "10px",
-            position: "relative", // 부모 컨테이너를 relative로 설정
+            position: "relative",
           }}
           TabIndicatorProps={{
             style: {
-              top: "50px", // 상단에서의 거리 (탭 아래로 이동)
+              top: "60px",
               left: "0px",
               position: "absolute",
               height: "50px",
@@ -70,37 +72,46 @@ export default function FullWidthTabs() {
           }}
         >
           <Tab
-            label="오늘할일"
+            icon={<FaNotesMedical />}
+            label={<span>&nbsp;오늘할일</span>}
             sx={{
-              height: "70px",
-              borderTopRightRadius: "10px",
+              display: "flex",
+              flexDirection: "row",
+              height: "60px",
               backgroundColor: "#ff6b6b",
-              color: "#fff"
+              color: "#fff",
+              fontSize: "16px",
             }}
             {...a11yProps(0)}
           />
           <Tab
-            label="산책기록"
+            icon={<PiDogFill />}
+            label={<span>&nbsp;산책기록</span>}
             sx={{
-              borderTopRightRadius: "10px",
+              display: "flex",
+              flexDirection: "row",
               backgroundColor: "#ffa726",
-              color: "#fff"
+              color: "#ffffff",
+              fontSize: "16px",
             }}
             {...a11yProps(1)}
           />
           <Tab
-            label="건강기록"
+            icon={<RiTodoLine />}
+            label={<span>&nbsp;건강기록</span>}
             sx={{
-              borderTopRightRadius: "10px",
+              display: "flex",
+              flexDirection: "row",
               backgroundColor: "#7e57c2",
-              color: "#fff"
+              color: "#fff",
+              fontSize: "16px",
             }}
             {...a11yProps(2)}
           />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <PetDiaryTodo />
+        <PetDiaryTodo selectedDate={selectedDate} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <PetDiaryHealthRecord />
