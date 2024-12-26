@@ -6,8 +6,14 @@ import NavAuthLayout from "../NavAuth";
 import { NavLink } from "react-router-dom";
 
 export default function Navbar() {
-  const links = ['PetDiary', 'PetSitter', 'Community', 'PetRoad', 'CustomerSupports'];
-  
+  const links = [
+    "PetDiary",
+    "PetSitter",
+    "community",
+    "PetRoad",
+    "CustomerSupports",
+  ];
+
   // const [activeLink, setActiveLink] = useState(""); // 활성 링크 상태 관리
 
   // const handleLogoClick = () => {
@@ -20,23 +26,22 @@ export default function Navbar() {
 
   return (
     <>
-      <div className='navBar'>
-        {links.map(link => (
-          <NavLink
-            to={link}
-            key={link}
-            className='navButton'
-          >
-            {
-              link === 'PetDiary' ? '댕수첩' :
-              link === 'PetSitter' ? '댕시터' :
-              link === 'Community' ? '댕소통' :
-              link === 'PetRoad' ? '댕로드' :
-              link === 'CustomerSupports' ? '고객센터' :
-              link
-            }
+      <div className="navBar">
+        {links.map((link) => (
+          <NavLink to={link} key={link} className="navButton">
+            {link === "PetDiary"
+              ? "댕수첩"
+              : link === "PetSitter"
+              ? "댕시터"
+              : link === "community"
+              ? "댕소통"
+              : link === "PetRoad"
+              ? "댕로드"
+              : link === "CustomerSupports"
+              ? "고객센터"
+              : link}
           </NavLink>
-      ))}
+        ))}
       </div>
     </>
     // <nav className="navbar">

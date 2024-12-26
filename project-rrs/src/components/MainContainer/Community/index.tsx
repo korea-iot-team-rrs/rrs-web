@@ -1,10 +1,17 @@
-import React from 'react'
-import img from '../../../assets/images/community.jpg'
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import img from '../../../assets/images/community.jpg';
 
 export default function Community() {
+    const navigate = useNavigate();
+
+    const navigateToCommunity = () => {
+        navigate('/community');
+    };
+
     return (
         <div className="box community">
-          <h2>Community</h2>
+          <h2 onClick={navigateToCommunity} style={{cursor: 'pointer'}}>Community</h2>
           <div>
             <img src={img} style={{
               width: "150px",
