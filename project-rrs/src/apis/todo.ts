@@ -4,10 +4,10 @@ import axios from "axios";
 import { Todo } from "../types/todoType";
 import { MAIN_URL } from "../constants";
 
-const TODO_API_URL = `${MAIN_URL}/todos`;
+export const TODO_API_URL = `${MAIN_URL}/todos`;
 
 export const TOKEN: string =
-  "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzM1MTk0NDEzLCJleHAiOjE3MzUyMzA0MTN9.z4gTrp_NFWDggrL3Uzf7nxKgScEE_UY7uZl2nR81dQw";
+  "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzM1MjgxNTk2LCJleHAiOjE3MzUzMTc1OTZ9.22pPRsiVrgmXt1kzgfA4g_vx0XbC4K_JnRdR7viJsCg";
 
 export const createTodo = async (
   todoPreparationContent: string,
@@ -29,6 +29,8 @@ export const createTodo = async (
   );
   return response.data.data;
 };
+
+day: Date();
 
 export const updateTodo = async (
   todoId: number,
@@ -52,11 +54,15 @@ export const updateTodo = async (
   return response.data.data;
 };
 
-export const fetchTodos = async (id: number) => {
-  const response = await axios.get<{ data: Todo[] }>(TODO_API_URL);
+export const fetchTodos = async (token: string): Promise<Todo[]> => {
+  const response = await axios.get<{ data: Todo[] }>(TODO_API_URL, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
   return response.data.data;
 };
-
 export const fetchTodosByDay = async (
   day: string,
   token: string
@@ -80,6 +86,14 @@ export const fetchTodosByDay = async (
   return todos;
 };
 
-export const deleteTodo = async (todoId: number) => {
-  await axios.delete(`${TODO_API_URL}/${todoId}`);
+export const deleteTodo = async (todoId: number, token: string) => {
+  const response = await axios.delete(
+    `http://localhost:4040/api/v1/todos/${todoId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
 };

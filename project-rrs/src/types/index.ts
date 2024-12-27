@@ -4,7 +4,6 @@ export interface ResponseDto<D> {
     message: string;
     data: D;
   }
-
 export interface User {
     userId: number;
     name: string;
