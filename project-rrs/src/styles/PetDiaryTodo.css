@@ -73,7 +73,7 @@
 }
 
 .petDiaryTodoContainer .deleteAndModify button {
-  background: #eeeeee;
+  background-color: rgba(245, 245, 245, 0.76);
   color: #333;
   border: none;
   padding: 5px 10px;
@@ -83,7 +83,7 @@
 }
 
 .petDiaryTodoContainer .deleteAndModify button:nth-child(2) {
-  color: #ff7575;
+  color: #ff4545;
 }
 
 .petDiaryTodoContainer .deleteAndModify button:hover {
@@ -160,4 +160,43 @@
   border-radius: 20px;
   font-size: 14px;
   font-weight: bold;
+}
+
+/* 스크롤바 */
+
+.petDiaryTodoContainer ul {
+  max-height: 500px;
+  overflow-y: auto;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  margin: 10px 0;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.03);
+}
+
+.petDiaryTodoContainer ul::-webkit-scrollbar {
+  width: 8px;
+}
+.petDiaryTodoContainer ul::-webkit-scrollbar-thumb {
+  background: #cacaca;
+  border-radius: 10px;
+}
+
+.petDiaryTodoContainer ul::-webkit-scrollbar-thumb:hover {
+  background: #929292;
+}
+
+.petDiaryTodoContainer ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  margin: 5px 0;
+  border-bottom: 1px solid #eee;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.petDiaryTodoContainer ul li:hover {
+  background-color: #f0f7ff !important;
+  transition: background-color 0.3s;
 }

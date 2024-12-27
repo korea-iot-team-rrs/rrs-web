@@ -18,9 +18,10 @@ export default function TodoUpdate({
   currentTodo,
   goBack,
 }: TodoUpdateProps) {
-  const [updatedContent, setUpdatedContent] = useState(currentTodo?.todoPreparationContent || "");
+  const [updatedContent, setUpdatedContent] = useState(
+    currentTodo?.todoPreparationContent || ""
+  );
   const { incrementRefreshKey } = useRefreshStore();
-
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUpdatedContent(e.target.value);

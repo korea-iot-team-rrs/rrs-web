@@ -22,7 +22,7 @@ export default function PetDiaryTodo({ selectedDate }: PetDiaryTodoProps) {
   const [cookies] = useCookies(["token"]);
   const [isCreating, setIsCreating] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
-  const { refreshKey , incrementRefreshKey } = useRefreshStore();
+  const { refreshKey, incrementRefreshKey } = useRefreshStore();
 
   const fetchTodoByDay = async () => {
     const token = TOKEN;
@@ -110,10 +110,7 @@ export default function PetDiaryTodo({ selectedDate }: PetDiaryTodoProps) {
   return (
     <div className="petDiaryTodoContainer">
       {isCreating ? (
-        <TodoCreate
-          goBack={goBackHandler}
-          selectedDate={selectedDate}
-        />
+        <TodoCreate goBack={goBackHandler} selectedDate={selectedDate} />
       ) : isUpdating ? (
         <TodoUpdate
           selectedDate={selectedDate}
@@ -156,14 +153,13 @@ export default function PetDiaryTodo({ selectedDate }: PetDiaryTodoProps) {
               </div>
             </div>
           </header>
-          <ul>
+          <ul className="todoList">
             {todos.length > 0 ? (
               todos.map((todo, index) => (
                 <li
                   key={index}
                   style={{
-                    backgroundColor:
-                      todo.todoStatus === "1" ? "#eaebf0" : "transparent",
+                    backgroundColor: todo.todoStatus === "1" ? "#ffcdcd71" : "transparent",
                   }}
                 >
                   <span>{todo.todoPreparationContent}</span>
