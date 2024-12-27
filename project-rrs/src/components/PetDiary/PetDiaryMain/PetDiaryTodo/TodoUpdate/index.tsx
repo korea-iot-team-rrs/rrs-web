@@ -2,43 +2,53 @@ import { Button } from "@mui/material";
 import React, { useState } from "react";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
 import "../../../../../styles/PetDiaryTodo.css";
-import { createTodo, TOKEN } from "../../../../../apis/todo";
+import { updateTodo, TOKEN } from "../../../../../apis/todo";
+import { useCookies } from "react-cookie";
+import { Todo } from "../../../../../types/todoType";
+
 interface TodoUpdateProps {
-  goBack: () => void;
   selectedDate: string;
+  currentTodo: Todo | null;
+  goBack: () => void;
   triggerRefresh: () => void;
 }
 
 export default function TodoUpdate({
-  goBack,
   selectedDate,
+  currentTodo,
+  goBack,
   triggerRefresh,
 }: TodoUpdateProps) {
   const [todoContent, setTodoContent] = useState<string>("");
-  const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTodoContent(e.target.value);
+  const [updatedContent, setUpdatedContent] = useState(
+    currentTodo?.todoPreparationContent || ""
+  );
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUpdatedContent(e.target.value);
   };
 
-  const inputTodoContentBtnHandler = async () => {
+  const updateTodoContentBtnHandler = async () => {
     const token = TOKEN;
-    if (!token) {
-      console.error("Token not found");
+    if (!currentTodo || !token) {
+      console.error("Todo or token is missing");
       return;
     }
-
-    if (!todoContent.trim()) {
-      alert("내용을 입력해주세요!");
-      return;
-    }
-
+    const updatedCreateAt = selectedDate || currentTodo.todoCreateAt; // 선택된 날짜를 우선 사용
     try {
-      await createTodo(todoContent, selectedDate, token);
-      alert("Todo가 생성되었습니다.");
-      setTodoContent("");
+      await updateTodo(
+        currentTodo.todoId,
+        {
+          todoPreparationContent: updatedContent,
+          todoCreateAt: updatedCreateAt,
+          todoStatus: currentTodo.todoStatus,
+        },
+        token
+      );
       triggerRefresh();
       goBack();
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.error("Failed to update todo:", error);
     }
   };
 
@@ -46,47 +56,48 @@ export default function TodoUpdate({
     <>
       <header>
         <div>
-          <h2>Todo 추가하기</h2>
-          <span>
-            {selectedDate && (
-              <>
-                {selectedDate.split("-")[0]}년 &nbsp;
-                {selectedDate.split("-")[1]}월 &nbsp;
-                {selectedDate.split("-")[2]}일
-              </>
-            )}
-          </span>
-        </div>
-        <div>
-          <Button
-            onClick={goBack}
-            variant="contained"
-            sx={{
-              backgroundColor: "#4d4d4d",
-              boxShadow: "none",
-              "&:hover": {
+          <div className="headerMain">
+            <h2>Todo 추가하기</h2>
+            <span>
+              {selectedDate && (
+                <>
+                  {selectedDate.split("-")[0]}년 &nbsp;
+                  {selectedDate.split("-")[1]}월 &nbsp;
+                  {selectedDate.split("-")[2]}일
+                </>
+              )}
+            </span>
+          </div>
+          <div className="headerBtn">
+            <Button
+              onClick={goBack}
+              variant="contained"
+              sx={{
+                backgroundColor: "#4d4d4d",
                 boxShadow: "none",
-              },
-              fontWeight: "bold",
-              borderRadius: "20px",
-            }}
-          >
-            <IoIosArrowDropleftCircle size={"1.5em"} />
-            &nbsp;뒤로가기
-          </Button>
+                "&:hover": {
+                  boxShadow: "none",
+                },
+                fontWeight: "bold",
+                borderRadius: "20px",
+              }}
+            >
+              <IoIosArrowDropleftCircle size={"1.5em"} />
+              &nbsp;뒤로가기
+            </Button>
+          </div>
         </div>
       </header>
       <div className="createTodoBox">
         <input
           type="text"
-          value={todoContent}
+          value={updatedContent}
           onChange={handleInputChange}
-          placeholder={"할 일을 입력 해주세요"}
         />
       </div>
       <div className="createTodoInputBtn">
-        <Button onClick={inputTodoContentBtnHandler} variant="contained">
-          생성
+        <Button onClick={updateTodoContentBtnHandler} variant="contained">
+          확인
         </Button>
       </div>
     </>
