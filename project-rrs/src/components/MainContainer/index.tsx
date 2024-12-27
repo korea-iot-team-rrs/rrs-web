@@ -5,7 +5,7 @@ import Community from './Community';
 import PetDiary from './PetDiary';
 import HealthRecord from './HealthRecord';
 
-// PetDiary의 메인 페이지
+
 export default function MainContainer() {
   const today = new Date();
   return (
