@@ -138,9 +138,9 @@
   content: "";
   position: absolute;
   bottom: -1px;
-  left: 50%;
-  transform: translateX(-50%) scaleX(0);
-  transform-origin: center;
+  left: 0;
+  transform: scaleX(0);
+  transform-origin: left;
   width: 100%;
   height: 4px;
   background-color: #2194ff;
@@ -149,8 +149,9 @@
 
 .list-box li:hover::after,
 .list-box li.active::after {
-  transform: translateX(-50%) scaleX(1);
+  transform: scaleX(1);
 }
+
 
 .detail-content-title {
   margin-bottom: 10px;

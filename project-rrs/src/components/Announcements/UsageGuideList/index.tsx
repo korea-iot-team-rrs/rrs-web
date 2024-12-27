@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../Pagination";
 import "../../../styles/Announcement.css";
+import { MAIN_URL } from "../../../constants";
 
 interface UsageGuideData {
   id: number;
@@ -25,11 +26,11 @@ export default function UsageGuideList() {
   const fetchPosts = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:4040/api/v1/usageGuide`
+        `${MAIN_URL}/usageGuide`
       );
       const data = response.data.data;
-      setAllData(
-        data.map((item: any) => ({
+      const sortedData = data
+        .map((item: any) => ({
           id: item.guideId,
           title: item.guideTitle,
           content: item.guideContent,
@@ -42,8 +43,10 @@ export default function UsageGuideList() {
             hour12: false,
           }),
         }))
-      );
-      setTotalPages(Math.ceil(data.length / pageSize));
+        .sort((a: UsageGuideData, b: UsageGuideData) => b.id - a.id); // Sorting by ID in descending order
+
+      setAllData(sortedData);
+      setTotalPages(Math.ceil(sortedData.length / pageSize));
     } catch (e) {
       console.error("Failed to fetch usage guide data", e);
       setAllData([]);
@@ -112,7 +115,7 @@ export default function UsageGuideList() {
         <table className="table-style">
           <thead>
             <tr>
-              <th>번호</th>
+              <th>순번</th>
               <th>제목</th>
               <th>등록 날짜</th>
             </tr>

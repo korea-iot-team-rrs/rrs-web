@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import "../../../styles/Announcement.css";
+import { MAIN_URL } from "../../../constants";
 
 interface AnnouncementData {
   id: number;
@@ -17,7 +18,7 @@ interface APIAnnouncementData {
   announcementCreatedAt: string;
 }
 
-function AnnouncementDetailPage() {
+export default function AnnouncementDetailPage() {
   const [announcement, setAnnouncement] = useState<AnnouncementData | null>(
     null
   );
@@ -39,7 +40,7 @@ function AnnouncementDetailPage() {
     const fetchAnnouncement = async () => {
       try {
         const response = await axios.get<{ data: APIAnnouncementData }>(
-          `http://localhost:4040/api/v1/announcements/${id}`
+          `${MAIN_URL}/announcements/${id}`
         );
         const data = response.data.data;
         if (data) {
@@ -103,5 +104,3 @@ function AnnouncementDetailPage() {
     </div>
   );
 }
-
-export default AnnouncementDetailPage;

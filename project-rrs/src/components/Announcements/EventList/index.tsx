@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../Pagination";
 import "../../../styles/Announcement.css";
+import { MAIN_URL } from "../../../constants";
 
 interface EventData {
   id: number;
@@ -24,10 +25,10 @@ export default function EventList() {
 
   const fetchPosts = async () => {
     try {
-      const response = await axios.get(`http://localhost:4040/api/v1/events`);
+      const response = await axios.get(`${MAIN_URL}/events`);
       const data = response.data.data;
-      setAllData(
-        data.map((item: any) => ({
+      const sortedData = data
+        .map((item: any) => ({
           id: item.eventId,
           title: item.eventTitle,
           content: item.eventContent,
@@ -40,8 +41,10 @@ export default function EventList() {
             hour12: false,
           }),
         }))
-      );
-      setTotalPages(Math.ceil(data.length / pageSize));
+        .sort((a: EventData, b: EventData) => b.id - a.id);
+
+      setAllData(sortedData);
+      setTotalPages(Math.ceil(sortedData.length / pageSize));
     } catch (e) {
       console.error("Failed to fetch event data", e);
       setAllData([]);
@@ -110,7 +113,7 @@ export default function EventList() {
         <table className="table-style">
           <thead>
             <tr>
-              <th>번호</th>
+              <th>순번</th>
               <th>제목</th>
               <th>등록 날짜</th>
             </tr>
