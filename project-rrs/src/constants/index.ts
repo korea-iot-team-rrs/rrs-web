@@ -1,7 +1,7 @@
 export const MAIN_PATH = 'http://localhost:3000';
 export const MAIN_URL = 'http://localhost:4040/api/v1';
 
-export const USER_PATH = '/user';
+export const USER_PATH = '/users';
 
 //auth
 export const AUTH_PATH = '/auth';

@@ -118,7 +118,7 @@ export default function CommunityList() {
           <div
             className="community-card"
             key={data.id}
-            onClick={() => navigate(`/communities/${data.id}`)}
+            onClick={() => navigate(`/community/${data.id}`)}
           >
             <div className="community-card-body">
               <h2 className="community-card-title">{data.title}</h2>
