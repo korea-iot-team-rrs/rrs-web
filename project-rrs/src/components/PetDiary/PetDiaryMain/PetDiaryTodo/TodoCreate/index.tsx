@@ -1,22 +1,22 @@
 import { Button } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
 import "../../../../../styles/PetDiaryTodo.css";
 import { createTodo, TOKEN } from "../../../../../apis/todo";
 import { useCookies } from "react-cookie";
+import { useRefreshStore } from "../../../../../stores/PetDiaryStore";
 interface TodoUpdateProps {
   goBack: () => void;
   selectedDate: string;
-  triggerRefresh: () => void;
 }
 
 export default function TodoCreate({
   goBack,
   selectedDate,
-  triggerRefresh,
 }: TodoUpdateProps) {
   const [todoContent, setTodoContent] = useState<string>("");
   const [cookies] = useCookies(["token"]);
+  const { incrementRefreshKey } = useRefreshStore();
   const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setTodoContent(e.target.value);
   };
@@ -37,12 +37,13 @@ export default function TodoCreate({
       await createTodo(todoContent, selectedDate, token);
       alert("Todo가 생성되었습니다.");
       setTodoContent("");
-      triggerRefresh();
       goBack();
+      incrementRefreshKey();
     } catch (e) {
       console.error(e);
     }
   };
+
 
   return (
     <>

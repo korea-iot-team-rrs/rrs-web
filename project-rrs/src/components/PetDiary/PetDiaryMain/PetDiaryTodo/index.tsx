@@ -14,6 +14,7 @@ import { PetDiaryTodoProps } from "../../../../types/petDiary";
 import { Todo } from "../../../../types/todoType";
 import TodoCreate from "./TodoCreate";
 import TodoUpdate from "./TodoUpdate";
+import { useRefreshStore } from "../../../../stores/PetDiaryStore";
 
 export default function PetDiaryTodo({ selectedDate }: PetDiaryTodoProps) {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -21,7 +22,7 @@ export default function PetDiaryTodo({ selectedDate }: PetDiaryTodoProps) {
   const [cookies] = useCookies(["token"]);
   const [isCreating, setIsCreating] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
-  const [refreshKey, setRefreshKey] = useState(0);
+  const { refreshKey , incrementRefreshKey } = useRefreshStore();
 
   const fetchTodoByDay = async () => {
     const token = TOKEN;
@@ -79,14 +80,10 @@ export default function PetDiaryTodo({ selectedDate }: PetDiaryTodoProps) {
 
     try {
       await deleteTodo(todoId, token);
-      triggerRefresh();
+      incrementRefreshKey();
     } catch (error) {
       console.error("Failed to delete todo status", error);
     }
-  };
-
-  const triggerRefresh = () => {
-    setRefreshKey((prevKey) => prevKey + 1);
   };
 
   const addButtonOnClickHandler = () => {
@@ -94,7 +91,6 @@ export default function PetDiaryTodo({ selectedDate }: PetDiaryTodoProps) {
   };
 
   const updateButtonOnClickHandler = (todo: Todo) => {
-    console.log("지금 버튼 누름름");
     setCurrentTodo(todo);
     setIsUpdating(true);
   };
@@ -117,14 +113,12 @@ export default function PetDiaryTodo({ selectedDate }: PetDiaryTodoProps) {
         <TodoCreate
           goBack={goBackHandler}
           selectedDate={selectedDate}
-          triggerRefresh={triggerRefresh}
         />
       ) : isUpdating ? (
         <TodoUpdate
           selectedDate={selectedDate}
           currentTodo={currentTodo}
           goBack={goBackHandler}
-          triggerRefresh={triggerRefresh}
         />
       ) : (
         <>

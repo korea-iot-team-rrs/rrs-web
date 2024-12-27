@@ -5,23 +5,22 @@ import "../../../../../styles/PetDiaryTodo.css";
 import { updateTodo, TOKEN } from "../../../../../apis/todo";
 import { useCookies } from "react-cookie";
 import { Todo } from "../../../../../types/todoType";
+import { useRefreshStore } from "../../../../../stores/PetDiaryStore";
 
 interface TodoUpdateProps {
   selectedDate: string;
   currentTodo: Todo | null;
   goBack: () => void;
-  triggerRefresh: () => void;
 }
 
 export default function TodoUpdate({
   selectedDate,
   currentTodo,
   goBack,
-  triggerRefresh,
 }: TodoUpdateProps) {
-  const [updatedContent, setUpdatedContent] = useState(
-    currentTodo?.todoPreparationContent || ""
-  );
+  const [updatedContent, setUpdatedContent] = useState(currentTodo?.todoPreparationContent || "");
+  const { incrementRefreshKey } = useRefreshStore();
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUpdatedContent(e.target.value);
@@ -44,7 +43,7 @@ export default function TodoUpdate({
         },
         token
       );
-      triggerRefresh();
+      incrementRefreshKey();
       goBack();
     } catch (error) {
       console.error("Failed to update todo:", error);
