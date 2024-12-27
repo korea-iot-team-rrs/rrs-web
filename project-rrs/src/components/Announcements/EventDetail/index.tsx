@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import "../../../styles/Announcement.css";
+import { MAIN_URL } from "../../../constants";
 
 interface EventData {
   id: number;
@@ -37,7 +38,7 @@ function EventDetailPage() {
     const fetchEvent = async () => {
       try {
         const response = await axios.get<{ data: APIEventData }>(
-          `http://localhost:4040/api/v1/events/${id}`
+          `${MAIN_URL}/events/${id}`
         );
         const data = response.data.data;
         if (data) {

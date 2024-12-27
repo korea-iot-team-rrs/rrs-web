@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import "../../../styles/Announcement.css";
+import { MAIN_URL } from "../../../constants";
 
 interface UsageGuideData {
   id: number;
@@ -37,7 +38,7 @@ function UsageGuideDetailPage() {
     const fetchGuide = async () => {
       try {
         const response = await axios.get<{ data: APIUsageGuideData }>(
-          `http://localhost:4040/api/v1/usageGuide/${id}`
+          `${MAIN_URL}/usageGuide/${id}`
         );
         const data = response.data.data;
         if (data) {

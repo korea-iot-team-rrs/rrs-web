@@ -1,9 +1,9 @@
-/** @jsxImportSource @emotion/react */
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../Pagination";
 import "../../../styles/Announcement.css";
+import {MAIN_URL } from "../../../constants";
 
 interface AnnouncementData {
   id: number;
@@ -14,9 +14,7 @@ interface AnnouncementData {
 
 export default function AnnouncementList() {
   const [allData, setAllData] = useState<AnnouncementData[]>([]);
-  const [announcementData, setAnnouncementData] = useState<AnnouncementData[]>(
-    []
-  );
+  const [announcementData, setAnnouncementData] = useState<AnnouncementData[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [currentMenu, setCurrentMenu] = useState<string>("공지사항");
@@ -27,11 +25,11 @@ export default function AnnouncementList() {
   const fetchPosts = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:4040/api/v1/announcements`
+        `${MAIN_URL}/announcements`
       );
       const data = response.data.data;
-      setAllData(
-        data.map((item: any) => ({
+      const sortedData = data
+        .map((item: any) => ({
           id: item.announcementId,
           title: item.announcementTitle,
           content: item.announcementContent,
@@ -44,8 +42,10 @@ export default function AnnouncementList() {
             hour12: false,
           }),
         }))
-      );
-      setTotalPages(Math.ceil(data.length / pageSize));
+        .sort((a: AnnouncementData, b: AnnouncementData) => b.id - a.id); // Explicitly typed parameters
+
+      setAllData(sortedData);
+      setTotalPages(Math.ceil(sortedData.length / pageSize));
     } catch (e) {
       console.error("Failed to fetch announcement data", e);
       setAllData([]);
@@ -114,7 +114,7 @@ export default function AnnouncementList() {
         <table className="table-style">
           <thead>
             <tr>
-              <th>번호</th>
+              <th>순번번</th>
               <th>제목</th>
               <th>등록 날짜</th>
             </tr>
