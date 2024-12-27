@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import logo from '../../../assets/images/logo.png'; // 로고 경로 설정
-import '../../../styles/Login.css'; // CSS 파일 경로 설정
+import logo from '../../../assets/images/logo.png';
+import '../../../styles/Login.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // 페이지 이동을 위한 useNavigate
+import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 import useAuthStore from '../../../stores/auth.store';
 
 interface Credentials {
@@ -28,7 +29,11 @@ export default function Login() {
     general: ''
   });
 
+  const { login } = useAuthStore();
   const navigate = useNavigate();
+
+  // 쿠키 관련 훅 선언
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
   // 입력 값 변경 시 상태 업데이트
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,7 +56,7 @@ export default function Login() {
     if (!credentials.username || !credentials.password) {
       newError.general = '아이디 또는 비밀번호를 입력해 주세요.';
     }
-  
+
     if (newError.general) {
       setError(newError);
       return;
@@ -62,8 +67,9 @@ export default function Login() {
 
       if (response.status === 200) {
         const { token, user } = response.data.data;
-        const { login } = useAuthStore.getState();       
-        login(token, user);
+        setCookie('token', token, { path: '/' });
+        localStorage.setItem('token', token); 
+        login(token, user); 
 
         navigate('/');
       }
@@ -74,13 +80,9 @@ export default function Login() {
         const { message } = err.response.data;
 
         if (message === 'UserId does not match.') {
-          errorMessage = '존재하지않는 ID입니다.';
-
+          errorMessage = '존재하지 않는 ID입니다.';
         } else if (message === 'Password does not match.') {
-          errorMessage = '비밀번호가 일치하지않습니다.';
-          
-        } else {
-          errorMessage = '로그인에 실패했습니다. 다시 시도해주세요.';
+          errorMessage = '비밀번호가 일치하지 않습니다.';
         }
       } else {
         errorMessage = '서버와 연결할 수 없습니다. 다시 시도해주세요.';
@@ -103,27 +105,27 @@ export default function Login() {
 
       <form onSubmit={handleLogin}>
         <input
-            type="text"
-            id="username"
-            name="username"
-            placeholder="아이디를 입력해 주세요."
-            value={credentials.username}
-            onChange={handleInputChange}
-          />        
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="비밀번호를 입력해 주세요."
-            value={credentials.password}
-            onChange={handleInputChange}
-          />
-          
+          type="text"
+          id="username"
+          name="username"
+          placeholder="아이디를 입력해 주세요."
+          value={credentials.username}
+          onChange={handleInputChange}
+        />
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="비밀번호를 입력해 주세요."
+          value={credentials.password}
+          onChange={handleInputChange}
+        />
+
         {error.username && <p className="error-message">{error.username}</p>}
         {error.password && <p className="error-message">{error.password}</p>}
         {error.general && <p className="error-message">{error.general}</p>}
 
-        <button type="submit">로그인</button>
+        <button onClick={handleLogin}>로그인</button>
       </form>
 
       <div className="login-links">

@@ -14,6 +14,7 @@ import EventDetailView from "./views/AnnouncementView/EventDetailView";
 import UsageGuideListView from "./views/AnnouncementView/UsageGuideListView";
 import EventListView from "./views/AnnouncementView/EventListView";
 import CommunityListView from "./views/CommunityVIew/CommunityListView";
+import UserView from "./views/UserView/User";
 
 function App() {
   return (
@@ -35,6 +36,8 @@ function App() {
 
           <Route path="/petdiary" element={<PetDiaryView />} />
           <Route path="/community" element={<CommunityListView />} />
+          
+          <Route path="/user/*" element={<UserView />} />
         </Routes>
       </div>
       <Footer />

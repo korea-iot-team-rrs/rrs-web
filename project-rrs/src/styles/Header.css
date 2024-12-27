@@ -71,7 +71,6 @@ html {
 .header .navAuth {
   display: flex;
   margin-right: 150px;
-  width: 700px;
   justify-content: flex-end;
 }
 
@@ -128,10 +127,10 @@ html {
 }
 
 .authLogout .divider {
-  width: 1px; /* 구분선의 두께 */
-  height: 20px; /* 구분선의 높이 */
-  background-color: #ccc; /* 구분선의 색상 */
-  margin: 0 10px; /* 구분선 양 옆의 간격 */
+  width: 1px; 
+  height: 20px; 
+  background-color: #ccc;
+  margin: 0 10px; 
 }
 
 .authLogout,

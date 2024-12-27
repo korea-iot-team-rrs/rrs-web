@@ -114,10 +114,10 @@ export default function PetDiaryMain({ selectedDate }: PetDiaryMainProps) {
         <PetDiaryTodo selectedDate={selectedDate} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <PetDiaryHealthRecord />
+        <PetDiaryWalkingRecord />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <PetDiaryWalkingRecord />
+        <PetDiaryHealthRecord />
       </TabPanel>
     </Box>
   );

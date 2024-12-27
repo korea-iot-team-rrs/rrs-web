@@ -9,8 +9,14 @@ interface AuthState {
 }
 
 interface User {
-  profileImageUrl: string;
+  username: string;
+  name: string;
   nickname: string;
+  address: string;
+  addressDetail: string;
+  email: string;
+  phone: string;
+  profileImageUrl: string;
 }
 
 const useAuthStore = create<AuthState>((set) => ({
@@ -20,12 +26,10 @@ const useAuthStore = create<AuthState>((set) => ({
   setIsLoggedIn: (loggedIn) => set({ isLoggedIn: loggedIn }),
 
   login: (token, user) => {
-    localStorage.setItem('token', token);
     set({ isLoggedIn: true, user });
   },
 
   logout: () => {
-    localStorage.removeItem('token');
     set({ isLoggedIn: false, user: null });
   }
 }));
