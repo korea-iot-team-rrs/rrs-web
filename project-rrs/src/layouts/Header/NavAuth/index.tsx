@@ -1,14 +1,28 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import '../../../styles/Header.css';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import useAuthStore from '../../../stores/auth.store';
+import { useCookies } from "react-cookie";
 
 export default function NavAuth() {
-  const { isLoggedIn, logout, user } = useAuthStore();
+  const { isLoggedIn, login, logout, user, setIsLoggedIn } = useAuthStore();
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = cookies.token || localStorage.getItem('token');
+    if (token) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, [cookies.token, setIsLoggedIn]);
 
   const handleLogout = () => {
+    removeCookie('token', {path: '/'});
+    localStorage.removeItem('token');
     logout();
-    window.location.reload();
+    navigate('/');
   };
   
   return (

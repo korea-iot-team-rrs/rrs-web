@@ -2,6 +2,8 @@ import React from 'react'
 
 export default function PetDiaryWalkingRecord() {
   return (
-    <div>PetDiaryWalkingRecord</div>
+    <div>
+      <button>버튼</button>
+    </div>
   )
 }
