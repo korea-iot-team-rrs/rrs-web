@@ -4,7 +4,7 @@
   display: flex;
 }
 
-.rs-calendar-bordered .rs-calendar-table  {
+.rs-calendar-bordered .rs-calendar-table {
   border-radius: 20px;
 }
 
@@ -29,20 +29,25 @@
 
 .rs-calendar-panel .rs-calendar-table-cell-day {
   display: block;
+  margin-bottom: 5px;
   text-align: left;
-  padding-top: 10px;
+  padding-top: 5px;
   padding-left: 10px;
 }
 
-.rs-calendar-table-cell.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content {
+.rs-calendar-table-cell.rs-calendar-table-cell-is-today
+  .rs-calendar-table-cell-content {
   margin: 0px;
+  margin-bottom: 5px;
   padding: 10px;
   background-color: #ebebeb;
   border-radius: 10px;
 }
 
-.rs-calendar-table-cell.rs-calendar-table-cell-is-today .rs-calendar-table-cell-day {
+.rs-calendar-table-cell.rs-calendar-table-cell-is-today
+  .rs-calendar-table-cell-day {
   margin: 0px;
+  margin-bottom: 5px;
   padding: 4px 0px;
   text-align: center;
   width: 30px;
@@ -51,15 +56,16 @@
   background-color: #6b6b6b;
 }
 
-
 .rs-calendar-btn-today {
-  background-color:  #3DA1FF !important; /* 원하는 색상으로 변경 */
-  color: #FFFFFF !important;       /* 텍스트 색상 */
+  background-color: #3da1ff !important; /* 원하는 색상으로 변경 */
+  color: #ffffff !important; /* 텍스트 색상 */
   border-radius: 13px;
   text-align: center;
 }
 
-.rs-calendar-panel .rs-calendar-table-cell-selected .rs-calendar-table-cell-content {
+.rs-calendar-panel
+  .rs-calendar-table-cell-selected
+  .rs-calendar-table-cell-content {
   margin: 0px;
   padding: 6px;
   display: flex;
@@ -71,15 +77,44 @@
   font-weight: bold;
 }
 
-.rs-calendar-panel .rs-calendar-table-cell-selected .rs-calendar-table-cell-content .rs-calendar-table-cell-day{
+.rs-calendar-panel
+  .rs-calendar-table-cell-selected
+  .rs-calendar-table-cell-content
+  .rs-calendar-table-cell-day {
   font-weight: bold;
   margin: 0px;
   padding: 4px 0px;
   width: 30px;
   height: 30px;
   border-radius: 30%;
-  background-color: #3DA1FF;
-  color: #FFFFFF !important;
+  background-color: #3da1ff;
+  color: #ffffff !important;
   text-align: center;
 }
 
+.calendar-todo-item span {
+  display: flex;
+  width: 70%;
+  padding: 1px;
+  font-size: 8px;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 3px;
+  flex-direction: column;
+  margin-bottom: 5px;
+}
+
+.calendar-todo-item span:nth-child(1) {
+  color: #ff3b3b;
+  background-color: #fed5d5;
+}
+
+.calendar-todo-item span:nth-child(2) {
+  color: #FF961B;
+  background-color: #fff0de;
+}
+
+.calendar-todo-item span:nth-child(3) {
+  color: #9A67FF;
+  background-color: #eae0ff;
+}
