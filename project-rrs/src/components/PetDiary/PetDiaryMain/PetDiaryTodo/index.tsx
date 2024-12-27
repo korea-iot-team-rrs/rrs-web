@@ -4,15 +4,22 @@ import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import { FaPlusCircle } from "react-icons/fa";
 import { useCookies } from "react-cookie";
-import { fetchTodosByDay, TOKEN, updateTodo } from "../../../../apis/todo";
+import {
+  deleteTodo,
+  fetchTodosByDay,
+  TOKEN,
+  updateTodo,
+} from "../../../../apis/todo";
 import { PetDiaryTodoProps } from "../../../../types/petDiary";
 import { Todo } from "../../../../types/todoType";
+import TodoCreate from "./TodoCreate";
 import TodoUpdate from "./TodoUpdate";
 
 export default function PetDiaryTodo({ selectedDate }: PetDiaryTodoProps) {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const label = { inputProps: { "aria-label": "Checkbox demo" } };
+  const [currentTodo, setCurrentTodo] = useState<Todo | null>(null);
   const [cookies] = useCookies(["token"]);
+  const [isCreating, setIsCreating] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -45,21 +52,17 @@ export default function PetDiaryTodo({ selectedDate }: PetDiaryTodoProps) {
       return;
     }
 
-    const requestData: Partial<{
-      todoPreparationContent: string;
-      todoCreateAt: string;
-      todoStatus: string;
-    }> = {
+    const requestData = {
       todoPreparationContent: todo.todoPreparationContent,
       todoCreateAt: todo.todoCreateAt,
       todoStatus: newStatus,
     };
 
     try {
-      const updatedTodo = await updateTodo(todo.todoId, requestData, token);
+      await updateTodo(todo.todoId, requestData, token);
       setTodos((prevTodos) =>
         prevTodos.map((t) =>
-          t.todoId === updatedTodo.todoId ? { ...t, todoStatus: newStatus } : t
+          t.todoId === todo.todoId ? { ...t, todoStatus: newStatus } : t
         )
       );
     } catch (error) {
@@ -67,16 +70,39 @@ export default function PetDiaryTodo({ selectedDate }: PetDiaryTodoProps) {
     }
   };
 
+  const deleteOnClickBtnHandler = async (todoId: number) => {
+    const token = TOKEN;
+    if (!token) {
+      console.error("Token not found");
+      return;
+    }
+
+    try {
+      await deleteTodo(todoId, token);
+      triggerRefresh();
+    } catch (error) {
+      console.error("Failed to delete todo status", error);
+    }
+  };
+
   const triggerRefresh = () => {
     setRefreshKey((prevKey) => prevKey + 1);
   };
 
-  const addButtonOnclickHandler = () => {
+  const addButtonOnClickHandler = () => {
+    setIsCreating(true);
+  };
+
+  const updateButtonOnClickHandler = (todo: Todo) => {
+    console.log("지금 버튼 누름름");
+    setCurrentTodo(todo);
     setIsUpdating(true);
   };
 
   const goBackHandler = () => {
+    setIsCreating(false);
     setIsUpdating(false);
+    setCurrentTodo(null);
   };
 
   useEffect(() => {
@@ -86,18 +112,25 @@ export default function PetDiaryTodo({ selectedDate }: PetDiaryTodoProps) {
   }, [selectedDate, refreshKey]);
 
   return (
-    <>
-      <div className="petDiaryTodoConatiner">
-        {isUpdating ? (
-          <TodoUpdate
-            goBack={goBackHandler}
-            selectedDate={selectedDate}
-            triggerRefresh={triggerRefresh}
-          />
-        ) : (
-          <>
-            <header>
-              <div>
+    <div className="petDiaryTodoContainer">
+      {isCreating ? (
+        <TodoCreate
+          goBack={goBackHandler}
+          selectedDate={selectedDate}
+          triggerRefresh={triggerRefresh}
+        />
+      ) : isUpdating ? (
+        <TodoUpdate
+          selectedDate={selectedDate}
+          currentTodo={currentTodo}
+          goBack={goBackHandler}
+          triggerRefresh={triggerRefresh}
+        />
+      ) : (
+        <>
+          <header>
+            <div>
+              <div className="headerMain">
                 <h2>오늘 할 일</h2>
                 <span>
                   {selectedDate && (
@@ -109,9 +142,9 @@ export default function PetDiaryTodo({ selectedDate }: PetDiaryTodoProps) {
                   )}
                 </span>
               </div>
-              <div>
+              <div className="headerBtn">
                 <Button
-                  onClick={addButtonOnclickHandler}
+                  onClick={addButtonOnClickHandler}
                   variant="contained"
                   sx={{
                     backgroundColor: "#3DA1FF",
@@ -127,34 +160,55 @@ export default function PetDiaryTodo({ selectedDate }: PetDiaryTodoProps) {
                   <FaPlusCircle size={"1.3em"} />
                 </Button>
               </div>
-            </header>
-            <ul>
-              {todos.length > 0 ? (
-                todos.map((todo, index) => (
-                  <li key={index}>
-                    <span>{todo.todoPreparationContent}</span>
+            </div>
+          </header>
+          <ul>
+            {todos.length > 0 ? (
+              todos.map((todo, index) => (
+                <li
+                  key={index}
+                  style={{
+                    backgroundColor:
+                      todo.todoStatus === "1" ? "#eaebf0" : "transparent",
+                  }}
+                >
+                  <span>{todo.todoPreparationContent}</span>
+                  <div className="rightBtns">
+                    <div className="deleteAndModify">
+                      <button
+                        type="button"
+                        onClick={() => updateButtonOnClickHandler(todo)}
+                      >
+                        수정
+                      </button>
+                      <button
+                        onClick={() => deleteOnClickBtnHandler(todo.todoId)}
+                      >
+                        삭제
+                      </button>
+                    </div>
                     <Checkbox
-                      onChange={(e) => todoCheckBoxOnChangeHandler(e, todo)}
-                      {...label}
                       checked={todo.todoStatus === "1"}
+                      onChange={(e) => todoCheckBoxOnChangeHandler(e, todo)}
                       sx={{
+                        padding: "0px",
                         color: "#7e7e7e",
                         "&.Mui-checked": {
                           color: "#ff6b6b",
                         },
                       }}
                     />
-                  </li>
-                ))
-              ) : (
-                <div>
-                  <p>작성된 내용이 없습니다.</p>
-                </div>
-              )}
-            </ul>
-          </>
-        )}
-      </div>
-    </>
+                  </div>
+                </li>
+              ))
+            ) : (
+              <div className="noContents">
+                <p>작성된 내용이 없습니다.</p>
+              </div>
+            )}
+          </ul>
+        </>
+      )}
+    </div>
   );
 }
