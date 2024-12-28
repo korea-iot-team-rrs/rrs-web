@@ -31,7 +31,6 @@ export default function DangSitterModal({
   img,
   introduction,
 }: DangSitterModalProps) {
-  
   const viewMoreReviewButtonHandler = () => {};
 
   return (
@@ -44,10 +43,6 @@ export default function DangSitterModal({
       >
         <Box sx={{ ...style }}>
           <div className="header">
-            <div className="dangSitterImg">
-              <img src={img} alt="댕시터 이미지" />
-            </div>
-
             <div>
               <span className="name">쪼꼬의도비</span>
               <br />
@@ -55,9 +50,8 @@ export default function DangSitterModal({
             </div>
 
             <div className="dangSitterInfo">
-              <div className="avgReview">
+              <div className="providerDetailAvgReview">
                 <Rating
-                  name="providerAvgReview"
                   value={value}
                   precision={0.5}
                   readOnly
@@ -71,20 +65,36 @@ export default function DangSitterModal({
           <div>
             <span>{introduction}</span>
           </div>
-          <div>
-                <Rating
-                  name="providerAvgReview"
-                  value={value}
-                  precision={0.5}
-                  readOnly
-                  size="small"
-                  emptyIcon={<StarIcon fontSize="inherit" />}
-                />
-          </div>
-          <div>
-            <IconButton aria-label="delete" size="small">
-              <MoreVertIcon />
-            </IconButton>
+
+          <div className="latestReview">
+            <div className="dangSitterImg">
+              <img src={img} alt="댕시터 이미지" />
+            </div>
+
+            <div className="userInfo">
+              <span className="userName">거북목예약자</span>
+              <br />
+              <span className="userId">kdh241113</span>
+            </div>
+
+            <Rating
+              name="providerLatestReview"
+              value={value}
+              precision={0.5}
+              readOnly
+              size="small"
+              emptyIcon={<StarIcon fontSize="inherit" />}
+            />
+            <span>
+              처음 서비스를 이용했는데 너무 만족스러웠어요! 돌봄 매니저님이 우리
+              강아지 성격까지 잘 이해해 주시고, 산책도 꼼꼼히 챙겨주셨어요.
+              중간중간 사진과 영상도 보내주셔서 안심했답니다. 또 이용할게요!
+            </span>
+            <div className="moreBtn">
+              <IconButton aria-label="delete" size="small">
+                <MoreVertIcon />
+              </IconButton>
+            </div>
           </div>
         </Box>
       </Modal>

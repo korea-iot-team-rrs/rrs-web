@@ -7,7 +7,8 @@ import dangSitterImg from "../../../assets/images/community.jpg";
 import DangSitterModal from "../PetSitterModal";
 
 const value = 3.5;
-const providerIntroduction = "쪼꼬의 뒷바라지를 하던 실력으로 강아지를 사랑으로 돌보겠습니다.";
+const providerIntroduction =
+  "쪼꼬의 뒷바라지를 하던 실력으로 강아지를 사랑으로 돌보겠습니다.";
 
 export default function DangSitter() {
   const [isSelected, setIsSelected] = useState(false);
@@ -50,25 +51,21 @@ export default function DangSitter() {
                 className="gotoPetSitterProfile"
                 onClick={handleModalOpen}
               >
-                <span>
-                  프로필 보러가기 &nbsp; 
-                </span>
+                <span>프로필 보러가기 &nbsp;</span>
                 <FaArrowCircleRight size={18} />
               </Button>
             </div>
           </div>
           <div className="rightContent">
-            <span>
-              {providerIntroduction}
-            </span>
+            <span>{providerIntroduction}</span>
           </div>
         </div>
       </button>
-      <DangSitterModal 
-      open={modalOpen} 
-      onClose={handleModalClose} 
-      img = {dangSitterImg}
-      introduction = {providerIntroduction}
+      <DangSitterModal
+        open={modalOpen}
+        onClose={handleModalClose}
+        img={dangSitterImg}
+        introduction={providerIntroduction}
       />
     </>
   );

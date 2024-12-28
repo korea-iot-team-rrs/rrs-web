@@ -1,17 +1,64 @@
 .css-1m93wp5 {
-    display: flex;
-    flex-wrap: wrap;
-    border-radius: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 30px;
 }
 
 .header {
-    justify-content: space-around;
-}
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-.name {
-    font-weight: bolder;
+  .name {
+    font-size: 20px;
+    font-weight: bold;
   }
-  
-.id {
+
+  .id {
     color: #989898;
   }
+
+  .css-mrxd2j-MuiRating-root > * {
+    color: #ffc400;
+  }
+
+  .providerDetailAvgReview {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    background-color: rgb(243, 243, 243);
+    border-radius: 20px;
+  }
+}
+
+.dangSitterInfo .css-mrxd2j-MuiRating-root > * {
+  color: #ffffff;
+}
+
+.latestReview {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  .css-mrxd2j-MuiRating-root > * {
+    color: #ffc400;
+  }
+
+  .userInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+.moreBtn {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  margin-top: 10px; /* 추가적인 여백 */
+}
