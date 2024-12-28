@@ -19,7 +19,7 @@ function formatDate(date: Date): string {
   return `${year}-${month}-${day}`;
 }
 
-function renderCell(date: Date, todos: Todo[]): JSX.Element | null {
+function renderCell(date: Date, todos: Todo[]): React.ReactElement | null {
   const dateString = formatDate(date);
   const hasTodo = todos.some((todo) => todo.todoCreateAt === dateString);
 

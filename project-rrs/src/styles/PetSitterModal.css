@@ -1,0 +1,17 @@
+.css-1m93wp5 {
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 30px;
+}
+
+.header {
+    justify-content: space-around;
+}
+
+.name {
+    font-weight: bolder;
+  }
+  
+.id {
+    color: #989898;
+  }

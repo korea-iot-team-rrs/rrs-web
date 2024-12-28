@@ -35,7 +35,6 @@ export default function TodoCreate({
 
     try {
       await createTodo(todoContent, selectedDate, token);
-      alert("Todo가 생성되었습니다.");
       setTodoContent("");
       goBack();
       incrementRefreshKey();

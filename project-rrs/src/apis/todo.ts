@@ -7,7 +7,7 @@ import { MAIN_URL } from "../constants";
 export const TODO_API_URL = `${MAIN_URL}/todos`;
 
 export const TOKEN: string =
-  "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzM1MjgxNTk2LCJleHAiOjE3MzUzMTc1OTZ9.22pPRsiVrgmXt1kzgfA4g_vx0XbC4K_JnRdR7viJsCg";
+  "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzM1MzcxMTE4LCJleHAiOjE3MzU0MDcxMTh9.wUc7QKHPw50xym9tOvk2UmsSnO4vs78Zc5PMb4R9BEk";
 
 export const createTodo = async (
   todoPreparationContent: string,
