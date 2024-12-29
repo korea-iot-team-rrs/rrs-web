@@ -15,7 +15,7 @@ import UsageGuideListView from "./views/AnnouncementView/UsageGuideListView";
 import EventListView from "./views/AnnouncementView/EventListView";
 import CommunityListView from "./views/CommunityVIew/CommunityListView";
 import CommunityDetailView from "./views/CommunityVIew/CommunityDetailView";
-import UserView from "./views/UserView/User";
+import MyPageView from "./views/MyPage/User";
 
 function App() {
   return (
@@ -39,7 +39,7 @@ function App() {
           <Route path="/community" element={<CommunityListView />} />
           <Route path="/community/:id" element={<CommunityDetailView/>} />
           
-          <Route path="/user/*" element={<UserView />} />
+          <Route path="/user/*" element={<MyPageView />} />
         </Routes>
       </div>
       <Footer />
