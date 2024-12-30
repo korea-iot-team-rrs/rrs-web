@@ -44,6 +44,7 @@
   height: 30px;
   color: #fff;
   cursor: pointer;
+  text-align: center;
 }
 
 .login button:hover {

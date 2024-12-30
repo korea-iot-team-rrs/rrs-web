@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Calendar, Badge } from "rsuite";
 import "../../../styles/PetdiaryCalendar.css";
-import { PetDiaryCalendarProps } from "../../../types/petDiary";
+import { PetDiaryCalendarProps } from "../../../types/petDiaryType";
 import { Todo } from "../../../types/todoType";
 import { fetchTodos, TOKEN } from "../../../apis/todo";
+import { useRefreshStore } from "../../../stores/PetDiaryStore";
 
 const Styles = () => {
-  return <style>{`.pickedDate { border: none; background-color: #E8E8E8; }`}</style>;
+  return (
+    <style>{`.pickedDate { border: none; background-color: #E8E8E8; }`}</style>
+  );
 };
 
 function formatDate(date: Date): string {
@@ -16,36 +19,37 @@ function formatDate(date: Date): string {
   return `${year}-${month}-${day}`;
 }
 
-function renderCell(date: Date, todos: Todo[]): JSX.Element | null {
+function renderCell(date: Date, todos: Todo[]): React.ReactElement | null {
   const dateString = formatDate(date);
   const hasTodo = todos.some((todo) => todo.todoCreateAt === dateString);
 
   if (hasTodo) {
-    return <Badge className="calendar-todo-item-badge" content="오늘의 할일" />;
+    return (
+      <div>
+        <span className="calendar-todo-item">오늘의 할일</span>
+      </div>
+    );
   }
   return null;
 }
 
-const TodoList = ({ date, todos }: { date: string; todos: Todo[] }) => {
-  const filteredTodos = todos.filter((todo) => todo.todoCreateAt === date);
-
-  if (!filteredTodos.length) {
-    return null;
-  }
-}
-
-export default function PetDiaryCalendar({ onDateSelect }: PetDiaryCalendarProps) {
+export default function PetDiaryCalendar({
+  onDateSelect,
+}: PetDiaryCalendarProps) {
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [todos, setTodos] = useState<Todo[]>([]);
+  const { refreshKey } = useRefreshStore();
 
   useEffect(() => {
     const token = TOKEN;
-    if (selectedDate && token) {
+    if (token) {
       fetchTodos(token)
-        .then(setTodos)
-        .catch((err) => console.error("Failed to fetch todos", err));
+      .then((data) => {
+        setTodos(data);
+      })
+      .catch((err) => console.error("Failed to fetch todos", err));
     }
-  }, [selectedDate]);
+  }, [refreshKey]);
 
   const handleDateChange = (date: Date) => {
     const formattedDate = formatDate(date);
