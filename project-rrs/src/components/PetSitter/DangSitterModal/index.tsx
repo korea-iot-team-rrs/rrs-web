@@ -6,6 +6,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import userImg from "../../../assets/images/userDog.jpg";
 import ReviewListModal from "../Review/ReviewListModal";
 import { IoCloseCircle } from "react-icons/io5";
+import { boxStyle } from "../../../styles/DangSitterCommon";
 
 interface DangSitterModalProps {
   open: boolean;
@@ -14,26 +15,6 @@ interface DangSitterModalProps {
   introduction: string;
   avgSocre: number;
 }
-
-interface UserOfLatestReview {
-  userNickname: string;
-  userId: string;
-  userImg: string;
-  reviewScore: number;
-  reviewContent: string;
-}
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  pt: 2,
-  px: 4,
-  pb: 3,
-};
 
 export default function DangSitterModal({
   open,
@@ -56,7 +37,7 @@ export default function DangSitterModal({
   return (
     <>
       <Modal open={open} onClose={onClose}>
-        <Box sx={{ ...style }}>
+        <Box sx={{ ...boxStyle }}>
           <div className="DangSitterModalheader">
             <button onClick={onClose}>
               <IoCloseCircle size={30}/>
@@ -104,9 +85,9 @@ export default function DangSitterModal({
 
               <div>
                 <Rating
+                  precision={0.5}
                   name="providerLatestReview"
                   value={5}
-                  precision={0.5}
                   readOnly
                   size="large"
                   emptyIcon={<StarIcon fontSize="inherit" />}
@@ -142,6 +123,7 @@ export default function DangSitterModal({
                 open={reviewModalOpen}
                 onClose={handleReviewModalClose}
                 dangSitterName= {"쪼꼬의 도비"}
+                providerId={1}
               />
             </div>
           </div>

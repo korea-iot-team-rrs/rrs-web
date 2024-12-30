@@ -6,3 +6,9 @@ export interface Review {
     reviewScore: number;
     reviewContent: string;
 }
+
+export interface ReviewUser {
+    profileImageUrl: string;
+    username: string;
+    nickname: string;
+}

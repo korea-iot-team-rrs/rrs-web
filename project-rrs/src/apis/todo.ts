@@ -61,6 +61,7 @@ export const fetchTodos = async (token: string): Promise<Todo[]> => {
   });
   return response.data.data;
 };
+
 export const fetchTodosByDay = async (
   day: string,
   token: string
