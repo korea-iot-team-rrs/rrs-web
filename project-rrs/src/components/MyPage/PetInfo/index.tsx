@@ -43,13 +43,13 @@ export default function PetInfo() {
     <div>
       {pets.length > 0 ? (
         <>
-          {pets.map((pet) => (
+          {/* {pets.map((pet) => (
             <div key={pet.id} className="petBox">
               <img src={pet.imageUrl} alt={`${pet.name}의 사진`} />
               <p>{pet.name}</p>
               <button className="toggle-btn">...</button>
             </div>
-          ))}
+          ))} */}
           <button className="addPet">
             <div className="circle">
               <p>+</p>

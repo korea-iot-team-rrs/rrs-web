@@ -1,8 +1,9 @@
-import { Box, Button, colors, Modal } from "@mui/material";
+import { Box, Button, colors, Modal, Rating } from "@mui/material";
 import "../../../../styles/ReviewListModal.css";
 import { IoCloseCircle } from "react-icons/io5";
 import { Review } from "../../../../types/review";
 import { useState } from "react";
+import StarIcon from "@mui/icons-material/Star";
 interface ReviewListModalProps {
   open: boolean;
   onClose: () => void;
@@ -36,7 +37,8 @@ export default function ReviewListModal({
               <IoCloseCircle size={30} onClick={onClose} />
             </button>
             <h2 id="reviewListTitle">
-              댕시터<span style={{color: "#0085ff"}}>{dangSitterName}</span>에게 남겨진 리뷰 입니다.
+              댕시터<span style={{ color: "#0085ff" }}>{dangSitterName}</span>
+              에게 남겨진 리뷰 입니다.
             </h2>
           </div>
           <div className="reviewListModalbody">
@@ -46,6 +48,15 @@ export default function ReviewListModal({
                   <div className="review">
                     <span>{review.reviewContent}</span>
                     <span>{review.reviewCreatedAt.toDateString()}</span>
+                    <span>{review.reviewContent}</span>
+                    <Rating
+                      name="reviewStar"
+                      value={review.reviewScore}
+                      precision={0.5}
+                      readOnly
+                      size="small"
+                      emptyIcon={<StarIcon fontSize="inherit" />}
+                    />
                   </div>
                 </li>
               ))}
