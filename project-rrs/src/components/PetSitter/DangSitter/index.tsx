@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { FaArrowCircleRight } from "react-icons/fa";
 import "../../../styles/DangSitter.css";
-import { Box, Button, Modal, Rating } from "@mui/material";
+import { Button, Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import dangSitterImg from "../../../assets/images/community.jpg";
-import DangSitterModal from "../PetSitterModal";
+import DangSitterModal from "../DangSitterModal";
 
 const value = 3.5;
 const providerIntroduction =
-  "쪼꼬의 뒷바라지를 하던 실력으로 강아지를 사랑으로 돌보겠습니다.";
+  "쪼꼬를 돌보며 쌓아온 정성과 사랑을 바탕으로, 소중한 강아지를 책임감 있게, 그리고 진심 어린 마음으로 정성을 다해 보살피겠습니다.";
 
 export default function DangSitter() {
   const [isSelected, setIsSelected] = useState(false);
@@ -20,6 +20,7 @@ export default function DangSitter() {
   const handleModalOpen = () => {
     setModalOpen(true);
   };
+
   const handleModalClose = () => {
     setModalOpen(false);
   };
@@ -66,6 +67,7 @@ export default function DangSitter() {
         onClose={handleModalClose}
         img={dangSitterImg}
         introduction={providerIntroduction}
+        avgSocre={value}
       />
     </>
   );

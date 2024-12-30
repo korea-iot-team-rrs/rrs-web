@@ -48,7 +48,6 @@ button.selected .dangSitterContainer {
   align-items: center;
   width: 100px;
   height: 100px;
-  background-color: #ed9e13;
   border-radius: 50%;
   image-rendering: inherit;
 }

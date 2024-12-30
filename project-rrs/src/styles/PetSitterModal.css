@@ -4,13 +4,17 @@
   border-radius: 30px;
 }
 
-.header {
+.DangSitterModalheader {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  flex-wrap: wrap;
   align-items: center;
+  text-align: center;
+  gap: 15px;
+  border-bottom: 1px solid #ececec;
 
   .name {
-    font-size: 20px;
+    font-size: 30px;
     font-weight: bold;
   }
 
@@ -18,40 +22,90 @@
     color: #989898;
   }
 
-  .css-mrxd2j-MuiRating-root > * {
-    color: #ffc400;
+  .dangSitterImg img {
+    box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.26);
+  }
+
+  .css-i0l71t-MuiRating-root > * {
+    color: #ffffff;
   }
 
   .providerDetailAvgReview {
     display: flex;
-    align-items: center;
-    width: 100%;
-    padding: 10px;
-    background-color: rgb(243, 243, 243);
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-bottom: 3%;
+    background-color: rgb(240, 240, 240);
+    padding: 8px 12px;
     border-radius: 20px;
   }
-}
 
-.dangSitterInfo .css-mrxd2j-MuiRating-root > * {
-  color: #ffffff;
+  .providerIntroduction {
+    font-size: 16px;
+    color: #272727;
+    background-color: rgb(248, 248, 248);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: left;
+
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    word-break: break-all;
+    hyphens: auto;
+  }
 }
 
 .latestReview {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-
-  .css-mrxd2j-MuiRating-root > * {
-    color: #ffc400;
-  }
+  flex-direction: column;
 
   .userInfo {
     display: flex;
-    flex-direction: column;
-    gap: 5px;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    margin: 10px;
+    gap: 30px;
+
+    div:nth-of-type(1) {
+      display: flex;
+      gap: 10px;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      .userImg {
+        display: flex;
+        align-items: center;
+        width: 75px;
+        height: 75px;
+        border-radius: 50%;
+        image-rendering: inherit;
+      }
+
+      .userImg img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+
+      .userName {
+        font-size: 20px;
+        font-weight: bold;
+      }
+      .userId {
+        color: #989898;
+      }
+    }
+
+    div:nth-of-type(2) {
+      .userReviewContent{
+        padding-top: 5px;
+      }
+
+    }
   }
 }
 
@@ -60,5 +114,11 @@
   justify-content: flex-end;
   align-items: center;
   width: 100%;
-  margin-top: 10px; /* 추가적인 여백 */
+  margin-top: 10px;
+
+  span {
+    font-size: 13px;
+    font-size: bold;
+    border-radius: 0px;
+  }
 }
