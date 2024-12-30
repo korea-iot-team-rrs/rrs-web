@@ -11,16 +11,20 @@ export default function NavAuth() {
 
   useEffect(() => {
     const token = cookies.token || localStorage.getItem('token');
-    if (token) {
+    const saveUser = localStorage.getItem('user');
+
+    if (token && saveUser) {
       setIsLoggedIn(true);
+      login(token, JSON.parse(saveUser));
     } else {
       setIsLoggedIn(false);
     }
-  }, [cookies.token, setIsLoggedIn]);
+  }, [cookies.token, setIsLoggedIn, login]);
 
   const handleLogout = () => {
     removeCookie('token', {path: '/'});
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     logout();
     navigate('/');
   };
@@ -34,7 +38,7 @@ export default function NavAuth() {
             <span className='nickname'>{user?.nickname}</span>님
           </span>
           <div className="divider" />
-          <NavLink to='/user' className='myPage' >
+          <NavLink to='/user/info' className='myPage' >
             MyPage
           </NavLink>
           <div className="divider" />

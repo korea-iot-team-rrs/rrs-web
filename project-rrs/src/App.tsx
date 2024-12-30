@@ -15,8 +15,9 @@ import UsageGuideListView from "./views/AnnouncementView/UsageGuideListView";
 import EventListView from "./views/AnnouncementView/EventListView";
 import CommunityListView from "./views/CommunityVIew/CommunityListView";
 import CommunityDetailView from "./views/CommunityVIew/CommunityDetailView";
-import UserView from "./views/UserView/User";
+
 import CommunityCreateView from "./views/CommunityVIew/CommunityCreateView";
+import MyPageView from "./views/MyPage/User";
 import PetSitter from "./components/PetSitter";
 
 function App() {
@@ -43,7 +44,7 @@ function App() {
           <Route path="/community/write" element={<CommunityCreateView/>} />
           <Route path="/petSitter" element={<PetSitter />}/>
           
-          <Route path="/user/*" element={<UserView />} />
+          <Route path="/user/*" element={<MyPageView />} />
         </Routes>
       </div>
       <Footer />

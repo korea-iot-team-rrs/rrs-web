@@ -31,11 +31,8 @@ export default function Login() {
 
   const { login } = useAuthStore();
   const navigate = useNavigate();
+  const [cookies, setCookie] = useCookies(['token']);
 
-  // 쿠키 관련 훅 선언
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
-
-  // 입력 값 변경 시 상태 업데이트
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setCredentials({
@@ -44,21 +41,26 @@ export default function Login() {
     });
   };
 
+  const setErrorMessage = (type: keyof ErrorMessage, message: string) => {
+    setError((prevError) => ({
+      ...prevError,
+      [type]: message
+    }));
+  };
+
+  const handleSuccessfulLogin = (token: string, user: any) => {
+    setCookie('token', token, { path: '/' });
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user));
+    login(token, user);
+    navigate('/');
+  };
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    let newError: ErrorMessage = {
-      username: '',
-      password: '',
-      general: ''
-    };
-
     if (!credentials.username || !credentials.password) {
-      newError.general = '아이디 또는 비밀번호를 입력해 주세요.';
-    }
-
-    if (newError.general) {
-      setError(newError);
+      setErrorMessage('general', '아이디 또는 비밀번호를 입력해 주세요.');
       return;
     }
 
@@ -70,32 +72,25 @@ export default function Login() {
         console.log(token)
         setCookie('token', token, { path: '/' });
         localStorage.setItem('token', token); 
-        login(token, user); 
-
+        login(token, user);
         navigate('/');
+
       }
     } catch (err: any) {
-      let errorMessage = '';
-
+      let errorMessage = '서버와 연결할 수 없습니다. 다시 시도해주세요.';
       if (err.response) {
         const { message } = err.response.data;
-
         if (message === 'UserId does not match.') {
           errorMessage = '존재하지 않는 ID입니다.';
         } else if (message === 'Password does not match.') {
           errorMessage = '비밀번호가 일치하지 않습니다.';
         }
-      } else {
-        errorMessage = '서버와 연결할 수 없습니다. 다시 시도해주세요.';
       }
-
-      setCredentials({
-        ...credentials,
+      setCredentials((prevCredentials) => ({
+        ...prevCredentials,
         password: ''
-      });
-
-      newError.general = errorMessage;
-      setError(newError); // 오류 메시지 설정
+      }));
+      setErrorMessage('general', errorMessage);
     }
   };
 
