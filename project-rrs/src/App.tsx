@@ -17,6 +17,7 @@ import CommunityListView from "./views/CommunityVIew/CommunityListView";
 import CommunityDetailView from "./views/CommunityVIew/CommunityDetailView";
 import UserView from "./views/UserView/User";
 import CommunityCreateView from "./views/CommunityVIew/CommunityCreateView";
+import PetSitter from "./components/PetSitter";
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
       <div className="content">
         <Routes>
           <Route path="/" element={<Main />} />
-          {/* 인증 관련 라우트트  */}
+          {/* 인증 관련 라우트  */}
           <Route path="/login" element={<LoginView />} />
           <Route path="/signup" element={<SignUpView />} />
 
@@ -40,6 +41,7 @@ function App() {
           <Route path="/community" element={<CommunityListView />} />
           <Route path="/community/:id" element={<CommunityDetailView/>} />
           <Route path="/community/write" element={<CommunityCreateView/>} />
+          <Route path="/petSitter" element={<PetSitter />}/>
           
           <Route path="/user/*" element={<UserView />} />
         </Routes>
