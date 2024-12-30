@@ -3,29 +3,154 @@
   display: flex;
 }
 
+/* MyPage Navigate 스타일 */
 .navMyPage {
   flex: 0 0 150px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin-left: 100px;
-  margin-top: 50px;
+  margin-top: 100px;
   font-size: 20px;
   border: 1px solid #ccc;
   height: 200px;
-  padding-left: 40px;
+  padding-left: 30px;
+  padding-right: 30px;
   border-radius: 30px;
+  gap: 10px;
 }
 
 .navMyPage .nav-link {
   text-align: left; 
   color: #7a7979;
   font-weight: 600;
+  text-decoration: none;
 }
 
+.navMyPage .nav-link:hover {
+  color: #1c82e0;
+}
+
+/* MyPage Content 스타일 */
 .myPageContent {
+  display: flex;
   flex-grow: 0;
-  margin-top: 50px;
-  border: 1px solid pink;
-  margin-left: 100px;
+  margin-top: 100px;
+  margin-left: 250px;
+  font-size: 15px;
+  width: 100vh;
+  height: 80vh;
+  position: relative;
+}
+
+.myPageContent .element {
+  display: flex;
+  gap: 30px;  /* 항목 가로 간격*/
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.myPageContent label {
+  color: #1c82e0;
+  font-weight: 600;
+  width: 150px;
+  text-align: right;
+}
+
+.myPageContent h2 {
+  margin-bottom: 60px;
+  padding-left: 170px;
+}
+
+.myPageContent .edit-button {
+  background-color: #2194FF;
+  border-radius: 15px;
+  height: 30px;
+  color: #fff;
+  cursor: pointer;
+  width: 100px;
+
+  position: absolute; /* 절대 위치 지정 */
+  right: 400px; /* 오른쪽 끝으로 배치 */
+  bottom: 100px;
+}
+
+/* 회원 수정 화면 */
+.myPageContent .element button {
+  background-color: #2194FF;
+  border-radius: 15px;
+  height: 30px;
+  color: #fff;
+  cursor: pointer;
+  width: 100px;
+}
+
+.myPageContent .ok-button {
+  background-color: #2194FF;
+  border-radius: 15px;
+  height: 30px;
+  color: #fff;
+  cursor: pointer;
+  width: 100px;
+
+  position: absolute;
+  right: 520px;
+  bottom: 20px;
+}
+
+.myPageContent .back-button {
+  background-color: #646464;
+  border-radius: 15px;
+  height: 30px;
+  color: #fff;
+  cursor: pointer;
+  width: 100px;
+
+  position: absolute;
+  right: 400px; 
+  bottom: 20px;
+}
+
+.myPage input {
+  border-radius: 10px;
+  border: 1px solid #959595;
+  height: 30px;
+  padding-left: 15px;
+  width: 200px;
+}
+
+.myPage input:disabled {
+  background-color: #ccc;
+}
+
+/* 회원 탈퇴 화면 */
+.deleteUser {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.deleteUser button {
+  background-color: #2194FF;
+  border-radius: 15px;
+  height: 30px;
+  color: #fff;
+  cursor: pointer;
+  width: 50px;
+  margin-top: 25px;
+}
+
+.deleteUser span {
+  display: flex;
+  align-items: center;
+}
+
+.deleteUser .warningText {
+  color: red;
+  font-weight: 600;
+}
+
+.deleteUser span p {
+  margin: 0;
+  display: inline;
 }
