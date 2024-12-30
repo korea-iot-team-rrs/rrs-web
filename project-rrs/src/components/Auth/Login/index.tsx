@@ -69,7 +69,12 @@ export default function Login() {
 
       if (response.status === 200) {
         const { token, user } = response.data.data;
-        handleSuccessfulLogin(token, user);
+        console.log(token)
+        setCookie('token', token, { path: '/' });
+        localStorage.setItem('token', token); 
+        login(token, user);
+        navigate('/');
+
       }
     } catch (err: any) {
       let errorMessage = '서버와 연결할 수 없습니다. 다시 시도해주세요.';

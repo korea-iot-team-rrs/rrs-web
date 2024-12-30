@@ -1,11 +1,16 @@
 export interface CommunityData {
   communityId: number;
-  userId: number;
+  nickname: string;
   communityTitle: string;
-  communityLikeCount: number;
-  communityCreatedAt: string;
-  communityUpdatedAt?: string;
-  communityContent: string; 
-  communityThumbnailUrl: string; 
+  communityCreatedAt: Date;
+  communityUpdatedAt?: Date;
+  communityLikeCount?: number;
+  communityContent: string;
+  communityThumbnailUrl: string;
+  comments?: CommunityComment[];
+  attachments?: string[]
 }
-
+export interface CommunityComment {
+  nickname: string;
+  communityContent: string;
+}
