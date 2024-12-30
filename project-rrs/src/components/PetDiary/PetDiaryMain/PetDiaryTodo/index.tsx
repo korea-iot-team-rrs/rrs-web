@@ -10,7 +10,7 @@ import {
   TOKEN,
   updateTodo,
 } from "../../../../apis/todo";
-import { PetDiaryTodoProps } from "../../../../types/petDiary";
+import { PetDiaryTodoProps } from "../../../../types/petDiaryType";
 import { Todo } from "../../../../types/todoType";
 import TodoCreate from "./TodoCreate";
 import TodoUpdate from "./TodoUpdate";

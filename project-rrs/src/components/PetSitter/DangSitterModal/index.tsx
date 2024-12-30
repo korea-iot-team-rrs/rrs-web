@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Box, IconButton, Modal, Rating } from "@mui/material";
+import { Box, Button, IconButton, Modal, Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import "../../../styles/PetSitterModal.css";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import userImg from "../../../assets/images/userDog.jpg";
 import ReviewListModal from "../Review/ReviewListModal";
+import { IoCloseCircle } from "react-icons/io5";
 
 interface DangSitterModalProps {
   open: boolean;
@@ -43,18 +44,23 @@ export default function DangSitterModal({
 }: DangSitterModalProps) {
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
 
-  const viewMoreReviewButtonHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const viewMoreReviewButtonHandler = (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
     setReviewModalOpen(true);
   };
 
   const handleReviewModalClose = () => {
     setReviewModalOpen(false);
-  }
+  };
   return (
     <>
       <Modal open={open} onClose={onClose}>
         <Box sx={{ ...style }}>
           <div className="DangSitterModalheader">
+            <button onClick={onClose}>
+              <IoCloseCircle size={30}/>
+            </button>
             <div className="dangSitterInfo">
               <span className="name">쪼꼬의도비</span>
               <br />
@@ -133,8 +139,10 @@ export default function DangSitterModal({
                 <MoreVertIcon />
               </IconButton>
               <ReviewListModal
-              open={reviewModalOpen} 
-              onClose={handleReviewModalClose} />
+                open={reviewModalOpen}
+                onClose={handleReviewModalClose}
+                dangSitterName= {"쪼꼬의 도비"}
+              />
             </div>
           </div>
         </Box>

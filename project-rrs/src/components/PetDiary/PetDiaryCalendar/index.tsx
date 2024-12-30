@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Calendar, Badge } from "rsuite";
 import "../../../styles/PetdiaryCalendar.css";
-import { PetDiaryCalendarProps } from "../../../types/petDiary";
+import { PetDiaryCalendarProps } from "../../../types/petDiaryType";
 import { Todo } from "../../../types/todoType";
 import { fetchTodos, TOKEN } from "../../../apis/todo";
 import { useRefreshStore } from "../../../stores/PetDiaryStore";

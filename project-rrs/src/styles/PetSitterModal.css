@@ -12,6 +12,23 @@
   text-align: center;
   gap: 15px;
   border-bottom: 1px solid #ececec;
+  position: relative;
+
+  button {
+    position: absolute;
+    top: 3px;
+    right: 0px;
+    background-color: transparent;
+    padding: 0px;
+    margin: 0px;
+    width: 30px;
+    color: #0085ff;
+  }
+
+  button:hover {
+    color: #0068ca;
+    transition: color 0.3s ease, transform 0.2s ease;
+  }
 
   .name {
     font-size: 30px;
@@ -101,10 +118,9 @@
     }
 
     div:nth-of-type(2) {
-      .userReviewContent{
+      .userReviewContent {
         padding-top: 5px;
       }
-
     }
   }
 }

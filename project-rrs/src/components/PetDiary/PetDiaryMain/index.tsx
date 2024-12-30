@@ -3,7 +3,7 @@ import { AppBar, Tabs, Tab, Box } from "@mui/material";
 import PetDiaryTodo from "./PetDiaryTodo";
 import PetDiaryHealthRecord from "./PetDiaryHealthRecord";
 import PetDiaryWalkingRecord from "./PetDiaryWalkingRecord";
-import { PetDiaryMainProps } from "../../../types/petDiary";
+import { PetDiaryMainProps } from "../../../types/petDiaryType";
 import { RiTodoLine } from "react-icons/ri";
 import { PiDogFill } from "react-icons/pi";
 import { FaNotesMedical } from "react-icons/fa";

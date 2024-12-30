@@ -30,8 +30,6 @@ export const createTodo = async (
   return response.data.data;
 };
 
-day: Date();
-
 export const updateTodo = async (
   todoId: number,
   data: Partial<{

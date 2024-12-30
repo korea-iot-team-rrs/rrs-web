@@ -3,7 +3,7 @@ import { FaArrowCircleRight } from "react-icons/fa";
 import "../../../styles/DangSitter.css";
 import { Button, Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
-import dangSitterImg from "../../../assets/images/community.jpg";
+import dangSitterImg from "../../../assets/images/petSitterImg.jpg";
 import DangSitterModal from "../DangSitterModal";
 
 const value = 3.5;
@@ -13,6 +13,7 @@ const providerIntroduction =
 export default function DangSitter() {
   const [isSelected, setIsSelected] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  
   const toggleSelected = () => {
     setIsSelected(!isSelected);
   };
