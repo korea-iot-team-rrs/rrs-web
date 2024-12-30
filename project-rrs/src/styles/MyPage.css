@@ -75,7 +75,7 @@
   bottom: 100px;
 }
 
-/* UserInfo 수정 화면 */
+/* 회원 수정 화면 */
 .myPageContent .element button {
   background-color: #2194FF;
   border-radius: 15px;
@@ -93,8 +93,8 @@
   cursor: pointer;
   width: 100px;
 
-  position: absolute; /* 절대 위치 지정 */
-  right: 520px; /* 오른쪽 끝으로 배치 */
+  position: absolute;
+  right: 520px;
   bottom: 20px;
 }
 
@@ -121,4 +121,36 @@
 
 .myPage input:disabled {
   background-color: #ccc;
+}
+
+/* 회원 탈퇴 화면 */
+.deleteUser {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.deleteUser button {
+  background-color: #2194FF;
+  border-radius: 15px;
+  height: 30px;
+  color: #fff;
+  cursor: pointer;
+  width: 50px;
+  margin-top: 25px;
+}
+
+.deleteUser span {
+  display: flex;
+  align-items: center;
+}
+
+.deleteUser .warningText {
+  color: red;
+  font-weight: 600;
+}
+
+.deleteUser span p {
+  margin: 0;
+  display: inline;
 }

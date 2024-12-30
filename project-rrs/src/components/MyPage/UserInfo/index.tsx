@@ -18,19 +18,18 @@ export default function UserInfo() {
         if (user) {
           setUserInfo(user);
         } else {
-          // user가 null일 경우 알림을 띄우고 로그인 페이지로 리디렉션
           if (!hasAlerted) {
-            setHasAlerted(true); // 알림을 띄운 상태로 변경
+            setHasAlerted(true);
             alert('로그인 후 이용 가능합니다.');
-            navigate('/'); // 로그인 페이지로 리디렉션
+            navigate('/'); 
           }
         }
       } catch (error) {
         console.error("Failed to fetch user info:", error);
         if (!hasAlerted) {
-          setHasAlerted(true); // 알림을 띄운 상태로 변경
+          setHasAlerted(true); 
           alert('로그인 후 이용 가능합니다.');
-          navigate('/'); // 로그인 페이지로 리디렉션
+          navigate('/');
         }
       }
     };

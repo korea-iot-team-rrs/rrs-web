@@ -1,9 +1,6 @@
 import axios from "axios";
-import { MAIN_URL } from "../constants";
 import { User } from "../types";
 import { getToken } from "../utils/auth";
-
-export const USER_API_URL = `${MAIN_URL}/users`;
 
 // 사용자 정보 조회
 export const fetchUserInfo = async (): Promise<User> => {
@@ -29,15 +26,14 @@ export const fetchUserInfo = async (): Promise<User> => {
 
 interface UpdateUserResponse {
   message: string;
-  data: User; // data는 실제 사용자 데이터
+  data: User;
 }
 
 // 사용자 정보 수정
 export const updateUserInfo = async (
   userData: Partial<User>
 ): Promise<UpdateUserResponse> => {
-  const token = getToken(); // getToken 함수 사용
-
+  const token = getToken();
   if (!token) {
     throw new Error("No token found");
   }
@@ -60,6 +56,38 @@ export const updateUserInfo = async (
     if (axios.isAxiosError(error)) {
       console.error("Axios error response:", error.response); // axios 오류 응답 로그
     }
-    throw error; // 에러를 다시 던져서 handleOk에서 처리되도록 합니다
+    throw error;
   }
 };
+
+// 사용자 정보 삭제
+export const deleteUserInfo = async (password: string): Promise<void> => {
+  const token = getToken();
+  if (!token) {
+    throw new Error("No token found");
+  }
+
+  try {
+    const response = await axios.delete(
+      'http://localhost:4040/api/v1/users',
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        data: { password }, // 비밀번호를 데이터로 함께 전송
+      }
+    );
+    console.log("User deleted successfully");
+  } catch (error) {
+    // AxiosError 처리
+    if (axios.isAxiosError(error)) {
+      console.error('Axios error:', error.response?.data || error.message);
+      throw new Error(error.response?.data?.message || 'Request failed');
+    } else {
+      console.error('Unknown error occurred');
+      throw new Error('An unknown error occurred');
+    }
+  }
+};
+
