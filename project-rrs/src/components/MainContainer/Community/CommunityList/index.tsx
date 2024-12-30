@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Pagination from "../Pagination";
-import "../../.././../styles/Community.css";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import useAuthStore from '../../../../stores/auth.store';
+import { getCommunity } from '../../../../apis/communityApi';
+import Pagination from "../Pagination";
+import "../../../../styles/Community.css";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import LoginModal from '../../../LoginModal';
 
 interface CommunityData {
   id: number;
@@ -25,31 +27,25 @@ export default function CommunityList() {
   const [totalPages, setTotalPages] = useState<number>(1);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<string>("latest");
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const navigate = useNavigate();
   const pageSize = 6;
+  const { isLoggedIn } = useAuthStore();
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:4040/api/v1/users/community`
-        );
-        const data = response.data.data;
-        console.log(data);
-        setAllData(
-          data.map((item: any) => ({
-            id: item.communityId,
-            title: item.communityTitle,
-            content: item.communityContent,
-            date: new Date(item.communityCreatedAt).toLocaleString("ko-KR"),
-            likeCount: item.communityLikeCount,
-            thumbnailUrl: item.communityThumbnailUrl,
-            updatedAt: item.communityUpdatedAt
-              ? new Date(item.communityUpdatedAt).toLocaleString("ko-KR")
-              : null,
-            nickname: item.nickname,
-          }))
-        );
+        const data = await getCommunity();
+        setAllData(data.map((item: any) => ({
+          id: item.communityId,
+          title: item.communityTitle,
+          content: item.communityContent,
+          date: new Date(item.communityCreatedAt).toLocaleString("ko-KR"),
+          likeCount: item.communityLikeCount,
+          thumbnailUrl: item.communityThumbnailUrl,
+          updatedAt: item.communityUpdatedAt ? new Date(item.communityUpdatedAt).toLocaleString("ko-KR") : null,
+          nickname: item.nickname,
+        })));
       } catch (error) {
         console.error("Failed to fetch data", error);
       }
@@ -59,11 +55,9 @@ export default function CommunityList() {
   }, []);
 
   useEffect(() => {
-    let filteredData = searchTerm
-      ? allData.filter((item) =>
-          item.title.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-      : allData;
+    let filteredData = searchTerm ? allData.filter((item) =>
+      item.title.toLowerCase().includes(searchTerm.toLowerCase())
+    ) : allData;
 
     if (sortOrder === "latest") {
       filteredData.sort((a, b) => b.date.localeCompare(a.date));
@@ -79,21 +73,27 @@ export default function CommunityList() {
   }, [searchTerm, allData, currentPage, sortOrder]);
 
   const handleCreateClick = () => {
-    navigate('/api/v1/users/community');
+    if (!isLoggedIn) {
+      setShowLoginModal(true);
+    } else {
+      navigate('/community/write');
+    }
+  };
+
+  const handleCloseModal = () => {
+    setShowLoginModal(false);
   };
 
   return (
     <div className="community-container">
+      {showLoginModal && <LoginModal onClose={handleCloseModal} />}
       <div className="community-search-container">
         <input
           type="text"
           className="search-input"
-          placeholder="제목"
+          placeholder="제목 검색"
           value={searchTerm}
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-            setCurrentPage(1);
-          }}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
         <div className="community-button-box">
           <button
@@ -118,11 +118,17 @@ export default function CommunityList() {
           <div
             className="community-card"
             key={data.id}
-            onClick={() => navigate(`/community/${data.id}`)}
+            onClick={() => {
+              if (!isLoggedIn) {
+                setShowLoginModal(true);
+              } else {
+                navigate(`/community/${data.id}`);
+              }
+            }}
           >
             <div className="community-card-body">
               <h2 className="community-card-title">{data.title}</h2>
-              <p className="community-nickname">글쓴이 {data.nickname}</p>
+              <p className="community-nickname">{`글쓴이: ${data.nickname}`}</p>
               <div className="community-image-box">
                 {data.thumbnailUrl && (
                   <img
@@ -142,7 +148,7 @@ export default function CommunityList() {
                   )}
                   {data.likeCount}
                 </p>
-                <p className="community-card-date">{`${data.date}`}</p>
+                <p className="community-card-date">{data.date}</p>
               </div>
             </div>
           </div>

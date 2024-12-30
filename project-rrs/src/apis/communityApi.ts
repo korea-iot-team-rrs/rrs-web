@@ -7,7 +7,7 @@ import { MAIN_URL, USER_PATH } from "../constants";
 const COMMUNITY_API_URL = `${MAIN_URL}${USER_PATH}/community`;
 
 export const TOKEN: string =
-  "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzM1MTk0NDEzLCJleHAiOjE3MzUyMzA0MTN9.z4gTrp_NFWDggrL3Uzf7nxKgScEE_UY7uZl2nR81dQw";
+  "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzM1NTI4MDg5LCJleHAiOjE3MzU1NjQwODl9.4E2FyPlV_xaNgjZ7_S32JLgY9qNC92bTNxDgtRZ2ZXw";
 
 export const createCommunity = async (
   communityTitle: string,
@@ -65,13 +65,27 @@ export const getCommunity = async () => {
   return response.data.data;
 };
 
-export const getCommunityById = async (communityId: number) => {
+export const getCommunityById = async (
+  communityId: number,
+  token:string
+) => {
   const response = await axios.get<{ data: CommunityData }>(
-    `${COMMUNITY_API_URL}/${communityId}`
+    `${COMMUNITY_API_URL}/${communityId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
   );
   return response.data.data;
 };
 
-export const deleteCommunity = async (communityId: number) => {
-  await axios.delete(`${COMMUNITY_API_URL}/${communityId}`);
+export const deleteCommunity = async (communityId: number, token: string) => {
+  const response = await axios.delete(`${COMMUNITY_API_URL}/${communityId}`,
+    {headers: {
+      Authorization: `Berarer ${token}`
+    }}
+  );
+  return response.data;
 };

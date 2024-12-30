@@ -67,6 +67,7 @@ export default function Login() {
 
       if (response.status === 200) {
         const { token, user } = response.data.data;
+        console.log(token)
         setCookie('token', token, { path: '/' });
         localStorage.setItem('token', token); 
         login(token, user); 

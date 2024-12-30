@@ -1,0 +1,49 @@
+.community-detail-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.content-area {
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  border-radius: 20px;
+}
+
+.community-sub-header-box {
+  display: flex;
+  justify-content: space-between;
+  height: 30px;
+}
+
+.community-sub-header {
+  display: flex;
+  justify-content: space-between;
+  width: 300px;
+}
+.community-detail-date {
+  text-align: center;
+}
+
+.community-detail-likecount {
+}
+
+.community-detail-header {
+  margin-bottom: 10px;
+}
+
+.comment-section {
+  line-height: 1.8;
+  font-size: 15px;
+  margin-top: 30px;
+  padding: 20px;
+  border-radius: 20px;
+  background-color: #d9d9d9;
+}
+
+.comment-style {
+  margin-left: 25px;
+}
