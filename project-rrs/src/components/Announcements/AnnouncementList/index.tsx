@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../Pagination";
 import "../../../styles/Announcement.css";
-import {MAIN_URL } from "../../../constants";
+import { MAIN_URL } from "../../../constants";
 
 interface AnnouncementData {
   id: number;
@@ -24,9 +24,7 @@ export default function AnnouncementList() {
 
   const fetchPosts = async () => {
     try {
-      const response = await axios.get(
-        `${MAIN_URL}/announcements`
-      );
+      const response = await axios.get(`${MAIN_URL}/announcements`);
       const data = response.data.data;
       const sortedData = data
         .map((item: any) => ({
@@ -42,8 +40,7 @@ export default function AnnouncementList() {
             hour12: false,
           }),
         }))
-        .sort((a: AnnouncementData, b: AnnouncementData) => b.id - a.id); // Explicitly typed parameters
-
+        .sort((a: AnnouncementData, b: AnnouncementData) => b.id - a.id);
       setAllData(sortedData);
       setTotalPages(Math.ceil(sortedData.length / pageSize));
     } catch (e) {
@@ -61,7 +58,7 @@ export default function AnnouncementList() {
     } else if (currentMenu === "이벤트") {
       navigate("/events");
     }
-  }, [currentMenu]);
+  }, [currentMenu, navigate]);
 
   useEffect(() => {
     if (currentMenu === "공지사항") {
@@ -114,7 +111,7 @@ export default function AnnouncementList() {
         <table className="table-style">
           <thead>
             <tr>
-              <th>순번번</th>
+              <th>순번</th>
               <th>제목</th>
               <th>등록 날짜</th>
             </tr>

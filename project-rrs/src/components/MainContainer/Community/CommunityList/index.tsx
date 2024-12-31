@@ -20,6 +20,13 @@ interface CommunityData {
 
 const BASE_FILE_URL = "http://localhost:4040/uploads";
 
+function truncateText(text: string, maxLength: number): string {
+  if (text.length > maxLength) {
+    return text.substring(0, maxLength) + "...";
+  }
+  return text;
+}
+
 export default function CommunityList() {
   const [allData, setAllData] = useState<CommunityData[]>([]);
   const [communityData, setCommunityData] = useState<CommunityData[]>([]);
@@ -133,7 +140,7 @@ export default function CommunityList() {
                 {data.thumbnailUrl && (
                   <img
                     src={`${BASE_FILE_URL}/${data.thumbnailUrl}`}
-                    alt={data.title}
+                    alt={truncateText(data.title, 15)}
                     style={{ width: "100%", height: "auto" }}
                   />
                 )}

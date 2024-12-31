@@ -1,18 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "../../../../styles/CommunityDetail.css";
 import { getCommunityById } from "../../../../apis/communityApi";
-import {
-  FaHeart,
-  FaRegHeart,
-  FaChevronDown,
-  FaChevronUp,
-} from "react-icons/fa"; // 아이콘 추가
-
-interface CommunityComment {
-  nickname: string;
-  communityContent: string;
-}
+import CommunityComment from "../CommunityComment/index";
+import "../../../../styles/CommunityDetail.css";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 interface CommunityData {
   communityId: number;
@@ -23,17 +14,15 @@ interface CommunityData {
   communityLikeCount?: number;
   communityContent: string;
   communityThumbnailUrl: string;
-  comments?: CommunityComment[];
   attachments?: string[];
 }
 
 export default function CommunityDetail() {
   const [community, setCommunity] = useState<CommunityData | null>(null);
-  const [showComments, setShowComments] = useState(false); // 댓글 보기 상태 추가
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const token =
-    "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzM1NTE5NDAxLCJleHAiOjE3MzU1NTU0MDF9.wH69oEiQ_AqnVuRdbXVFlzwvqV4oGxgBF1sIakA3QVw";
+    "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzM1NjAzMzkxLCJleHAiOjE3MzU2MzkzOTF9.thuuJITGeagXvPcMHp2LZ7Q92HsmAgGulijp-2pO5fc";
 
   useEffect(() => {
     if (!token) {
@@ -49,7 +38,6 @@ export default function CommunityDetail() {
               communityUpdatedAt: data.communityUpdatedAt
                 ? new Date(data.communityUpdatedAt)
                 : undefined,
-              comments: data.comments,
             });
           } else {
             setCommunity(null);
@@ -64,41 +52,32 @@ export default function CommunityDetail() {
     }
   }, [id, token, navigate]);
 
-  const toggleComments = () => {
-    setShowComments(!showComments); // 댓글 보기 상태 토글
-  };
-
   return (
     <div className="community-detail-container">
-      <div className="content-area">
+      <div>
         {community ? (
-          <div>
+          <div className="community-content-box">
             <h2 className="community-detail-header">
               {community.communityTitle}
             </h2>
             <div className="community-sub-header-box">
-              <div className="community-sub-header">
-                <p className="community-detail-date">
-                  작성일: {community.communityCreatedAt.toLocaleString("ko-KR")}
-                </p>
-                <p className="community-detail-likecount">
-                  {community.communityLikeCount &&
-                  community.communityLikeCount > 0 ? (
-                    <FaHeart color="red" />
-                  ) : (
-                    <FaRegHeart color="gray" />
-                  )}
-                  {community.communityLikeCount}
-                </p>
-              </div>
-
-              <p>
-                {community.attachments?.map((attachment, index) => (
-                  <div key={index}>
-                    <a href={attachment}>첨부 파일 {index + 1}</a>
-                  </div>
-                ))}
+              <p className="community-detail-date">
+                작성일: {community.communityCreatedAt.toLocaleString("ko-KR")}
               </p>
+              <p className="community-detail-likecount">
+                {community.communityLikeCount &&
+                community.communityLikeCount > 0 ? (
+                  <FaHeart color="red" />
+                ) : (
+                  <FaRegHeart color="gray" />
+                )}
+                {community.communityLikeCount}
+              </p>
+              {community.attachments?.map((attachment, index) => (
+                <div key={index}>
+                  <a href={attachment}>첨부 파일 {index + 1}</a>
+                </div>
+              ))}
             </div>
             <hr />
             {community.communityThumbnailUrl && (
@@ -109,20 +88,13 @@ export default function CommunityDetail() {
               />
             )}
             <hr />
-            <p>{community.communityContent}</p>
-            <div className="comment-section" onClick={toggleComments}>
-              <strong>댓글 보기</strong>{" "}
-              {showComments ? <FaChevronUp /> : <FaChevronDown />}
-              {showComments &&
-                community.comments?.map((comment) => (
-                  <div key={comment.nickname} className="comment-detail">
-                    <strong className="comment-style">
-                      {comment.nickname}:
-                    </strong>{" "}
-                    {comment.communityContent}
-                  </div>
-                ))}
-            </div>
+            <p className="community-detail-content">
+              {community.communityContent}
+            </p>
+            <CommunityComment
+              communityId={community.communityId}
+              token={token}
+            />
           </div>
         ) : (
           <p>해당 커뮤니티 정보를 찾을 수 없습니다.</p>
