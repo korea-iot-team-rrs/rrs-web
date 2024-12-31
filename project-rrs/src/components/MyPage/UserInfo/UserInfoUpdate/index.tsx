@@ -40,6 +40,10 @@ export default function UserInfoUpdate() {
     }
   };
 
+  const goBack = () => {
+    window.history.back();
+  }
+
   const validateUserInfo = (): boolean => {
     const nameRegex = /^[가-힣]+$/;
     const phoneRegex = /^[0-9]{11}$/;
@@ -250,7 +254,7 @@ export default function UserInfoUpdate() {
         </div>
 
         <button className='ok-button' type='submit'>완료</button>
-        <button className='back-button'>취소</button>
+        <button className='back-button' type='button' onClick={goBack}>취소</button>
       </form>
     </div>
   );
