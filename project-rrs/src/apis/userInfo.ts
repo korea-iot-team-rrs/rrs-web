@@ -75,7 +75,7 @@ export const deleteUserInfo = async (password: string): Promise<void> => {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        data: { password }, // 비밀번호를 데이터로 함께 전송
+        data: { password },
       }
     );
     console.log("User deleted successfully");

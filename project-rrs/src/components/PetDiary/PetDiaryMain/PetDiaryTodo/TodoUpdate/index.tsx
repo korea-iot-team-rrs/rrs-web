@@ -18,6 +18,7 @@ export default function TodoUpdate({
   currentTodo,
   goBack,
 }: TodoUpdateProps) {
+  const [cookies] = useCookies(["token"]);
   const [updatedContent, setUpdatedContent] = useState(
     currentTodo?.todoPreparationContent || ""
   );

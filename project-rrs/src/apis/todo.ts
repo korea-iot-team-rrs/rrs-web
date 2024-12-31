@@ -7,7 +7,7 @@ import { MAIN_URL } from "../constants";
 export const TODO_API_URL = `${MAIN_URL}/todos`;
 
 export const TOKEN: string =
-  "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzM1MzcxMTE4LCJleHAiOjE3MzU0MDcxMTh9.wUc7QKHPw50xym9tOvk2UmsSnO4vs78Zc5PMb4R9BEk";
+  "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjIsInJvbGVzIjoiUk9MRV9VU0VSLCBST0xFX1BST1ZJREVSIiwiaWF0IjoxNzM1NjA0MzczLCJleHAiOjE3MzU2NDAzNzN9.zLuOI36e5e_XZELdsFYGKX2v5WYwb0r9sO1bUJbGupQ";
 
 export const createTodo = async (
   todoPreparationContent: string,
@@ -61,6 +61,7 @@ export const fetchTodos = async (token: string): Promise<Todo[]> => {
   });
   return response.data.data;
 };
+
 export const fetchTodosByDay = async (
   day: string,
   token: string

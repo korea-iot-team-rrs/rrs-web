@@ -1,29 +1,91 @@
-.reviewListModalheader {
-  button {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background-color: transparent;
-    padding: 0px;
-    margin: 0px;
-    width: 30px;
-    color: #0085ff;
-  }
-
+.review-list-modal-header {
+  font-size: 28px;
+  padding: 10px;
 }
 
-.reviewListModalbody {
-    display: flex;
-    justify-content: space-between;
-  width: 100%;
-  height: 100%;
+.review-list-modal-header .close-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: transparent;
   padding: 0px;
   margin: 0px;
+  width: 30px;
+  color: #0085ff;
+}
 
-  background-color: #0085ff;
-  .review {
-    width: 47%;
-    min-height: 300px;
-    background-color: red;
+.review-list-modal-header #review-list-title span {
+  font-weight: bold;
+  color: #0085ff;
+}
+
+.review-item {
+  display: flex;
+  flex-direction: column;
+
+  .review-item-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 10px;
+
+    div:first-child {
+      display: flex;
+      flex-direction: column;
+    }
+
+    div:last-child {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
   }
+
+  .review-user-nickname {
+    font-size: 20px;
+    font-weight: bold;
+    color: rgb(24, 24, 24);
+  }
+  .review-user-id {
+    color: rgb(153, 153, 153);
+  }
+
+  .review-content {
+    font-size: 16px;
+    color: #575757;
+    margin: 10px;
+    padding-top: 5px;
+    text-align: justify;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    word-break: break-all;
+    hyphens: auto;
+  }
+
+  .review-date {
+    color: #979797;
+  }
+}
+
+.review-list-container {
+  max-height: 600px;
+  overflow-y: auto;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.review-list-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.review-list-container::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 10px;
+}
+
+.review-list-container::-webkit-scrollbar-thumb {
+  background: #319bff;
+  border-radius: 10px;
+  border: 2px solid #fafafa;
 }
