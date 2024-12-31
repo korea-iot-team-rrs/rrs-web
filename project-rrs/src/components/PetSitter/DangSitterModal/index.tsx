@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, IconButton, Modal, Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import "../../../styles/PetSitterModal.css";
@@ -7,23 +7,34 @@ import userImg from "../../../assets/images/userDog.jpg";
 import ReviewListModal from "../Review/ReviewListModal";
 import { IoCloseCircle } from "react-icons/io5";
 import { boxStyle } from "../../../styles/DangSitterCommon";
+import { PetSitter } from "../../../types/reservationType";
+import { Review } from "../../../types/reviewType";
+import { TOKEN } from "../../../apis/todo";
+import { fetchLatestReview } from "../../../apis/review";
 
 interface DangSitterModalProps {
   open: boolean;
   onClose: () => void;
-  img: string;
-  introduction: string;
-  avgSocre: number;
+  petSitterProps: PetSitter;
 }
 
 export default function DangSitterModal({
   open,
   onClose,
-  img,
-  introduction,
-  avgSocre,
+  petSitterProps,
 }: DangSitterModalProps) {
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
+  const [latesetReview, setLatesetReview] = useState<Review>({
+    reviewId: 0,
+    userId: 0,
+    reservationId: 0,
+    profileImageUrl: "example.jpg",
+    username: "알 수 없음",
+    userNickname: "알 수 없음",
+    reviewCreatedAt: new Date(),
+    reviewScore: 0,
+    reviewContent: "리뷰 내용이 없습니다.",
+  });
 
   const viewMoreReviewButtonHandler = (
     e: React.MouseEvent<HTMLButtonElement>
@@ -34,27 +45,41 @@ export default function DangSitterModal({
   const handleReviewModalClose = () => {
     setReviewModalOpen(false);
   };
+
+  useEffect(() => {
+    const token = TOKEN;
+    if (token) {
+      fetchLatestReview(petSitterProps.providerId, token)
+        .then((response) => {
+          if (response) {
+            setLatesetReview(response);
+          }
+        })
+        .catch((err) => console.error("Failed to fetch reviews", err));
+    }
+  }, [petSitterProps.providerId]);
+
   return (
     <>
       <Modal open={open} onClose={onClose}>
         <Box sx={{ ...boxStyle }}>
           <div className="DangSitterModalheader">
             <button onClick={onClose}>
-              <IoCloseCircle size={30}/>
+              <IoCloseCircle size={30} />
             </button>
             <div className="dangSitterInfo">
-              <span className="name">쪼꼬의도비</span>
+              <span className="name">{petSitterProps.providerNickname}</span>
               <br />
-              <span className="id">qwer1234</span>
+              <span className="id">{petSitterProps.providerUsername}</span>
             </div>
 
             <div className="dangSitterImg">
-              <img src={img} alt="댕시터 이미지" />
+              <img src={petSitterProps.profileImageUrl} alt="댕시터 이미지" />
             </div>
 
             <div className="providerDetailAvgReview">
               <Rating
-                value={avgSocre}
+                value={petSitterProps.avgReviewScore || 0}
                 precision={0.5}
                 readOnly
                 size="medium"
@@ -66,7 +91,7 @@ export default function DangSitterModal({
             </div>
 
             <div className="providerIntroduction">
-              <span>{introduction}</span>
+              <span>{petSitterProps.providerIntroduction}</span>
             </div>
           </div>
 
@@ -74,12 +99,15 @@ export default function DangSitterModal({
             <div className="userInfo">
               <div>
                 <div className="userImg">
-                  <img src={userImg} alt="댕시터 이미지" />
+                  <img
+                    src={latesetReview.profileImageUrl}
+                    alt="댕시터 이미지"
+                  />
                 </div>
                 <div>
-                  <span className="userName">회피핑</span>
+                  <span className="userName">{latesetReview.userNickname}</span>
                   <br />
-                  <span className="userId">shy241113</span>
+                  <span className="userId">{latesetReview.username}</span>
                 </div>
               </div>
 
@@ -87,48 +115,45 @@ export default function DangSitterModal({
                 <Rating
                   precision={0.5}
                   name="providerLatestReview"
-                  value={5}
+                  value={latesetReview.reviewScore || 0}
                   readOnly
                   size="large"
                   emptyIcon={<StarIcon fontSize="inherit" />}
                   sx={{
-                    color: "#ffa200",
+                    color: "#ffa200"
                   }}
                 />
                 <div className="userReviewContent">
                   <span>
-                    처음 서비스를 이용했는데 너무 만족스러웠어요! 돌봄
-                    매니저님이 우리 강아지 성격까지 잘 이해해 주시고, 산책도
-                    꼼꼼히 챙겨주셨어요. 중간중간 사진과 영상도 보내주셔서
-                    안심했답니다. 또 이용할게요!
+                    {latesetReview.reviewContent || "소개정보가 없습니다."}
                   </span>
                 </div>
               </div>
             </div>
 
             <div className="moreBtn">
-              <IconButton
-                aria-label="delete"
-                size="small"
-                sx={{ borderRadius: "10px" }}
-                onClick={(e) => {
-                  viewMoreReviewButtonHandler(e);
-                  console.log("Button clicked!");
-                }}
-              >
+              <div style={{ display: "flex", alignItems: "center" }}>
                 <span>리뷰 더보기</span>
-                <MoreVertIcon />
-              </IconButton>
-              <ReviewListModal
-                open={reviewModalOpen}
-                onClose={handleReviewModalClose}
-                dangSitterName= {"쪼꼬의 도비"}
-                providerId={1}
-              />
+                <IconButton
+                  aria-label="view more reviews"
+                  size="small"
+                  sx={{ borderRadius: "10px", marginLeft: "8px" }}
+                  onClick={viewMoreReviewButtonHandler}
+                  className="viewMoreBtn"
+                >
+                  <MoreVertIcon />
+                </IconButton>
+              </div>
             </div>
           </div>
         </Box>
       </Modal>
+      <ReviewListModal
+        open={reviewModalOpen}
+        onClose={handleReviewModalClose}
+        dangSitterName={petSitterProps.providerNickname}
+        providerId={petSitterProps.providerId}
+      />
     </>
   );
 }

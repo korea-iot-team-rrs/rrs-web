@@ -1,19 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaArrowCircleRight } from "react-icons/fa";
 import "../../../styles/DangSitter.css";
-import { Button, Rating } from "@mui/material";
+import { Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
-import dangSitterImg from "../../../assets/images/petSitterImg.jpg";
 import DangSitterModal from "../DangSitterModal";
+import { PetSitter } from "../../../types/reservationType";
+import { useCookies } from "react-cookie";
+import { TOKEN } from "../../../apis/todo";
+import { fetchOneProviderInfo } from "../../../apis/providerApi";
 
-const value = 3.5;
-const providerIntroduction =
-  "쪼꼬를 돌보며 쌓아온 정성과 사랑을 바탕으로, 소중한 강아지를 책임감 있게, 그리고 진심 어린 마음으로 정성을 다해 보살피겠습니다.";
+interface DangSitterProps {
+  providerId: number;
+}
 
-export default function DangSitter() {
+export default function DangSitter({ providerId }: DangSitterProps) {
   const [isSelected, setIsSelected] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  
+  const [cookies] = useCookies(["token"]);
+  const [petSitter, setPetSitter] = useState<PetSitter>({
+    providerId: 0,
+    profileImageUrl: "",
+    providerNickname: "",
+    providerUsername: "",
+    providerIntroduction: "",
+    avgReviewScore: 0,
+  });
+
   const toggleSelected = () => {
     setIsSelected(!isSelected);
   };
@@ -26,19 +38,31 @@ export default function DangSitter() {
     setModalOpen(false);
   };
 
+  useEffect(() => {
+    const token = TOKEN;
+    if (token && providerId) {
+      fetchOneProviderInfo(providerId, token)
+        .then((petSitter) => setPetSitter(petSitter))
+        .catch((err) => console.error("Failed to fetch PetSitter", err));
+    }
+  }, [providerId, cookies]);
+
   return (
     <>
-      <button className={isSelected ? "selected" : ""} onClick={toggleSelected}>
+      <div
+        className={`dangSitterWrapper ${isSelected ? "selected" : ""}`}
+        onClick={toggleSelected}
+      >
         <div className="dangSitterContainer">
           <div className="leftContent">
             <div className="dangSitterImg">
-              <img src={dangSitterImg} alt="댕시터 이미지" />
+              <img src={petSitter.profileImageUrl} alt="댕시터 이미지" />
             </div>
             <div className="dangSitterInfo">
               <div className="dangSitterReviewStar">
                 <Rating
                   name="reviewStar"
-                  value={value}
+                  value={petSitter.avgReviewScore}
                   precision={0.5}
                   readOnly
                   size="small"
@@ -46,29 +70,33 @@ export default function DangSitter() {
                 />
               </div>
               <div>
-                <span className="name">쪼꼬의도비</span>
-                <span className="id">qwer1234</span>
+                <span className="name">{petSitter.providerNickname}</span>
+                <span className="id">{petSitter.providerUsername}</span>
               </div>
-              <Button
+              <span
                 className="gotoPetSitterProfile"
                 onClick={handleModalOpen}
+                style={{
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  color: "#1976d2",
+                }}
               >
                 <span>프로필 보러가기 &nbsp;</span>
                 <FaArrowCircleRight size={18} />
-              </Button>
+              </span>
             </div>
           </div>
           <div className="rightContent">
-            <span>{providerIntroduction}</span>
+            <span>{petSitter.providerIntroduction}</span>
           </div>
         </div>
-      </button>
+      </div>
       <DangSitterModal
         open={modalOpen}
         onClose={handleModalClose}
-        img={dangSitterImg}
-        introduction={providerIntroduction}
-        avgSocre={value}
+        petSitterProps = {petSitter}
       />
     </>
   );
