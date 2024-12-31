@@ -50,6 +50,7 @@ export default function Login() {
 
   const handleSuccessfulLogin = (token: string, user: any) => {
     setCookie('token', token, { path: '/' });
+    console.log(token)
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));
     login(token, user);

@@ -11,6 +11,7 @@ export interface CommunityData {
   attachments?: string[]
 }
 export interface CommunityComment {
+  commentId: number;
   nickname: string;
   communityContent: string;
 }

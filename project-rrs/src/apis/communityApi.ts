@@ -7,7 +7,7 @@ import { MAIN_URL, USER_PATH } from "../constants";
 const COMMUNITY_API_URL = `${MAIN_URL}${USER_PATH}/community`;
 
 export const TOKEN: string =
-  "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzM1NTI4MDg5LCJleHAiOjE3MzU1NjQwODl9.4E2FyPlV_xaNgjZ7_S32JLgY9qNC92bTNxDgtRZ2ZXw";
+  "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzM1NjAzMzkxLCJleHAiOjE3MzU2MzkzOTF9.thuuJITGeagXvPcMHp2LZ7Q92HsmAgGulijp-2pO5fc";
 
 export const createCommunity = async (
   communityTitle: string,

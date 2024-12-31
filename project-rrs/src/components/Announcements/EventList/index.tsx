@@ -96,7 +96,7 @@ export default function EventList() {
   };
 
   return (
-    <div className="event-container">
+    <div className="announcement-container">
       <ul className="list-box">
         {["공지사항", "사용방법", "이벤트"].map((menu, index) => (
           <li
