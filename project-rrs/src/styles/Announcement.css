@@ -1,28 +1,18 @@
 .announcement-container {
   width: 100%;
   display: flex;
-  flex-direction: row;
-}
-
-.usage-guide-container {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-}
-
-.event-container {
-  width: 100%;
-  display: flex;
   justify-content: center;
+  flex-direction: row;
 }
+
 
 .list-box {
   font-size: large;
   font-weight: bolder;
   list-style-type: none;
   line-height: 2;
-  width: 250px;
-  margin: 45px;
+  width: 350px;
+  margin: 60px 50px 100px 120px;
   padding: 25px;
   border-radius: 30px;
   background-color: white;
@@ -41,9 +31,8 @@
 }
 
 .content-area {
-  width: 1500px;
-  margin: 45px;
-  margin-right: 80px;
+  width: 2000px;
+  margin: 60px 100px 45px 45px;
   flex-grow: 1;
   background-color: white;
   padding: 20px 50px;

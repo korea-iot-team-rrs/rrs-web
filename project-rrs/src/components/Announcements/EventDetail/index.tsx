@@ -90,7 +90,7 @@ function EventDetailPage() {
       <div className="content-area">
         <h1 className="header-style">이벤트</h1>
         {event ? (
-          <div>
+          <div className="table-style">
             <h1 className="detail-content-title">{event.title}</h1>
             <small className="detail-date-style">게시일: {event.date}</small>
             <p className="detail-content-style">{event.content}</p>
