@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Button, TextField } from "@mui/material";
 import { User } from "../../../types";
 import { fetchUserInfo, updateUserInfo } from "../../../apis/userInfo";
 import { useNavigate } from "react-router-dom";
@@ -46,7 +45,7 @@ export default function UserInfo() {
   }
 
   return (
-    <div className='userInfo'>
+    <div>
       <h2>MyPage</h2>
       <div>
         <div className='element'>
