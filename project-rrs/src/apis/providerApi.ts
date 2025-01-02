@@ -1,10 +1,10 @@
 import axios from "axios";
-import { PetSitter } from "../types/reservationType";
+import { DangSitter } from "../types/reservationType";
 
 export const fetchOneProviderInfo = async (
   providerId: number,
   token: string
-): Promise<PetSitter> => {
+): Promise<DangSitter> => {
   const response = await axios.get(
     `http://localhost:4040/api/v1/provider/${providerId}`,
     {

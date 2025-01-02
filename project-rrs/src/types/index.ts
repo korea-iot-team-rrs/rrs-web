@@ -67,3 +67,15 @@ export interface CustomerSupport {
     customerSupportCreateAt: Date;
     customerSupportCategory: string;
 }
+
+export interface Pet {
+    petId: number;
+    userId: number;
+    petName: string;
+    petGender: string;
+    petBirthDate: string;
+    petWeight: number;
+    petImageUrl: string;
+    petAddInfo?: string;
+    petNeutralityYn?: string;
+}

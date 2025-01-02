@@ -2,9 +2,9 @@ import { Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
 import "../../../../../styles/PetDiaryTodo.css";
-import { createTodo, TOKEN } from "../../../../../apis/todo";
 import { useCookies } from "react-cookie";
 import { useRefreshStore } from "../../../../../stores/PetDiaryStore";
+import { createTodo } from "../../../../../apis/todo";
 interface TodoUpdateProps {
   goBack: () => void;
   selectedDate: string;
@@ -21,7 +21,7 @@ export default function TodoCreate({
     setTodoContent(e.target.value);
   };
   const inputTodoContentBtnHandler = async () => {
-    const token = TOKEN;
+    const token = cookies.token;
     console.log(token);
     if (!token) {
       console.error("Token not found");

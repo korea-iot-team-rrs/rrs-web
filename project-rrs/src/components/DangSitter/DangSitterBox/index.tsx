@@ -4,20 +4,19 @@ import "../../../styles/DangSitter.css";
 import { Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import DangSitterModal from "../DangSitterModal";
-import { PetSitter } from "../../../types/reservationType";
+import { DangSitter } from "../../../types/reservationType";
 import { useCookies } from "react-cookie";
-import { TOKEN } from "../../../apis/todo";
 import { fetchOneProviderInfo } from "../../../apis/providerApi";
 
 interface DangSitterProps {
   providerId: number;
 }
 
-export default function DangSitter({ providerId }: DangSitterProps) {
+export default function DangSitterBox({ providerId }: DangSitterProps) {
   const [isSelected, setIsSelected] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [cookies] = useCookies(["token"]);
-  const [petSitter, setPetSitter] = useState<PetSitter>({
+  const [petSitter, setPetSitter] = useState<DangSitter>({
     providerId: 0,
     profileImageUrl: "",
     providerNickname: "",
@@ -39,7 +38,7 @@ export default function DangSitter({ providerId }: DangSitterProps) {
   };
 
   useEffect(() => {
-    const token = TOKEN;
+    const token = cookies.token;
     if (token && providerId) {
       fetchOneProviderInfo(providerId, token)
         .then((petSitter) => setPetSitter(petSitter))
@@ -96,7 +95,7 @@ export default function DangSitter({ providerId }: DangSitterProps) {
       <DangSitterModal
         open={modalOpen}
         onClose={handleModalClose}
-        petSitterProps = {petSitter}
+        petSitterProps={petSitter}
       />
     </>
   );
