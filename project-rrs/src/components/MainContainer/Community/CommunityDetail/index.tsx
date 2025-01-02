@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getCommunityById } from "../../../../apis/communityApi";
+import { getCommunityById, toggleLike } from "../../../../apis/communityApi";
 import CommunityComment from "../CommunityComment/index";
 import "../../../../styles/CommunityDetail.css";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { BiSolidLike, BiLike } from "react-icons/bi"; // 좋아요 아이콘
+import { FaHeart } from "react-icons/fa"; // 하트 아이콘
+import { getToken } from "../../../../utils/auth";
 
 interface CommunityData {
   communityId: number;
@@ -11,26 +13,51 @@ interface CommunityData {
   communityTitle: string;
   communityCreatedAt: Date;
   communityUpdatedAt?: Date;
-  communityLikeCount?: number;
+  communityLikeCount: number;
   communityContent: string;
   communityThumbnailUrl: string;
   attachments?: string[];
+  userLiked: number[]; // 좋아요한 사용자 ID 배열
 }
 
 export default function CommunityDetail() {
   const [community, setCommunity] = useState<CommunityData | null>(null);
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const token =
-    "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzM1NjAzMzkxLCJleHAiOjE3MzU2MzkzOTF9.thuuJITGeagXvPcMHp2LZ7Q92HsmAgGulijp-2pO5fc";
+  const token = getToken();
+  const [loggedInUserId, setLoggedInUserId] = useState<number | null>(null);
+
+  const handleToggleLike = async () => {
+    if (!community || !token || loggedInUserId === null) return;
+
+    try {
+      const { likeCount, userId } = await toggleLike(community.communityId);
+      setCommunity((prev) =>
+        prev
+          ? {
+              ...prev,
+              communityLikeCount: likeCount,
+              userLiked: userId === loggedInUserId
+                ? [...prev.userLiked, userId]
+                : prev.userLiked.filter((id) => id !== userId),
+            }
+          : prev
+      );
+    } catch (e) {
+      console.error("Failed to toggle like", e);
+    }
+  };
 
   useEffect(() => {
     if (!token) {
       navigate("/login");
-    } else if (id) {
+      return;
+    }
+
+    if (id) {
       const fetchCommunity = async () => {
         try {
-          const data = await getCommunityById(Number(id), token);
+          const data = await getCommunityById(Number(id));
           if (data) {
             setCommunity({
               ...data,
@@ -39,6 +66,8 @@ export default function CommunityDetail() {
                 ? new Date(data.communityUpdatedAt)
                 : undefined,
             });
+            // 현재 로그인된 사용자 ID 설정
+            setLoggedInUserId(data.loggedInUserId);
           } else {
             setCommunity(null);
           }
@@ -50,29 +79,41 @@ export default function CommunityDetail() {
 
       fetchCommunity();
     }
-  }, [id, token, navigate]);
+  }, [id, navigate, token]);
 
   return (
     <div className="community-detail-container">
       <div>
         {community ? (
           <div className="community-content-box">
-            <h2 className="community-detail-header">
-              {community.communityTitle}
-            </h2>
+            <h2 className="community-detail-header">{community.communityTitle}</h2>
             <div className="community-sub-header-box">
-              <p className="community-detail-date">
-                작성일: {community.communityCreatedAt.toLocaleString("ko-KR")}
-              </p>
-              <p className="community-detail-likecount">
-                {community.communityLikeCount &&
-                community.communityLikeCount > 0 ? (
-                  <FaHeart color="red" />
-                ) : (
-                  <FaRegHeart color="gray" />
-                )}
-                {community.communityLikeCount}
-              </p>
+              <div className="community-header-p-box">
+                <p className="community-detail-date">
+                  작성일: {community.communityCreatedAt.toLocaleString("ko-KR")}
+                </p>
+                <div
+                  className="community-detail-likecount"
+                  onClick={handleToggleLike}
+                  style={{
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                  }}
+                >
+                  <FaHeart
+                    color={loggedInUserId && community.userLiked.includes(loggedInUserId) ? "red" : "gray"}
+                    size={15}
+                  />
+                  <span style={{ fontSize: "18px" }}>{community.communityLikeCount}</span>
+                  {loggedInUserId && community.userLiked.includes(loggedInUserId) ? (
+                    <BiSolidLike color="black" size={24} />
+                  ) : (
+                    <BiLike color="gray" size={24} />
+                  )}
+                </div>
+              </div>
               {community.attachments?.map((attachment, index) => (
                 <div key={index}>
                   <a href={attachment}>첨부 파일 {index + 1}</a>
@@ -91,10 +132,12 @@ export default function CommunityDetail() {
             <p className="community-detail-content">
               {community.communityContent}
             </p>
-            <CommunityComment
-              communityId={community.communityId}
-              token={token}
-            />
+            {token && (
+              <CommunityComment
+                communityId={community.communityId}
+                token={token}
+              />
+            )}
           </div>
         ) : (
           <p>해당 커뮤니티 정보를 찾을 수 없습니다.</p>
