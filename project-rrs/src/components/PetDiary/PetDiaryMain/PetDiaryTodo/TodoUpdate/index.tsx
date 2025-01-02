@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import React, { useState } from "react";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
 import "../../../../../styles/PetDiaryTodo.css";
-import { updateTodo, TOKEN } from "../../../../../apis/todo";
+import { updateTodo } from "../../../../../apis/todo";
 import { useCookies } from "react-cookie";
 import { Todo } from "../../../../../types/todoType";
 import { useRefreshStore } from "../../../../../stores/PetDiaryStore";
@@ -29,7 +29,7 @@ export default function TodoUpdate({
   };
 
   const updateTodoContentBtnHandler = async () => {
-    const token = TOKEN;
+    const token = cookies.token;
     if (!currentTodo || !token) {
       console.error("Todo or token is missing");
       return;

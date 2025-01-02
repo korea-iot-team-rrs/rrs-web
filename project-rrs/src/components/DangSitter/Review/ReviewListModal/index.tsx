@@ -8,7 +8,6 @@ import { fetchReview } from "../../../../apis/review";
 import { useCookies } from "react-cookie";
 import Grid from "@mui/material/Grid2";
 import { FaShieldDog } from "react-icons/fa6";
-import { TOKEN } from "../../../../apis/todo";
 import { useDateStore } from "../../../../stores/daytransfer";
 
 interface ReviewListModalProps {
@@ -26,10 +25,10 @@ export default function ReviewListModal({
 }: ReviewListModalProps) {
   const [cookies] = useCookies(["token"]);
   const [reviews, setReviews] = useState<Review[]>([]);
-  const formatDate = useDateStore((state) => state.formatDate);
+  const formatDate = useDateStore((state) => state.formatDateToKR);
 
   useEffect(() => {
-    const token = TOKEN;
+    const token = cookies.token;
     if (token && providerId) {
       fetchReview(providerId, token)
         .then((review) => setReviews(review))

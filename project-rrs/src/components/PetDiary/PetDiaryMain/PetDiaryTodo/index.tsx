@@ -4,12 +4,7 @@ import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import { FaPlusCircle } from "react-icons/fa";
 import { useCookies } from "react-cookie";
-import {
-  deleteTodo,
-  fetchTodosByDay,
-  TOKEN,
-  updateTodo,
-} from "../../../../apis/todo";
+import { deleteTodo, fetchTodosByDay, updateTodo } from "../../../../apis/todo";
 import { PetDiaryTodoProps } from "../../../../types/petDiaryType";
 import { Todo } from "../../../../types/todoType";
 import TodoCreate from "./TodoCreate";
@@ -25,7 +20,7 @@ export default function PetDiaryTodo({ selectedDate }: PetDiaryTodoProps) {
   const { refreshKey, incrementRefreshKey } = useRefreshStore();
 
   const fetchTodoByDay = async () => {
-    const token = TOKEN;
+    const token = cookies.token;
     if (!token) {
       console.error("Token not found");
       return;
@@ -47,7 +42,7 @@ export default function PetDiaryTodo({ selectedDate }: PetDiaryTodoProps) {
     const isChecked = event.target.checked;
     const newStatus = isChecked ? "1" : "0";
 
-    const token = TOKEN;
+    const token = cookies.token;
     if (!token) {
       console.error("Token not found");
       return;
@@ -72,7 +67,7 @@ export default function PetDiaryTodo({ selectedDate }: PetDiaryTodoProps) {
   };
 
   const deleteOnClickBtnHandler = async (todoId: number) => {
-    const token = TOKEN;
+    const token = cookies.token;
     if (!token) {
       console.error("Token not found");
       return;
@@ -159,7 +154,8 @@ export default function PetDiaryTodo({ selectedDate }: PetDiaryTodoProps) {
                 <li
                   key={index}
                   style={{
-                    backgroundColor: todo.todoStatus === "1" ? "#ffcdcd71" : "transparent",
+                    backgroundColor:
+                      todo.todoStatus === "1" ? "#ffcdcd71" : "transparent",
                   }}
                 >
                   <span>{todo.todoPreparationContent}</span>
