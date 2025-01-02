@@ -1,27 +1,52 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import DangSitter from "../DangSitter";
-import { Box, Checkbox, FormControlLabel } from "@mui/material";
+import DangSitter from "../DangSitterBox";
+import { Box, Button, Checkbox, FormControlLabel } from "@mui/material";
 import { Notice } from "../../../constants/Notice";
 import "../../../styles/ReservationForm.css";
 import dayjs, { Dayjs } from "dayjs";
+import { PetSitter } from "../../../types/reservationType";
+import { useCookies } from "react-cookie";
+import { fetchprovidersByDate } from "../../../apis/reservationApi";
+import { useDateStore } from "../../../stores/daytransfer";
 
 export default function ReservationForm() {
   const today = dayjs();
   const tomorrow = today.add(1, "day");
   const oneMonthLater = today.add(1, "month");
   const oneMonthAndOneDayLater = today.add(1, "month").add(1, "day");
+  const [cookies] = useCookies(["token"]);
 
-  const [startDate, setStartDate] = React.useState<Dayjs | null>(today);
-  const [endDate, setEndDate] = React.useState<Dayjs | null>(tomorrow);
-  const [noticeChecked, setNoticeChecked] = React.useState<boolean>(false);
+  const [startDate, setStartDate] = useState<Dayjs>(today);
+  const [endDate, setEndDate] = useState<Dayjs>(tomorrow);
+  const [noticeChecked, setNoticeChecked] = useState<boolean>(false);
+  const [findPetSitter, setFindPetSitter] = useState<PetSitter[]>([]);
 
   const noticeCheckboxChangeHandler = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     setNoticeChecked((prev) => !prev);
+  };
+
+  const findMyPetSitterBtnHandler = async (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    const token = cookies.token;
+    const data = {
+      startDate: startDate.format("YYYY-MM-DD"),
+      endDate: endDate.format("YYYY-MM-DD"),
+    };
+    console.log(data);
+    if (token) {
+      try {
+        const findDangSitter = await fetchprovidersByDate(data, token);
+        setFindPetSitter(findDangSitter);
+      } catch (e) {
+        console.error("Failed to fetch providers", e);
+      }
+    }
   };
 
   return (
@@ -62,19 +87,33 @@ export default function ReservationForm() {
               minDate={today}
               maxDate={oneMonthLater}
               value={startDate}
-              onChange={(startDate) => setStartDate(startDate)}
+              onChange={(newStartDate) =>
+                newStartDate && setStartDate(newStartDate)
+              }
             />
             <DatePicker
               label="이용 종료일"
               minDate={tomorrow}
               maxDate={oneMonthAndOneDayLater}
               value={endDate}
-              onChange={(newEndDate) => setEndDate(startDate)}
+              onChange={(newEndDate) => newEndDate && setEndDate(newEndDate)}
             />
           </LocalizationProvider>
+          <Button
+            className="find-my-dang-sitter"
+            onClick={findMyPetSitterBtnHandler}
+          >
+            댕시터 찾기
+          </Button>
         </div>
-
-        <DangSitter providerId={2} />
+        <div>
+          {findPetSitter.map((petSitter) => (
+            <DangSitter
+              key={petSitter.providerId}
+              providerId={petSitter.providerId}
+            />
+          ))}
+        </div>
       </div>
     </>
   );
