@@ -123,33 +123,11 @@ export default function PetCreate() {
       console.log("Response:", response.data.data);
       alert('반려 동물이 등록되었습니다.');
       navigate('/petList')
-<<<<<<< HEAD
-    } catch (error: unknown) {
-      console.error("Error details:", error);  // error 객체를 로그로 출력하여 내용 확인
-    
-      if (axios.isAxiosError(error)) {
-        // AxiosError일 경우 처리
-        if (error.response) {
-          // 서버 응답이 있을 경우
-          console.error("Response error status:", error.response.status);
-          console.error("Response error:", error.response.data.data);
-          alert(`서버 오류: ${error.response.status}, ${error.response.data || '상세 오류 정보 없음'}`);
-        } else if (error.request) {
-          // 요청은 보내졌으나 응답이 없을 경우
-          console.error("Request error:", error.request);
-          alert("서버로부터 응답을 받지 못했습니다.");
-        } else {
-          // 그 외 오류
-          console.error("Error during request:", error.message);
-          alert(`오류 발생: ${error.message}`);
-        }
-=======
     } catch (error: any) {
       console.log("Error:", error);
       if (error.response) {
         console.error("Response Error:", error.response.data.data);
         alert(`서버오류: ${error.response.data.data}`);
->>>>>>> develop
       } else {
       alert('네트워크 오류 ')
     }
