@@ -1,0 +1,61 @@
+/* 산책기록 리스트 화면 */
+.selectPetContainer {
+  display: flex;
+  gap: 15px;
+}
+
+.petBox {
+  max-width: 100px;
+  max-height: 100px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+}
+
+.petBox:hover {
+  background-color: #2194FF;
+}
+
+.petCircleBox {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  border: 1px solid #ccc;
+}
+
+.midElement {
+  display: flex;
+  margin-top: 30px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.midElement span {
+  color: #6d6d6d;
+}
+
+.midElement button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #3da1ff;
+  padding: 5px 15px;
+  color: #fff;
+  gap: 10px;
+  font-weight: bold;
+  border-radius: 20px;
+}
+
+.midElement button:hover {
+  background-color: #2a87de;
+}
+
+.walkingRecordList {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.03);
+}
