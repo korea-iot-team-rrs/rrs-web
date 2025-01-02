@@ -3,8 +3,9 @@ import { Calendar, Badge } from "rsuite";
 import "../../../styles/PetdiaryCalendar.css";
 import { PetDiaryCalendarProps } from "../../../types/petDiaryType";
 import { Todo } from "../../../types/todoType";
-import { fetchTodos, TOKEN } from "../../../apis/todo";
+import { fetchTodos } from "../../../apis/todo";
 import { useRefreshStore } from "../../../stores/PetDiaryStore";
+import { useCookies } from "react-cookie";
 
 const Styles = () => {
   return (
@@ -37,11 +38,12 @@ export default function PetDiaryCalendar({
   onDateSelect,
 }: PetDiaryCalendarProps) {
   const [selectedDate, setSelectedDate] = useState<string>("");
+  const [cookies] = useCookies(["token"]);
   const [todos, setTodos] = useState<Todo[]>([]);
   const { refreshKey } = useRefreshStore();
 
   useEffect(() => {
-    const token = TOKEN;
+    const token = cookies.token;
     if (token) {
       fetchTodos(token)
       .then((data) => {
