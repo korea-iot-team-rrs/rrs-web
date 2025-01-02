@@ -5,6 +5,7 @@ import { getCommunity } from '../../../../apis/communityApi';
 import Pagination from "../Pagination";
 import "../../../../styles/Community.css";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { IoSearch } from "react-icons/io5";
 import LoginModal from '../../../LoginModal';
 
 interface CommunityData {
@@ -18,7 +19,7 @@ interface CommunityData {
   nickname: string;
 }
 
-const BASE_FILE_URL = "http://localhost:4040/uploads";
+const BASE_FILE_URL = "http://localhost:4040/uploads/";
 
 function truncateText(text: string, maxLength: number): string {
   if (text.length > maxLength) {
@@ -43,6 +44,7 @@ export default function CommunityList() {
     const fetchPosts = async () => {
       try {
         const data = await getCommunity();
+        console.log(data)
         setAllData(data.map((item: any) => ({
           id: item.communityId,
           title: item.communityTitle,
@@ -50,7 +52,9 @@ export default function CommunityList() {
           date: new Date(item.communityCreatedAt).toLocaleString("ko-KR"),
           likeCount: item.communityLikeCount,
           thumbnailUrl: item.communityThumbnailUrl,
-          updatedAt: item.communityUpdatedAt ? new Date(item.communityUpdatedAt).toLocaleString("ko-KR") : null,
+          updatedAt: item.communityUpdatedAt
+            ? new Date(item.communityUpdatedAt).toLocaleString("ko-KR")
+            : null,
           nickname: item.nickname,
         })));
       } catch (error) {
@@ -62,9 +66,11 @@ export default function CommunityList() {
   }, []);
 
   useEffect(() => {
-    let filteredData = searchTerm ? allData.filter((item) =>
-      item.title.toLowerCase().includes(searchTerm.toLowerCase())
-    ) : allData;
+    let filteredData = searchTerm
+      ? allData.filter((item) =>
+          item.title.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      : allData;
 
     if (sortOrder === "latest") {
       filteredData.sort((a, b) => b.date.localeCompare(a.date));
@@ -75,7 +81,8 @@ export default function CommunityList() {
     }
 
     const startIndex = (currentPage - 1) * pageSize;
-    setCommunityData(filteredData.slice(startIndex, startIndex + pageSize));
+    const slicedData = filteredData.slice(startIndex, startIndex + pageSize);
+    setCommunityData(slicedData);
     setTotalPages(Math.ceil(filteredData.length / pageSize));
   }, [searchTerm, allData, currentPage, sortOrder]);
 
@@ -91,17 +98,46 @@ export default function CommunityList() {
     setShowLoginModal(false);
   };
 
+  const handlePageClick = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handlePreSectionClick = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const handleNextSectionClick = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  // 카드가 3개 이하라면 한 행만 보여주도록 클래스 설정
+  const containerClassName = communityData.length <= 3
+    ? "community-card-container one-row"
+    : "community-card-container";
+
   return (
     <div className="community-container">
       {showLoginModal && <LoginModal onClose={handleCloseModal} />}
+
       <div className="community-search-container">
-        <input
-          type="text"
-          className="search-input"
-          placeholder="제목 검색"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+        <div className="search-input-wrapper">
+          <IoSearch className="search-icon" />
+          <input
+            type="text"
+            className="search-input"
+            placeholder="제목 검색"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+
         <div className="community-button-box">
           <button
             className="community-create-button"
@@ -120,7 +156,9 @@ export default function CommunityList() {
           </select>
         </div>
       </div>
-      <div className="community-card-container">
+
+      {/* one-row 클래스가 동적으로 적용 */}
+      <div className={containerClassName}>
         {communityData.map((data) => (
           <div
             className="community-card"
@@ -161,17 +199,14 @@ export default function CommunityList() {
           </div>
         ))}
       </div>
+
       <div className="community-pagination-container">
         <Pagination
           pageList={Array.from({ length: totalPages }, (_, i) => i + 1)}
           currentPage={currentPage}
-          handlePageClick={(page: number) => setCurrentPage(page)}
-          handlePreSectionClick={() =>
-            currentPage > 1 && setCurrentPage(currentPage - 1)
-          }
-          handleNextSectionClick={() =>
-            currentPage < totalPages && setCurrentPage(currentPage + 1)
-          }
+          handlePageClick={handlePageClick}
+          handlePreSectionClick={handlePreSectionClick}
+          handleNextSectionClick={handleNextSectionClick}
         />
       </div>
     </div>
