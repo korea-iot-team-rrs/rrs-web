@@ -86,7 +86,8 @@ export default function PetCreate() {
         // AxiosError일 경우 처리
         if (error.response) {
           // 서버 응답이 있을 경우
-          console.error("Response error:", error.response);
+          console.error("Response error status:", error.response.status);
+          console.error("Response error:", error.response.data.data);
           alert(`서버 오류: ${error.response.status}, ${error.response.data || '상세 오류 정보 없음'}`);
         } else if (error.request) {
           // 요청은 보내졌으나 응답이 없을 경우

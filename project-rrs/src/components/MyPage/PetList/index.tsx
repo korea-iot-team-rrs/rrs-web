@@ -45,23 +45,23 @@ export default function PetList() {
 
   return (
     <div>
-      {pets.length > 0 ? (
-        pets.map((pet, index) => (
-          <div key={index} className="petBox">
-            {" "}
-            <img src={pet.petImageUrl} alt={`${pet.petName}의 사진`} />
-            <p>{pet.petName}</p>
-            <button className="toggle-btn">...</button>
-          </div>
-        ))
-      ) : (
-        <button className="addPet" onClick={handleAddPetClick}>
-          <div className="circle">
-            <p>+</p>
-          </div>
-          <p>반려 동물 등록</p>
-        </button>
-      )}
-    </div>
+    {pets.length > 0 && 
+      pets.map((pet, index) => (
+        <div key={index} className="petBox">
+          <img src={pet.petImageUrl} alt={`${pet.petName}의 사진`} />
+          <p>{pet.petName}</p>
+          <button className="toggle-btn">...</button>
+        </div>
+      ))
+    }
+    
+    {/* 항상 출력되도록 addPet 버튼을 조건과 상관없이 여기에 추가 */}
+    <button className="addPet" onClick={handleAddPetClick}>
+      <div className="circle">
+        <p>+</p>
+      </div>
+      <p>반려 동물 등록</p>
+    </button>
+  </div>
   );
 }
