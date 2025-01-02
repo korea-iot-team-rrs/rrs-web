@@ -18,7 +18,7 @@ import CommunityDetailView from "./views/CommunityVIew/CommunityDetailView";
 
 import CommunityCreateView from "./views/CommunityVIew/CommunityCreateView";
 import MyPageView from "./views/MyPage/User";
-import PetSitter from "./components/PetSitter";
+import DangSitter from "./components/DangSitter";
 
 function App() {
   return (
@@ -42,7 +42,7 @@ function App() {
           <Route path="/community" element={<CommunityListView />} />
           <Route path="/community/:id" element={<CommunityDetailView/>} />
           <Route path="/community/write" element={<CommunityCreateView/>} />
-          <Route path="/petSitter" element={<PetSitter />}/>
+          <Route path="/petSitter" element={<DangSitter />}/>
           
           <Route path="/user/*" element={<MyPageView />} />
         </Routes>

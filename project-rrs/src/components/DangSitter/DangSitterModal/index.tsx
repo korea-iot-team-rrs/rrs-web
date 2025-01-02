@@ -7,15 +7,15 @@ import userImg from "../../../assets/images/userDog.jpg";
 import ReviewListModal from "../Review/ReviewListModal";
 import { IoCloseCircle } from "react-icons/io5";
 import { boxStyle } from "../../../styles/DangSitterCommon";
-import { PetSitter } from "../../../types/reservationType";
+import { DangSitter } from "../../../types/reservationType";
 import { Review } from "../../../types/reviewType";
-import { TOKEN } from "../../../apis/todo";
 import { fetchLatestReview } from "../../../apis/review";
+import { useCookies } from "react-cookie";
 
 interface DangSitterModalProps {
   open: boolean;
   onClose: () => void;
-  petSitterProps: PetSitter;
+  petSitterProps: DangSitter;
 }
 
 export default function DangSitterModal({
@@ -24,6 +24,7 @@ export default function DangSitterModal({
   petSitterProps,
 }: DangSitterModalProps) {
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
+  const [cookies] = useCookies(["token"]);
   const [latesetReview, setLatesetReview] = useState<Review>({
     reviewId: 0,
     userId: 0,
@@ -47,7 +48,7 @@ export default function DangSitterModal({
   };
 
   useEffect(() => {
-    const token = TOKEN;
+    const token = cookies.token;
     if (token) {
       fetchLatestReview(petSitterProps.providerId, token)
         .then((response) => {
@@ -120,7 +121,7 @@ export default function DangSitterModal({
                   size="large"
                   emptyIcon={<StarIcon fontSize="inherit" />}
                   sx={{
-                    color: "#ffa200"
+                    color: "#ffa200",
                   }}
                 />
                 <div className="userReviewContent">

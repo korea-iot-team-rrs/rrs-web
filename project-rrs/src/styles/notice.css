@@ -1,16 +1,18 @@
 /* Notice 컴포넌트 스타일 */
 
 .notice-container {
-    max-width: 800px;
+    max-width: 80%;
+    max-height: 200px;
     margin: 20px auto;
     background: #ffffff;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    
+    overflow-y: auto;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.03);
   }
   
   .notice-container h1 {
-    font-size: 28px;
+    font-size: 22px;
     text-align: center;
     color: #222;
     border-bottom: 2px solid #ddd;

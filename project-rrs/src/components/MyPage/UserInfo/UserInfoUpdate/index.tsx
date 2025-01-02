@@ -50,7 +50,7 @@ export default function UserInfoUpdate() {
     const profileImageUrlRegex = /.*\.(jpg|png)$/;
 
     if (!userInfo.name) {
-      alert('이름을 입력해주세요.');
+      alert('이름을 입력해 주세요.');
       return false;
     } else if (!nameRegex.test(userInfo.name)) {
       alert('이름은 한글만 사용할 수 있습니다.');
