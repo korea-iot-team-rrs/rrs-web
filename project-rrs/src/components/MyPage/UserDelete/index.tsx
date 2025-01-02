@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { deleteUserInfo } from "../../../apis/userInfo";
 import useAuthStore from "../../../stores/auth.store";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +11,14 @@ export default function UserDelete() {
   const { logout } = useAuthStore();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const token = cookies.token || localStorage.getItem("token");
+    if (!token) {
+      alert('로그인 정보가 없습니다.');
+      navigate('/');
+    }
+  }, [cookies, navigate]);
+  
   const handleUserDelete = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -21,11 +29,6 @@ export default function UserDelete() {
 
     try {
       const token = cookies.token || localStorage.getItem("token");
-      if (!token) {
-        alert('로그인 정보가 없습니다.');
-        navigate('/');
-        return;
-      }
       
       const response = await axios.delete(
         "http://localhost:4040/api/v1/users",
