@@ -9,7 +9,7 @@ import { IoCloseCircle } from "react-icons/io5";
 import { boxStyle } from "../../../styles/DangSitterCommon";
 import { DangSitter } from "../../../types/reservationType";
 import { Review } from "../../../types/reviewType";
-import { fetchLatestReview } from "../../../apis/review";
+import { fetchLatestReview } from "../../../apis/reviewAPi";
 import { useCookies } from "react-cookie";
 
 interface DangSitterModalProps {

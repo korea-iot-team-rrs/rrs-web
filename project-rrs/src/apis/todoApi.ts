@@ -1,13 +1,8 @@
-// apis
-
 import axios from "axios";
 import { Todo } from "../types/todoType";
 import { MAIN_URL } from "../constants";
 
 export const TODO_API_URL = `${MAIN_URL}/todos`;
-
-// export const TOKEN: string =
-//   "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjIsInJvbGVzIjoiUk9MRV9VU0VSLCBST0xFX1BST1ZJREVSIiwiaWF0IjoxNzM1NjA0MzczLCJleHAiOjE3MzU2NDAzNzN9.zLuOI36e5e_XZELdsFYGKX2v5WYwb0r9sO1bUJbGupQ";
 
 export const createTodo = async (
   todoPreparationContent: string,

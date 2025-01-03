@@ -7,19 +7,32 @@ import { Box, Button, Checkbox, FormControlLabel } from "@mui/material";
 import { Notice } from "../../../constants/Notice";
 import "../../../styles/ReservationForm.css";
 import dayjs, { Dayjs } from "dayjs";
-import { DangSitter, Pet, User } from "../../../types/reservationType";
+import {
+  DangSitter,
+  Pet,
+  Reservation,
+  User,
+} from "../../../types/reservationType";
 import { useCookies } from "react-cookie";
-import { fetchprovidersByDate } from "../../../apis/reservationApi";
+import {
+  createReservation,
+  fetchprovidersByDate,
+} from "../../../apis/reservationApi";
 import { FaSearch } from "react-icons/fa";
-import { FaRegSadTear } from "react-icons/fa";
-import { Pets } from "@mui/icons-material";
+import { fetchUserInfo } from "../../../apis/userInfo";
+import { fetchPets } from "../../../apis/petApi";
+import { useNavigate } from "react-router-dom";
+import { RESERVATION_DETAIL_PATH } from "../../../constants";
+import ReservationUserInfo from "../ReservationUserInfo";
 
 export default function ReservationForm() {
+  const [cookies] = useCookies(["token"]);
+  const navigate = useNavigate();
+
   const today = dayjs();
   const tomorrow = today.add(1, "day");
   const oneMonthLater = today.add(1, "month");
   const oneMonthAndOneDayLater = today.add(1, "month").add(1, "day");
-  const [cookies] = useCookies(["token"]);
 
   const [startDate, setStartDate] = useState<Dayjs>(today);
   const [endDate, setEndDate] = useState<Dayjs>(tomorrow);
@@ -28,12 +41,13 @@ export default function ReservationForm() {
   const [findPetSitter, setFindPetSitter] = useState<DangSitter[]>([]);
   const [isSearched, setIsSearched] = useState(false);
   const [selectDangSitterId, setSelectDangSitterId] = useState<number>(0);
+  const [reservationMemo, setReservationMemo] = useState<string>("");
   const [pets, setPets] = useState<Pet[]>([]);
-  const [user, setUSer] = useState<User>({
+  const [user, setUser] = useState<User>({
     username: "",
     nickname: "",
     phone: "",
-    address: ""
+    address: "",
   });
 
   const noticeCheckboxChangeHandler = (
@@ -70,6 +84,67 @@ export default function ReservationForm() {
     }
     console.log("Selected Provider ID:", providerId);
   };
+
+  const memoInputChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setReservationMemo(e.target.value);
+  };
+
+  const reservationSubmitBtnHandler = () => {
+    const token = cookies.token;
+    if (!noticeChecked) {
+      alert("약관에 동의해주세요.");
+      return;
+    }
+    if (selectDangSitterId === 0) {
+      alert("댕시터를 선택해주세요.");
+      return;
+    }
+    const data = {
+      reservationStartDate: startDate.format("YYYY-MM-DD"),
+      reservationEndDate: endDate.format("YYYY-MM-DD"),
+      providerId: selectDangSitterId,
+      reservationMemo: reservationMemo || null,
+    };
+
+    if (token) {
+      createReservation(data, token)
+        .then((response) => {
+          console.log("API Response:", response);
+          alert("요청에 성공하였습니다.");
+          navigate(`${RESERVATION_DETAIL_PATH}/${response.reservationId}`);
+        })
+        .catch((e) => {
+          console.error("요청에 실패하였습니다.", e);
+          alert("요청 처리 중 문제가 발생했습니다. 다시 시도해 주세요.");
+        });
+    }
+  };
+
+  useEffect(() => {
+    const getUserInfo = async () => {
+      try {
+        const user = await fetchUserInfo();
+
+        if (user) {
+          setUser(user);
+        }
+      } catch (error) {
+        console.error("Failed to fetch user info:", error);
+      }
+    };
+
+    getUserInfo();
+  }, []);
+
+  useEffect(() => {
+    const token = cookies.token;
+    if (token) {
+      fetchPets(token)
+        .then((pets) => setPets(pets))
+        .catch(() => setPets([]));
+    }
+  }, [cookies.token]);
+
   useEffect(() => {
     const newEndMinDate = startDate.add(1, "day");
     setEndMinDate(newEndMinDate);
@@ -186,55 +261,18 @@ export default function ReservationForm() {
               </div>
             ))}
         </div>
-        <div className="reservation-userInfo">
-          <div className="reservation-userInfo-title">
-            <span>사용자 정보</span>
-          </div>
-          <div></div>
-          <div></div>
-        </div>
-
-        <div className="reservation-contnert">
-          <div className="reservation-userInfo-title">
-            <span>사용자 정보</span>
-          </div>
-          <div className="reservation-userInfo-body">
-            <div>
-              <div className="info-about-my-dog">
-                <span>내 강아지</span>
-                <span>
-                  사용자의 정보가 알맞은지 확인해주세요! 올바르지 않다면
-                  마이페이지에서 수정 할 수 있습니다.
-                </span>
-
-                {pets.length > 0 ? (
-                  pets.map((pet) => {
-                    return (
-                      <div className="pet-info">
-                        <img src={pet.petImageUrl} alt="" />
-                        <p>{pet.petName}</p>
-                      </div>
-                    );
-                  })
-                ) : (
-                  <div className="cant-not-find-dog">
-                    <p>이용가능한 강아지가 없습니다. 강아지를 등록해 주세요.</p>
-                  </div>
-                )}
-              </div>
-              <div className="info-about-me">
-                  <span>주소 및 핸드폰 번호</span>
-                  <span>핸드폰 번호</span>
-                  <span>{user.phone}</span>
-                  <span>펫시터에게는 안심번호가 제공됩니다.</span>
-                  <span>{user.address}</span>
-                  <span>상세주소는 예약 수락 후 공유 됩니다.</span>
-              </div>
-            </div>
-          </div>
-          <div className="reservation-userInfo-reservationMemo">
-            <input type="text" placeholder={`${user.nickname}님 댕시터에게 전달하고 싶은 내용용을 적어주세요!`} />
-          </div>
+        <ReservationUserInfo pets={pets} user={user} />
+        <div className="reservation-userInfo-reservationMemo">
+          <textarea
+            id="reservationMemo"
+            className="reservation-userInfo-reservationMemo"
+            placeholder="댕시터에게 전달하고 싶은 내용을 적어주세요!"
+            value={reservationMemo}
+            onChange={(e) => memoInputChangeHandler(e)}
+            rows={4}
+            cols={50}
+          />
+          <Button onClick={reservationSubmitBtnHandler}>댕시터 요청하기</Button>
         </div>
       </div>
     </>

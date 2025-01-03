@@ -36,20 +36,21 @@ export interface Review {
 }
 
 export interface Reservation {
-    reservationId: number
+    reservationId: number;
     userId: number; // FK
-    prviderId: number // FK
+    prviderId: number; // FK
     reservationStartDate: Date;
     reservationEndDate: Date;
-    reservationStatus: ReservationStatus
+    reservationStatus: ReservationStatus;
+    reservationMemo: string;
 }
 
 export enum ReservationStatus {
-    PENDING = '예약대기',
-    IN_PROGRESS = '예약 진행중',
-    REJECTED = '거절',
-    CANCELLED = '취소',
-    COMPLETED = '완료'
+    PENDING,
+    IN_PROGRESS,
+    REJECTED,
+    CANCELLED,
+    COMPLETED
   }
 
 export interface CustomerSupportAttachment {

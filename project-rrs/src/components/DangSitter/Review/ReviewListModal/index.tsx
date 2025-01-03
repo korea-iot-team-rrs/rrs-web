@@ -4,7 +4,7 @@ import { IoCloseCircle } from "react-icons/io5";
 import { Review } from "../../../../types/reviewType";
 import { useEffect, useState } from "react";
 import StarIcon from "@mui/icons-material/Star";
-import { fetchReview } from "../../../../apis/review";
+import { fetchReview } from "../../../../apis/reviewAPi";
 import { useCookies } from "react-cookie";
 import Grid from "@mui/material/Grid2";
 import { FaShieldDog } from "react-icons/fa6";

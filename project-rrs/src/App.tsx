@@ -19,6 +19,9 @@ import CommunityDetailView from "./views/CommunityVIew/CommunityDetailView";
 import CommunityCreateView from "./views/CommunityVIew/CommunityCreateView";
 import MyPageView from "./views/MyPage/User";
 import DangSitter from "./components/DangSitter";
+import ReservationForm from "./components/DangSitter/ReservationForm";
+import ReservationList from "./components/DangSitter/ReservaionList";
+import ReservationUserDetail from "./components/DangSitter/ReservaionList/ReservaionUserDetail";
 
 function App() {
   return (
@@ -42,8 +45,12 @@ function App() {
           <Route path="/community" element={<CommunityListView />} />
           <Route path="/community/:id" element={<CommunityDetailView/>} />
           <Route path="/community/write" element={<CommunityCreateView/>} />
-          <Route path="/petSitter" element={<DangSitter />}/>
-          
+
+          <Route path="/dang-sitter" element={<DangSitter />}/>
+          <Route path="/dang-sitter/reservations" element={<ReservationList />} /> 
+          <Route path="/dang-sitter/reservations/write" element={<ReservationForm />} />
+          <Route path="/dang-sitter/reservations/:id" element={<ReservationUserDetail />} />
+
           <Route path="/user/*" element={<MyPageView />} />
         </Routes>
       </div>
@@ -53,4 +60,3 @@ function App() {
 }
 
 export default App;
-// 20241227 9:35

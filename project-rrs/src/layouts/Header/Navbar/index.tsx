@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 export default function Navbar() {
   const links = [
     "petDiary",
-    "petSitter",
+    "dang-sitter",
     "community",
     "petRoad",
     "CustomerSupports",
@@ -18,7 +18,7 @@ export default function Navbar() {
           <NavLink to={link} key={link} className="navButton">
             {link === "petDiary"
               ? "댕수첩"
-              : link === "petSitter"
+              : link === "dang-sitter"
               ? "댕시터"
               : link === "community"
               ? "댕소통"

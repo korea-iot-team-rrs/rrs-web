@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchTodosByDay } from '../../../apis/todo';
+import { fetchTodosByDay } from '../../../apis/todoApi';
 
 interface TodaySubmit {
   today: Date;
