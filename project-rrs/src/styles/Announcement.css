@@ -1,0 +1,159 @@
+.announcement-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+
+.list-box {
+  font-size: large;
+  font-weight: bolder;
+  list-style-type: none;
+  line-height: 2;
+  width: 350px;
+  margin: 60px 50px 100px 120px;
+  padding: 25px;
+  border-radius: 30px;
+  background-color: white;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+  height: 200px;
+}
+
+.list-item {
+  cursor: pointer;
+  margin: 8px 0;
+  padding-left: 10px;
+}
+
+.list-item:hover {
+  color: #2194ff;
+}
+
+.content-area {
+  width: 2000px;
+  margin: 60px 100px 45px 45px;
+  flex-grow: 1;
+  background-color: white;
+  padding: 20px 50px;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.table-style {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-style th,
+.table-style td {
+  font-size: 17px;
+  padding: 8px;
+  border-bottom: 1px solid #c5c3c3;
+}
+
+.table-style th {
+  background-color: #dfdede;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.page-button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.page-button:disabled {
+  font-weight: bolder;
+  background-color: #ccc;
+}
+
+.header-style {
+  font-size: 30px;
+  color: black;
+  margin-bottom: 20px;
+  padding: 10px 0;
+  border-bottom: 1px solid #c5c3c3;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.number-column {
+  text-align: center;
+  width: 10%;
+}
+
+.title-column {
+  width: 65%;
+  cursor: pointer;
+  transition: color 0.2s ease, background-color 0.2s ease;
+  text-indent: 20px;
+}
+
+.title-column:hover {
+  color: #1a73e8;
+  background-color: #f1f5f9;
+  font-weight: bolder;
+}
+
+.date-column {
+  text-align: center;
+  width: 20%;
+}
+.list-box li {
+  position: relative;
+  padding: 10px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.list-box li:hover,
+.list-box li.active {
+  color: #2194ff;
+}
+
+.list-box li::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  width: 100%;
+  height: 4px;
+  background-color: #2194ff;
+  transition: transform 0.3s ease-in-out;
+}
+
+.list-box li:hover::after,
+.list-box li.active::after {
+  transform: scaleX(1);
+}
+
+
+.detail-content-title {
+  margin-bottom: 10px;
+}
+
+.detail-date-style {
+  font-size: 17px;
+}
+
+.detail-content-style {
+  text-align: left;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  margin: 50px;
+}

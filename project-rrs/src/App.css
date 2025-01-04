@@ -1,0 +1,27 @@
+/* 전체 화면을 기준으로 Flexbox 레이아웃 구성 */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%; /* 화면 전체 높이를 기준으로 설정 */
+}
+
+.app-container {
+  font-family: 'Pretendard', Arial, sans-serif;
+  display: flex;
+  flex-direction: column; /* 세로 정렬 */
+  min-height: 100vh; /* 화면 높이보다 작은 경우에도 100% 높이를 차지 */
+}
+
+.content {
+  flex: 1; /* 남은 공간을 차지하여 footer를 아래로 밀어냄 */
+  padding: 20px; /* 필요에 따라 여백 추가 */
+  background-color: #f9f9f9; /* 메인 콘텐츠 영역 배경 */
+}
+
+footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-size: 10px;
+}

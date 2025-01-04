@@ -1,0 +1,109 @@
+.reservationFormContainer {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+
+  > * {
+    width: 1000px;
+  }
+
+  .notice {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .notice-title {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .notice-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  .reservation-date-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding-top: 30px;
+
+    div:nth-child(1) {
+      display: flex;
+      flex-direction: column;
+
+      span:first-child {
+        font-size: 24px;
+        font-weight: bold;
+      }
+    }
+
+    div:nth-child(2) {
+      display: flex;
+      gap: 40px;
+    }
+
+    .date-title {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      span:nth-child(1) {
+        font-size: 24px;
+        font-weight: bold;
+      }
+    }
+
+    .reservation-date-picker-main {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      gap: 50px;
+
+      .find-my-dang-sitter-btn {
+        font-size: 20px;
+        font-weight: bold;
+        width: 30%;
+        height: 60px;
+        background-color: #ffffff;
+        color: #52abff;
+
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.04);
+      }
+
+      .find-my-dang-sitter-btn:hover {
+        background-color: #dff4ff;
+        transition: background-color 0.5s ease-in-out;
+      }
+    }
+  }
+
+  .cant-not-find-sitter > p {
+    font-size: 20px;
+    color: #757575;
+  }
+
+  .founded-dang-sitter {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .founded-dang-sitter-title {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .dangSitter-box-btn {
+      background-color: transparent;
+    }
+
+    .dangSitter-box-btn.selected .dangSitterContainer {
+      background-color: #d6f0ff;
+    }
+  }
+}
