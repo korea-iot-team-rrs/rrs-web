@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 interface Pet {
   petId: number;
+  userId: number;
   petName: string;
   petImageUrl: string;
   petGender: string;
@@ -13,10 +14,24 @@ interface Pet {
   healthRecords: HealthRecord[];
 }
 
-interface WalkingRecord {
-  recordId: number;
-  date: string;
-  details: string;
+export interface WalkingRecord {
+  walkingRecordId: number;
+  walkingRecordDistance: number; 
+  walkingRecordWalkingTime: number; 
+  walkingRecordCreateAt: string;  
+}
+
+enum WalkingRecordWeatherState {
+  SUNNY = "SUNNY",
+  CLOUDY = "CLOUDY",
+  RAINY = "RAINY",
+  SNOWY = "SNOWY",
+}
+
+interface WalkingRecordAttachment {
+  walkingRecordAttachmentId: number;
+  walkingRecordId: number;
+  walkingRecordAttachmentFile: string;
 }
 
 interface HealthRecord {
@@ -27,14 +42,14 @@ interface HealthRecord {
 
 interface PetStore {
   pets: Pet[];
-  setPets: (pets: Pet[]) => void;  // 펫 리스트 설정
+  setPets: (pets: Pet[]) => void;  
   addWalkingRecord: (petId: number, record: WalkingRecord) => void;
   addHealthRecord: (petId: number, record: HealthRecord) => void;
 }
 
 const usePetStore = create<PetStore>((set) => ({
-  pets: [],
-  setPets: (pets) => set({ pets }),
+  pets: [] as Pet[],
+  setPets: (pets: Pet[]) => set({ pets }),
   addWalkingRecord: (petId, record) => set((state) => {
     const updatedPets = state.pets.map((pet) =>
       pet.petId === petId ? { ...pet, walkingRecords: [...pet.walkingRecords, record] } : pet

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import usePetStore from "../../../stores/pet.store";
+import usePetStore from "../../../stores/petstore";
 import '../../../styles/Pet.css'
 
 export default function PetList() {

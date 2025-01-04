@@ -92,4 +92,19 @@
   font-weight: bold;
 }
 
+/* 날씨 드롭다운 컨트롤 스타일 */
+.weather-container {
+  display: flex;
+  align-items: center;
+}
 
+.select-weather {
+  width: 200px; /* 드롭다운 박스의 너비 */
+  height: 40px; /* 드롭다운 박스의 높이 */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px; /* 둥근 모서리 */
+  padding: 0 10px; /* 패딩 추가 */
+  font-size: 16px;
+}

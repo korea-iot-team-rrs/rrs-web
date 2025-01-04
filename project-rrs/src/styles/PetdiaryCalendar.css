@@ -92,8 +92,9 @@
   text-align: center;
 }
 
-.calendar-todo-item{
-  display: flex;
+.calendar-todo-item,
+.calendar-walking-record-item {
+  display: block;
   width: 70%;
   padding: 1px;
   font-size: 10px;
@@ -107,6 +108,11 @@
 .calendar-todo-item {
   color: #ff3b3b;
   background-color: #fed5d5;
+}
+
+.calendar-walking-record-item {
+  color: #dba40c;
+  background-color: #ffecac;
 }
 
 .rs-calendar-panel:not(.rs-calendar-compact) .rs-calendar-table-row:not(.rs-calendar-table-header-row) .rs-calendar-table-cell-content {

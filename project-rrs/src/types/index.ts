@@ -77,5 +77,5 @@ export interface Pet {
     petWeight: number;
     petImageUrl: string;
     petAddInfo?: string;
-    petNeutralityYn?: string;
+    petNeutralityYn: string;
 }

@@ -9,7 +9,7 @@ const currentYear = new Date().getFullYear();
 
 export default function PetCreate() {
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const [cookies] = useCookies(["token"]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [years, setYears] = useState<number[]>([]);
   const [months, setMonths] = useState<number[]>([]);
@@ -212,8 +212,8 @@ export default function PetCreate() {
           <input type="text" name="petAddInfo" value={petInfo.petAddInfo} onChange={handleInputChange}/>
         </div>
 
-        <button type="submit">확인</button>
         <button type="button" onClick={goBack}>취소</button>
+        <button type="submit">확인</button>
       </form>
 
     </div>
