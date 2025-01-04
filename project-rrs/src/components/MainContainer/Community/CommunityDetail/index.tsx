@@ -28,24 +28,25 @@ export default function CommunityDetail() {
   const [loggedInUserId, setLoggedInUserId] = useState<number | null>(null);
 
   const handleToggleLike = async () => {
-    if (!community || !token || loggedInUserId === null) return;
+    // if (!community || !token || loggedInUserId === null) return;
 
-    try {
-      const { likeCount, userId } = await toggleLike(community.communityId);
-      setCommunity((prev) =>
-        prev
-          ? {
-              ...prev,
-              communityLikeCount: likeCount,
-              userLiked: userId === loggedInUserId
-                ? [...prev.userLiked, userId]
-                : prev.userLiked.filter((id) => id !== userId),
-            }
-          : prev
-      );
-    } catch (e) {
-      console.error("Failed to toggle like", e);
-    }
+    // try {
+    //   const { likeCount, userId } = await toggleLike(community.communityId);
+    //   setCommunity((prev) =>
+    //     prev
+    //       ? {
+    //           ...prev,
+    //           communityLikeCount: likeCount,
+    //           userLiked: userId === loggedInUserId
+    //             ? [...prev.userLiked, userId]
+    //             : prev.userLiked.filter((id) => id !== userId),
+    //         }
+    //       : prev
+    //   );
+    // } catch (e) {
+    //   console.error("Failed to toggle like", e);
+    // }
+    return null;
   };
 
   useEffect(() => {
@@ -67,7 +68,7 @@ export default function CommunityDetail() {
                 : undefined,
             });
             // 현재 로그인된 사용자 ID 설정
-            setLoggedInUserId(data.loggedInUserId);
+            // setLoggedInUserId(data.loggedInUserId);
           } else {
             setCommunity(null);
           }

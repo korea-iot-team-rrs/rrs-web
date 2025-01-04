@@ -3,13 +3,12 @@ import { Box, Button, IconButton, Modal, Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import "../../../styles/PetSitterModal.css";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import userImg from "../../../assets/images/userDog.jpg";
-import ReviewListModal from "../Review/ReviewListModal";
+import ReviewListModal from "../ReviewListModal";
 import { IoCloseCircle } from "react-icons/io5";
 import { boxStyle } from "../../../styles/DangSitterCommon";
 import { DangSitter } from "../../../types/reservationType";
 import { Review } from "../../../types/reviewType";
-import { fetchLatestReview } from "../../../apis/review";
+import { fetchLatestReview } from "../../../apis/reviewAPi";
 import { useCookies } from "react-cookie";
 
 interface DangSitterModalProps {
@@ -63,7 +62,7 @@ export default function DangSitterModal({
   return (
     <>
       <Modal open={open} onClose={onClose}>
-        <Box sx={{ ...boxStyle }}>
+        <Box sx={{ ...boxStyle, }}>
           <div className="DangSitterModalheader">
             <button onClick={onClose}>
               <IoCloseCircle size={30} />
@@ -75,7 +74,7 @@ export default function DangSitterModal({
             </div>
 
             <div className="dangSitterImg">
-              <img src={petSitterProps.profileImageUrl} alt="댕시터 이미지" />
+              <img src={`http://localhost:4040/${petSitterProps.profileImageUrl|| "file/default-profile.jpg"}`} alt="댕시터 프로필 이미지" />
             </div>
 
             <div className="providerDetailAvgReview">
@@ -101,13 +100,12 @@ export default function DangSitterModal({
               <div>
                 <div className="userImg">
                   <img
-                    src={latesetReview.profileImageUrl}
+                    src={`http://localhost:4040/${latesetReview.profileImageUrl || "file/default-profile.jpg"}`}
                     alt="댕시터 이미지"
                   />
                 </div>
                 <div>
                   <span className="userName">{latesetReview.userNickname}</span>
-                  <br />
                   <span className="userId">{latesetReview.username}</span>
                 </div>
               </div>

@@ -6,6 +6,7 @@ html, body {
 }
 
 .app-container {
+  font-family: 'Pretendard', Arial, sans-serif;
   display: flex;
   flex-direction: column; /* 세로 정렬 */
   min-height: 100vh; /* 화면 높이보다 작은 경우에도 100% 높이를 차지 */

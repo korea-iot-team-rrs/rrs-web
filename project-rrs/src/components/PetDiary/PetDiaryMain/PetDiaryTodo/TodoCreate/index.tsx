@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
 import "../../../../../styles/PetDiaryTodo.css";
 import { useCookies } from "react-cookie";
-import { useRefreshStore } from "../../../../../stores/PetDiaryStore";
-import { createTodo } from "../../../../../apis/todo";
+import { useRefreshStore } from "../../../../../stores/refreshStore";
+import { createTodo } from "../../../../../apis/todoApi";
 interface TodoUpdateProps {
   goBack: () => void;
   selectedDate: string;

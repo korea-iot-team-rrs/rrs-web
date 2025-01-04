@@ -1,3 +1,7 @@
+.petDiaryTodoContainer > *{
+  font-family: 'Pretendard', Arial, sans-serif;
+}
+
 .petDiaryTodoContainer header {
   margin-bottom: 20px;
 }

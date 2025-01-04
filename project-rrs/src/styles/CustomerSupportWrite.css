@@ -1,0 +1,77 @@
+.cs-write-wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .cs-write-header {
+    margin-bottom: 20px;
+  }
+  
+  .cs-write-header h1 {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .cs-switch-btn {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .cs-write-body {
+    margin-top: 20px;
+  }
+  
+  .cs-write-title input,
+  .cs-write-content textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .cs-write-content textarea {
+    resize: none;
+  }
+  
+  .cs-write-attachment h3 {
+    margin-bottom: 10px;
+  }
+  
+  .cs-write-attachment ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .cs-write-attachment ul li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+  }
+  
+  .cs-write-attachment ul li button {
+    margin-left: 10px;
+    color: red;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  
+  .cs-complete-btn {
+    text-align: center;
+    margin-top: 20px;
+  }
+  

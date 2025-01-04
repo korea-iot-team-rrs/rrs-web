@@ -44,3 +44,6 @@ log/
 *.env
 *.swp
 *.swo
+
+# Ignore all .mp4 files
+*.mp4
