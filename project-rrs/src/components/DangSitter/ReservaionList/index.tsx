@@ -75,12 +75,12 @@ export default function ReservationList() {
 
     const loadReservations = async () => {
       try {
-        const data = await fetchReservationList(token);
-        setReservations(data);
-        setFilteredReservations(data);
+        const response = await fetchReservationList(token);
+        setReservations(response);
+        setFilteredReservations(response);
 
         const reviewStatuses = await Promise.all(
-          data.map(async (reservation) => {
+          response.map(async (reservation) => {
             const hasReview = await reservationHasReview(
               reservation.reservationId,
               token

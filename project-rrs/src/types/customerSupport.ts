@@ -22,3 +22,12 @@ export interface CreateCS {
     files: File[];
     path: string;
 }
+
+export interface fetchCSList {
+    reviewId: number;
+    customerSupportTitle: string;
+    customerSupportContent: string;
+    customerSupportStatus: number;
+    customerSupportCreateAt: Date;
+    customerSupportCategory: string;
+}
