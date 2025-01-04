@@ -1,7 +1,8 @@
 import React from 'react'
+import CustomerSupportList from '../../components/CustomerSupport/CustomerSupportList'
 
 export default function CustomerSupport() {
-  return (
-    <div>CustomerSupport</div>
-  )
+  return <>
+  <CustomerSupportList />
+  </>
 }

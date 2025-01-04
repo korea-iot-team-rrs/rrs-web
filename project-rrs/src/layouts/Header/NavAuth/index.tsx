@@ -23,8 +23,6 @@ export default function NavAuth() {
   }, [cookies.token, setIsLoggedIn, login]);
 
   useEffect(() => {
-    console.log('User object:', user); // user 객체 출력
-    console.log('Profile Image URL:', user?.profileImageUrl); // 이미지 URL 출력
   }, [user]);
 
   const handleLogout = () => {

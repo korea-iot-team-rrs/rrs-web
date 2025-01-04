@@ -22,6 +22,7 @@ import DangSitter from "./components/DangSitter";
 import ReservationForm from "./components/DangSitter/ReservationForm";
 import ReservationList from "./components/DangSitter/ReservaionList";
 import ReservationUserDetail from "./components/DangSitter/ReservaionUserDetail";
+import CustomerSupport from "./views/CustomerSupport";
 
 function App() {
   return (
@@ -50,6 +51,8 @@ function App() {
           <Route path="/dang-sitter/reservations" element={<ReservationList />} /> 
           <Route path="/dang-sitter/reservations/write" element={<ReservationForm />} />
           <Route path="/dang-sitter/reservations/:id" element={<ReservationUserDetail />} />
+
+          <Route path="/customer-supports" element={<CustomerSupport />}/>
 
           <Route path="/user/*" element={<MyPageView />} />
         </Routes>
