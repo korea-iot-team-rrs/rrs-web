@@ -21,7 +21,7 @@ import MyPageView from "./views/MyPage/User";
 import DangSitter from "./components/DangSitter";
 import ReservationForm from "./components/DangSitter/ReservationForm";
 import ReservationList from "./components/DangSitter/ReservaionList";
-import ReservationUserDetail from "./components/DangSitter/ReservaionList/ReservaionUserDetail";
+import ReservationUserDetail from "./components/DangSitter/ReservaionUserDetail";
 
 function App() {
   return (
@@ -41,7 +41,7 @@ function App() {
           <Route path="/events" element={<EventListView />} />
           <Route path="/events/:id" element={<EventDetailView />} />
 
-          <Route path="/petdiary" element={<PetDiaryView />} />
+          <Route path="/pet-diary" element={<PetDiaryView />} />
           <Route path="/community" element={<CommunityListView />} />
           <Route path="/community/:id" element={<CommunityDetailView/>} />
           <Route path="/community/write" element={<CommunityCreateView/>} />

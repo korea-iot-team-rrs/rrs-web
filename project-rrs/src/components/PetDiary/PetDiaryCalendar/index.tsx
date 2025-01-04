@@ -26,7 +26,7 @@ function renderCell(date: Date, todos: Todo[]): React.ReactElement | null {
 
   if (hasTodo) {
     return (
-      <div>
+      <div className="todays-todo">
         <span className="calendar-todo-item">오늘의 할일</span>
       </div>
     );

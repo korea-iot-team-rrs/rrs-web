@@ -31,21 +31,21 @@
   display: block;
   margin-bottom: 5px;
   text-align: left;
-  padding-top: 5px;
-  padding-left: 10px;
+  padding: 5px;
 }
 
 .rs-calendar-table-cell.rs-calendar-table-cell-is-today
   .rs-calendar-table-cell-content {
   margin: 0px;
   margin-bottom: 5px;
-  padding: 10px;
+  padding: 5px;
   background-color: #ebebeb;
   border-radius: 10px;
 }
 
 .rs-calendar-table-cell.rs-calendar-table-cell-is-today
   .rs-calendar-table-cell-day {
+  padding: 5px;
   margin: 0px;
   margin-bottom: 5px;
   padding: 4px 0px;
@@ -67,7 +67,6 @@
   .rs-calendar-table-cell-selected
   .rs-calendar-table-cell-content {
   margin: 0px;
-  padding: 6px;
   display: flex;
   background-color: #d2e9ff;
   border-radius: 10px;
@@ -75,6 +74,11 @@
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
   font-weight: bold;
+
+  .rs-calendar-table-cell-day {
+    padding: 5px;
+  }
+  
 }
 
 .rs-calendar-panel
@@ -92,16 +96,21 @@
   text-align: center;
 }
 
+.todays-todo {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 .calendar-todo-item{
   display: flex;
-  width: 70%;
-  padding: 1px;
   font-size: 10px;
+  width: 100%;
   text-align: center;
   font-weight: bold;
   border-radius: 3px;
   flex-direction: column;
-  margin-bottom: 5px;
+  box-sizing: border-box;
 }
 
 .calendar-todo-item {
@@ -111,12 +120,15 @@
 
 .rs-calendar-panel:not(.rs-calendar-compact) .rs-calendar-table-row:not(.rs-calendar-table-header-row) .rs-calendar-table-cell-content {
   display: flex;
+  padding: 5px;
   width: 100%;
   height: 100px;
   overflow: hidden;
   flex-direction: column;
   justify-content: space-between;
+  margin-bottom: 0px;
 }
+
 
 /* .calendar-todo-item span:nth-child(2) {
   color: #FF961B;

@@ -140,6 +140,7 @@ export default function PetDiaryTodo({ selectedDate }: PetDiaryTodoProps) {
                     },
                     fontWeight: "bold",
                     borderRadius: "20px",
+                    fontFamily: "'Pretendard', Arial, sans-serif;"
                   }}
                 >
                   추가하기 &nbsp;

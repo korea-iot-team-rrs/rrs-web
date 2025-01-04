@@ -1,5 +1,6 @@
 import React from "react";
 import { Pet, User } from "../../../types/reservationType";
+import '../../../styles/DangSitterUserInfo.css';
 
 interface ReservationUserInfoProps {
   pets: Pet[];
@@ -28,7 +29,7 @@ export default function ReservationUserInfo({
               {pets.length > 0 ? (
                 pets.map((pet) => (
                   <div key={pet.petId} className="pet-info">
-                    <img src={pet.petImageUrl} alt={pet.petName} />
+                    <img src={`http://localhost:4040/${pet.petImageUrl || "file/default-profile.jpg"}`} alt="프로필 이미지" />
                     <p>{pet.petName}</p>
                   </div>
                 ))

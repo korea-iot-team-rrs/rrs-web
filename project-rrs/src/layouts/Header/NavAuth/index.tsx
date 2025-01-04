@@ -14,12 +14,18 @@ export default function NavAuth() {
     const saveUser = localStorage.getItem('user');
 
     if (token && saveUser) {
+      const parsedUser = JSON.parse(saveUser);
       setIsLoggedIn(true);
-      login(token, JSON.parse(saveUser));
+      login(token, parsedUser);
     } else {
       setIsLoggedIn(false);
     }
   }, [cookies.token, setIsLoggedIn, login]);
+
+  useEffect(() => {
+    console.log('User object:', user); // user 객체 출력
+    console.log('Profile Image URL:', user?.profileImageUrl); // 이미지 URL 출력
+  }, [user]);
 
   const handleLogout = () => {
     removeCookie('token', {path: '/'});
@@ -33,7 +39,7 @@ export default function NavAuth() {
     <div className='navAuth'>
       {isLoggedIn ? (
         <div className='authLogout'>
-          <img src={user?.profileImageUrl} alt="프로필 이미지" />
+          <img src={`http://localhost:4040/${user?.profileImageUrl || "file/default-profile.jpg"}`} alt="프로필 이미지" />
           <span>
             <span className='nickname'>{user?.nickname}</span>님
           </span>

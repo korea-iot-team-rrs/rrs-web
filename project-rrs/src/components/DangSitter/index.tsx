@@ -1,8 +1,8 @@
 import React from "react";
-import ReservationForm from "./ReservationForm";
+import DangSitterMain from "./DangSitterMain";
 
 export default function PetSitter() {
   return <>
-  <ReservationForm />
+  <DangSitterMain />
   </>
 }

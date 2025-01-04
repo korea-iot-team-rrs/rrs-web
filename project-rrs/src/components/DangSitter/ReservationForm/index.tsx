@@ -10,7 +10,6 @@ import dayjs, { Dayjs } from "dayjs";
 import {
   DangSitter,
   Pet,
-  Reservation,
   User,
 } from "../../../types/reservationType";
 import { useCookies } from "react-cookie";
@@ -37,6 +36,7 @@ export default function ReservationForm() {
   const [startDate, setStartDate] = useState<Dayjs>(today);
   const [endDate, setEndDate] = useState<Dayjs>(tomorrow);
   const [endMinDate, setEndMinDate] = useState<Dayjs>(startDate.add(1, "day"));
+  
   const [noticeChecked, setNoticeChecked] = useState<boolean>(false);
   const [findPetSitter, setFindPetSitter] = useState<DangSitter[]>([]);
   const [isSearched, setIsSearched] = useState(false);

@@ -50,7 +50,7 @@ export default function UserInfo() {
       <div>
         <div className='element'>
           <label>개인 프로필 사진</label>
-          <img src={userInfo.profileImageUrl} alt="프로필 이미지" />
+          <img src={`http://localhost:4040/${userInfo.profileImageUrl || "file/default-profile.jpg"}`} alt="프로필 이미지" />
         </div>
 
         <div className='element'>
