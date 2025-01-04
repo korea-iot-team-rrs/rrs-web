@@ -8,17 +8,21 @@ import {
 import { Reservation, ReservationStatus } from "../../../types/reservationType";
 import { useCookies } from "react-cookie";
 import { Button } from "@mui/material";
-import ReservationItem from "./ReservationItem";
+import ReservationItem from "../ReservationItem";
 import { useRefreshStore } from "../../../stores/refreshStore";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import ReviewModal from "../Review/ReviewModal";
+import ReviewModal from "../ReviewModal";
+import dayjs, { Dayjs } from "dayjs";
 
 export default function ReservationList() {
   const navigate = useNavigate();
   const [cookies] = useCookies(["token"]);
 
   const [reservations, setReservations] = useState<Reservation[]>([]);
+  const [filteredReservations, setFilteredReservations] = useState<
+    Reservation[]
+  >([]);
   const [reviewsStatus, setReviewsStatus] = useState<Record<number, string>>(
     {}
   );
@@ -30,18 +34,22 @@ export default function ReservationList() {
   }>({ open: false, reservationId: null, isEditing: false });
 
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태
-  const itemsPerPage = 5; // 페이지당 항목 수
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   const refreshKey = useRefreshStore((state) => state.refreshKey);
   const incrementRefreshKey = useRefreshStore(
     (state) => state.incrementRefreshKey
   );
 
-  const totalPages = Math.ceil(reservations.length / itemsPerPage); // 총 페이지 수
+  const totalPages = Math.ceil(filteredReservations.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentReservations = reservations.slice(startIndex, endIndex); // 현재 페이지의 데이터
+  const currentReservations = filteredReservations.slice(startIndex, endIndex);
+
+  const [startDate, setStartDate] = useState<Dayjs | null>(null);
+  const [endDate, setEndDate] = useState<Dayjs | null>(null);
+  const [endMinDate, setEndMinDate] = useState<Dayjs | undefined>(undefined);
 
   const openReviewModal = (reservationId: number, isEditing: boolean) => {
     setReviewModalData({ open: true, reservationId, isEditing });
@@ -69,6 +77,7 @@ export default function ReservationList() {
       try {
         const data = await fetchReservationList(token);
         setReservations(data);
+        setFilteredReservations(data);
 
         const reviewStatuses = await Promise.all(
           data.map(async (reservation) => {
@@ -98,24 +107,49 @@ export default function ReservationList() {
     loadReservations();
   }, [cookies.token, refreshKey]);
 
+  useEffect(() => {
+    if (startDate) {
+      setEndMinDate(startDate.add(1, "day"));
+    } else {
+      setEndMinDate(undefined);
+    }
+  }, [startDate]);
+
+  const handleSearch = () => {
+    if (!startDate || !endDate) {
+      alert("조회 시작 날짜와 종료 날짜를 모두 선택해주세요.");
+      return;
+    }
+
+    const filtered = reservations.filter((reservation) => {
+      const start = dayjs(reservation.reservationStartDate);
+      return (
+        (start.isAfter(startDate, "day") || start.isSame(startDate, "day")) &&
+        (start.isBefore(endDate, "day") || start.isSame(endDate, "day"))
+      );
+    });
+
+    setFilteredReservations(filtered);
+    setCurrentPage(1);
+  };
+
+
   const updateToCancelReservationBtnHandler = async (reservationId: number) => {
     const token = cookies.token;
-    const data = {
-      reservationId: reservationId,
-      reservationStatus: ReservationStatus.CANCELLED,
-    };
-
     const confirmCancel = window.confirm("정말 취소하시겠습니까?");
     if (!confirmCancel) return;
 
-    if (token) {
-      try {
-        await updateReservaionStatus(data, token);
-
-        incrementRefreshKey();
-      } catch (error) {
-        console.error("fail update reservaion status", error);
-      }
+    try {
+      await updateReservaionStatus(
+        {
+          reservationId: reservationId,
+          reservationStatus: ReservationStatus.CANCELLED,
+        },
+        token
+      );
+      incrementRefreshKey();
+    } catch (error) {
+      console.error("Failed to update reservation status:", error);
     }
   };
 
@@ -128,49 +162,68 @@ export default function ReservationList() {
   };
 
   if (loading) return <p>Loading...</p>;
-  if (reservations.length === 0) return <p>No reservations found.</p>;
 
   return (
     <>
       <h1>Reservation List</h1>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DatePicker
+          label="조회 시작 날짜"
+          value={startDate}
+          onChange={(newStartDate) => setStartDate(newStartDate)}
+        />
+        <DatePicker
+          label="조회 종료 날짜"
+          value={endDate}
+          minDate={endMinDate}
+          onChange={(newEndDate) => setEndDate(newEndDate)}
+        />
+      </LocalizationProvider>
+      <Button variant="contained" color="primary" onClick={handleSearch}>
+        조회
+      </Button>
       <ul style={{ listStyle: "none", padding: 0 }}>
-        {currentReservations.map((reservation) => (
-          <li key={reservation.reservationId}>
-            <div>
-              <ReservationItem
-                onClick={(id) => navigate(`/dang-sitter/reservations/${id}`)}
-                reservation={reservation}
-              />
-            </div>
-
-            {(reservation.reservationStatus === "PENDING" ||
-              reservation.reservationStatus === "IN_PROGRESS") && (
-              <Button
-                variant="outlined"
-                color="secondary"
-                onClick={() =>
-                  updateToCancelReservationBtnHandler(reservation.reservationId)
-                }
-              >
-                예약 취소
-              </Button>
-            )}
-
-            {reservation.reservationStatus === "COMPLETED" && (
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() =>
-                  handleReviewButtonClick(reservation.reservationId)
-                }
-              >
-                {reviewsStatus[reservation.reservationId] === "Y"
-                  ? "리뷰 수정"
-                  : "리뷰 쓰기"}
-              </Button>
-            )}
-          </li>
-        ))}
+        {filteredReservations.length === 0 ? (
+          <li>No reservations found.</li>
+        ) : (
+          currentReservations.map((reservation) => (
+            <li key={reservation.reservationId}>
+              <div>
+                <ReservationItem
+                  onClick={(id) => navigate(`/dang-sitter/reservations/${id}`)}
+                  reservation={reservation}
+                />
+              </div>
+              {(reservation.reservationStatus === "PENDING" ||
+                reservation.reservationStatus === "IN_PROGRESS") && (
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() =>
+                    updateToCancelReservationBtnHandler(
+                      reservation.reservationId
+                    )
+                  }
+                >
+                  예약 취소
+                </Button>
+              )}
+              {reservation.reservationStatus === "COMPLETED" && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() =>
+                    handleReviewButtonClick(reservation.reservationId)
+                  }
+                >
+                  {reviewsStatus[reservation.reservationId] === "Y"
+                    ? "리뷰 수정"
+                    : "리뷰 쓰기"}
+                </Button>
+              )}
+            </li>
+          ))
+        )}
       </ul>
 
       <div
