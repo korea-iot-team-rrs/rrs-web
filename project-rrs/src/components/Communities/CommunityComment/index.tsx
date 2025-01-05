@@ -4,10 +4,10 @@ import {
   createComment,
   updateComment,
   deleteCommentFromCommunity,
-} from "../../../../apis/communityCommentApi";
-import { fetchUserInfo } from "../../../../apis/userInfo";
+} from "../../../apis/communityCommentApi";
+import { fetchUserInfo } from "../../../apis/userInfo";
 import { FaChevronDown, FaChevronUp, FaEdit } from "react-icons/fa";
-import { CommunityComment } from "../../../../types/commentType";
+import { CommunityComment } from "../../../types/commentType";
 
 interface CommentsProps {
   communityId: number;
