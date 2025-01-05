@@ -1,3 +1,5 @@
+import { WalkingRecord } from "../stores/petstore";
+
 //entity들
 export interface ResponseDto<D> {
     result: boolean;

@@ -100,7 +100,7 @@ const WalkingRecordCreate = ({ selectedPet, selectedDate, goBack, addWalkingReco
 
     setWalkingRecord({
     ...walkingRecord,
-    walkingRecordWalkingTime: Number(walkingRecordWalkingTime), // 여기서 타입이 Integer로 전달
+    walkingRecordWalkingTime: Number(walkingRecordWalkingTime),
   });
 
   

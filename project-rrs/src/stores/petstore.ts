@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-interface Pet {
+export interface Pet {
   petId: number;
   userId: number;
   petName: string;
@@ -34,7 +34,7 @@ interface WalkingRecordAttachment {
   walkingRecordAttachmentFile: string;
 }
 
-interface HealthRecord {
+export interface HealthRecord {
   recordId: number;
   date: string;
   healthDetails: string;

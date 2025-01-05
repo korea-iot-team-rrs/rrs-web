@@ -6,6 +6,8 @@ import UserDelete from './UserDelete'
 import '../../styles/MyPage.css'
 import UserInfoUpdate from './UserInfo/UserInfoUpdate'
 import PetCreate from './PetList/PetCreate'
+import PetInfo from './PetList/PetInfo'
+import PetUpdate from './PetList/PetUpdate'
 
 export default function MyPage() {
   return (
@@ -21,6 +23,8 @@ export default function MyPage() {
           <Route path='info' element={<UserInfo />} />
           <Route path='info-update' element={<UserInfoUpdate />} />
           <Route path='petList' element={<PetList />} />
+          <Route path='pet/:petId' element={<PetInfo />} />
+          <Route path='pet-update/:petId' element={<PetUpdate />} />
           <Route path='pet-create' element={<PetCreate />} />
           <Route path='delete' element={<UserDelete />} />
         </Routes>
