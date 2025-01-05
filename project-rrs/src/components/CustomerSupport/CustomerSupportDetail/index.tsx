@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { fetchOneCs } from "../../../apis/custommerSupport";
+import { fetchOneCustomerSupport } from "../../../apis/custommerSupport";
 import { useNavigate, useParams } from "react-router-dom";
-import { FetchCS, CreateCS } from "../../../types/customerSupport";
+import { FetchCS, CreateCS, EditedCS } from "../../../types/customerSupport";
 import {
   Avatar,
   Button,
@@ -10,7 +10,6 @@ import {
   List,
   ListItem,
   ListItemAvatar,
-  ListItemIcon,
   ListItemText,
 } from "@mui/material";
 import CustomerSupportWrite from "../CustomerSupportWrite";
@@ -21,6 +20,7 @@ export default function CustomerSupportDetail() {
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
   const [cs, setCs] = useState<FetchCS>({
+    customerSupportId: 0,
     customerSupportTitle: "",
     customerSupportContent: "",
     customerSupportStatus: "",
@@ -29,11 +29,9 @@ export default function CustomerSupportDetail() {
     fileInfos: [],
   });
 
-  const [isEdit, setIsEdit] = useState<boolean>(false); // 수정 모드 관리
-  const [editData, setEditData] = useState<CreateCS | null>(null); // 수정할 데이터
+  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [editData, setEditData] = useState<EditedCS | null>(null);
   const { id } = useParams<{ id: string }>();
-  const [dense, setDense] = useState<boolean>(false);
-  const [secondary, setSecondary] = useState<boolean>(false);
 
   const normalizePath = (path: string) => {
     const baseUrl =
@@ -47,13 +45,15 @@ export default function CustomerSupportDetail() {
       fileInfos: prev.fileInfos.filter((_, i) => i !== index),
     }));
   };
-  
+
   const categoryLabel = (status: string) => {
     switch (status) {
       case "0":
         return "신고";
       case "1":
         return "문의";
+      default:
+        return "알 수 없음";
     }
   };
 
@@ -63,16 +63,18 @@ export default function CustomerSupportDetail() {
         return "미 처리";
       case "1":
         return "처리 완료";
+      default:
+        return "알 수 없음";
     }
   };
 
   const handleEdit = () => {
     setEditData({
+      customerSupportId: cs.customerSupportId,
       customerSupportTitle: cs.customerSupportTitle,
       customerSupportContent: cs.customerSupportContent,
       customerSupportCategory: cs.customerSupportCategory,
-      files: [], 
-      path: "/uploads/customer-support",
+      fileInfos: cs.fileInfos,
     });
     setIsEdit(true);
   };
@@ -81,13 +83,13 @@ export default function CustomerSupportDetail() {
     const token = cookies.token;
     if (token && id) {
       const csId = Number(id);
-      fetchOneCs(csId, token)
+      fetchOneCustomerSupport(csId, token)
         .then((data: FetchCS) => {
           setCs(data);
         })
         .catch((e) => console.error("fail to fetch cs", e));
     }
-  }, [id]); // cookies.token 직접 참조
+  }, [id, cookies.token]);
 
   return (
     <>
@@ -102,7 +104,7 @@ export default function CustomerSupportDetail() {
             <div className="cs-detail-content">{cs.customerSupportContent}</div>
             <div className="cs-detail-attachment">
               {cs.fileInfos.length > 0 ? (
-                 <List dense={dense}>
+                <List>
                   {cs.fileInfos.map((att, index) => (
                     <ListItem
                       key={index}

@@ -78,5 +78,3 @@ export const deleteCommentFromCommunity = async (communityId: number, commentId:
   );
   return response.data;
 };
-
-

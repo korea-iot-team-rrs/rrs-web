@@ -1,5 +1,12 @@
 import axios from "axios";
-import { CreateCS, CustomerSupport, FetchCS, FetchCSList } from "../types/customerSupport";
+import {
+  CreateCS,
+  createFormData,
+  FetchCS,
+  FetchCSList,
+  UpdateCS,
+  UpdateCSRequest,
+} from "../types/customerSupport";
 
 export const createCustomerSupport = async (data: CreateCS, token: string) => {
   const formData = new FormData();
@@ -43,7 +50,7 @@ export const fetchCustomerSupportList = async (
   return response.data.data;
 };
 
-export const fetchOneCs = async(
+export const fetchOneCustomerSupport = async (
   customerSupportId: number,
   token: string
 ): Promise<FetchCS> => {
@@ -55,9 +62,27 @@ export const fetchOneCs = async(
         "Content-Type": "multipart/form-data",
       },
     }
-  )
+  );
   return response.data.data;
-}
-export const fetchFiles = async() => {
+};
 
-}
+export const updateCustomerSupport = async (
+  customerSupportId: number,
+  data: Partial<UpdateCSRequest>,
+  token: string
+) => {
+  const formData = createFormData(data);
+
+  const response = await axios.put(
+    `http://localhost:4040/api/v1/customer-supports/${customerSupportId}`,
+    formData,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+
+  return response.data.data;
+};
