@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { CustomerSupport, fetchCSList } from "../../../types/customerSupport";
+import { CustomerSupport, FetchCSList } from "../../../types/customerSupport";
 import { Button, Fab } from "@mui/material";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +12,7 @@ import { useDateStore } from "../../../stores/daytransfer";
 export default function CustomerSupportList() {
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
-  const [csList, setCsList] = useState<fetchCSList[]>([]);
+  const [csList, setCsList] = useState<FetchCSList[]>([]);
   const [isInquiry, setIsInquiry] = useState<boolean>(true);
   const { formatDateBySlash } = useDateStore();
 
@@ -25,7 +25,7 @@ export default function CustomerSupportList() {
   };
 
   useEffect(() => {
-    const fetchCSList = async () => {
+    const FetchCSList = async () => {
       const token = cookies.token;
       try {
         const response = await fetchCustomerSupportList(token);
@@ -35,7 +35,7 @@ export default function CustomerSupportList() {
       }
     };
 
-    fetchCSList();
+    FetchCSList();
   }, [cookies.token]);
 
   return (
@@ -72,7 +72,7 @@ export default function CustomerSupportList() {
                 : value.customerSupportCategory === "0"
             )
             .map((value, index) => (
-              <li key={index} onClick={(id) => navigate(`/dang-sitter/customer-supports/${id}`)}>
+              <li key={index} onClick={() => navigate(`/customer-supports/${value.customerSupportId}`)}>
                 <h3>{value?.customerSupportTitle}</h3>
                 <p>{value?.customerSupportContent}</p>
                 <p>

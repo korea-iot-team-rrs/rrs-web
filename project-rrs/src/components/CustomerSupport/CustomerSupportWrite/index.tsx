@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Fab } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import ReportIcon from "@mui/icons-material/Report";
 import { CreateCS } from "../../../types/customerSupport";
@@ -7,8 +6,25 @@ import "../../../styles/CustomerSupportWrite.css";
 import { createCustomerSupport } from "../../../apis/custommerSupport";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import {
+  Avatar,
+  Fab,
+  IconButton,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+} from "@mui/material";
+import FolderIcon from "@mui/icons-material/Folder";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-export default function CustomerSupportWrite() {
+type CustomerSupportWriteProps = {
+  editData?: CreateCS | null;
+};
+
+export default function CustomerSupportWrite({
+  editData,
+}: CustomerSupportWriteProps) {
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
   const [createCSReqDto, setCreateCSRequestDto] = useState<CreateCS>({
@@ -19,6 +35,7 @@ export default function CustomerSupportWrite() {
     path: "/uploads/customer-support",
   });
   const [isInquiry, setIsInquiry] = useState<boolean>(true);
+  const [isEdit, setIsEdit] = useState<boolean>(false);
 
   const csBtnClickHandler = (category: string, isInquiry: boolean) => {
     setIsInquiry(isInquiry);
@@ -78,6 +95,12 @@ export default function CustomerSupportWrite() {
     }
   };
 
+  useEffect(() => {
+    if (editData) {
+      setCreateCSRequestDto(editData);
+    }
+  }, [editData]);
+
   return (
     <div className="cs-write-wrapper">
       <div className="cs-write-header">
@@ -127,17 +150,31 @@ export default function CustomerSupportWrite() {
         <div className="cs-write-attachment">
           <h3>{isInquiry ? "첨부 파일 (선택)" : "증빙 자료 첨부 (선택)"}</h3>
           <input type="file" multiple onChange={handleFileChange} />
-          <ul>
+          <List>
             {createCSReqDto.files.map((file, index) => (
-              <li key={index}>
-                {file.name}{" "}
-                <button onClick={() => removeFile(index)}>삭제</button>
-              </li>
+              <ListItem
+                key={index}
+                secondaryAction={
+                  <IconButton
+                    edge="end"
+                    onClick={() => removeFile(index)}
+                  >
+                    <DeleteIcon  color="primary"/>
+                  </IconButton>
+                }
+              >
+                <ListItemAvatar>
+                  <Avatar>
+                    <FolderIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={file.name} />
+              </ListItem>
             ))}
-          </ul>
+          </List>
         </div>
         <div className="cs-complete-btn">
-          <Fab variant="extended" color="secondary" onClick={handleSubmit}>
+          <Fab variant="extended" color="primary" onClick={handleSubmit}>
             완료하기
           </Fab>
         </div>

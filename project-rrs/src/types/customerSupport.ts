@@ -1,9 +1,9 @@
 export interface CustomerSupport {
-    reviewId: number;
+    customerSupportId: number;
     userId: number; // FK
     customerSupportTitle: string;
     customerSupportContent: string;
-    customerSupportStatus: number;
+    customerSupportStatus: string;
     customerSupportCreateAt: Date;
     customerSupportCategory: string;
 }
@@ -23,11 +23,24 @@ export interface CreateCS {
     path: string;
 }
 
-export interface fetchCSList {
-    reviewId: number;
+export interface FetchCSList {
+    customerSupportId: number;
     customerSupportTitle: string;
     customerSupportContent: string;
-    customerSupportStatus: number;
+    customerSupportStatus: string;
     customerSupportCreateAt: Date;
     customerSupportCategory: string;
+}
+export interface FetchCS{
+    customerSupportTitle: string;
+    customerSupportContent: string;
+    customerSupportStatus: string;
+    customerSupportCreateAt: Date;
+    customerSupportCategory: string;
+    fileInfos: FileInfos[];
+}
+
+export interface FileInfos{
+    filePath: string;
+    fileName: string;
 }

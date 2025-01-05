@@ -16,7 +16,7 @@ import { Button } from "@mui/material";
 import CreateReviewModal from "../ReviewModal";
 
 export default function ReservationUserDetail() {
-  const { id } = useParams<{ id: string }>(); // URL에서 ID 가져오기
+  const { id } = useParams<{ id: string }>();
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
   const [reservationMemo, setReservationMemo] = useState<string>("");
