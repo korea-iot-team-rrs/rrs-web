@@ -77,8 +77,8 @@ export const toggleLike = async (
 export const updateCommunity = async (
   communityId: number,
   data: Partial<{
-    communityTitle: string;           // 변경된 부분
-    communityContent: string;         // 변경된 부분
+    communityTitle: string;
+    communityContent: string;
     communityThumbnailFile: string;
     attachments: string;
   }>

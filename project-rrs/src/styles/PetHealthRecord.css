@@ -1,0 +1,101 @@
+/* 반려동물 선택 화면 */
+.petHealthSelectContainer {
+  display: flex;
+  gap: 15px;
+}
+
+.petHealthBox {
+  max-width: 100px;
+  max-height: 100px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+}
+
+.petHealthBox:hover {
+  background-color: #2194FF;
+}
+
+.petHealthCircleBox {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  border: 1px solid #ccc;
+}
+
+/* 중간 요소 (버튼 및 날짜 등) */
+.petHealthMidElement {
+  display: flex;
+  margin-top: 30px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.petHealthMidElement span {
+  color: #6d6d6d;
+}
+
+.petHealthMidElement button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #3da1ff;
+  padding: 5px 15px;
+  color: #fff;
+  gap: 10px;
+  font-weight: bold;
+  border-radius: 20px;
+}
+
+.petHealthMidElement button:hover {
+  background-color: #2a87de;
+}
+
+/* 건강기록 리스트 */
+.petHealthRecordList {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.03);
+  margin-top: 30px;
+}
+
+.petHealthRecordItem {
+  background-color: #f9f9f9;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.petHealthRecordItem p {
+  margin: 5px 0;
+}
+
+.petHealthRecordItem a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.petHealthRecordItem a:hover {
+  text-decoration: underline;
+}
+
+/* 로딩 및 에러 메시지 */
+.petHealthLoadingMessage,
+.petHealthErrorMessage {
+  color: red;
+  font-size: 14px;
+  text-align: center;
+}
+
+.petHealthLoadingMessage {
+  color: #2194FF;
+}
+
+.petHealthErrorMessage {
+  color: red;
+}

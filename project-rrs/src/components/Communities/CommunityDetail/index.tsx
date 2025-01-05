@@ -82,7 +82,7 @@ export default function CommunityDetail() {
             }
 
             const usersWhoLiked: CommunityLikeResponseDto[] = await getUsersWhoLikedCommunity(Number(id));
-            const nicknames = usersWhoLiked.map(user => user.nickname);
+            const nicknames = usersWhoLiked.map((user) => user.nickname);
 
             if (fetchedUserInfo.nickname && nicknames.includes(fetchedUserInfo.nickname)) {
               setUserLiked(true);
@@ -114,7 +114,7 @@ export default function CommunityDetail() {
       setUserLiked(data.userLiked);
     } catch (e) {
       console.error("좋아요 토글 실패:", e);
-      alert("좋아요를 토글하는 데 실패했습니다.");
+      alert("자신이 작성한 게시글에는 좋아요를 누를 수 없습니다.");
     }
   };
 
@@ -136,6 +136,12 @@ export default function CommunityDetail() {
     }
   };
 
+  const handleEdit = () => {
+    if (community) {
+      navigate(`/community/edit/${community.communityId}`);
+    }
+  };
+
   if (isLoading) {
     return <p>로딩 중...</p>;
   }
@@ -153,19 +159,24 @@ export default function CommunityDetail() {
               {community.communityTitle}
             </h2>
             <div className="community-detail-meta">
-              <p className="community-detail-author">
-                작성자: {community.nickname}
-              </p>
+              <p className="community-detail-author">작성자: {community.nickname}</p>
+              {isAuthor && (
+                <div className="author-actions">
+                  <button onClick={handleEdit} className="edit-button">
+                    수정
+                  </button>
+                  <button onClick={handleDelete} className="delete-button">
+                    삭제
+                  </button>
+                </div>
+              )}
             </div>
             <div className="community-sub-header-box">
               <div className="community-detail-date">
                 작성일: {community.communityCreatedAt.toLocaleString("ko-KR")}
               </div>
               <div className="community-detail-likecount">
-                <FaHeart
-                  color={userLiked ? "red" : "gray"}
-                  size={20}
-                />
+                <FaHeart color={userLiked ? "red" : "gray"} size={20} />
                 <span className="like-count-number">{likeCount}</span>
                 <FaThumbsUp
                   color={userLiked ? "black" : "gray"}
@@ -208,14 +219,7 @@ export default function CommunityDetail() {
               />
             )}
             <hr />
-            <p className="community-detail-content">
-              {community.communityContent}
-            </p>
-            {isAuthor && (
-              <button onClick={handleDelete} className="delete-button">
-                삭제
-              </button>
-            )}
+            <p className="community-detail-content">{community.communityContent}</p>
             {token && (
               <CommunityComment
                 communityId={community.communityId}
