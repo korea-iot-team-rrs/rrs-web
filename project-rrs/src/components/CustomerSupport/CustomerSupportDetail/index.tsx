@@ -138,7 +138,11 @@ export default function CustomerSupportDetail() {
               )}
             </div>
             <div className="cs-detail-btn">
-              <Button onClick={handleEdit}>수정하기</Button>
+              {cs.customerSupportStatus !== "1" ? (
+                <Button onClick={handleEdit}>수정하기</Button>
+              ) : (
+                <Button disabled>수정 불가</Button>
+              )}
               <Button>삭제하기</Button>
             </div>
           </div>
