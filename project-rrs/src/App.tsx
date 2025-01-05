@@ -25,9 +25,25 @@ import ReservationUserDetail from "./components/DangSitter/ReservaionUserDetail"
 import CustomerSupport from "./views/CustomerSupport";
 import CustomerSupportWrite from "./components/CustomerSupport/CustomerSupportWrite";
 import CustomerSupportDetail from "./components/CustomerSupport/CustomerSupportDetail";
+import useAuthStore from "./stores/auth.store";
+import { useEffect } from "react";
 
 function App() {
-  return (
+  const logout = useAuthStore((state) => state.logout);
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      logout(); // 브라우저 닫힐 때 로그아웃
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [logout]);
+
+return (
     <div className="app-container">
       <Header />
       <div className="content">
