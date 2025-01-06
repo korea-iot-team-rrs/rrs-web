@@ -54,7 +54,7 @@ export default function AnnouncementList() {
       fetchPosts();
       navigate("/announcements");
     } else if (currentMenu === "사용방법") {
-      navigate("/usageGuide");
+      navigate("/usage-guide");
     } else if (currentMenu === "이벤트") {
       navigate("/events");
     }

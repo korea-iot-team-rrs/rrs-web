@@ -4,7 +4,17 @@ import useAuthStore from "../../../stores/auth.store";
 import { getCommunityById, updateCommunity } from "../../../apis/communityApi";
 import "../../../styles/CommunityEdit.css";
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 최대 파일 크기: 5MB
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const BASE_FILE_URL = "http://localhost:4040/";
+
+const ErrorMessages = {
+  FETCH_FAILED: "게시글 정보를 가져오는 데 실패했습니다.",
+  TITLE_TOO_SHORT: "제목은 3자 이상 입력해야 합니다.",
+  CONTENT_TOO_SHORT: "내용은 10자 이상 입력해야 합니다.",
+  FILE_TOO_LARGE: "파일 크기가 너무 큽니다. 최대 5MB까지 가능합니다.",
+  INVALID_FILE_TYPE: "허용되지 않는 파일 형식입니다.",
+  UPDATE_FAILED: "게시글 수정 중 오류가 발생했습니다.",
+};
 
 export default function CommunityEdit() {
   const navigate = useNavigate();
@@ -13,51 +23,55 @@ export default function CommunityEdit() {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [communityThumbnailFile, setCommunityThumbnailFile] = useState<File | null>(null);
+  const [communityThumbnailFile, setCommunityThumbnailFile] = useState<File | undefined>(undefined); // 썸네일 파일 상태
   const [attachments, setAttachments] = useState<File[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [thumbnailPreview, setThumbnailPreview] = useState<string>("");
-  
-  
+
+  const communityIdNumber = communityId ? Number(communityId) : null;
+
   useEffect(() => {
     if (!isLoggedIn) navigate("/login", { replace: true });
   }, [isLoggedIn, navigate]);
 
   useEffect(() => {
-    if (communityId) {
-      (async () => {
-        try {
-          const community = await getCommunityById(Number(communityId));
-          console.log(community)
-          setTitle(community.communityTitle);
-          setContent(community.communityContent);
-          if (community.communityThumbnailFile) {
-            setThumbnailPreview(community.communityThumbnailFile);
-          }
-        } catch (err) {
-          console.error("Failed to fetch community details:", err);
-          setError("게시글 정보를 가져오는 데 실패했습니다.");
-        }
-      })();
+    if (!communityIdNumber) {
+      setError(ErrorMessages.FETCH_FAILED);
+      return;
     }
-  }, [communityId]);
+
+    (async () => {
+      try {
+        const community = await getCommunityById(communityIdNumber);
+        console.log(community);
+        setTitle(community.communityTitle);
+        setContent(community.communityContent);
+        if (community.communityThumbnailFile) {
+          // 기존 경로를 HTTP URL로 변환
+          const thumbnailUrl = `${BASE_FILE_URL}${community.communityThumbnailFile.replace(/\\/g, "/")}`;
+          setThumbnailPreview(thumbnailUrl); // HTTP URL을 미리보기로 설정
+        }
+      } catch {
+        setError(ErrorMessages.FETCH_FAILED);
+      }
+    })();
+  }, [communityIdNumber]);
 
   useEffect(() => {
-    return () => {
-      if (thumbnailPreview) URL.revokeObjectURL(thumbnailPreview);
-    };
+    if (thumbnailPreview) {
+      return () => URL.revokeObjectURL(thumbnailPreview); // 썸네일 미리보기 URL 정리
+    }
   }, [thumbnailPreview]);
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    if (name === "title") setTitle(value);
-    if (name === "content") setContent(value);
-  };
-
   const validateFile = (file: File): boolean => {
+    const allowedTypes = ["image/jpeg", "image/png", "application/pdf"];
+    if (!allowedTypes.includes(file.type)) {
+      alert(ErrorMessages.INVALID_FILE_TYPE);
+      return false;
+    }
     if (file.size > MAX_FILE_SIZE) {
-      alert("파일 크기가 너무 큽니다. 최대 5MB까지 가능합니다.");
+      alert(ErrorMessages.FILE_TOO_LARGE);
       return false;
     }
     return true;
@@ -72,12 +86,12 @@ export default function CommunityEdit() {
     if (isThumbnail) {
       const file = fileArray[0];
       if (file && validateFile(file)) {
-        setCommunityThumbnailFile(file);
-        setThumbnailPreview(URL.createObjectURL(file));
+        setCommunityThumbnailFile(file); // 썸네일 파일 상태 업데이트
+        setThumbnailPreview(URL.createObjectURL(file)); // 미리보기 URL 설정
       }
     } else {
       const validFiles = fileArray.filter(validateFile);
-      setAttachments((prev) => [...prev, ...validFiles]);
+      setAttachments((prev) => [...prev, ...validFiles.filter((file) => !prev.includes(file))]);
     }
   };
 
@@ -87,8 +101,13 @@ export default function CommunityEdit() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (title.trim().length < 3 || content.trim().length < 10) {
-      setError("제목은 3자 이상, 내용은 10자 이상 입력해야 합니다.");
+
+    if (title.trim().length < 3) {
+      setError(ErrorMessages.TITLE_TOO_SHORT);
+      return;
+    }
+    if (content.trim().length < 10) {
+      setError(ErrorMessages.CONTENT_TOO_SHORT);
       return;
     }
 
@@ -96,20 +115,19 @@ export default function CommunityEdit() {
     setError(null);
 
     try {
-      if (communityId) {
-        await updateCommunity(Number(communityId), {
+      if (communityIdNumber) {
+        await updateCommunity(communityIdNumber, {
           communityTitle: title,
           communityContent: content,
-          communityThumbnailFile: communityThumbnailFile || undefined,
+          communityThumbnailFile, // 서버로 썸네일 파일 전달
           attachments,
         });
 
         alert("게시글이 성공적으로 수정되었습니다!");
-        navigate(`/community/${communityId}`);
+        navigate(`/community/${communityIdNumber}`);
       }
-    } catch (err: any) {
-      console.error("게시글 수정 실패:", err);
-      setError("게시글 수정 중 오류가 발생했습니다.");
+    } catch {
+      setError(ErrorMessages.UPDATE_FAILED);
     } finally {
       setIsSubmitting(false);
     }
@@ -118,80 +136,73 @@ export default function CommunityEdit() {
   return (
     <div className="community-edit-container">
       <h1 className="community-edit-title">게시글 수정</h1>
+      {error && <p className="error-message">{error}</p>}
       <form onSubmit={handleSubmit} className="community-edit-form">
-        {/* 제목 입력 */}
-        <div className="community-edit-form-group">
-          <label htmlFor="title" className="community-edit-label">제목</label>
+        <div className="form-group">
+          <label htmlFor="title">제목</label>
           <input
             type="text"
             id="title"
             name="title"
-            className="community-edit-input"
             value={title}
-            onChange={handleInputChange}
+            onChange={(e) => setTitle(e.target.value)}
             placeholder="제목을 입력하세요"
             required
           />
         </div>
-
-        {/* 내용 입력 */}
-        <div className="community-edit-form-group">
-          <label htmlFor="content" className="community-edit-label">내용</label>
+        <div className="form-group">
+          <label htmlFor="content">내용</label>
           <textarea
             id="content"
             name="content"
-            className="community-edit-textarea"
             value={content}
-            onChange={handleInputChange}
+            onChange={(e) => setContent(e.target.value)}
             placeholder="내용을 입력하세요"
             rows={10}
             required
-          ></textarea>
+          />
         </div>
-
-        {/* 썸네일 입력 */}
-        <div className="community-edit-form-group">
-          <label htmlFor="thumbnail" className="community-edit-label">썸네일 이미지</label>
+        <div className="form-group">
+          <label htmlFor="thumbnail">썸네일 이미지</label>
           <input
             type="file"
             id="thumbnail"
-            className="community-edit-input"
             onChange={(e) => handleFileChange(e, true)}
             accept="image/*"
           />
           {thumbnailPreview && (
             <div>
               <p>현재 썸네일:</p>
-              <img src={thumbnailPreview} alt="썸네일 미리보기" />
+              <img src={thumbnailPreview} alt="썸네일 미리보기" className="thumbnail-preview" />
             </div>
           )}
         </div>
-
-        {/* 첨부 파일 입력 */}
-        <div className="community-edit-form-group">
-          <label htmlFor="attachments" className="community-edit-label">첨부 파일</label>
+        <div className="form-group">
+          <label htmlFor="attachments">첨부 파일</label>
           <input
             type="file"
             id="attachments"
-            className="community-edit-input"
             onChange={handleFileChange}
             multiple
             accept="image/*,application/pdf"
           />
           {attachments.length > 0 && (
-            <ul>
+            <ul className="file-list">
               {attachments.map((file, index) => (
-                <li key={index}>
-                  {file.name}
-                  <button type="button" onClick={() => removeFile(index)}>삭제</button>
+                <li key={index} className="file-item">
+                  <span>{file.name}</span>
+                  <button
+                    type="button"
+                    className="file-remove-button"
+                    onClick={() => removeFile(index)}
+                  >
+                    삭제
+                  </button>
                 </li>
               ))}
             </ul>
           )}
         </div>
-
-        {error && <p className="error-message">{error}</p>}
-
         <button type="submit" disabled={isSubmitting}>
           {isSubmitting ? "수정 중..." : "수정"}
         </button>

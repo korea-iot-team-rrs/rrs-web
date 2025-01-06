@@ -52,7 +52,7 @@ export default function UsageGuideList() {
   useEffect(() => {
     if (currentMenu === '사용방법') {
       fetchPosts();
-      navigate('/usageGuide');
+      navigate('/usage-guide');
     } else if (currentMenu === '공지사항') {
       navigate('/announcements');
     } else if (currentMenu === '이벤트') {
@@ -78,7 +78,7 @@ export default function UsageGuideList() {
   };
 
   const handleTitleClick = (id: number) => {
-    if (id !== 0) navigate(`/usageGuide/${id}`);
+    if (id !== 0) navigate(`/usage-guide/${id}`);
   };
 
   const handlePreSectionClick = () => {
