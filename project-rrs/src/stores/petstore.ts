@@ -18,7 +18,19 @@ export interface WalkingRecord {
   walkingRecordId: number;
   walkingRecordDistance: number; 
   walkingRecordWalkingTime: number; 
-  walkingRecordCreateAt: string;  
+  walkingRecordCreateAt: string;
+  walkingRecordWeatherState: WalkingRecordWeatherState;
+  walkingRecordMemo: string;
+  files: File[]
+}
+
+export interface CreateWalkingRecord {
+  walkingRecordWeatherState: WalkingRecordWeatherState;
+  walkingRecordDistance: number;
+  walkingRecordWalkingTime: number;
+  walkingRecordCreateAt: string;
+  walkingRecordMemo: string;
+  files: File[];
 }
 
 enum WalkingRecordWeatherState {

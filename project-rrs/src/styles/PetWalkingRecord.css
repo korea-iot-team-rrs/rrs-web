@@ -67,9 +67,103 @@
 .walkingRecordList {
   margin-top: 20px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.03);
-  height: 50vh;
+  height: 300px;
   min-height: 100px;
   display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+}
+
+.petList-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 90px;
+  min-height: 90px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  position: relative;
+}
+
+.petList-button:hover {
+  background-color: #2194FF;
+}
+
+.walkingRecordList img {
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  margin-left: 15px;
+}
+
+.walking-info {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  gap: 140px;
+}
+
+.walking-info p {
+  margin: 5px 0; /* 세로 간격 */
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.distance {
+  align-self: flex-start; /* 거리 정보는 왼쪽 정렬 */
+}
+
+.time {
+  margin-top: 10px;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+  top: 10px;
+  right: 10px;
+  margin-right: 10px;
+  align-items: flex-end;
+  position: absolute;
+}
+
+ul.file-list {
+  list-style: none; 
+  padding: 0; 
+  margin: 0; 
+}
+
+ul.file-list li {
+  background-color: #fff; 
+  padding: 10px; 
+  margin-bottom: 8px; 
+  border-radius: 8px; 
+  display: flex; 
+  align-items: center; 
+  border: 1px solid #ccc;
+  position: relative; 
+}
+
+ul.file-list li span.file-name {
+  margin-left: 10px; 
+  font-size: 16px;
+}
+
+.file-item {
+  position: relative; 
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.delete-btn {
+  position: absolute;
+  cursor: pointer;
+  right: 1px;
 }
 
 .choicePet {
@@ -108,3 +202,10 @@
   padding: 0 10px; /* 패딩 추가 */
   font-size: 16px;
 }
+
+.image-list {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
