@@ -133,6 +133,7 @@ export default function ReservationList() {
     setCurrentPage(1);
   };
 
+
   const updateToCancelReservationBtnHandler = async (reservationId: number) => {
     const token = cookies.token;
     const confirmCancel = window.confirm("정말 취소하시겠습니까?");
@@ -166,7 +167,7 @@ export default function ReservationList() {
     <>
       <h1>Reservation List</h1>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DatePicker
+      <DatePicker
           label="조회 시작 날짜"
           value={startDate}
           onChange={(newStartDate) => setStartDate(newStartDate)}
