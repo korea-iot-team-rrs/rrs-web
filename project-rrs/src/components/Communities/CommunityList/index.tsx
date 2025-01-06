@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useAuthStore from '../../../stores/auth.store';
-import { getCommunity } from '../../../apis/communityApi';
+import useAuthStore from "../../../stores/auth.store";
+import { getCommunity } from "../../../apis/communityApi";
 import Pagination from "../Pagination";
 import "../../../styles/Community.css";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { IoSearch } from "react-icons/io5";
-import LoginModal from '../../LoginModal';
+import LoginModal from "../../LoginModal";
+import DefaultImage from "../../../assets/images/dogIllust02.jpeg"; // 기본 이미지 경로
 
 interface CommunityData {
   id: number;
@@ -14,12 +15,12 @@ interface CommunityData {
   content: string;
   date: string;
   likeCount: number;
-  thumbnailUrl: string;
+  thumbnailFile: string | null;
   updatedAt: string | null;
   nickname: string;
 }
 
-const BASE_FILE_URL = "http://localhost:4040/upload/";
+const BASE_FILE_URL = "http://localhost:4040/";
 
 function truncateText(text: string, maxLength: number): string {
   if (text.length > maxLength) {
@@ -44,19 +45,21 @@ export default function CommunityList() {
     const fetchPosts = async () => {
       try {
         const data = await getCommunity();
-        console.log(data)
-        setAllData(data.map((item: any) => ({
-          id: item.communityId,
-          title: item.communityTitle,
-          content: item.communityContent,
-          date: new Date(item.communityCreatedAt).toLocaleString("ko-KR"),
-          likeCount: item.communityLikeCount,
-          thumbnailUrl: item.communityThumbnailUrl,
-          updatedAt: item.communityUpdatedAt
-            ? new Date(item.communityUpdatedAt).toLocaleString("ko-KR")
-            : null,
-          nickname: item.nickname,
-        })));
+        console.log(data);
+        setAllData(
+          data.map((item: any) => ({
+            id: item.communityId,
+            title: item.communityTitle,
+            content: item.communityContent,
+            date: new Date(item.communityCreatedAt).toLocaleString("ko-KR"),
+            likeCount: item.communityLikeCount,
+            thumbnailFile: item.communityThumbnailFile, // 기존 데이터 그대로 사용
+            updatedAt: item.communityUpdatedAt
+              ? new Date(item.communityUpdatedAt).toLocaleString("ko-KR")
+              : null,
+            nickname: item.nickname,
+          }))
+        );
       } catch (error) {
         console.error("Failed to fetch data", error);
       }
@@ -90,7 +93,7 @@ export default function CommunityList() {
     if (!isLoggedIn) {
       setShowLoginModal(true);
     } else {
-      navigate('/community/write');
+      navigate("/community/write");
     }
   };
 
@@ -100,27 +103,28 @@ export default function CommunityList() {
 
   const handlePageClick = (page: number) => {
     setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handlePreSectionClick = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
   const handleNextSectionClick = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
   // 카드가 3개 이하라면 한 행만 보여주도록 클래스 설정
-  const containerClassName = communityData.length <= 3
-    ? "community-card-container one-row"
-    : "community-card-container";
+  const containerClassName =
+    communityData.length <= 3
+      ? "community-card-container one-row"
+      : "community-card-container";
 
   return (
     <div className="community-container">
@@ -139,10 +143,7 @@ export default function CommunityList() {
         </div>
 
         <div className="community-button-box">
-          <button
-            className="community-create-button"
-            onClick={handleCreateClick}
-          >
+          <button className="community-create-button" onClick={handleCreateClick}>
             글쓰기 +
           </button>
           <select
@@ -157,7 +158,6 @@ export default function CommunityList() {
         </div>
       </div>
 
-      {/* one-row 클래스가 동적으로 적용 */}
       <div className={containerClassName}>
         {communityData.map((data) => (
           <div
@@ -175,15 +175,17 @@ export default function CommunityList() {
               <h2 className="community-card-title">{data.title}</h2>
               <p className="community-nickname">{`글쓴이: ${data.nickname}`}</p>
               <div className="community-image-box">
-                {data.thumbnailUrl && (
-                  <img
-                    src={`${BASE_FILE_URL}/${data.thumbnailUrl}`}
-                    alt={truncateText(data.title, 15)}
-                    style={{ width: "100%", height: "auto" }}
-                  />
-                )}
+                <img
+                  src={
+                    data.thumbnailFile
+                      ? `${BASE_FILE_URL}${data.thumbnailFile}` // 썸네일이 있는 경우
+                      : DefaultImage // 썸네일이 없는 경우 기본 이미지
+                  }
+                  alt={truncateText(data.title, 15)}
+                  style={{ width: "100%", height: "auto" }}
+                />
               </div>
-              <p className="community-card-content">{data.content}</p>
+              <p className="community-card-content">{truncateText(data.content, 100)}</p>
               <div className="like-and-date-box">
                 <p className="community-like-count">
                   {data.likeCount > 0 ? (
