@@ -66,7 +66,6 @@ export default function PetDiaryCalendar({
     });
 
 
-
     Promise.all(petRequests)
       .then((responses) => {
         const allWalkingRecords = responses.flatMap((response) => response.data.data);

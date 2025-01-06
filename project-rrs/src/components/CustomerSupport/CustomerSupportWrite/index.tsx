@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import ReportIcon from "@mui/icons-material/Report";
 import { CreateCS, EditedCS, UpdateCS } from "../../../types/customerSupport";
-import "../../../styles/CustomerSupportWrite.css";
+import "../../../styles/customerSupport/CustomerSupportWrite.css";
 import {
   createCustomerSupport,
   updateCustomerSupport,
@@ -132,7 +132,7 @@ export default function CustomerSupportWrite({
   return (
     <div className="cs-write-wrapper">
       <div className="cs-write-header">
-        <h1>{isInquiry ? "문의하기" : "신고하기"}</h1>
+        <h2>{isInquiry ? "문의하기" : "신고하기"}</h2>
         <div className="cs-switch-btn">
           <Fab
             className="inquiry-btn"

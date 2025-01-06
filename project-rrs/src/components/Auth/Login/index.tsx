@@ -127,8 +127,8 @@ export default function Login() {
 
       <div className="login-links">
         <a href="/signup">회원가입</a>
-        <a href="/find-id">아이디 찾기</a>
-        <a href="/find-password">비밀번호 찾기</a>
+        <a href="/find-useInfo">아이디 찾기</a>
+        <a href="/find-useInfo">비밀번호 찾기</a>
       </div>
     </div>
   );

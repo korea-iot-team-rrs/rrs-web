@@ -28,7 +28,9 @@ import ReservationForm from "./components/DangSitter/ReservationForm";
 import ReservationUserDetail from "./components/DangSitter/ReservaionUserDetail";
 
 import CommunityEditView from "./views/CommunityVIew/CommunityEditView";
-
+import FinduserInfo from "./components/Auth/FindUserInfo";
+import FindPassword from "./components/Auth/FindPassword/FindPassword";
+import FindId from "./components/Auth/FindId";
 function App() {
   return (
     <div className="app-container">
@@ -39,11 +41,14 @@ function App() {
           {/* 인증 관련 라우트  */}
           <Route path="/login" element={<LoginView />} />
           <Route path="/signup" element={<SignUpView />} />
+          <Route path="/find-useInfo" element={<FinduserInfo />} />
+          <Route path="/find-id" element={<FindId />} />
+          <Route path="/find-password" element={<FindPassword />} />
 
           <Route path="/announcements" element={<AnnouncementListView />} />
           <Route path="/announcements/:id" element={<AnnouncementView />} />
-          <Route path="/usageGuide" element={<UsageGuideListView />} />
-          <Route path="/usageGuide/:id" element={<UsageGuideDetailView />} />
+          <Route path="/usage-guide" element={<UsageGuideListView />} />
+          <Route path="/usage-guide/:id" element={<UsageGuideDetailView />} />
           <Route path="/events" element={<EventListView />} />
           <Route path="/events/:id" element={<EventDetailView />} />
 

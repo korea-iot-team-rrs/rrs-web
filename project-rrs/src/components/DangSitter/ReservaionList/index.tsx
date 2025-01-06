@@ -6,7 +6,7 @@ import {
 } from "../../../apis/reservationApi";
 import { Reservation } from "../../../types/reservationType";
 import { useCookies } from "react-cookie";
-import { Button } from "@mui/material";
+import { Button, Pagination } from "@mui/material";
 import ReservationItem from "../ReservationItem";
 import { useRefreshStore } from "../../../stores/refreshStore";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
@@ -26,12 +26,13 @@ export default function ReservationList() {
   );
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
   const refreshKey = useRefreshStore((state) => state.refreshKey);
   const [startDate, setStartDate] = useState<Dayjs | null>(null);
   const [endDate, setEndDate] = useState<Dayjs | null>(null);
 
   const totalPages = Math.ceil(filteredReservations.length / itemsPerPage);
+
   const currentReservations = filteredReservations.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -56,7 +57,6 @@ export default function ReservationList() {
         setReservations(sortedReservations);
         setFilteredReservations(sortedReservations);
 
-        // Fetch review status for each reservation
         const reviewStatuses = await Promise.all(
           sortedReservations.map(async (reservation) => {
             const hasReview = await reservationHasReview(
@@ -103,92 +103,83 @@ export default function ReservationList() {
     setCurrentPage(1);
   };
 
+  const handlePageChange = (
+    _event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
+    setCurrentPage(page);
+  };
+
   if (loading) return <p>Loading...</p>;
 
   return (
-    <>
-      <div className="reservation-list-container">
-        <div className="reservation-list-title">
-          <h2>Reservation List</h2>
-          <div>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label="조회 시작 날짜"
-                value={startDate}
-                onChange={(newStartDate) => setStartDate(newStartDate)}
-              />
-              <DatePicker
-                label="조회 종료 날짜"
-                value={endDate}
-                minDate={startDate?.add(1, "day")}
-                onChange={(newEndDate) => setEndDate(newEndDate)}
-              />
-            </LocalizationProvider>
-            <Button
-              variant="contained"
-              color="inherit"
-              onClick={handleSearch}
-              sx={{
-                borderRadius: "10px",
-                fontFamily: "Pretendard",
-              }}
-            >
-              조회
-            </Button>
-          </div>
+    <div className="reservation-list-container">
+      <div className="reservation-list-title">
+        <h2>나의 예약 목록</h2>
+        <div>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="조회 시작 날짜"
+              value={startDate}
+              onChange={(newStartDate) => setStartDate(newStartDate)}
+            />
+            <DatePicker
+              label="조회 종료 날짜"
+              value={endDate}
+              minDate={startDate?.add(1, "day")}
+              onChange={(newEndDate) => setEndDate(newEndDate)}
+            />
+          </LocalizationProvider>
+          <Button
+            variant="contained"
+            color="inherit"
+            onClick={handleSearch}
+            sx={{
+              borderRadius: "10px",
+              fontFamily: "Pretendard",
+            }}
+          >
+            조회
+          </Button>
         </div>
-        <div className="reservation-list-header">
-          <div>목차</div>
-          <div>시작 시간</div>
-          <div>종료 시간</div>
-          <div>댕시터</div>
-          <div>예약 상태</div>
-        </div>
-        <ul className="reservation-list-items">
-          {filteredReservations.length === 0 ? (
-            <li className="no-reservations">No reservations found.</li>
-          ) : (
-            currentReservations.map((reservation) => (
+      </div>
+      <div className="reservation-list-header">
+        <div>목차</div>
+        <div>시작 시간</div>
+        <div>종료 시간</div>
+        <div>댕시터</div>
+        <div>예약 상태</div>
+      </div>
+      <ul className="reservation-list-items">
+        {filteredReservations.length === 0 ? (
+          <li className="no-reservations">No reservations found.</li>
+        ) : (
+          currentReservations.map((reservation, index) => {
+            const descendingIndex =
+              filteredReservations.length -
+              (currentPage - 1) * itemsPerPage -
+              index;
+
+            return (
               <li key={reservation.reservationId} className="reservation-item">
                 <ReservationItem
                   reservation={reservation}
                   reviewStatus={reviewsStatus[reservation.reservationId] || "N"}
                   onClick={(id) => navigate(`/dang-sitter/reservations/${id}`)}
+                  index={descendingIndex}
                 />
               </li>
-            ))
-          )}
-        </ul>
-        <div className="pagination-container">
-          <Button
-            variant="outlined"
-            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            disabled={currentPage === 1}
-            sx={{
-              borderRadius: "10px",
-              fontFamily: "Pretendard",
-            }}
-          >
-            이전
-          </Button>
-          <span>
-            {currentPage} / {totalPages}
-          </span>
-          <Button
-            variant="outlined"
-            onClick={() =>
-              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-            }
-            sx={{
-              borderRadius: "10px",
-              fontFamily: "Pretendard",
-            }}
-            disabled={currentPage === totalPages}
-          >
-            다음
-          </Button>
-        </div>
+            );
+          })
+        )}
+      </ul>
+      <div className="pagination-container">
+        <Pagination
+          count={totalPages}
+          page={currentPage}
+          onChange={handlePageChange}
+        />
       </div>
-    </>
+    </div>
   );
 }

@@ -10,3 +10,11 @@ export interface UserSignUp {
     addressDetail: string;
     email: string;
 }
+
+export interface findId {
+    email: string;
+}
+export interface findPassword {
+    email: string;
+    username: string;
+}

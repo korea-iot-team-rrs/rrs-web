@@ -74,7 +74,7 @@ export default function DangSitterMain() {
         </div>
         <div
           className="dang-sitter-container04"
-          onClick={() => navigate(toggleChecked ? "/" : "/")}
+          onClick={() => navigate(toggleChecked ? "/" : "/usage-guide")}
         >
           <h2 className="reservation-title">
             {toggleChecked ? "댕시터 제공자 가이드" : "댕시터 이용자 가이드"}
