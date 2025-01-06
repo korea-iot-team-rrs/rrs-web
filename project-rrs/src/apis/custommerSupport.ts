@@ -1,5 +1,12 @@
 import axios from "axios";
-import { CreateCS, CustomerSupport, fetchCSList } from "../types/customerSupport";
+import {
+  CreateCS,
+  createFormData,
+  FetchCS,
+  FetchCSList,
+  UpdateCS,
+  UpdateCSRequest,
+} from "../types/customerSupport";
 
 export const createCustomerSupport = async (data: CreateCS, token: string) => {
   const formData = new FormData();
@@ -7,7 +14,7 @@ export const createCustomerSupport = async (data: CreateCS, token: string) => {
   Object.entries(data).forEach(([key, value]) => {
     if (key === "files" && Array.isArray(value)) {
       value.forEach((file: File) => {
-        formData.append("files", file); // 파일 배열 추가
+        formData.append("files", file);
       });
     } else {
       formData.append(key, value as string);
@@ -30,7 +37,7 @@ export const createCustomerSupport = async (data: CreateCS, token: string) => {
 
 export const fetchCustomerSupportList = async (
   token: string
-): Promise<fetchCSList[]> => {
+): Promise<FetchCSList[]> => {
   const response = await axios.get(
     `http://localhost:4040/api/v1/customer-supports`,
     {
@@ -40,5 +47,42 @@ export const fetchCustomerSupportList = async (
       },
     }
   );
+  return response.data.data;
+};
+
+export const fetchOneCustomerSupport = async (
+  customerSupportId: number,
+  token: string
+): Promise<FetchCS> => {
+  const response = await axios.get(
+    `http://localhost:4040/api/v1/customer-supports/${customerSupportId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+  return response.data.data;
+};
+
+export const updateCustomerSupport = async (
+  customerSupportId: number,
+  data: Partial<UpdateCSRequest>,
+  token: string
+) => {
+  const formData = createFormData(data);
+
+  const response = await axios.put(
+    `http://localhost:4040/api/v1/customer-supports/${customerSupportId}`,
+    formData,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+
   return response.data.data;
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaArrowCircleRight } from "react-icons/fa";
-import "../../../styles/DangSitterBox.css";
+import "../../../styles/dangSitter/DangSitterBox.css";
 import { Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import DangSitterModal from "../DangSitterModal";

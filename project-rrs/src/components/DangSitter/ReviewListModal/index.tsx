@@ -1,5 +1,5 @@
 import { Box, Modal, Rating } from "@mui/material";
-import "../../../styles/ReviewListModal.css";
+import "../../../styles/review/ReviewListModal.css";
 import { IoCloseCircle } from "react-icons/io5";
 import { Review } from "../../../types/reviewType";
 import { useEffect, useState } from "react";

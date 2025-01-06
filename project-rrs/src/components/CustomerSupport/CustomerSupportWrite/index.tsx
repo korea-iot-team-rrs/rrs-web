@@ -1,14 +1,33 @@
-import React, { useState } from "react";
-import { Fab } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import ReportIcon from "@mui/icons-material/Report";
-import { CreateCS } from "../../../types/customerSupport";
+import { CreateCS, EditedCS, UpdateCS } from "../../../types/customerSupport";
 import "../../../styles/CustomerSupportWrite.css";
-import { createCustomerSupport } from "../../../apis/custommerSupport";
+import {
+  createCustomerSupport,
+  updateCustomerSupport,
+} from "../../../apis/custommerSupport";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import {
+  Avatar,
+  Fab,
+  IconButton,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+} from "@mui/material";
+import FolderIcon from "@mui/icons-material/Folder";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-export default function CustomerSupportWrite() {
+type CustomerSupportWriteProps = {
+  editData?: EditedCS | null;
+};
+
+export default function CustomerSupportWrite({
+  editData,
+}: CustomerSupportWriteProps) {
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
   const [createCSReqDto, setCreateCSRequestDto] = useState<CreateCS>({
@@ -19,6 +38,9 @@ export default function CustomerSupportWrite() {
     path: "/uploads/customer-support",
   });
   const [isInquiry, setIsInquiry] = useState<boolean>(true);
+  const [existingFiles, setExistingFiles] = useState<
+    { filePath: string; fileName: string }[]
+  >([]);
 
   const csBtnClickHandler = (category: string, isInquiry: boolean) => {
     setIsInquiry(isInquiry);
@@ -40,10 +62,18 @@ export default function CustomerSupportWrite() {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files ? Array.from(e.target.files) : [];
-    setCreateCSRequestDto((prev) => ({
-      ...prev,
-      files: [...prev.files, ...files],
-    }));
+
+    setCreateCSRequestDto((prev) => {
+      const newFiles = files.filter(
+        (file) =>
+          !prev.files.some((existingFile) => existingFile.name === file.name)
+      );
+
+      return {
+        ...prev,
+        files: [...prev.files, ...newFiles],
+      };
+    });
   };
 
   const removeFile = (index: number) => {
@@ -55,28 +85,49 @@ export default function CustomerSupportWrite() {
 
   const handleSubmit = async () => {
     const token = cookies.token;
-
-    const formData = new FormData();
-    Object.entries(createCSReqDto).forEach(([key, value]) => {
-      if (key === "files" && Array.isArray(value)) {
-        value.forEach((file: File) => {
-          formData.append("files", file);
-        });
-      } else {
-        formData.append(key, value as string);
-      }
-    });
-
-    console.log(createCSReqDto);
+  
+    if (!token) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+  
     try {
-      await createCustomerSupport(createCSReqDto, token);
-      alert("성공적으로 저장되었습니다!");
+      const requestData = {
+        customerSupportTitle: createCSReqDto.customerSupportTitle,
+        customerSupportContent: createCSReqDto.customerSupportContent,
+        customerSupportCategory: createCSReqDto.customerSupportCategory,
+        files: createCSReqDto.files,
+        path: "customer-support",
+      };
+  
+      const responseMessage = editData
+        ? await updateCustomerSupport(editData.customerSupportId, requestData, token)
+        : await createCustomerSupport(requestData, token);
+  
+      alert(`성공적으로 ${editData ? "수정" : "저장"}되었습니다!`);
       navigate("/customer-supports");
     } catch (error) {
-      console.error("Error creating customer support:", error);
+      console.error("Error during submit:", error);
       alert("요청 처리 중 오류가 발생했습니다.");
     }
   };
+
+  useEffect(() => {
+    if (editData) {
+      setCreateCSRequestDto({
+        ...editData,
+        files: [],
+        path: "/uploads/customer-support",
+      });
+
+      setExistingFiles(
+        editData.fileInfos.map(({ filePath, fileName }) => ({
+          filePath,
+          fileName,
+        }))
+      );
+    }
+  }, [editData]);
 
   return (
     <div className="cs-write-wrapper">
@@ -127,17 +178,54 @@ export default function CustomerSupportWrite() {
         <div className="cs-write-attachment">
           <h3>{isInquiry ? "첨부 파일 (선택)" : "증빙 자료 첨부 (선택)"}</h3>
           <input type="file" multiple onChange={handleFileChange} />
-          <ul>
-            {createCSReqDto.files.map((file, index) => (
-              <li key={index}>
-                {file.name}{" "}
-                <button onClick={() => removeFile(index)}>삭제</button>
-              </li>
+          <List>
+            {existingFiles.map((file, index) => (
+              <ListItem
+                key={index}
+                secondaryAction={
+                  <IconButton
+                    edge="end"
+                    onClick={() =>
+                      setExistingFiles((prev) =>
+                        prev.filter((_, i) => i !== index)
+                      )
+                    }
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                }
+              >
+                <ListItemAvatar>
+                  <Avatar>
+                    <FolderIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={file.fileName} />
+              </ListItem>
             ))}
-          </ul>
+          </List>
+          <List>
+            {createCSReqDto.files.map((file, index) => (
+              <ListItem
+                key={index}
+                secondaryAction={
+                  <IconButton edge="end" onClick={() => removeFile(index)}>
+                    <DeleteIcon color="primary" />
+                  </IconButton>
+                }
+              >
+                <ListItemAvatar>
+                  <Avatar>
+                    <FolderIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={file.name} />
+              </ListItem>
+            ))}
+          </List>
         </div>
         <div className="cs-complete-btn">
-          <Fab variant="extended" color="secondary" onClick={handleSubmit}>
+          <Fab variant="extended" color="primary" onClick={handleSubmit}>
             완료하기
           </Fab>
         </div>
