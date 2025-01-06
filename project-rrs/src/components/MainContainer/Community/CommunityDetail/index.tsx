@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { getCommunityById, toggleLike } from "../../../../apis/communityApi";
-import CommunityComment from "../CommunityComment/index";
+import { useEffect, useState } from "react";
 import "../../../../styles/CommunityDetail.css";
 import { BiSolidLike, BiLike } from "react-icons/bi"; // 좋아요 아이콘
 import { FaHeart } from "react-icons/fa"; // 하트 아이콘
+import { useNavigate, useParams } from "react-router-dom";
 import { getToken } from "../../../../utils/auth";
-
+import { getCommunityById } from "../../../../apis/communityApi";
+import CommentsSection from "../../../Communities/CommunityComment";
 interface CommunityData {
   communityId: number;
   nickname: string;
@@ -59,19 +58,19 @@ export default function CommunityDetail() {
       const fetchCommunity = async () => {
         try {
           const data = await getCommunityById(Number(id));
-          if (data) {
-            setCommunity({
-              ...data,
-              communityCreatedAt: new Date(data.communityCreatedAt),
-              communityUpdatedAt: data.communityUpdatedAt
-                ? new Date(data.communityUpdatedAt)
-                : undefined,
-            });
-            // 현재 로그인된 사용자 ID 설정
-            // setLoggedInUserId(data.loggedInUserId);
-          } else {
-            setCommunity(null);
-          }
+          // if (data) {
+          //   setCommunity({
+          //     ...data,
+          //     communityCreatedAt: new Date(data.communityCreatedAt),
+          //     communityUpdatedAt: data.communityUpdatedAt
+          //       ? new Date(data.communityUpdatedAt)
+          //       : undefined,
+          //   });
+          //   // 현재 로그인된 사용자 ID 설정
+          //   // setLoggedInUserId(data.loggedInUserId);
+          // } else {
+          //   setCommunity(null);
+          // }
         } catch (e) {
           console.error("Failed to fetch community data", e);
           setCommunity(null);
@@ -134,7 +133,7 @@ export default function CommunityDetail() {
               {community.communityContent}
             </p>
             {token && (
-              <CommunityComment
+              <CommentsSection
                 communityId={community.communityId}
                 token={token}
               />
