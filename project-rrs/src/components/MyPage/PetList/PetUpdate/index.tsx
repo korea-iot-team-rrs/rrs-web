@@ -107,7 +107,7 @@ export default function PetUpdate() {
       );
 
       if (response.status === 200) {
-        alert("반려동물 정보가 성공적으로 수정되었습니다.");
+        alert("반려동물 정보가 수정되었습니다.");
         navigate(`/user/pet/${petId}`);
       } else {
         alert("수정 실패");
