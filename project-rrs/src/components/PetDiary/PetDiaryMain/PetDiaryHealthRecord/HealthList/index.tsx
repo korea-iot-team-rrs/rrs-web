@@ -39,15 +39,10 @@ const PetHealthRecordList = () => {
   }, []);
 
   // 특정 반려동물의 건강기록 가져오기
-  const handleGetHealthRecords = async () => {
-    if (!selectedPetId) {
-      setError("반려동물을 선택해주세요.");
-      return;
-    }
-
+  const loadHealthRecords = async (petId: number) => {
     try {
       setIsLoading(true);
-      const records = await getAllHealthRecords(selectedPetId);
+      const records = await getAllHealthRecords(petId);
       setHealthRecords(records.healthRecords);
       setError(null);
     } catch (err) {
@@ -56,6 +51,12 @@ const PetHealthRecordList = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // 반려동물 선택 시 처리
+  const handlePetSelection = (petId: number) => {
+    setSelectedPetId(petId);
+    loadHealthRecords(petId);
   };
 
   return (
@@ -67,7 +68,7 @@ const PetHealthRecordList = () => {
             <button
               key={index}
               className="petHealthBox"
-              onClick={() => setSelectedPetId(pet.petId)}
+              onClick={() => handlePetSelection(pet.petId)}
             >
               <div className="petHealthCircleBox">
                 <img src={pet.petImageUrl} alt={`${pet.petName}의 사진`} />
@@ -83,15 +84,10 @@ const PetHealthRecordList = () => {
         )}
       </div>
 
-      {/* 중간 요소 (버튼 및 날짜 등) */}
-      <div className="petHealthMidElement">
-        <button onClick={handleGetHealthRecords}>건강기록 조회</button>
-      </div>
-
       {/* 건강기록 리스트 */}
       <div className="petHealthRecordList">
         {selectedPetId ? (
-          Array.isArray(healthRecords) && healthRecords.length > 0 ? ( // 배열인지 확인
+          Array.isArray(healthRecords) && healthRecords.length > 0 ? (
             healthRecords.map((record, index) => (
               <div key={index} className="petHealthRecordItem">
                 <p>기록 날짜: {record.recordDate}</p>

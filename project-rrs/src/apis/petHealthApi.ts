@@ -8,7 +8,7 @@ import {
   DeleteResponse,
 } from "../types/petHealthType";
 
-const BASE_URL = "http://localhost:4040/api/v1/users/pet/petHealth";
+const BASE_URL = "http://localhost:4040/api/v1/users/pet";
 
 // Health Record 생성
 export const createHealthRecord = async (
@@ -95,7 +95,7 @@ export const getAllHealthRecords = async (
   const token = getToken();
   if (!token) throw new Error("인증 토큰이 없습니다.");
 
-  const response = await axios.get(`${BASE_URL}/${petId}`, {
+  const response = await axios.get(`${BASE_URL}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
