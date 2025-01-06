@@ -6,6 +6,7 @@ import { FetchCS, CreateCS, EditedCS } from "../../../types/customerSupport";
 import {
   Avatar,
   Button,
+  Chip,
   IconButton,
   List,
   ListItem,
@@ -15,6 +16,8 @@ import {
 import CustomerSupportWrite from "../CustomerSupportWrite";
 import FolderIcon from "@mui/icons-material/Folder";
 import DeleteIcon from "@mui/icons-material/Delete";
+import "../../../styles/customerSupport/CustomerSupportDetail.css";
+import { Fab } from "@mui/material";
 
 export default function CustomerSupportDetail() {
   const [cookies] = useCookies(["token"]);
@@ -96,8 +99,8 @@ export default function CustomerSupportDetail() {
       {!isEdit ? (
         <div className="cs-detail-wrapper">
           <div className="cs-detail-header">
-            <p>{categoryLabel(cs.customerSupportCategory)}</p>
-            <p>{statusLabel(cs.customerSupportStatus)}</p>
+            <Chip label={categoryLabel(cs.customerSupportCategory)} color="primary" variant="outlined" />
+            <Chip label={statusLabel(cs.customerSupportStatus)} color="success" variant="outlined" />
           </div>
           <div className="cs-detail-body">
             <div className="cs-detail-title">{cs.customerSupportTitle}</div>
@@ -141,7 +144,9 @@ export default function CustomerSupportDetail() {
               {cs.customerSupportStatus !== "1" ? (
                 <Button onClick={handleEdit}>수정하기</Button>
               ) : (
-                <Button disabled>수정 불가</Button>
+                <Button disabled color="error">
+                  수정 불가
+                </Button>
               )}
               <Button>삭제하기</Button>
             </div>

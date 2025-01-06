@@ -9,3 +9,6 @@ export interface PetDiaryCalendarProps {
   export interface PetDiaryTodoProps {
     selectedDate: string;
   }
+  export interface PetDiaryHealthRecordProps {
+    selectedDate: string;
+  }

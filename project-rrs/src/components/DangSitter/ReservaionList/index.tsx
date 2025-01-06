@@ -6,7 +6,7 @@ import {
 } from "../../../apis/reservationApi";
 import { Reservation } from "../../../types/reservationType";
 import { useCookies } from "react-cookie";
-import { Button } from "@mui/material";
+import { Button, Pagination } from "@mui/material";
 import ReservationItem from "../ReservationItem";
 import { useRefreshStore } from "../../../stores/refreshStore";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
@@ -37,6 +37,11 @@ export default function ReservationList() {
     currentPage * itemsPerPage
   );
 
+  const [page, setPage] = useState<number>(1);
+  const PageChangeHandler = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+  };
+
   useEffect(() => {
     const token = cookies.token;
     if (!token) {
@@ -56,7 +61,6 @@ export default function ReservationList() {
         setReservations(sortedReservations);
         setFilteredReservations(sortedReservations);
 
-        // Fetch review status for each reservation
         const reviewStatuses = await Promise.all(
           sortedReservations.map(async (reservation) => {
             const hasReview = await reservationHasReview(
@@ -85,6 +89,7 @@ export default function ReservationList() {
     loadReservations();
   }, [cookies.token, refreshKey]);
 
+
   const handleSearch = () => {
     if (!startDate || !endDate) {
       alert("조회 시작 날짜와 종료 날짜를 모두 선택해주세요.");
@@ -102,6 +107,7 @@ export default function ReservationList() {
     setFilteredReservations(filtered);
     setCurrentPage(1);
   };
+
 
   if (loading) return <p>Loading...</p>;
 
@@ -160,6 +166,7 @@ export default function ReservationList() {
           )}
         </ul>
         <div className="pagination-container">
+        <Pagination count={10} defaultPage={1} onChange={PageChangeHandler} />
           <Button
             variant="outlined"
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
