@@ -1,11 +1,13 @@
 /* 공통 스타일 */
 .navbar {
   background-color: #FFFFFF;
-  padding: 10px 0; /* 좌우 여백 제거 */
+  padding: 10px 0;
   display: flex;
-  align-items: center;
+  align-items: center; /* 세로 정렬 */
   justify-content: space-between;
   border-bottom: #dbdbdb solid 1px;
+  height: 60px; /* 고정 높이 설정 */
+  box-sizing: border-box; /* 패딩 포함 높이 계산 */
 }
 
 .navbar img {

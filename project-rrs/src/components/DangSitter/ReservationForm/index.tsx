@@ -5,13 +5,9 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import DangSitterBox from "../DangSitterBox";
 import { Box, Button, Checkbox, FormControlLabel } from "@mui/material";
 import { Notice } from "../../../constants/Notice";
-import "../../../styles/ReservationForm.css";
+import "../../../styles/reservation/ReservationForm.css";
 import dayjs, { Dayjs } from "dayjs";
-import {
-  DangSitter,
-  Pet,
-  User,
-} from "../../../types/reservationType";
+import { DangSitter, Pet, User } from "../../../types/reservationType";
 import { useCookies } from "react-cookie";
 import {
   createReservation,
@@ -36,7 +32,7 @@ export default function ReservationForm() {
   const [startDate, setStartDate] = useState<Dayjs>(today);
   const [endDate, setEndDate] = useState<Dayjs>(tomorrow);
   const [endMinDate, setEndMinDate] = useState<Dayjs>(startDate.add(1, "day"));
-  
+
   const [noticeChecked, setNoticeChecked] = useState<boolean>(false);
   const [findPetSitter, setFindPetSitter] = useState<DangSitter[]>([]);
   const [isSearched, setIsSearched] = useState(false);
@@ -85,7 +81,9 @@ export default function ReservationForm() {
     console.log("Selected Provider ID:", providerId);
   };
 
-  const memoInputChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const memoInputChangeHandler = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setReservationMemo(e.target.value);
   };
 
@@ -262,17 +260,26 @@ export default function ReservationForm() {
             ))}
         </div>
         <ReservationUserInfo pets={pets} user={user} />
-        <div className="reservation-userInfo-reservationMemo">
+        <div className="reservation-userInfo-reservation-memo">
+          <div className="reservation-memo-title">
+            <span>댕시터에게 전하고 싶은 말</span>
+          </div>
+
           <textarea
-            id="reservationMemo"
-            className="reservation-userInfo-reservationMemo"
+            id="reservation-memo"
+            className="memo"
             placeholder="댕시터에게 전달하고 싶은 내용을 적어주세요!"
             value={reservationMemo}
             onChange={(e) => memoInputChangeHandler(e)}
             rows={4}
             cols={50}
           />
-          <Button onClick={reservationSubmitBtnHandler}>댕시터 요청하기</Button>
+          <Button
+            className="reservation-submit-btn"
+            onClick={reservationSubmitBtnHandler}
+          >
+            댕시터 요청하기
+          </Button>
         </div>
       </div>
     </>
