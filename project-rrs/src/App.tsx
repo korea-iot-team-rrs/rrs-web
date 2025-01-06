@@ -22,9 +22,12 @@ import DangSitter from "./components/DangSitter";
 import CustomerSupport from "./views/CustomerSupport";
 import CustomerSupportDetail from "./components/CustomerSupport/CustomerSupportDetail";
 import CustomerSupportWrite from "./components/CustomerSupport/CustomerSupportWrite";
+
 import ReservationList from "./components/DangSitter/ReservaionList";
 import ReservationForm from "./components/DangSitter/ReservationForm";
 import ReservationUserDetail from "./components/DangSitter/ReservaionUserDetail";
+
+import CommunityEditView from "./views/CommunityVIew/CommunityEditView";
 
 function App() {
   return (
@@ -57,7 +60,16 @@ function App() {
           <Route path="/customer-supports" element={<CustomerSupport />}/>
           <Route path="/customer-supports/:id" element={<CustomerSupportDetail />}/>
           <Route path="/customer-supports/write" element={<CustomerSupportWrite />}/>
-          
+
+          <Route path="/community/edit/:id" element={<CommunityEditView/>} />
+
+          <Route path="/dang-sitter" element={<DangSitter />}/>
+          <Route path="/dang-sitter/reservations" element={<ReservationList />} /> 
+          <Route path="/dang-sitter/reservations/write" element={<ReservationForm />} />
+          <Route path="/dang-sitter/reservations/:id" element={<ReservationUserDetail />} />
+
+          <Route path="/customer-supports" element={<CustomerSupport />}/>
+
           <Route path="/user/*" element={<MyPageView />} />
         </Routes>
       </div>

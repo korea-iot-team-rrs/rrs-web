@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useAuthStore from '../../../../stores/auth.store';
-import { getCommunity } from '../../../../apis/communityApi';
+import useAuthStore from '../../../stores/auth.store';
+import { getCommunity } from '../../../apis/communityApi';
 import Pagination from "../Pagination";
-import "../../../../styles/Community.css";
+import "../../../styles/Community.css";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { IoSearch } from "react-icons/io5";
-import LoginModal from '../../../LoginModal';
+import LoginModal from '../../LoginModal';
 
 interface CommunityData {
   id: number;
@@ -19,7 +19,7 @@ interface CommunityData {
   nickname: string;
 }
 
-const BASE_FILE_URL = "http://localhost:4040/uploads/";
+const BASE_FILE_URL = "http://localhost:4040/upload/";
 
 function truncateText(text: string, maxLength: number): string {
   if (text.length > maxLength) {
