@@ -118,6 +118,11 @@
   background-color: #fed5d5;
 }
 
+.calendar-walking-record-item {
+  color: #dba40c;
+  background-color: #ffecac;
+}
+
 .rs-calendar-panel:not(.rs-calendar-compact) .rs-calendar-table-row:not(.rs-calendar-table-header-row) .rs-calendar-table-cell-content {
   display: flex;
   padding: 5px;

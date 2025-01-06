@@ -1,221 +1,233 @@
-import React, { useEffect, useState } from "react";
-import '../../../../styles/Pet.css'
-import '../../../../styles/MyPage.css'
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useCookies } from "react-cookie";
-
-const currentYear = new Date().getFullYear();
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
 
 export default function PetCreate() {
+  const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [years, setYears] = useState<number[]>([]);
-  const [months, setMonths] = useState<number[]>([]);
-  const [petInfo, setPetInfo] = useState({
-  petName: '',
-  petImageUrl: '',
-  petGender: '',
-  petBirthYear: '',
-  petBirthMonth: '',
-  petWeight: '',
-  petAddInfo: '',
-  petNeutralityYn: ''
+  const [pet, setPet] = useState({
+    petName: '',
+    petGender: '',
+    petBirthDate: '',
+    petWeight: 0,
+    petImageUrl: '' as string | File,
+    petAddInfo: '',
+    petNeutralityYn: '',
   })
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]; // 첫 번째 파일 선택
-    if (file) {
-      setSelectedFile(file);
-      setPetInfo((prevData) => ({
-        ...prevData,
-        profileImageUrl: file.name, // 파일 이름으로 업데이트 (필요시 서버로 파일 전송 후 URL 업데이트)
-      }));
-    }
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setPetInfo((prevData) => ({
-      ...prevData,
-      [name]: name === 'petWeight' ? value : value,
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // 유효성 검사
-    const nameRegex = /^[가-힣]+$/;
-
-    if (!petInfo.petName) {
-      alert('이름을 입력해 주세요.')
-      return;
-    } else if (!nameRegex.test(petInfo.petName)) {
-      alert('이름은 한글만 사용할 수 있습니다.')
-      return;
-    }
-
-    if (!petInfo.petGender) {
-      alert('성별을 선택해 주세요.')
-      return;
-    }
-
-    if (!petInfo.petBirthYear || !petInfo.petBirthMonth) {
-      alert('생년월일을 선택해 주세요.')
-      return;
-    }
-
-    if (!petInfo.petWeight) {
-      alert('몸무게를 입력해 주세요.')
-      return;
-    } else if (isNaN(Number(petInfo.petWeight)) || Number(petInfo.petWeight) <= 0) {
-      alert('몸무게는 양수여야 합니다.')
-      return;
-    }
-
-    if (!petInfo.petNeutralityYn) {
-      alert('중성화 여부를 선택해 주세요.')
-      return;
-    }
-
-    const petBirthDate = `${petInfo.petBirthYear}-${petInfo.petBirthMonth}`;
-
-    const dataToSend = {
-      ...petInfo,
-      petBirthDate: petBirthDate,
-      petBirthYear: undefined,
-      petBirthMonth: undefined
-    };
-
-    console.log("dataToSend", dataToSend);
-  
-
-    const formData = new FormData();
-    formData.append("petName", petInfo.petName);
-    formData.append("petGender", petInfo.petGender);
-    formData.append("petBirthDate", petBirthDate);
-    formData.append("petWeight", petInfo.petWeight.toString());
-    formData.append("petAddInfo", petInfo.petAddInfo);
-    formData.append("petNeutralityYn", petInfo.petNeutralityYn);
-  
-
-    if (selectedFile) {
-      formData.append("petImageUrl", selectedFile); 
-    }
-
-    try {
-      const token = cookies.token || localStorage.getItem("token");
-      if (!token) {
-        alert('로그인 정보가 없습니다.');
-        navigate('/');
-        return;
-      }
-
-      const response = await axios.post("http://localhost:4040/api/v1/users/pet", formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      console.log('2');
-      console.log("Response:", response.data.data);
-      alert('반려 동물이 등록되었습니다.');
-      navigate('/petList')
-    } catch (error: any) {
-      console.log("Error:", error);
-      if (error.response) {
-        console.error("Response Error:", error.response.data.data);
-        alert(`서버오류: ${error.response.data.data}`);
-      } else {
-      alert('네트워크 오류 ')
-    }
-  }
-}
-
   useEffect(() => {
-    // 연도 리스트 생성
-    const yearsList = [];
-    for (let year = currentYear; year >= 1900; year--) {
-      yearsList.push(year);
+    const token = cookies.token || localStorage.getItem("token");
+    console.log('token:', token);
+    if (!token) {
+      alert('로그인 정보가 없습니다.');
+      navigate('/');
+      return;
     }
-    setYears(yearsList);
+  }, [cookies, navigate]);
 
-    // 월 리스트 생성
-    const monthsList = [];
-    for (let month = 1; month <= 12; month++) {
-      monthsList.push(month);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setPet({
+      ...pet,
+      [name]: value,
+    });
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    console.log("선택된 파일:", file);
+    if (file) {
+      setPet({
+        ...pet,
+        petImageUrl: file, 
+      });
     }
-    setMonths(monthsList);
-  }, []);
+  };
 
-  
   const goBack = () => {
     window.history.back();
   }
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    console.log('pet:', pet);
+
+    // 유효성 검사
+    const nameRegex = /^[가-힣]+$/;
+
+    if (!pet.petName) {
+      alert('반려 동물 이름을 입력해 주세요.')
+      return;
+    } else if (!nameRegex.test(pet.petName)) {
+      alert('이름은 한글만 사용할 수 있습니다.');
+      return false;
+    }
+
+    if (pet.petGender === '' || (pet.petGender !== '0' && pet.petGender !== '1')) {
+      alert('반려 동물 성별을 선택해 주세요.');
+      return;
+    }
+
+    if (!pet.petBirthDate) {
+      alert('반려 동물 생년월일을 입력해 주세요.')
+      return;
+    }
+
+    if (!pet.petWeight) {
+      alert('반려 동물 몸무게를 입력해 주세요.')
+      return;
+    } else if (pet.petWeight <= 0) {
+      alert('몸무게는 0보다 커야합니다.')
+      return;
+    }
+
+    if (!pet.petImageUrl) {
+      pet.petImageUrl = 'default-image.jpg';
+    }
+
+    const formData = new FormData();
+      formData.append('petName', pet.petName);
+      formData.append('petGender', pet.petGender);
+      formData.append('petBirthDate', pet.petBirthDate);
+      formData.append('petWeight', pet.petWeight.toString());
+      formData.append('petAddInfo', pet.petAddInfo);
+      formData.append('petNeutralityYn', pet.petNeutralityYn);
+
+      if (pet.petImageUrl) {
+        console.log("파일이 추가됩니다:", pet.petImageUrl); // 이 부분에서 petImageUrl이 제대로 설정되었는지 확인
+        formData.append('petImageUrl', pet.petImageUrl);
+      } else {
+        console.log("파일이 선택되지 않았습니다.");
+      }
+
+      formData.forEach((value, key) => {
+        console.log(key, value);
+      });
+
+      try {
+        const token = cookies.token || localStorage.getItem("token");  
+        console.log("token!!!:", token);
+        const response = await axios.post(`http://localhost:4040/api/v1/users/pet`, formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        console.log('성공:', response.data.data);
+        alert(`${pet.petName}이 등록되었습니다.`);
+        navigate('/user/petList')
+      } 
+      catch (error) {
+        console.error('실패:', error);
+        alert('등록 실패');
+      }
+  }
+
   return (
     <div>
-      <h2>반려 동물 등록</h2>
       <form onSubmit={handleSubmit}>
-        <div className="element">
-          <label>강아지 프로필 사진</label>
-          <input type="file" name="petImageUrl" onChange={handleFileChange} />
+        <div>
+          <label htmlFor="petImageUrl">강아지 프로필 사진</label>
+          <input 
+            type="file" 
+            id='petImageUrl'
+            onChange={handleImageChange}
+          />
         </div>
 
-        <div className="element">
-          <label>강아지 이름</label>
-          <input type="text" name="petName" value={petInfo.petName} onChange={handleInputChange} />
+        <div>
+          <label htmlFor="petName">강아지 이름</label>
+          <input 
+            type="text" 
+            id='petName'
+            name='petName'
+            value={pet.petName}
+            onChange={handleInputChange}
+          />
         </div>
 
-        <div className="element">
-          <label>성별</label>
-          <input type="radio" name="petGender" value="0" onChange={handleInputChange} /> 수컷
-          <input type="radio" name="petGender" value="1" onChange={handleInputChange} /> 암컷
+        <div>
+          <label htmlFor="petGender">성별</label>
+          <input 
+            type="radio"
+            id='petGender'
+            name='petGender'
+            value='0'
+            checked={pet.petGender === '0'}
+            onChange={handleInputChange}
+          /> 남
+
+          <input 
+            type="radio"
+            id='petGender'
+            name='petGender'
+            value='1'
+            checked={pet.petGender === '1'}
+            onChange={handleInputChange}
+          /> 여
         </div>
 
-        <div className="element">
-          <label>생년월일</label>
-          <select name="petBirthYear" value={petInfo.petBirthYear} onChange={handleInputChange} >
-            <option>년도</option>
-            {years.map((year) => (
-              <option key={year} value={year}>
-                {year}
-              </option>
-            ))}
-          </select>
-
-          <select name="petBirthMonth" value={petInfo.petBirthMonth} onChange={handleInputChange}>
-            <option>월</option>
-            {months.map((month) => (
-              <option key={month} value={month}>
-                {month}월
-              </option>
-            ))}
-          </select>
+        <div>
+          <label htmlFor="petBirthDate">생년월일</label>
+          <input 
+            type="text" 
+            id='petBirthDate'
+            name='petBirthDate'
+            value={pet.petBirthDate}
+            onChange={handleInputChange}
+            placeholder='YYYYMM 입력'
+          />
         </div>
 
-        <div className="element">
-          <label>몸무게</label>
-          <input type="number" name="petWeight" value={petInfo.petWeight} onChange={handleInputChange} min="0" /> Kg
+        <div>
+          <label htmlFor="petWeight">몸무게</label>
+          <input 
+            type="number" 
+            id='petWeight'
+            name='petWeight'
+            value={pet.petWeight}
+            onChange={handleInputChange}
+          />
         </div>
 
-        <div className="element">
-          <label>중성화 여부</label>
-            <input type="radio" name="petNeutralityYn" value="0" onChange={handleInputChange} /> 아니오
-            <input type="radio" name="petNeutralityYn" value="1" onChange={handleInputChange} /> 예
+        <div>
+          <label htmlFor="petNeutralityYn">중성화 여부</label>
+          <input 
+            type="radio"
+            id='petNeutralityYn'
+            name='petNeutralityYn'
+            value='0'
+            checked={pet.petNeutralityYn === '0'}
+            onChange={handleInputChange}
+          /> 아니오
+
+          <input 
+            type="radio"
+            id='petNeutralityYn'
+            name='petNeutralityYn'
+            value='1'
+            checked={pet.petNeutralityYn === '1'}
+            onChange={handleInputChange}
+          /> 예
         </div>
 
-        <div className="element">
-          <label>추가 정보</label>
-          <input type="text" name="petAddInfo" value={petInfo.petAddInfo} onChange={handleInputChange}/>
+        <div>
+          <label htmlFor="petAddInfo">추가 정보</label>
+          <input 
+            type="text" 
+            id='petAddInfo'
+            name='petAddInfo'
+            value={pet.petAddInfo}
+            onChange={handleInputChange}
+          />
         </div>
 
-        <button type="submit">확인</button>
-        <button type="button" onClick={goBack}>취소</button>
+        <button type='submit'>확인</button>
+        <button type='button' onClick={goBack}>취소</button>
       </form>
-
+      
     </div>
-  );
+  )
 }

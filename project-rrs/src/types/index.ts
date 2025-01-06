@@ -1,3 +1,5 @@
+import { WalkingRecord } from "../stores/petstore";
+
 //entity들
 export interface ResponseDto<D> {
     result: boolean;
@@ -78,5 +80,5 @@ export interface Pet {
     petWeight: number;
     petImageUrl: string;
     petAddInfo?: string;
-    petNeutralityYn?: string;
+    petNeutralityYn: string;
 }
