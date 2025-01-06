@@ -3,9 +3,11 @@ import { Calendar, Badge } from "rsuite";
 import "../../../styles/PetdiaryCalendar.css";
 import { PetDiaryCalendarProps } from "../../../types/petDiaryType";
 import { Todo } from "../../../types/todoType";
-import { fetchTodos } from "../../../apis/todo";
-import { useRefreshStore } from "../../../stores/PetDiaryStore";
+import { fetchTodos } from "../../../apis/todoApi";
+import { useRefreshStore } from "../../../stores/refreshStore";
 import { useCookies } from "react-cookie";
+import usePetStore, { WalkingRecord } from "../../../stores/petstore";
+import axios from "axios";
 
 const Styles = () => {
   return (
@@ -20,18 +22,17 @@ function formatDate(date: Date): string {
   return `${year}-${month}-${day}`;
 }
 
-function renderCell(date: Date, todos: Todo[]): React.ReactElement | null {
+function renderCell(date: Date, todos: Todo[], walkingRecords: WalkingRecord[]): React.ReactElement | null {
   const dateString = formatDate(date);
   const hasTodo = todos.some((todo) => todo.todoCreateAt === dateString);
+  const hasWalkingRecord = walkingRecords.some((record) => record.walkingRecordCreateAt === dateString);
 
-  if (hasTodo) {
     return (
       <div>
-        <span className="calendar-todo-item">오늘의 할일</span>
+        {hasTodo && <span className="calendar-todo-item">오늘의 할일</span>}
+        {hasWalkingRecord && <span className="calendar-walking-record-item">산책 기록</span>}
       </div>
     );
-  }
-  return null;
 }
 
 export default function PetDiaryCalendar({
@@ -41,6 +42,8 @@ export default function PetDiaryCalendar({
   const [cookies] = useCookies(["token"]);
   const [todos, setTodos] = useState<Todo[]>([]);
   const { refreshKey } = useRefreshStore();
+  const [walkingRecords, setWalkingRecords] = useState<WalkingRecord[]>([]);
+  const pets = usePetStore((state) => state.pets || []);
 
   useEffect(() => {
     const token = cookies.token;
@@ -50,14 +53,37 @@ export default function PetDiaryCalendar({
         setTodos(data);
       })
       .catch((err) => console.error("Failed to fetch todos", err));
+
+      if (pets.length > 0) {
+        const petRequests = pets.map((pet) => {
+          const walkingRecordCreateAt = formatDate(new Date());
+      return axios.get(`http://localhost:4040/api/v1/walking-record/petId/${pet.petId}/walkingRecordCreateAt/${walkingRecordCreateAt}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+    });
+
+
+
+    Promise.all(petRequests)
+      .then((responses) => {
+        const allWalkingRecords = responses.flatMap((response) => response.data.data);
+        setWalkingRecords(allWalkingRecords);
+      })
+      .catch((err) => console.error("Failed to fetch walking records", err));
     }
-  }, [refreshKey]);
+  }
+  }, [refreshKey, cookies.token, pets]);
 
   const handleDateChange = (date: Date) => {
     const formattedDate = formatDate(date);
     setSelectedDate(formattedDate);
     onDateSelect(formattedDate);
   };
+
+  console.log(walkingRecords);
 
   return (
     <div className="petDiaryCalendar">
@@ -66,7 +92,7 @@ export default function PetDiaryCalendar({
         bordered
         onChange={handleDateChange}
         onSelect={handleDateChange}
-        renderCell={(date) => renderCell(date, todos)}
+        renderCell={(date) => renderCell(date, todos, walkingRecords)}
       />
     </div>
   );

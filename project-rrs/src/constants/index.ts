@@ -16,12 +16,12 @@ export const TODO_UPDATE_PATH = (todoId: number) => `/todos/${todoId}`;
 // Reservation
 export const RESERVATION_PATH = '/reservations';
 export const RESERVATION_CREATE_PATH = '/reservations/write';
-export const RESERVATION_DETAIL_PATH = (reservationId: number) => `/reservations/${reservationId}`;
 export const RESERVATION_LIST_FOR_USER = '/reservations/mine/user';
 export const RESERVATION_LIST_FOR_PROVIDER = '/reservations/mine/provider';
 export const RESERVATION_UPDATE_PATH = (reservationId: number) => `/reservations/${reservationId}`;  // update path for resetvation memo
 export const RESERVATION_UPDATE_STATUS_PATH = '/update-reservation-status';
 export const FIND_PROVIDER_BY_DATE_PATH = '/get-provider';
+export const RESERVATION_DETAIL_PATH = "/dang-sitter/reservations";
 
 // Review
 export const REVIEW_PATH = '/reviews';

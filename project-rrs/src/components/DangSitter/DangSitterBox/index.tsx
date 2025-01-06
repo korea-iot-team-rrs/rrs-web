@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaArrowCircleRight } from "react-icons/fa";
-import "../../../styles/DangSitter.css";
+import "../../../styles/DangSitterBox.css";
 import { Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import DangSitterModal from "../DangSitterModal";
@@ -55,7 +55,7 @@ export default function DangSitterBox({ providerId }: DangSitterProps) {
         <div className="dangSitterContainer">
           <div className="leftContent">
             <div className="dangSitterImg">
-              <img src={petSitter.profileImageUrl} alt="댕시터 이미지" />
+            <img src={`http://localhost:4040/${petSitter.profileImageUrl|| "file/default-profile.jpg"}`} alt="프로필 이미지" />
             </div>
             <div className="dangSitterInfo">
               <div className="dangSitterReviewStar">

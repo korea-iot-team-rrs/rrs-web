@@ -59,7 +59,7 @@ export default function AnnouncementDetailPage() {
       }
     };
 
-    fetchAnnouncement();
+    fetchAnnouncement();          
   }, [id]);
 
   return (
