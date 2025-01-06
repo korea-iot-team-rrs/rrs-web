@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // React Router의 useNavigate 훅
 import { fetchPets } from "../../../../../apis/petApi";
 import { getAllHealthRecords } from "../../../../../apis/petHealthApi";
 import { HealthRecordResponse } from "../../../../../types/petHealthType";
@@ -9,9 +10,13 @@ import "../../../../../styles/PetHealthRecord.css";
 const PetHealthRecordList = () => {
   const [pets, setPets] = useState<Pet[]>([]);
   const [selectedPetId, setSelectedPetId] = useState<number | null>(null);
-  const [healthRecords, setHealthRecords] = useState<HealthRecordResponse[]>([]);
+  const [healthRecords, setHealthRecords] = useState<HealthRecordResponse[]>(
+    []
+  );
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const BASE_FILE_URL = "http://localhost:4040/";
 
   // 반려동물 리스트 가져오기
   useEffect(() => {
@@ -25,10 +30,11 @@ const PetHealthRecordList = () => {
         }
 
         const petsData = await fetchPets(token);
+        console.log("Loaded pets:", petsData);
         setPets(petsData);
         setError(null);
       } catch (err) {
-        console.error("반려동물 정보 가져오기 실패:", err);
+        console.error("Failed to fetch pets:", err);
         setError("반려동물 정보를 가져오는 데 실패했습니다.");
       } finally {
         setIsLoading(false);
@@ -43,10 +49,11 @@ const PetHealthRecordList = () => {
     try {
       setIsLoading(true);
       const records = await getAllHealthRecords(petId);
-      setHealthRecords(records.healthRecords);
+      console.log("Fetched health records:", records);
+      setHealthRecords(records.healthRecords || []);
       setError(null);
     } catch (err) {
-      console.error("건강기록 조회 실패:", err);
+      console.error("Failed to fetch health records:", err);
       setError("건강기록을 가져오는 데 실패했습니다.");
     } finally {
       setIsLoading(false);
@@ -55,8 +62,14 @@ const PetHealthRecordList = () => {
 
   // 반려동물 선택 시 처리
   const handlePetSelection = (petId: number) => {
+    console.log("Selected pet ID:", petId);
     setSelectedPetId(petId);
     loadHealthRecords(petId);
+  };
+
+  // 반려동물 등록 버튼 클릭 시 처리
+  const handleRegisterPet = () => {
+    navigate("/user/pet-create");
   };
 
   return (
@@ -79,7 +92,7 @@ const PetHealthRecordList = () => {
         ) : (
           <div>
             <p>등록된 반려 동물이 없습니다.</p>
-            <button>반려 동물 등록</button>
+            <button onClick={handleRegisterPet}>반려 동물 등록</button>
           </div>
         )}
       </div>
@@ -94,7 +107,7 @@ const PetHealthRecordList = () => {
                 <p>설명: {record.description}</p>
                 {record.attachmentUrl && (
                   <a
-                    href={record.attachmentUrl}
+                    href={`${BASE_FILE_URL}${record.attachmentUrl}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -104,14 +117,10 @@ const PetHealthRecordList = () => {
               </div>
             ))
           ) : (
-            <div>
-              <p>작성한 건강기록이 없습니다.</p>
-            </div>
+            <p>작성한 건강기록이 없습니다.</p>
           )
         ) : (
-          <div>
-            <p>반려 동물을 선택해주세요.</p>
-          </div>
+          <p>반려 동물을 선택해주세요.</p>
         )}
       </div>
 

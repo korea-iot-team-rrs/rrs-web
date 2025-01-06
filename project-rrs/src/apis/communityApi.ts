@@ -5,12 +5,11 @@ import { getToken } from "../utils/auth";
 
 const COMMUNITY_API_URL = `${MAIN_URL}${USER_PATH}/community`;
 
-// 커뮤니티 생성
 export const createCommunity = async (
-  communityTitle: string,       // 변경된 부분
-  communityContent: string,     // 변경된 부분
-  communityThumbnailFile: string,
-  attachments: string[]
+  communityTitle: string,
+  communityContent: string,
+  communityThumbnailFile: File | null,
+  attachments: File[]
 ): Promise<CommunityData> => {
   const token = getToken();
 
@@ -19,18 +18,26 @@ export const createCommunity = async (
   }
 
   try {
+    const formData = new FormData();
+
+    formData.append('communityTitle', communityTitle);
+    formData.append('communityContent', communityContent);
+
+    if (communityThumbnailFile) {
+      formData.append('communityThumbnailFile', communityThumbnailFile);
+    }
+
+    attachments.forEach((file) => {
+      formData.append('attachments', file);
+    });
+
     const response = await axios.post<{ data: CommunityData }>(
       `${COMMUNITY_API_URL}/write`,
-      {
-        communityTitle: communityTitle,         // 변경된 부분
-        communityContent: communityContent,     // 변경된 부분
-        communityThumbnailFile: communityThumbnailFile,
-        attachmentUrls: attachments,
-      },
+      formData,
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
         },
       }
     );
@@ -42,7 +49,6 @@ export const createCommunity = async (
   }
 };
 
-// 좋아요 토글
 export const toggleLike = async (
   communityId: number
 ): Promise<{ likeCount: number; userLiked: boolean; userId: number }> => {
@@ -66,38 +72,54 @@ export const toggleLike = async (
       }
     );
 
-    return response.data.data; // 좋아요 상태와 최신 좋아요 수 반환
+    return response.data.data;
   } catch (error: any) {
     console.error("좋아요 토글 실패:", error.response?.data || error.message);
     throw error.response?.data?.message || "좋아요 토글 중 오류가 발생했습니다.";
   }
 };
 
-// 커뮤니티 업데이트
 export const updateCommunity = async (
   communityId: number,
-  data: Partial<{
-    communityTitle: string;
-    communityContent: string;
-    communityThumbnailFile: string;
-    attachments: string;
-  }>
+  data: {
+    communityTitle?: string;
+    communityContent?: string;
+    communityThumbnailFile?: File;
+    attachments?: File[];
+  }
 ): Promise<CommunityData> => {
   const token = getToken();
-  const response = await axios.put<{ data: CommunityData }>(
-    `${COMMUNITY_API_URL}/${communityId}`,
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    }
-  );
-  return response.data.data;
+
+  const formData = new FormData();
+  if (data.communityTitle) formData.append("communityTitle", data.communityTitle);
+  if (data.communityContent) formData.append("communityContent", data.communityContent);
+  if (data.communityThumbnailFile) {
+    formData.append("communityThumbnailFile", data.communityThumbnailFile);
+  }
+  if (data.attachments && data.attachments.length > 0) {
+    data.attachments.forEach((file, index) => {
+      formData.append(`attachments[${index}]`, file);
+    });
+  }
+
+  try {
+    const response = await axios.put<{ data: CommunityData }>(
+      `${COMMUNITY_API_URL}/edit/${communityId}`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return response.data.data;
+  } catch (error) {
+    console.error("Error updating community:", error);
+    throw new Error("게시글을 수정하는데 실패하였습니다.");
+  }
 };
 
-// 모든 커뮤니티 가져오기
 export const getCommunity = async (): Promise<CommunityData[]> => {
   const response = await axios.get<{ data: CommunityData[] }>(
     COMMUNITY_API_URL
@@ -105,7 +127,6 @@ export const getCommunity = async (): Promise<CommunityData[]> => {
   return response.data.data;
 };
 
-// ID로 특정 커뮤니티 가져오기
 export const getCommunityById = async (communityId: number): Promise<CommunityData> => {
   const token = getToken();
   const response = await axios.get<{ data: CommunityData }>(
@@ -120,10 +141,9 @@ export const getCommunityById = async (communityId: number): Promise<CommunityDa
   return response.data.data;
 };
 
-// 커뮤니티 삭제
 export const deleteCommunity = async (communityId: number) => {
   const token = getToken();
-  const response = await axios.delete(`${COMMUNITY_API_URL}/${communityId}`, {
+  const response = await axios.delete(`${COMMUNITY_API_URL}/delete/${communityId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
