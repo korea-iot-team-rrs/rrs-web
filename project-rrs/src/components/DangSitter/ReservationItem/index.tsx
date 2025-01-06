@@ -1,36 +1,118 @@
 import React, { useState } from "react";
-import { Reservation } from "../../../types/reservationType";
 import { Button } from "@mui/material";
+import { Reservation, ReservationStatus } from "../../../types/reservationType";
+import { useCookies } from "react-cookie";
+import { updateReservaionStatus } from "../../../apis/reservationApi";
+import { useRefreshStore } from "../../../stores/refreshStore";
+import ReviewModal from "../ReviewModal";
+import "../../../styles/reservation/ReservationItem.css";
+
+interface ReservationItemProps {
+  reservation: Reservation;
+  onClick: (id: number) => void;
+  reviewStatus: string; // "Y" or "N"
+}
 
 export default function ReservationItem({
   reservation,
   onClick,
-}: {
-  reservation: Reservation;
-  onClick: (id: number) => void;
-}) {
+  reviewStatus,
+}: ReservationItemProps) {
+  const [cookies] = useCookies(["token"]);
+  const incrementRefreshKey = useRefreshStore(
+    (state) => state.incrementRefreshKey
+  );
+  const [reviewModalOpen, setReviewModalOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const formatStatus = (status: string) => {
+    switch (status) {
+      case "PENDING":
+        return "수락 대기";
+      case "IN_PROGRESS":
+        return "예약 진행중";
+      case "REJECTED":
+        return "예약 거절";
+      case "CANCELLED":
+        return "예약 취소";
+      case "COMPLETED":
+        return "예약 완료";
+      default:
+        return "알 수 없음";
+    }
+  };
+
+  const handleCancel = async () => {
+    const token = cookies.token;
+    const confirmCancel = window.confirm("정말 취소하시겠습니까?");
+    if (!confirmCancel) return;
+
+    try {
+      await updateReservaionStatus(
+        {
+          reservationId: reservation.reservationId,
+          reservationStatus: ReservationStatus.CANCELLED,
+        },
+        token
+      );
+      incrementRefreshKey();
+    } catch (error) {
+      console.error("Failed to update reservation status:", error);
+    }
+  };
+
+  const handleReviewButtonClick = () => {
+    setIsEditing(reviewStatus === "Y");
+    setReviewModalOpen(true);
+  };
+
+  const closeReviewModal = () => {
+    setReviewModalOpen(false);
+  };
+
   return (
     <>
-      <div
-        onClick={() => onClick(reservation.reservationId)}
-        style={{
-          cursor: "pointer",
-          padding: "10px",
-          border: "1px solid #ccc",
-          marginBottom: "10px",
-          borderRadius: "5px",
-        }}
-      >
-        <p>
-          <strong>Memo:</strong> {reservation.reservationMemo}
-        </p>
-        <p>
-          <strong>Start Date:</strong> {reservation.reservationStartDate}
-        </p>
-        <p>
-          <strong>End Date:</strong> {reservation.reservationEndDate}
-        </p>
+      <div className="reservation-item">
+        <div
+          className="reservation-info"
+          onClick={() => onClick(reservation.reservationId)}
+        >
+          <div>0</div>
+          <div>{reservation.reservationStartDate}</div>
+          <div>{reservation.reservationEndDate}</div>
+          <div>{reservation.providerInfo.providerNickname}</div>
+          <div>{formatStatus(reservation.reservationStatus)}</div>
+          <div className="reservation-actions">
+            {(reservation.reservationStatus === "PENDING" ||
+              reservation.reservationStatus === "IN_PROGRESS") && (
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={handleCancel}
+              >
+                예약 취소
+              </Button>
+            )}
+            {reservation.reservationStatus === "COMPLETED" && (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleReviewButtonClick}
+              >
+                {reviewStatus === "Y" ? "리뷰 수정" : "리뷰 쓰기"}
+              </Button>
+            )}
+          </div>
+        </div>
       </div>
+      {reviewModalOpen && (
+        <ReviewModal
+          open={reviewModalOpen}
+          onClose={closeReviewModal}
+          reservationId={reservation.reservationId}
+          isEditing={isEditing}
+        />
+      )}
     </>
   );
 }

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, IconButton, Modal, Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
-import "../../../styles/PetSitterModal.css";
+import "../../../styles/dangSitter/PetSitterModal.css";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ReviewListModal from "../ReviewListModal";
 import { IoCloseCircle } from "react-icons/io5";
-import { boxStyle } from "../../../styles/DangSitterCommon";
+import { boxStyle } from "../../../styles/dangSitter/DangSitterCommon";
 import { DangSitter } from "../../../types/reservationType";
 import { Review } from "../../../types/reviewType";
 import { fetchLatestReview } from "../../../apis/reviewAPi";

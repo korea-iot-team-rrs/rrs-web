@@ -1,0 +1,48 @@
+.reservation-list-container {
+  display: flex;
+  flex-direction: column;
+  margin: 0px;
+  border-radius: 8px;
+  flex-wrap: wrap;
+  padding: 0px 20%;
+  text-align: center;
+  gap: 10px;
+  
+  .reservation-list-header {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* 6열 레이아웃 */
+    align-items: center;
+    border-radius: 8px;
+    background-color: #0085FF;
+    color: #ffffff;
+    transition: box-shadow 0.3s ease;
+    min-height: 65px;
+    font-weight: 600;
+    font-size: medium;
+  }
+  
+  .reservation-list-items {
+    padding: 0px;
+    
+    li {
+      margin-top: 5px;
+      list-style: none;
+    }
+  }
+  .reservation-list-title {
+    display: flex;
+    justify-content: space-between;
+
+    h2 {
+      font-size: 24px;
+    }
+
+    & > div:nth-child(2) {
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      font-size: 20px;
+      width: 450px;
+    }
+  }
+}
