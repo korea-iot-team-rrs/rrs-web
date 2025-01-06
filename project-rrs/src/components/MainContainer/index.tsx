@@ -188,7 +188,7 @@ export default function MainContainer() {
                   >
                     <div className="bento-shine"></div>
                     <div className="social-icons1_component">
-                      <a href="/" className="social-icons1_link w-inline-block">
+                      <a href="/announcements" className="social-icons1_link w-inline-block">
                         <LuDog size={80} />
                         공지사항
                       </a>

@@ -1,14 +1,22 @@
 .cs-write-wrapper {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    padding: 0 30%;
+    gap: 20px;
   }
   
   .cs-write-header {
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px;
+
+    h2 {
+      font-size: 24px;
+      padding: 0;
+      margin: 0;
+    }
   }
   
   .cs-write-header h1 {
@@ -21,10 +29,6 @@
     display: flex;
     justify-content: center;
     gap: 10px;
-  }
-  
-  .cs-write-body {
-    margin-top: 20px;
   }
   
   .cs-write-title input,
@@ -71,7 +75,8 @@
   }
   
   .cs-complete-btn {
+    display: flex;
+    justify-content: end;
     text-align: center;
-    margin-top: 20px;
   }
   

@@ -2321,7 +2321,7 @@ figure {
 .bento-grid-item.is-intro {
   flex-flow: column;
   align-items: flex-start;
-  padding: 2.8rem 5rem 20% 3.2rem;
+  padding: 2.8rem 5rem 9% 3.2rem;
   display: flex;
 }
 

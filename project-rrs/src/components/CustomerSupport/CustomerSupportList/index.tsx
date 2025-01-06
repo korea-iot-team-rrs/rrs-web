@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { FetchCSList } from "../../../types/customerSupport";
-import { Fab } from "@mui/material";
+import { Fab, Pagination } from "@mui/material";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import "../../../styles/CustomerSupportList.css";
 import { fetchCustomerSupportList } from "../../../apis/custommerSupport";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import ReportIcon from "@mui/icons-material/Report";
@@ -45,10 +44,6 @@ export default function CustomerSupportList() {
     setCurrentPage(1);
   };
 
-  const goToNextPage = () => {
-    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-  };
-
   const statusFormater = (status: string) => {
     switch (status) {
       case "0":
@@ -60,8 +55,11 @@ export default function CustomerSupportList() {
     }
   };
 
-  const goToPreviousPage = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  const handlePageChange = (
+    _event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
+    setCurrentPage(page);
   };
 
   useEffect(() => {
@@ -81,25 +79,28 @@ export default function CustomerSupportList() {
   return (
     <>
       <div className="cs-list-wrapper">
+        <div>
+          <h2>나의 고객센터</h2>
+        </div>
         <div className="cs-switch-btn">
           <div className="cs-list-wrapper-title">
             <div>
-            <Fab
-              className="inquiry-btn"
-              variant="extended"
-              color={isInquiry ? "primary" : "default"}
-              onClick={() => csBtnClickHandler(true)}
-            >
-              <SupportAgentIcon /> 문의하기
-            </Fab>
-            <Fab
-              className="report-btn"
-              variant="extended"
-              color={!isInquiry ? "primary" : "default"}
-              onClick={() => csBtnClickHandler(false)}
-            >
-              <ReportIcon /> 신고하기
-            </Fab>
+              <Fab
+                className="inquiry-btn"
+                variant="extended"
+                color={isInquiry ? "primary" : "default"}
+                onClick={() => csBtnClickHandler(true)}
+              >
+                <SupportAgentIcon /> 문의하기
+              </Fab>
+              <Fab
+                className="report-btn"
+                variant="extended"
+                color={!isInquiry ? "primary" : "default"}
+                onClick={() => csBtnClickHandler(false)}
+              >
+                <ReportIcon /> 신고하기
+              </Fab>
             </div>
             <div>
               <button className="cs-create-button" onClick={csAddBtnHandler}>
@@ -109,6 +110,12 @@ export default function CustomerSupportList() {
           </div>
         </div>
         <div className="cs-list-body">
+          <div className="cs-list-body-title">
+            <div><p>목차</p></div>
+            <div><p>제목</p></div>
+            <div><p>날짜</p></div>
+            <div><p>상태</p></div>
+          </div>
           <ul>
             {filteredCS.slice(startIndex, endIndex).map((value, index) => (
               <li
@@ -117,6 +124,7 @@ export default function CustomerSupportList() {
                   navigate(`/customer-supports/${value.customerSupportId}`)
                 }
               >
+                <p>{index + 1}</p>
                 <p>{value?.customerSupportTitle}</p>
                 <p>
                   {value?.customerSupportCreateAt
@@ -129,23 +137,11 @@ export default function CustomerSupportList() {
           </ul>
         </div>
         <div className="pagination">
-          <button
-            onClick={goToPreviousPage}
-            disabled={currentPage === 1}
-            className="pagination-button"
-          >
-            이전
-          </button>
-          <span className="pagination-info">
-            {currentPage} / {totalPages}
-          </span>
-          <button
-            onClick={goToNextPage}
-            disabled={currentPage === totalPages}
-            className="pagination-button"
-          >
-            다음
-          </button>
+          <Pagination
+            count={totalPages}
+            page={currentPage}
+            onChange={handlePageChange}
+          />
         </div>
       </div>
     </>

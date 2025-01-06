@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { fetchOneCustomerSupport } from "../../../apis/custommerSupport";
+import { deleteCustomerSupport, fetchOneCustomerSupport } from "../../../apis/custommerSupport";
 import { useNavigate, useParams } from "react-router-dom";
-import { FetchCS, CreateCS, EditedCS } from "../../../types/customerSupport";
+import { FetchCS, EditedCS } from "../../../types/customerSupport";
 import {
   Avatar,
   Button,
@@ -17,7 +17,6 @@ import CustomerSupportWrite from "../CustomerSupportWrite";
 import FolderIcon from "@mui/icons-material/Folder";
 import DeleteIcon from "@mui/icons-material/Delete";
 import "../../../styles/customerSupport/CustomerSupportDetail.css";
-import { Fab } from "@mui/material";
 
 export default function CustomerSupportDetail() {
   const [cookies] = useCookies(["token"]);
@@ -81,6 +80,21 @@ export default function CustomerSupportDetail() {
     });
     setIsEdit(true);
   };
+
+  const deleteBtnHandler = () => {
+    const token = cookies.token;
+    if (token && id) {
+      const csId = Number(id);
+        deleteCustomerSupport(csId, token)
+        .then(()=> {
+          window.confirm("정말 삭제하시겠습니까?")
+          navigate('/customer-supports')
+        })
+        .catch((e) => console.error("fail to delete cs", e));
+    } else {
+      console.error("token is not exist")
+    }
+  }
 
   useEffect(() => {
     const token = cookies.token;
@@ -148,7 +162,10 @@ export default function CustomerSupportDetail() {
                   수정 불가
                 </Button>
               )}
-              <Button>삭제하기</Button>
+              <Button
+              onClick={deleteBtnHandler}
+              color="error"
+              >삭제하기</Button>
             </div>
           </div>
         </div>

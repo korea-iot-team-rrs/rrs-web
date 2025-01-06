@@ -11,12 +11,14 @@ interface ReservationItemProps {
   reservation: Reservation;
   onClick: (id: number) => void;
   reviewStatus: string; // "Y" or "N"
+  index: number
 }
 
 export default function ReservationItem({
   reservation,
   onClick,
   reviewStatus,
+  index
 }: ReservationItemProps) {
   const [cookies] = useCookies(["token"]);
   const incrementRefreshKey = useRefreshStore(
@@ -77,7 +79,7 @@ export default function ReservationItem({
           className="reservation-info"
           onClick={() => onClick(reservation.reservationId)}
         >
-          <div>0</div>
+          <div>{index}</div>
           <div>{reservation.reservationStartDate}</div>
           <div>{reservation.reservationEndDate}</div>
           <div>{reservation.providerInfo.providerNickname}</div>

@@ -8,6 +8,7 @@ export default function Navbar() {
     "dang-sitter",
     "community",
     "pet-road",
+    "announcements",
     "customer-supports",
   ];
 
@@ -26,7 +27,10 @@ export default function Navbar() {
               ? "댕로드"
               : link === "customer-supports"
               ? "고객센터"
-              : link}
+              : link
+              ? "공지사항"
+              : link === "announcements"
+              }
           </NavLink>
         ))}
       </div>

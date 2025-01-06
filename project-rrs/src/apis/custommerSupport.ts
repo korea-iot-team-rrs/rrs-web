@@ -83,6 +83,21 @@ export const updateCustomerSupport = async (
       },
     }
   );
+  return response.data.data;
+};
 
+export const deleteCustomerSupport = async (
+  customerSupportId: number,
+  token: string
+) => {
+  const response = await axios.delete(
+    `http://localhost:4040/api/v1/customer-supports/${customerSupportId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
   return response.data.data;
 };
