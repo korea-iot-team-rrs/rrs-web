@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import usePetStore, { WalkingRecord } from "../../../../stores/petstore";
+import usePetStore, { Pet, WalkingRecord } from "../../../../stores/petstore";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import "../../../../styles/PetWalkingRecord.css";
 import { PetDiaryTodoProps } from "../../../../types/petDiaryType";
 import { FaPlusCircle } from "react-icons/fa";
 import WalkingRecordCreate from "./WalkingRecordCreate";
-import { Pet } from "../../../../types";
 import axios from "axios";
 import WalkingRecordGet from "./WalkingRecordGet";
+import WalkingRecordUpdate from "./WalkingRecordUpdate";
 
 export default function PetDiaryWalkingRecord({
   selectedDate: initialSelectedDate,
@@ -16,12 +16,15 @@ export default function PetDiaryWalkingRecord({
   const { pets, setPets } = usePetStore();
   const [cookies] = useCookies(["token"]);
   const [isCreating, setIsCreating] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
   const [selectedPet, setSelectedPet] = useState<Pet | null>(null);
   const [walkingRecords, setWalkingRecords] = useState<any[]>([]);
-  const [isFetching, setIsFetching] = useState(false);
   const [walkingRecordId, setWalkingRecordId] = useState<number>(0);
-  const [selectedDate, setSelectedDate] = useState<string>(initialSelectedDate || '');
+  const [selectedDate, setSelectedDate] = useState<string>(
+    initialSelectedDate || ""
+  );
 
   const handleAddPetClick = () => {
     navigate("/user/pet-create");
@@ -38,6 +41,13 @@ export default function PetDiaryWalkingRecord({
   const goBack = () => {
     setIsCreating(false);
     setIsFetching(false);
+    setIsEditing(false);
+  };
+
+  const handleEditWalkingRecordClick = (record: WalkingRecord) => {
+    setWalkingRecordId(record.walkingRecordId);
+    setSelectedDate(record.walkingRecordCreateAt);
+    setIsEditing(true);
   };
 
   useEffect(() => {
@@ -113,8 +123,8 @@ export default function PetDiaryWalkingRecord({
   // 산책기록 조회
   const handleRecordClick = (record: WalkingRecord) => {
     setWalkingRecordId(record.walkingRecordId);
-    setSelectedDate(record.walkingRecordCreateAt);  // 선택된 기록의 날짜 설정
-    setIsFetching(true);  // 로딩 시작
+    setSelectedDate(record.walkingRecordCreateAt);
+    setIsFetching(true);
   };
 
   // 산책기록 삭제
@@ -145,7 +155,9 @@ export default function PetDiaryWalkingRecord({
 
       if (response.status === 204) {
         setWalkingRecords((prevRecords) =>
-          prevRecords.filter((record) => record.walkingRecordId !== walkingRecordId)
+          prevRecords.filter(
+            (record) => record.walkingRecordId !== walkingRecordId
+          )
         );
         alert("산책 기록이 삭제되었습니다.");
       } else {
@@ -156,23 +168,32 @@ export default function PetDiaryWalkingRecord({
       alert("산책 기록을 삭제하는 중 오류가 발생했습니다.");
     }
   };
-  
+
   return (
     <div>
       {isCreating ? (
-        <WalkingRecordCreate 
-          selectedPet={selectedPet} 
-          selectedDate={selectedDate} 
-          goBack={goBack} 
+        <WalkingRecordCreate
+          selectedPet={selectedPet}
+          selectedDate={selectedDate}
+          goBack={goBack}
           addWalkingRecord={addWalkingRecord}
         />
       ) : isFetching ? (
         <div>
           <WalkingRecordGet
-            selectedPet={selectedPet} 
+            selectedPet={selectedPet}
             selectedDate={selectedDate}
             walkingRecordId={walkingRecordId}
             goBack={goBack}
+          />
+        </div>
+      ) : isEditing ? (
+        <div>
+          <WalkingRecordUpdate
+            selectedPet={selectedPet}
+            walkingRecordId={walkingRecordId}
+            goBack={goBack}
+            
           />
         </div>
       ) : (
@@ -225,7 +246,8 @@ export default function PetDiaryWalkingRecord({
             {selectedPet ? (
               walkingRecords.length > 0 ? (
                 walkingRecords.map((record, index) => (
-                  <button 
+                  <button
+                    className="petList-button"
                     key={index}
                     onClick={() => handleRecordClick(record)}
                   >
@@ -233,17 +255,35 @@ export default function PetDiaryWalkingRecord({
                       src={selectedPet.petImageUrl}
                       alt={`${selectedPet.petName}의 사진`}
                     />
-                    
-                    <div>
-                      <button>수정</button>
-                      <button onClick={() => deleteWalkingRecord(record.walkingRecordId)}>삭제</button>
+                    <div className="walking-info">
+                      <p className="distance">{record.walkingRecordDistance} m</p>
+                      <p className="time">
+                        {Math.floor(record.walkingRecordWalkingTime / 60)}시간{" "}
+                        {record.walkingRecordWalkingTime % 60}분
+                      </p>
                     </div>
-                    
-                    <p>{record.walkingRecordDistance} m</p>
-                    <p>{Math.floor(record.walkingRecordWalkingTime / 60)}시간 {record.walkingRecordWalkingTime % 60}분</p>
+
+                    <div className="buttons">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleEditWalkingRecordClick(record);
+                        }}
+                      >
+                        수정
+                      </button>
+
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deleteWalkingRecord(record.walkingRecordId);
+                        }}
+                      >
+                        삭제
+                      </button>
+                    </div>
                   </button>
                 ))
-
               ) : (
                 <div className="noContent">
                   <p>작성한 내용이 없습니다.</p>
