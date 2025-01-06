@@ -95,7 +95,7 @@ export const getAllHealthRecords = async (
   const token = getToken();
   if (!token) throw new Error("인증 토큰이 없습니다.");
 
-  const response = await axios.get(`${BASE_URL}`, {
+  const response = await axios.get(`${BASE_URL}/petHealth/${petId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

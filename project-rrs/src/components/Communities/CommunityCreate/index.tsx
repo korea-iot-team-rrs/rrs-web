@@ -2,13 +2,9 @@ import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../../../stores/auth.store";
 import { createCommunity } from "../../../apis/communityApi";
-import { uploadFile } from "../../CommunityUploadFile";
 import "../../../styles/CommunityCreate.css";
-import axios from "axios";
-import { MAIN_URL } from "../../../constants";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 최대 파일 크기: 5MB
-const DEFAULT_THUMBNAIL = `${MAIN_URL}/upload/file/community-thumbnail/default-thumbnail.jpg`;
 
 export default function CommunityCreate() {
   const navigate = useNavigate();
@@ -36,68 +32,65 @@ export default function CommunityCreate() {
     };
   }, [thumbnailPreview]);
 
-  // 타입 정의 수정: setter의 타입을 제네릭으로 받음
-  const handleFileChange = <T extends File | File[] | null>(
-    e: ChangeEvent<HTMLInputElement>,
-    setter: React.Dispatch<React.SetStateAction<T>>,
-    single: boolean = false
-  ): void => {
-    if (e.target.files) {
-      const filesArray = Array.from(e.target.files);
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    if (name === "title") setTitle(value);
+    if (name === "content") setContent(value);
+  };
 
-      // 파일 크기 제한
-      const validFiles = filesArray.filter((file) => file.size <= MAX_FILE_SIZE);
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>, isThumbnail = false) => {
+    const files = e.target.files; // FileList | null 타입
+    if (files) {
+      const fileArray = Array.from(files); // FileList를 배열로 변환
 
-      if (validFiles.length !== filesArray.length) {
-        alert("일부 파일이 너무 큽니다. 최대 5MB까지 업로드할 수 있습니다.");
-      }
-
-      // 단일 파일 처리
-      if (single) {
-        setter(validFiles[0] as T); // File | null 타입으로 캐스팅
-        if (validFiles[0]) {
-          setThumbnailPreview(URL.createObjectURL(validFiles[0]));
+      // 썸네일 파일 처리
+      if (isThumbnail) {
+        const file = fileArray[0];
+        if (file && file.size > MAX_FILE_SIZE) {
+          alert("파일 크기가 너무 큽니다. 최대 5MB까지 가능합니다.");
+          return;
         }
+        setCommunityThumbnailFile(file);
+        setThumbnailPreview(URL.createObjectURL(file));
       } else {
-        setter(validFiles as T); // File[] 타입으로 캐스팅
+        // 첨부 파일 처리
+        const validFiles = fileArray.filter((file) => file.size <= MAX_FILE_SIZE);
+
+        if (validFiles.length !== fileArray.length) {
+          alert("일부 파일이 너무 큽니다. 최대 5MB까지 업로드할 수 있습니다.");
+        }
+
+        setAttachments((prev) => [...prev, ...validFiles]);
       }
     }
   };
 
-  // 제출 핸들러
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
+  // 파일 삭제 핸들러
+  const removeFile = (index: number) => {
+    setAttachments((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError(null);
 
     try {
-      const thumbnailFile = communityThumbnailFile
-        ? `${MAIN_URL}${await uploadFile(communityThumbnailFile, "community-thumbnail")}`
-        : DEFAULT_THUMBNAIL;
-
-      const attachmentUrls = attachments.length
-        ? await Promise.all(
-            attachments.map((file) =>
-              uploadFile(file, "community").then((url) => `${MAIN_URL}/upload${url}`)
-            )
-          )
-        : [];
-
+      // 서버에 커뮤니티 생성 요청
       const newCommunity = await createCommunity(
         title,
         content,
-        thumbnailFile,
-        attachmentUrls
+        communityThumbnailFile,
+        attachments
       );
 
+      alert("커뮤니티 게시글이 성공적으로 생성되었습니다!");
       navigate(`/community/${newCommunity.communityId}`);
     } catch (err: any) {
       console.error("커뮤니티 생성 실패:", err);
-      if (axios.isAxiosError(err)) {
-        setError(err.response?.data?.message || "서버와의 통신에 실패했습니다.");
-      } else {
-        setError("예상치 못한 오류가 발생했습니다.");
-      }
+      setError("게시글 생성 중 오류가 발생했습니다.");
     } finally {
       setIsSubmitting(false);
     }
@@ -106,11 +99,7 @@ export default function CommunityCreate() {
   return (
     <div className="community-create-container">
       <h1 className="community-create-title">댕소통 글쓰기</h1>
-      <form
-        onSubmit={handleSubmit}
-        encType="multipart/form-data"
-        className="community-create-form"
-      >
+      <form onSubmit={handleSubmit} className="community-create-form">
         {/* 제목 입력 */}
         <div className="community-create-form-group">
           <label htmlFor="title" className="community-create-label">
@@ -119,9 +108,10 @@ export default function CommunityCreate() {
           <input
             type="text"
             id="title"
+            name="title"
             className="community-create-input"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={handleInputChange}
             placeholder="제목을 입력하세요"
             required
           />
@@ -134,9 +124,10 @@ export default function CommunityCreate() {
           </label>
           <textarea
             id="content"
+            name="content"
             className="community-create-textarea"
             value={content}
-            onChange={(e) => setContent(e.target.value)}
+            onChange={handleInputChange}
             placeholder="내용을 입력하세요"
             rows={10}
             required
@@ -152,7 +143,7 @@ export default function CommunityCreate() {
             type="file"
             id="thumbnail"
             className="community-create-input"
-            onChange={(e) => handleFileChange(e, setCommunityThumbnailFile, true)}
+            onChange={(e) => handleFileChange(e, true)}
             accept="image/*"
           />
           {thumbnailPreview && (
@@ -172,14 +163,19 @@ export default function CommunityCreate() {
             type="file"
             id="attachments"
             className="community-create-input"
-            onChange={(e) => handleFileChange(e, setAttachments)}
+            onChange={(e) => handleFileChange(e)}
             multiple
             accept="image/*,application/pdf"
           />
           {attachments.length > 0 && (
             <ul>
               {attachments.map((file, index) => (
-                <li key={index}>{file.name}</li>
+                <li key={index}>
+                  {file.name}{" "}
+                  <button type="button" onClick={() => removeFile(index)}>
+                    삭제
+                  </button>
+                </li>
               ))}
             </ul>
           )}

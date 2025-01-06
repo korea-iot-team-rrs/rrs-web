@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import img from '../../../assets/images/community.jpg';
 
+
 export default function Community() {
     const navigate = useNavigate();
 

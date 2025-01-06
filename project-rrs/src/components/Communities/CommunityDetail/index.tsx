@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import CommentsSection from "../CommunityComment";
 import { useNavigate, useParams } from "react-router-dom";
 import { getToken } from "../../../utils/auth";
 import { fetchUserInfo } from "../../../apis/userInfo";
@@ -6,9 +7,10 @@ import { deleteCommunity, getCommunityById } from "../../../apis/communityApi";
 import { CommunityLikeResponseDto, ToggleLikeData } from "../../../types/ToggleLikeType";
 import { getUsersWhoLikedCommunity, toggleLike } from "../../../apis/ToggleKikeApi";
 import { FaHeart, FaThumbsUp } from "react-icons/fa";
+import "../../../styles/CommunityDetail.css";
+import DefaultImage from "../../../assets/images/dogIllust02.jpeg"; // 기본 이미지 경로
 
-
-const BASE_FILE_URL = "http://localhost:4040/api/upload/file/";
+const BASE_FILE_URL = "http://localhost:4040/";
 
 interface AttachmentData {
   url: string;
@@ -22,7 +24,7 @@ interface CommunityData {
   communityUpdatedAt?: Date;
   communityLikeCount: number;
   communityContent: string;
-  communityThumbnailFile: string;
+  communityThumbnailFile: string | null; // null 허용
   attachments?: AttachmentData[];
 }
 
@@ -59,6 +61,7 @@ export default function CommunityDetail() {
 
         if (id) {
           const data = await getCommunityById(Number(id));
+          console.log(data);
           if (data) {
             setCommunity({
               ...data,
@@ -66,9 +69,11 @@ export default function CommunityDetail() {
               communityUpdatedAt: data.communityUpdatedAt
                 ? new Date(data.communityUpdatedAt)
                 : undefined,
-              communityThumbnailFile: `${BASE_FILE_URL}${data.communityThumbnailFile}`,
+              communityThumbnailFile: data.communityThumbnailFile
+                ? `${BASE_FILE_URL}${data.communityThumbnailFile}`
+                : DefaultImage, // 기본 이미지 설정
               attachments: data.attachments?.map((attachment: any) => ({
-                url: `${BASE_FILE_URL}${attachment.url}`,
+                url: `${BASE_FILE_URL}${attachment}`,
               })),
             });
 
@@ -210,17 +215,15 @@ export default function CommunityDetail() {
               )}
             </div>
             <hr />
-            {community.communityThumbnailFile && (
-              <img
-                src={community.communityThumbnailFile}
-                alt="Thumbnail"
-                style={{ width: "100%", height: "auto" }}
-              />
-            )}
+            <img
+              src={community.communityThumbnailFile || DefaultImage} // 기본 이미지 설정
+              alt="Thumbnail"
+              style={{ width: "100%", height: "auto" }}
+            />
             <hr />
             <p className="community-detail-content">{community.communityContent}</p>
             {token && (
-              <CommunityComment
+              <CommentsSection
                 communityId={community.communityId}
                 token={token}
               />
