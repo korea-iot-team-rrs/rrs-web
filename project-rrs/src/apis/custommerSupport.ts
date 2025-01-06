@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CreateCS } from "../types/customerSupport";
+import { CreateCS, CustomerSupport, fetchCSList } from "../types/customerSupport";
 
 export const createCustomerSupport = async (data: CreateCS, token: string) => {
   const formData = new FormData();
@@ -28,7 +28,9 @@ export const createCustomerSupport = async (data: CreateCS, token: string) => {
   return response.data.data;
 };
 
-export const fetchCustomerSupportList = async (token: string) => {
+export const fetchCustomerSupportList = async (
+  token: string
+): Promise<fetchCSList[]> => {
   const response = await axios.get(
     `http://localhost:4040/api/v1/customer-supports`,
     {

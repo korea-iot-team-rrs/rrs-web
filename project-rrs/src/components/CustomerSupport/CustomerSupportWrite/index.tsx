@@ -67,7 +67,7 @@ export default function CustomerSupportWrite() {
       }
     });
 
-
+    console.log(createCSReqDto);
     try {
       await createCustomerSupport(createCSReqDto, token);
       alert("성공적으로 저장되었습니다!");

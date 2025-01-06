@@ -5,7 +5,7 @@
 
 /* MyPage Navigate 스타일 */
 .navMyPage {
-  flex: 0 0 130px;
+  flex: 0 0 200px;
   display: flex;
   flex-direction: column;
   justify-content: center;

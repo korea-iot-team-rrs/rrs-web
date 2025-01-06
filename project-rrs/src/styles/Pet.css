@@ -1,19 +1,30 @@
 /* 펫 리스트 화면 */
-.petBox {
-  width: 150px;  
-  height: 150px; 
+.petListContent {
+  display: flex;
+  width: 100%;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.petListBox {
+  width: 180px;
+  height: 180px;
   padding: 10px;
   border: 1px solid #ccc;
   position: relative;
   border-radius: 10px;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center; 
+  z-index: 1;
 }
 
 .toggle-btn {
   position: absolute;
   right: 0px;
   border-radius: 5px;
-  padding: 5px 10px;
+  padding: 1px 5px;
   cursor: pointer;
   color: #7a7979;
   writing-mode: vertical-rl; /* 세로로 텍스트 표시 */
@@ -21,11 +32,21 @@
   background-color: transparent;
   font-weight: 800;
   font-size: 20px;
+  top: 10px; 
 }
 
-.petBox .petImgBox {
-  width: 100px; 
+.petListBox img {
+  width: 100px;  
   height: 100px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  object-fit: cover; 
+  margin-top: 10px;
+}
+
+.petListBox p {
+  font-weight: 600;
+  margin-top: 13px;
 }
 
 .addPet {
@@ -38,14 +59,14 @@
   overflow: hidden;
   background-color: transparent;
   display: flex;
-  justify-content: center; 
+  justify-content: flex-start;
   align-items: center;
   flex-direction: column;
 }
 
 .addPet .circle {
-  width: 80px;  
-  height: 80px; 
+  width: 60%;  
+  height: 60%; 
   position: relative;
   border-radius: 50%;
   object-fit: cover;
@@ -53,6 +74,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 25px;
 }
 
 .addPet .circle p {
@@ -63,13 +85,73 @@
 }
 
 .addPet p {
-  margin-top: 20px;
   color: #1c82e0;
   font-weight: 600;
+  margin-top: 13px;
 }
 
-/* 펫 추가 화면 */
-.petAddContent {
-  
+.dropdown-menu {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column; 
+  gap: 10px; 
+  z-index: 9999;
+  top: 40px; /* ...버튼보다 아래*/
+  right: 10px; 
+  width: 120px;
 }
+
+/* 버튼 스타일 */
+.dropdown-menu button {
+  background-color: #f0f0f0;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  text-align: left;
+  font-size: 14px;
+  width: 100%;
+  border-radius: 4px;
+  text-align: center
+}
+
+.dropdown-menu button:hover {
+  background-color: #ddd;
+}
+
+/* 펫 상세 조회 */
+.petInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.petInfo .element {
+  display: flex;
+  gap: 30px;  /* 항목 가로 간격*/
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.petInfo label {
+  color: #1c82e0;
+  font-weight: 600;
+  width: 150px;
+  text-align: right;
+}
+
+.petInfo button {
+  background-color: #2194FF;
+  border-radius: 15px;
+  height: 30px;
+  color: #fff;
+  cursor: pointer;
+  width: 100px;
+  text-align: center;
+}
+
+
 

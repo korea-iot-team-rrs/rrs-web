@@ -22,6 +22,7 @@ export default function UserInfo() {
             alert('로그인 후 이용 가능합니다.');
             navigate('/'); 
           }
+          
         }
       } catch (error) {
         console.error("Failed to fetch user info:", error);

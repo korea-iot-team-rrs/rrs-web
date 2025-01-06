@@ -23,6 +23,7 @@ import ReservationForm from "./components/DangSitter/ReservationForm";
 import ReservationList from "./components/DangSitter/ReservaionList";
 import ReservationUserDetail from "./components/DangSitter/ReservaionUserDetail";
 import CustomerSupport from "./views/CustomerSupport";
+import CustomerSupportWrite from "./components/CustomerSupport/CustomerSupportWrite";
 import CommunityEditView from "./views/CommunityVIew/CommunityEditView";
 
 function App() {
@@ -47,6 +48,15 @@ function App() {
           <Route path="/community" element={<CommunityListView />} />
           <Route path="/community/:id" element={<CommunityDetailView/>} />
           <Route path="/community/write" element={<CommunityCreateView/>} />
+
+          <Route path="/dang-sitter" element={<DangSitter />}/>
+          <Route path="/dang-sitter/reservations" element={<ReservationList />} /> 
+          <Route path="/dang-sitter/reservations/write" element={<ReservationForm />} />
+          <Route path="/dang-sitter/reservations/:id" element={<ReservationUserDetail />} />
+
+          <Route path="/customer-supports" element={<CustomerSupport />}/>
+          <Route path="/customer-supports/write" element={<CustomerSupportWrite />}/>
+
           <Route path="/community/edit/:id" element={<CommunityEditView/>} />
 
           <Route path="/dang-sitter" element={<DangSitter />}/>
