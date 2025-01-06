@@ -42,8 +42,8 @@ function App() {
           <Route path="/login" element={<LoginView />} />
           <Route path="/signup" element={<SignUpView />} />
           <Route path="/find-useInfo" element={<FinduserInfo />} />
-          <Route path="/find-id" element={<FindId />} />
-          <Route path="/find-password" element={<FindPassword />} />
+          <Route path="/find-id/:token" element={<FindId />} />
+          <Route path="/find-password/:token" element={<FindPassword />} />
 
           <Route path="/announcements" element={<AnnouncementListView />} />
           <Route path="/announcements/:id" element={<AnnouncementView />} />

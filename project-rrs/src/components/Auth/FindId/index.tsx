@@ -1,13 +1,11 @@
-import { OutlinedInput } from "@mui/material";
-import { useLocation } from "react-router-dom";
-import { fetchUserInfo } from "../../../apis/userInfo";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { fetchUserInfo } from "../../../apis/userInfo";
 
 export default function FindId() {
-  const location = useLocation();
   const [username , setUsername] = useState<string>("");
-  const { token } = location.state || {}; 
-
+  const { token } = useParams<{ token: string }>();
+  
   useEffect(() => {
     if(token) {
       fetchUserInfo()

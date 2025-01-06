@@ -1,11 +1,18 @@
 import axios from "axios";
+import { CertificateDto } from "../types/AuthType";
 
-export const sendEmailforPw = async (username: string, email: string) => {
-  const response = await axios.post(`http://localhost:4040/api/v1/mail/send`);
+export const sendEmailForId = async (email: string) => {
+  const response = await axios.post(`http://localhost:4040/api/v1/mail/send`, {
+    email,
+  });
   return response.data.data;
 };
 
-export const sendEmailforId = async (email: string) => {
-  const response = await axios.post(`http://localhost:4040/api/v1/mail/send`);
+export const sendEmailForPw = async (email: string, username: string) => {
+  const response = await axios.post(`http://localhost:4040/api/v1/mail/send`, {
+    email,
+    username,
+  });
   return response.data.data;
 };
+
