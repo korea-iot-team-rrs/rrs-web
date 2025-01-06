@@ -1,5 +1,5 @@
 import React from 'react'
-import CommunityDetail from '../../../components/MainContainer/Community/CommunityDetail'
+import CommunityDetail from '../../../components/Communities/CommunityDetail'
 
 export default function CommunityDetailView() {
   return (
