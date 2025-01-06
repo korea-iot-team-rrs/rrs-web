@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { getCommunityById, deleteCommunity } from "../../../apis/communityApi";
-import CommunityComment from "../CommunityComment/index";
-import "../../../styles/CommunityDetail.css";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { getToken } from "../../../utils/auth";
 import { fetchUserInfo } from "../../../apis/userInfo";
+import { deleteCommunity, getCommunityById } from "../../../apis/communityApi";
+import { CommunityLikeResponseDto, ToggleLikeData } from "../../../types/ToggleLikeType";
+import { getUsersWhoLikedCommunity, toggleLike } from "../../../apis/ToggleKikeApi";
 import { FaHeart, FaThumbsUp } from "react-icons/fa";
-import { toggleLike, getUsersWhoLikedCommunity } from "../../../apis/ToggleKikeApi";
-import { ToggleLikeData, CommunityLikeResponseDto } from "../../../types/ToggleLikeType";
+
 
 const BASE_FILE_URL = "http://localhost:4040/api/upload/file/";
 
