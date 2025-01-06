@@ -19,31 +19,15 @@ import CommunityDetailView from "./views/CommunityVIew/CommunityDetailView";
 import CommunityCreateView from "./views/CommunityVIew/CommunityCreateView";
 import MyPageView from "./views/MyPage/User";
 import DangSitter from "./components/DangSitter";
-import ReservationForm from "./components/DangSitter/ReservationForm";
-import ReservationList from "./components/DangSitter/ReservaionList";
-import ReservationUserDetail from "./components/DangSitter/ReservaionUserDetail";
 import CustomerSupport from "./views/CustomerSupport";
-import CustomerSupportWrite from "./components/CustomerSupport/CustomerSupportWrite";
 import CustomerSupportDetail from "./components/CustomerSupport/CustomerSupportDetail";
-import useAuthStore from "./stores/auth.store";
-import { useEffect } from "react";
+import CustomerSupportWrite from "./components/CustomerSupport/CustomerSupportWrite";
+import ReservationList from "./components/DangSitter/ReservaionList";
+import ReservationForm from "./components/DangSitter/ReservationForm";
+import ReservationUserDetail from "./components/DangSitter/ReservaionUserDetail";
 
 function App() {
-  const logout = useAuthStore((state) => state.logout);
-
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      logout(); // 브라우저 닫힐 때 로그아웃
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [logout]);
-
-return (
+  return (
     <div className="app-container">
       <Header />
       <div className="content">
@@ -73,7 +57,7 @@ return (
           <Route path="/customer-supports" element={<CustomerSupport />}/>
           <Route path="/customer-supports/:id" element={<CustomerSupportDetail />}/>
           <Route path="/customer-supports/write" element={<CustomerSupportWrite />}/>
-
+          
           <Route path="/user/*" element={<MyPageView />} />
         </Routes>
       </div>

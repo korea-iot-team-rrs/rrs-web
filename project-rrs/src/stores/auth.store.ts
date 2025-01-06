@@ -32,18 +32,17 @@ const useAuthStore = create<AuthState>((set) => ({
   login: (token, user) => {
     set({ isLoggedIn: true, user });
     localStorage.setItem("user", JSON.stringify(user));
-    localStorage.setItem("token", token); // 토큰 저장
   },
+
   logout: () => {
     set({ isLoggedIn: false, user: null });
     localStorage.removeItem("user");
-    localStorage.removeItem("token"); // 토큰 제거
   },
-  
+
   updateUser: (user) => {
     set({ user });
     localStorage.setItem("user", JSON.stringify(user));
-  },
+  }
 }));
 
 export default useAuthStore;

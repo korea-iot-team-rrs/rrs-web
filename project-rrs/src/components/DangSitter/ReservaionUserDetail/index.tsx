@@ -12,8 +12,9 @@ import DangSitterBox from "../DangSitterBox";
 import ReservationUserInfo from "../ReservationUserInfo";
 import { fetchUserInfo } from "../../../apis/userInfo";
 import { fetchPets } from "../../../apis/petApi";
-import { Button } from "@mui/material";
-import CreateReviewModal from "../ReviewModal";
+import { Button, Chip } from "@mui/material";
+
+import "../../../styles/reservation/ReservationUserDetail.css";
 
 export default function ReservationUserDetail() {
   const { id } = useParams<{ id: string }>();
@@ -47,22 +48,41 @@ export default function ReservationUserDetail() {
 
   const [pets, setPets] = useState<Pet[]>([]);
 
-  const memoInputChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const memoInputChangeHandler = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setReservationMemo(e.target.value);
   };
 
-  const reservationModifyBtnHandler = async(
+  const reservationModifyBtnHandler = async (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
     const token = cookies.token;
     setReservationMemo(reservationMemo);
     try {
       await updateMemo(reservation.reservationId, { reservationMemo }, token);
-      alert("수정이 완료되었습니다.")
-      navigate('/dang-sitter/reservations');
+      alert("수정이 완료되었습니다.");
+      navigate("/dang-sitter/reservations");
     } catch (e) {
       console.error("Failed to update reservation memo", e);
-      alert("예약 대기중일때만 메모 수정이 가능합니다.")
+      alert("예약 대기중일때만 메모 수정이 가능합니다.");
+    }
+  };
+
+  const formatStatus = (status: string) => {
+    switch (status) {
+      case "PENDING":
+        return "댕시터의 예약 수락을 기다리는 중입니다.";
+      case "IN_PROGRESS":
+        return "현재 예약이 진행중입니다.";
+      case "REJECTED":
+        return "예약이 성사되지 않았습니다.";
+      case "CANCELLED":
+        return "예약이 취소 되었습니다.";
+      case "COMPLETED":
+        return "예약이 완료 되었습니다.";
+      default:
+        return "알 수 없음";
     }
   };
 
@@ -126,25 +146,63 @@ export default function ReservationUserDetail() {
 
   return (
     <>
-      <p>{reservation.reservationStartDate}</p>
-      <p>{reservation.reservationEndDate}</p>
-      <DangSitterBox providerId={reservation.providerId} />
-      <ReservationUserInfo pets={pets} user={user} />
-      <div>
-        <label htmlFor="reservationMemo">메모</label>
-        <textarea
-          id="reservationMemo"
-          className="reservation-userInfo-reservationMemo"
-          value={reservationMemo}
-          onChange={(e) => memoInputChangeHandler(e)}
-          rows={4}
-          cols={50}
-        />
-        <Button onClick={reservationModifyBtnHandler}>저장</Button>
+      <div className="reservation-detail-wrapper">
+        <div className="reservation-header">
+          <div className="reservation-detail-title">
+            <span>예약 날짜</span>
+          </div>
+          <div>
+            <p>시작일</p>
+            <Chip
+              label={reservation.reservationStartDate}
+              color="primary"
+              variant="outlined"
+              sx={{ fontFamily: "Pretendard" }}
+            ></Chip>
+            <p>종료일</p>
+            <Chip
+              label={reservation.reservationEndDate}
+              color="primary"
+              variant="outlined"
+              sx={{ fontFamily: "Pretendard" }}
+            ></Chip>
+          </div>
+        </div>
+
+        <div className="reservation-detail-title">
+          <span>예약 현황</span>
+        </div>
+        <div className="reservation-detail-status">
+          <p>
+            {formatStatus(ReservationStatus[reservation.reservationStatus])}
+          </p>
+        </div>
+
+        <div className="reservation-detail-title">
+          <span>예약한 댕시터</span>
+        </div>
+        <DangSitterBox providerId={reservation.providerId} />
+        <ReservationUserInfo pets={pets} user={user} />
+        <div className="reservation-detail-bottom">
+          <div className="reservation-detail-title">
+            <span>댕시터에게 전하고 싶은 말</span>
+          </div>
+          <textarea
+            id="reservation-memo"
+            className="memo"
+            value={reservationMemo}
+            onChange={(e) => memoInputChangeHandler(e)}
+            rows={4}
+            cols={50}
+          />
+        </div>
+        <Button
+          className="reservation-modify-btn"
+          onClick={reservationModifyBtnHandler}
+        >
+          저장
+        </Button>
       </div>
-      <p>
-        Reservation Status: {ReservationStatus[reservation.reservationStatus]}
-      </p>
     </>
   );
 }
