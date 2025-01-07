@@ -2,25 +2,24 @@ import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { deleteCustomerSupport, fetchOneCustomerSupport } from "../../../apis/custommerSupport";
 import { useNavigate, useParams } from "react-router-dom";
-import { FetchCS, EditedCS } from "../../../types/customerSupport";
+import { FetchCS } from "../../../types/customerSupport";
 import {
   Avatar,
   Button,
   Chip,
-  IconButton,
   List,
   ListItem,
   ListItemAvatar,
   ListItemText,
 } from "@mui/material";
-import CustomerSupportWrite from "../CustomerSupportWrite";
 import FolderIcon from "@mui/icons-material/Folder";
-import DeleteIcon from "@mui/icons-material/Delete";
 import "../../../styles/customerSupport/CustomerSupportDetail.css";
 
 export default function CustomerSupportDetail() {
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
+
   const [cs, setCs] = useState<FetchCS>({
     customerSupportId: 0,
     customerSupportTitle: "",
@@ -31,21 +30,10 @@ export default function CustomerSupportDetail() {
     fileInfos: [],
   });
 
-  const [isEdit, setIsEdit] = useState<boolean>(false);
-  const [editData, setEditData] = useState<EditedCS | null>(null);
-  const { id } = useParams<{ id: string }>();
-
   const normalizePath = (path: string) => {
     const baseUrl =
       process.env.REACT_APP_API_BASE_URL || "http://localhost:4040/";
-    return baseUrl + path.replace(/\\/g, "/");
-  };
-
-  const handleDeleteFile = (index: number) => {
-    setCs((prev) => ({
-      ...prev,
-      fileInfos: prev.fileInfos.filter((_, i) => i !== index),
-    }));
+    return baseUrl + encodeURIComponent(path.replace(/\\/g, "/"));
   };
 
   const categoryLabel = (status: string) => {
@@ -71,30 +59,28 @@ export default function CustomerSupportDetail() {
   };
 
   const handleEdit = () => {
-    setEditData({
-      customerSupportId: cs.customerSupportId,
-      customerSupportTitle: cs.customerSupportTitle,
-      customerSupportContent: cs.customerSupportContent,
-      customerSupportCategory: cs.customerSupportCategory,
-      fileInfos: cs.fileInfos,
-    });
-    setIsEdit(true);
+    navigate(`/customer-supports/edit/${id}`);
   };
 
   const deleteBtnHandler = () => {
     const token = cookies.token;
-    if (token && id) {
-      const csId = Number(id);
-        deleteCustomerSupport(csId, token)
-        .then(()=> {
-          window.confirm("정말 삭제하시겠습니까?")
-          navigate('/customer-supports')
-        })
-        .catch((e) => console.error("fail to delete cs", e));
-    } else {
-      console.error("token is not exist")
+    if (!token || !id) {
+      console.error("Token is not available or ID is missing.");
+      return;
     }
-  }
+
+    if (window.confirm("정말 삭제하시겠습니까?")) {
+      const csId = Number(id);
+      deleteCustomerSupport(csId, token)
+        .then(() => {
+          alert("삭제되었습니다.");
+          navigate("/customer-supports");
+        })
+        .catch((e) => {
+          console.error("Failed to delete customer support:", e);
+        });
+    }
+  };
 
   useEffect(() => {
     const token = cookies.token;
@@ -104,74 +90,66 @@ export default function CustomerSupportDetail() {
         .then((data: FetchCS) => {
           setCs(data);
         })
-        .catch((e) => console.error("fail to fetch cs", e));
+        .catch((e) => {
+          console.error("Failed to fetch customer support:", e);
+        });
     }
   }, [id, cookies.token]);
 
   return (
-    <>
-      {!isEdit ? (
-        <div className="cs-detail-wrapper">
-          <div className="cs-detail-header">
-            <Chip label={categoryLabel(cs.customerSupportCategory)} color="primary" variant="outlined" />
-            <Chip label={statusLabel(cs.customerSupportStatus)} color="success" variant="outlined" />
-          </div>
-          <div className="cs-detail-body">
-            <div className="cs-detail-title">{cs.customerSupportTitle}</div>
-            <div className="cs-detail-content">{cs.customerSupportContent}</div>
-            <div className="cs-detail-attachment">
-              {cs.fileInfos.length > 0 ? (
-                <List>
-                  {cs.fileInfos.map((att, index) => (
-                    <ListItem
-                      key={index}
-                      secondaryAction={
-                        <IconButton
-                          edge="end"
-                          aria-label="delete"
-                          onClick={() => handleDeleteFile(index)}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      }
-                    >
-                      <ListItemAvatar>
-                        <Avatar>
-                          <FolderIcon />
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={
-                          <a href={normalizePath(att.filePath)} download>
-                            {att.fileName}
-                          </a>
-                        }
-                      />
-                    </ListItem>
-                  ))}
-                </List>
-              ) : (
-                <p>첨부된 파일이 없습니다.</p>
-              )}
-            </div>
-            <div className="cs-detail-btn">
-              {cs.customerSupportStatus !== "1" ? (
-                <Button onClick={handleEdit}>수정하기</Button>
-              ) : (
-                <Button disabled color="error">
-                  수정 불가
-                </Button>
-              )}
-              <Button
-              onClick={deleteBtnHandler}
-              color="error"
-              >삭제하기</Button>
-            </div>
-          </div>
+    <div className="cs-detail-wrapper">
+      <div className="cs-detail-header">
+        <Chip
+          label={categoryLabel(cs.customerSupportCategory)}
+          color="primary"
+          variant="outlined"
+        />
+        <Chip
+          label={statusLabel(cs.customerSupportStatus)}
+          color="success"
+          variant="outlined"
+        />
+      </div>
+      <div className="cs-detail-body">
+        <div className="cs-detail-title">{cs.customerSupportTitle}</div>
+        <div className="cs-detail-content">{cs.customerSupportContent}</div>
+        <div className="cs-detail-attachment">
+          {cs.fileInfos.length > 0 ? (
+            <List>
+              {cs.fileInfos.map((att, index) => (
+                <ListItem key={index}>
+                  <ListItemAvatar>
+                    <Avatar>
+                      <FolderIcon />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={
+                      <a href={normalizePath(att.filePath)} download>
+                        {att.fileName}
+                      </a>
+                    }
+                  />
+                </ListItem>
+              ))}
+            </List>
+          ) : (
+            <p>첨부된 파일이 없습니다.</p>
+          )}
         </div>
-      ) : (
-        <CustomerSupportWrite editData={editData} />
-      )}
-    </>
+        <div className="cs-detail-btn">
+          {cs.customerSupportStatus !== "1" ? (
+            <Button onClick={handleEdit}>수정하기</Button>
+          ) : (
+            <Button disabled color="error">
+              수정 불가
+            </Button>
+          )}
+          <Button onClick={deleteBtnHandler} color="error">
+            삭제하기
+          </Button>
+        </div>
+      </div>
+    </div>
   );
 }

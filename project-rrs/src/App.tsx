@@ -31,6 +31,7 @@ import CommunityEditView from "./views/CommunityVIew/CommunityEditView";
 import FinduserInfo from "./components/Auth/FindUserInfo";
 import FindPassword from "./components/Auth/FindPassword/FindPassword";
 import FindId from "./components/Auth/FindId";
+import CustomerSupportUpdate from "./components/CustomerSupport/CustomerSupportUpdate";
 function App() {
   return (
     <div className="app-container">
@@ -65,6 +66,7 @@ function App() {
           <Route path="/customer-supports" element={<CustomerSupport />}/>
           <Route path="/customer-supports/:id" element={<CustomerSupportDetail />}/>
           <Route path="/customer-supports/write" element={<CustomerSupportWrite />}/>
+          <Route path="/customer-supports/edit/:id" element={<CustomerSupportUpdate />}/>
 
           <Route path="/community/edit/:id" element={<CommunityEditView/>} />
 
