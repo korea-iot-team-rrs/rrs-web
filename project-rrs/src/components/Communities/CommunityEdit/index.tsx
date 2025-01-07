@@ -23,7 +23,7 @@ export default function CommunityEdit() {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [communityThumbnailFile, setCommunityThumbnailFile] = useState<File | undefined>(undefined); // 썸네일 파일 상태
+  const [communityThumbnailFile, setCommunityThumbnailFile] = useState<File | undefined>(undefined);
   const [attachments, setAttachments] = useState<File[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -48,9 +48,8 @@ export default function CommunityEdit() {
         setTitle(community.communityTitle);
         setContent(community.communityContent);
         if (community.communityThumbnailFile) {
-          // 기존 경로를 HTTP URL로 변환
           const thumbnailUrl = `${BASE_FILE_URL}${community.communityThumbnailFile.replace(/\\/g, "/")}`;
-          setThumbnailPreview(thumbnailUrl); // HTTP URL을 미리보기로 설정
+          setThumbnailPreview(thumbnailUrl);
         }
       } catch {
         setError(ErrorMessages.FETCH_FAILED);
@@ -60,7 +59,7 @@ export default function CommunityEdit() {
 
   useEffect(() => {
     if (thumbnailPreview) {
-      return () => URL.revokeObjectURL(thumbnailPreview); // 썸네일 미리보기 URL 정리
+      return () => URL.revokeObjectURL(thumbnailPreview);
     }
   }, [thumbnailPreview]);
 
@@ -86,8 +85,8 @@ export default function CommunityEdit() {
     if (isThumbnail) {
       const file = fileArray[0];
       if (file && validateFile(file)) {
-        setCommunityThumbnailFile(file); // 썸네일 파일 상태 업데이트
-        setThumbnailPreview(URL.createObjectURL(file)); // 미리보기 URL 설정
+        setCommunityThumbnailFile(file);
+        setThumbnailPreview(URL.createObjectURL(file));
       }
     } else {
       const validFiles = fileArray.filter(validateFile);
@@ -119,7 +118,7 @@ export default function CommunityEdit() {
         await updateCommunity(communityIdNumber, {
           communityTitle: title,
           communityContent: content,
-          communityThumbnailFile, // 서버로 썸네일 파일 전달
+          communityThumbnailFile,
           attachments,
         });
 
