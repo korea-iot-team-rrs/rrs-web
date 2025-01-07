@@ -67,10 +67,11 @@ export default function Login() {
 
     try {
       const response = await axios.post('http://localhost:4040/api/v1/auth/login', credentials);
+      console.log('first');
+      console.log(response.data.data);
 
       if (response.status === 200) {
         const { token, user } = response.data.data;
-        console.log(token)
         setCookie('token', token, { path: '/' });
         localStorage.setItem('token', token); 
         login(token, user);
@@ -78,7 +79,9 @@ export default function Login() {
 
       }
     } catch (err: any) {
+      console.error(err);
       let errorMessage = '서버와 연결할 수 없습니다. 다시 시도해주세요.';
+
       if (err.response) {
         const { message } = err.response.data;
         if (message === 'UserId does not match.') {

@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { User } from "../../../types";
-import { fetchUserInfoForCertification, updateUserPassword } from "../../../apis/userInfo";
+import {
+  fetchUserInfoForCertification,
+  updateUserPassword,
+} from "../../../apis/userInfo";
 import { OutlinedInput } from "@mui/material";
 import { Button } from "rsuite";
 
@@ -20,23 +23,38 @@ export default function FindPassword() {
     }
   }, [token]);
 
-  const passwordInputHandler = (e:React.ChangeEvent<HTMLInputElement>) => {setPassword(e.target.value)};
-  const passwordConfirmInputHandler = (e:React.ChangeEvent<HTMLInputElement>) => {setConfirmPassword(e.target.value)};
+  const passwordInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+  const passwordConfirmInputHandler = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setConfirmPassword(e.target.value);
+  };
+  console.log(token);
 
   const updatePasswordInClickHandler = () => {
     const data = {
       password: password,
-      confirmPassword: confirmPassword
+      confirmPassword: confirmPassword,
+    };
+
+    if(data.password !== data.confirmPassword){
+      alert("비밀번호가 일치하지 않습니다.");
+      return;
     }
-    console.log(data)
-    if(token && (password === confirmPassword)){
+
+    if (token) {
       updateUserPassword(data, token)
-      .then(()=> {
-        alert("비밀번호 변경에 성공하셨습니다.");
-      })
-      .catch((e) => console.error("fail to update password", e));
+        .then(() => {
+          alert("비밀번호 변경에 성공하셨습니다.");
+          navigate("/")
+        })
+        .catch((e) => console.error("fail to update password", e));
+    } else {
+      alert("잘못된 인증 경로 입니다.");
+      return;
     }
-    alert("실패")
   };
 
   return (
@@ -57,7 +75,9 @@ export default function FindPassword() {
         onChange={passwordConfirmInputHandler}
         value={confirmPassword}
       />
-      <Button onClick={updatePasswordInClickHandler}>비밀번호 재설정 하기</Button>
+      <Button onClick={updatePasswordInClickHandler}>
+        비밀번호 재설정 하기
+      </Button>
     </>
   );
 }

@@ -120,7 +120,11 @@ export const updateUserPassword = async (
   const response = await axios.put(
     `http://localhost:4040/api/v1/users/update-password`,
     data,
-    { headers: { Authorization: `Bearer ${token}` } }
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
   );
   return response.data.data;
 };

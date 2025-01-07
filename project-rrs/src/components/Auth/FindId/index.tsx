@@ -2,20 +2,20 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import { useParams } from "react-router-dom";
 import { FetchIdByToken } from "../../../apis/emailApi";
-import { fetchUserInfoForCertification } from "../../../apis/userInfo";
-
 export default function FindId() {
   const { token } = useParams<{ token: string }>(); 
   const [username, setUsername] = useState<string>("");
 
 
   useEffect(() => {
+    console.log(token);
     if(token) {
-      fetchUserInfoForCertification(token)
+      FetchIdByToken(token)
       .then((response) => setUsername(response.name))
       .catch((e) => console.error("fail to fetch username", e));
     }
-
+    
+    console.log(username);
   }, [token])
 
   if (!token) {
