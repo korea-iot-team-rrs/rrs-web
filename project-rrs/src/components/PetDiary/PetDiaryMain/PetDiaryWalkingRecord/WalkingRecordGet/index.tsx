@@ -3,7 +3,7 @@ import { Pet } from "../../../../../types";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 
-interface WalkingRecordCreateProps {
+interface WalkingRecorGetProps {
   selectedPet: Pet | null;
   selectedDate: string;
   walkingRecordId: number;
@@ -15,7 +15,7 @@ const WalkingRecordGet = ({
   selectedDate,
   walkingRecordId,
   goBack,
-}: WalkingRecordCreateProps) => {
+}: WalkingRecorGetProps) => {
   const [walkingRecord, setWalkingRecord] = useState<any | null>(null);
   const [cookies] = useCookies(["token"]);
 
@@ -37,7 +37,7 @@ const WalkingRecordGet = ({
               },
             }
           );
-          setWalkingRecord(response.data.data); // 데이터를 받아와서 상태에 저장
+          setWalkingRecord(response.data.data);
         } catch (error) {
           console.error("산책 기록 조회 오류:", error);
           alert("산책 기록을 불러오는 중 오류가 발생했습니다.");

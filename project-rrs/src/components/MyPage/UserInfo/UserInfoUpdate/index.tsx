@@ -1,22 +1,22 @@
-import React, { useState } from 'react'
-import '../../../../styles/MyPage.css'
-import useAuthStore from '../../../../stores/auth.store'
-import { useNavigate } from 'react-router-dom';
-import { updateUserInfo } from '../../../../apis/userInfo';
+import React, { useState } from "react";
+import "../../../../styles/MyPage.css";
+import useAuthStore from "../../../../stores/auth.store";
+import { useNavigate } from "react-router-dom";
+import { updateUserInfo } from "../../../../apis/userInfo";
 
 export default function UserInfoUpdate() {
   const { user, updateUser } = useAuthStore();
   const navigate = useNavigate();
 
   const [userInfo, setUserInfo] = useState({
-    username: user?.username || '',
-    name: user?.name || '',
-    nickname: user?.nickname || '',
-    address: user?.address || '',
-    addressDetail: user?.addressDetail || '',
-    email: user?.email || '',
-    phone: user?.phone || '',
-    profileImageUrl: user?.profileImageUrl || ''
+    username: user?.username || "",
+    name: user?.name || "",
+    nickname: user?.nickname || "",
+    address: user?.address || "",
+    addressDetail: user?.addressDetail || "",
+    email: user?.email || "",
+    phone: user?.phone || "",
+    profileImageUrl: user?.profileImageUrl || "",
   });
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -42,7 +42,7 @@ export default function UserInfoUpdate() {
 
   const goBack = () => {
     window.history.back();
-  }
+  };
 
   const validateUserInfo = (): boolean => {
     const nameRegex = /^[가-힣]+$/;
@@ -50,33 +50,33 @@ export default function UserInfoUpdate() {
     const profileImageUrlRegex = /.*\.(jpg|png)$/;
 
     if (!userInfo.name) {
-      alert('이름을 입력해 주세요.');
+      alert("이름을 입력해 주세요.");
       return false;
     } else if (!nameRegex.test(userInfo.name)) {
-      alert('이름은 한글만 사용할 수 있습니다.');
+      alert("이름은 한글만 사용할 수 있습니다.");
       return false;
     }
 
     if (!userInfo.address) {
-      alert('주소를 입력해 주세요.');
+      alert("주소를 입력해 주세요.");
       return false;
     }
 
     if (!userInfo.addressDetail) {
-      alert('상세 주소를 입력해 주세요.');
+      alert("상세 주소를 입력해 주세요.");
       return false;
     }
 
     if (!userInfo.phone) {
-      alert('연락처를 입력해 주세요.');
+      alert("연락처를 입력해 주세요.");
       return false;
     } else if (!phoneRegex.test(userInfo.phone)) {
-      alert('연락처는 11자리 숫자로 입력해 주세요.');
+      alert("연락처는 11자리 숫자로 입력해 주세요.");
       return false;
     }
 
     if (!profileImageUrlRegex.test(userInfo.profileImageUrl)) {
-      alert('이미지는 jpg 또는 png 형식만 지원됩니다.');
+      alert("이미지는 jpg 또는 png 형식만 지원됩니다.");
       return false;
     }
 
@@ -92,10 +92,8 @@ export default function UserInfoUpdate() {
 
     console.log("Submitting user info:", userInfo);
 
-
     // 유효성 검사사
     // const passwordRegex = /^(?=.*\d)(?=.*[!@#$%^&*()_\-+=])[A-Za-z\d!@#$%^&*()_\-+=]{8,15}$/;
-    
 
     // if (!userInfo.password) {
     //   newError.password = '비밀번호를 입력해 주세요.';
@@ -114,14 +112,16 @@ export default function UserInfoUpdate() {
           address: userInfo.address,
           addressDetail: userInfo.addressDetail,
           phone: userInfo.phone,
-          profileImageUrl: selectedFile ? selectedFile.name : userInfo.profileImageUrl,
+          profileImageUrl: selectedFile
+            ? selectedFile.name
+            : userInfo.profileImageUrl,
         });
-  
-        if (response.message === 'NO_MODIFIED_VALUES') {
-          alert('변경된 내용이 없습니다.');
+
+        if (response.message === "NO_MODIFIED_VALUES") {
+          alert("변경된 내용이 없습니다.");
         } else {
-          alert('회원 정보가 수정되었습니다.');
-          navigate('/user/info');
+          alert("회원 정보가 수정되었습니다.");
+          navigate("/user/info");
         }
       } else {
         // 전화번호가 변경된 경우 중복 체크
@@ -130,21 +130,23 @@ export default function UserInfoUpdate() {
           address: userInfo.address,
           addressDetail: userInfo.addressDetail,
           phone: userInfo.phone,
-          profileImageUrl: selectedFile ? selectedFile.name : userInfo.profileImageUrl,
+          profileImageUrl: selectedFile
+            ? selectedFile.name
+            : userInfo.profileImageUrl,
         });
-  
-        if (response.message === 'Phone already exists.') {
-          alert('이미 등록된 전화번호입니다. 다른 전화번호를 입력해주세요.');
-        } else if (response.message === 'NO_MODIFIED_VALUES') {
-          alert('변경된 내용이 없습니다.');
+
+        if (response.message === "Phone already exists.") {
+          alert("이미 등록된 전화번호입니다. 다른 전화번호를 입력해주세요.");
+        } else if (response.message === "NO_MODIFIED_VALUES") {
+          alert("변경된 내용이 없습니다.");
         } else {
-          alert('회원 정보가 수정되었습니다.');
-          navigate('/user/info');
+          alert("회원 정보가 수정되었습니다.");
+          navigate("/user/info");
         }
       }
     } catch (error) {
-      console.error('Error updating user info', error);
-      alert('다시 시도해주세요.');
+      console.error("Error updating user info", error);
+      alert("다시 시도해주세요.");
     }
   };
 
@@ -152,23 +154,23 @@ export default function UserInfoUpdate() {
     <div>
       <h2>MyPage</h2>
       <form onSubmit={handleOk}>
-        <div className='element'>
+        <div className="element">
           <label>개인 프로필 사진</label>
-          <input 
-            type="file" 
-            name='profileImageUrl'
-            accept='.jpg,.png'
+          <input
+            type="file"
+            name="profileImageUrl"
+            accept=".jpg,.png"
             onChange={handleFileChange}
           />
         </div>
 
-        <div className='element'>
+        <div className="element">
           <label>아이디</label>
-          <input 
-            type="text" 
-            name='username'
+          <input
+            type="text"
+            name="username"
             value={userInfo.username}
-            disabled 
+            disabled
           />
         </div>
 
@@ -192,69 +194,68 @@ export default function UserInfoUpdate() {
           />
         </div> */}
 
-        <div className='element'>
+        <div className="element">
           <label>이름</label>
-          <input 
-            type="text" 
-            name='name'
+          <input
+            type="text"
+            name="name"
             value={userInfo.name}
             onChange={handleInputChange}
           />
         </div>
 
-        <div className='element'>
+        <div className="element">
           <label>닉네임</label>
-          <input 
-            type="text" 
-            name='nickname'
+          <input
+            type="text"
+            name="nickname"
             value={userInfo.nickname}
-            disabled 
+            disabled
           />
         </div>
 
-        <div className='element'>
+        <div className="element">
           <label>주소</label>
-          <input 
-            type="text" 
-            name='address'
+          <input
+            type="text"
+            name="address"
             value={userInfo.address}
             onChange={handleInputChange}
           />
           <button>주소 검색</button>
         </div>
 
-        <div className='element'>
+        <div className="element">
           <label>상세 주소</label>
-          <input 
-            type="text" 
-            name='addressDetail'
+          <input
+            type="text"
+            name="addressDetail"
             value={userInfo.addressDetail}
             onChange={handleInputChange}
           />
         </div>
 
-        <div className='element'>
+        <div className="element">
           <label>이메일</label>
-          <input 
-            type="email" 
-            name='email'
-            value={userInfo.email}
-            disabled 
-          />
+          <input type="email" name="email" value={userInfo.email} disabled />
         </div>
 
-        <div className='element'>
+        <div className="element">
           <label>연락처</label>
-          <input 
-            type="text" 
-            name='phone'
+          <input
+            type="text"
+            name="phone"
             value={userInfo.phone}
             onChange={handleInputChange}
           />
         </div>
 
-        <button className='ok-button' type='submit'>완료</button>
-        <button className='back-button' type='button' onClick={goBack}>취소</button>
+        <button className="ok-button" type="submit">
+          완료
+        </button>
+        <button className="back-button" type="button" onClick={goBack}>
+          취소
+        </button>
       </form>
     </div>
   );
