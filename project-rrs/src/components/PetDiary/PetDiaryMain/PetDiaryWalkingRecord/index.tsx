@@ -191,6 +191,7 @@ export default function PetDiaryWalkingRecord({
         <div>
           <WalkingRecordUpdate
             selectedPet={selectedPet}
+            selectedDate={selectedDate}
             walkingRecordId={walkingRecordId}
             goBack={goBack}
             
