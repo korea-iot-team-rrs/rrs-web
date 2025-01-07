@@ -107,31 +107,16 @@ export const fetchUserInfoForCertification = async (token: string): Promise<User
 };
 
 export const updateUserPassword = async (
-  userData: Partial<User>,
+  data: {
+    password: string;
+    confirmPassword: string;
+  },
   token: string
-): Promise<UpdateUserResponse> => {
-  if (!token) {
-    throw new Error("No token found");
-  }
+) => {
+  const response = await axios.put(
+    `http://localhost:4040/api/v1/users/update-password`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },);
+}
 
-  try {
-    const response = await axios.put<UpdateUserResponse>(
-      'http://localhost:4040/api/v1/users',
-      userData,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    console.log("Response Data:", response.data);
-    return response.data;
-  } catch (error) {
-    console.error("Error in updateUserInfo:", error);
-    if (axios.isAxiosError(error)) {
-      console.error("Axios error response:", error.response);
-    }
-    throw error;
-  }
-};
