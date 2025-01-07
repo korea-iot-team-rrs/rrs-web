@@ -4,7 +4,9 @@ import useAuthStore from "../../../stores/auth.store";
 import { createCommunity } from "../../../apis/communityApi";
 import "../../../styles/CommunityCreate.css";
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 최대 파일 크기: 5MB
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const TITLE_MAX_LENGTH = 50;
+const CONTENT_MAX_LENGTH = 1000;
 
 export default function CommunityCreate() {
   const navigate = useNavigate();
@@ -27,7 +29,7 @@ export default function CommunityCreate() {
   useEffect(() => {
     return () => {
       if (thumbnailPreview) {
-        URL.revokeObjectURL(thumbnailPreview); // 메모리 누수 방지
+        URL.revokeObjectURL(thumbnailPreview);
       }
     };
   }, [thumbnailPreview]);
@@ -36,14 +38,18 @@ export default function CommunityCreate() {
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    if (name === "title") setTitle(value);
-    if (name === "content") setContent(value);
+    if (name === "title") {
+      setTitle(value.slice(0, TITLE_MAX_LENGTH)); // 제목 길이 제한
+    }
+    if (name === "content") {
+      setContent(value.slice(0, CONTENT_MAX_LENGTH)); // 내용 길이 제한
+    }
   };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>, isThumbnail = false) => {
-    const files = e.target.files; // FileList | null 타입
+    const files = e.target.files;
     if (files) {
-      const fileArray = Array.from(files); // FileList를 배열로 변환
+      const fileArray = Array.from(files);
 
       // 썸네일 파일 처리
       if (isThumbnail) {
@@ -67,18 +73,26 @@ export default function CommunityCreate() {
     }
   };
 
-  // 파일 삭제 핸들러
   const removeFile = (index: number) => {
     setAttachments((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (title.trim().length < 3) {
+      setError("제목은 최소 3자 이상 입력해야 합니다.");
+      return;
+    }
+    if (content.trim().length < 10) {
+      setError("내용은 최소 10자 이상 입력해야 합니다.");
+      return;
+    }
+
     setIsSubmitting(true);
     setError(null);
 
     try {
-      // 서버에 커뮤니티 생성 요청
       const newCommunity = await createCommunity(
         title,
         content,
@@ -103,7 +117,7 @@ export default function CommunityCreate() {
         {/* 제목 입력 */}
         <div className="community-create-form-group">
           <label htmlFor="title" className="community-create-label">
-            제목
+            제목 (최대 {TITLE_MAX_LENGTH}자)
           </label>
           <input
             type="text"
@@ -115,12 +129,15 @@ export default function CommunityCreate() {
             placeholder="제목을 입력하세요"
             required
           />
+          <p className="character-counter">
+            {title.length} / {TITLE_MAX_LENGTH}자
+          </p>
         </div>
 
         {/* 내용 입력 */}
         <div className="community-create-form-group">
           <label htmlFor="content" className="community-create-label">
-            내용
+            내용 (최대 {CONTENT_MAX_LENGTH}자)
           </label>
           <textarea
             id="content"
@@ -132,6 +149,9 @@ export default function CommunityCreate() {
             rows={10}
             required
           ></textarea>
+          <p className="character-counter">
+            {content.length} / {CONTENT_MAX_LENGTH}자
+          </p>
         </div>
 
         {/* 썸네일 입력 */}

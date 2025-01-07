@@ -117,7 +117,7 @@ export default function PetDiaryMain({ selectedDate }: PetDiaryMainProps) {
         <PetDiaryWalkingRecord selectedDate={selectedDate}/>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <PetDiaryHealthRecord />
+        <PetDiaryHealthRecord selectedDate={selectedDate}/>
       </TabPanel>
     </Box>
   );

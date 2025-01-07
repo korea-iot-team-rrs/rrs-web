@@ -68,7 +68,7 @@ function App() {
           <Route path="/customer-supports/write" element={<CustomerSupportWrite />}/>
           <Route path="/customer-supports/edit/:id" element={<CustomerSupportUpdate />}/>
 
-          <Route path="/community/edit/:id" element={<CommunityEditView/>} />
+          <Route path="/community/edit/:communityId" element={<CommunityEditView/>} />
 
           <Route path="/dang-sitter" element={<DangSitter />}/>
           <Route path="/dang-sitter/reservations" element={<ReservationList />} /> 

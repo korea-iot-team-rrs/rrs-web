@@ -82,26 +82,32 @@ export const toggleLike = async (
 export const updateCommunity = async (
   communityId: number,
   data: {
-    communityTitle?: string;
-    communityContent?: string;
+    communityTitle: string;
+    communityContent: string;
     communityThumbnailFile?: File;
     attachments?: File[];
   }
 ): Promise<CommunityData> => {
   const token = getToken();
 
+  // FormData 생성 및 데이터 추가
   const formData = new FormData();
-  if (data.communityTitle) formData.append("communityTitle", data.communityTitle);
-  if (data.communityContent) formData.append("communityContent", data.communityContent);
+  if (data.communityTitle) {
+    formData.append("communityTitle", data.communityTitle);
+  }
+  if (data.communityContent) {
+    formData.append("communityContent", data.communityContent);
+  }
   if (data.communityThumbnailFile) {
     formData.append("communityThumbnailFile", data.communityThumbnailFile);
   }
   if (data.attachments && data.attachments.length > 0) {
-    data.attachments.forEach((file, index) => {
-      formData.append(`attachments[${index}]`, file);
+    data.attachments.forEach((file) => {
+      formData.append("attachments", file);
     });
   }
 
+  // API 호출
   try {
     const response = await axios.put<{ data: CommunityData }>(
       `${COMMUNITY_API_URL}/edit/${communityId}`,
@@ -114,9 +120,14 @@ export const updateCommunity = async (
       }
     );
     return response.data.data;
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error updating community:", error);
-    throw new Error("게시글을 수정하는데 실패하였습니다.");
+
+    // 에러 메시지 처리
+    if (error.response?.data?.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error("게시글을 수정하는 데 실패하였습니다.");
   }
 };
 

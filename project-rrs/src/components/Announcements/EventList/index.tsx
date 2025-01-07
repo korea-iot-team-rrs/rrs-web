@@ -58,7 +58,7 @@ export default function EventList() {
     } else if (currentMenu === "공지사항") {
       navigate("/announcements");
     } else if (currentMenu === "사용방법") {
-      navigate("/usageGuide");
+      navigate("/usage-guide");
     }
   }, [currentMenu]);
 
