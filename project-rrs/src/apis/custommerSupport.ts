@@ -66,10 +66,9 @@ export const fetchOneCustomerSupport = async (
 
 export const updateCustomerSupport = async (
   customerSupportId: number,
-  data: UpdateCS,
+  formData: FormData,
   token: string
 ) => {
-  const formData = createFormData(data);
 
   const response = await axios.put(
     `http://localhost:4040/api/v1/customer-supports/${customerSupportId}`,
