@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { User } from "../../../types";
-import { fetchUserInfoForCertification } from "../../../apis/userInfo";
+import { fetchUserInfoForCertification, updateUserPassword } from "../../../apis/userInfo";
 import { OutlinedInput } from "@mui/material";
 import { Button } from "rsuite";
 
@@ -24,9 +24,19 @@ export default function FindPassword() {
   const passwordConfirmInputHandler = (e:React.ChangeEvent<HTMLInputElement>) => {setConfirmPassword(e.target.value)};
 
   const updatePasswordInClickHandler = () => {
-    if(token && (password === confirmPassword)){
-      navigate('/');
+    const data = {
+      password: password,
+      confirmPassword: confirmPassword
     }
+    console.log(data)
+    if(token && (password === confirmPassword)){
+      updateUserPassword(data, token)
+      .then(()=> {
+        alert("비밀번호 변경에 성공하셨습니다.");
+      })
+      .catch((e) => console.error("fail to update password", e));
+    }
+    alert("실패")
   };
 
   return (
