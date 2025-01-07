@@ -7,8 +7,9 @@ import { deleteCommunity, getCommunityById } from "../../../apis/communityApi";
 import { CommunityLikeResponseDto, ToggleLikeData } from "../../../types/ToggleLikeType";
 import { getUsersWhoLikedCommunity, toggleLike } from "../../../apis/ToggleKikeApi";
 import { FaHeart, FaThumbsUp } from "react-icons/fa";
-import "../../../styles/CommunityDetail.css";
+import "../../../styles/communities/CommunityDetail.css";
 import DefaultImage from "../../../assets/images/dogIllust02.jpeg";
+import DeleteModal from "../../../components/DeleteModal";
 
 const BASE_FILE_URL = "http://localhost:4040/";
 
@@ -48,6 +49,8 @@ export default function CommunityDetail() {
   const [userLiked, setUserLiked] = useState<boolean>(false);
   const [attachmentsVisible, setAttachmentsVisible] = useState<boolean>(false);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       if (!token) {
@@ -61,7 +64,6 @@ export default function CommunityDetail() {
 
         if (id) {
           const data = await getCommunityById(Number(id));
-          console.log(data);
           if (data) {
             setCommunity({
               ...data,
@@ -88,11 +90,7 @@ export default function CommunityDetail() {
             const usersWhoLiked: CommunityLikeResponseDto[] = await getUsersWhoLikedCommunity(Number(id));
             const nicknames = usersWhoLiked.map((user) => user.nickname);
 
-            if (fetchedUserInfo.nickname && nicknames.includes(fetchedUserInfo.nickname)) {
-              setUserLiked(true);
-            } else {
-              setUserLiked(false);
-            }
+            setUserLiked(nicknames.includes(fetchedUserInfo.nickname));
           } else {
             setCommunity(null);
             setError("해당 커뮤니티 정보를 찾을 수 없습니다.");
@@ -122,13 +120,8 @@ export default function CommunityDetail() {
     }
   };
 
-  const handleDelete = async () => {
+  const confirmDelete = async () => {
     if (!community || !token) return;
-
-    const confirmDelete = window.confirm(
-      "이 커뮤니티 게시글을 삭제하시겠습니까?"
-    );
-    if (!confirmDelete) return;
 
     try {
       await deleteCommunity(community.communityId);
@@ -137,12 +130,13 @@ export default function CommunityDetail() {
     } catch (e) {
       console.error("커뮤니티 삭제 실패:", e);
       alert("게시글 삭제에 실패했습니다.");
+    } finally {
+      setIsModalOpen(false);
     }
   };
 
   const handleEdit = () => {
     if (community) {
-      console.log(`/community/edit/${community.communityId}`);
       navigate(`/community/edit/${community.communityId}`);
     }
   };
@@ -170,7 +164,7 @@ export default function CommunityDetail() {
                   <button onClick={handleEdit} className="edit-button">
                     수정
                   </button>
-                  <button onClick={handleDelete} className="delete-button">
+                  <button onClick={() => setIsModalOpen(true)} className="delete-button">
                     삭제
                   </button>
                 </div>
@@ -217,7 +211,7 @@ export default function CommunityDetail() {
             </div>
             <hr />
             <img
-              src={community.communityThumbnailFile || DefaultImage} // 기본 이미지 설정
+              src={community.communityThumbnailFile || DefaultImage}
               alt="Thumbnail"
               style={{ width: "100%", height: "auto" }}
             />
@@ -234,6 +228,12 @@ export default function CommunityDetail() {
           <p>해당 커뮤니티 정보를 찾을 수 없습니다.</p>
         )}
       </div>
+      {isModalOpen && (
+        <DeleteModal
+          onClose={() => setIsModalOpen(false)}
+          onConfirm={confirmDelete}
+        />
+      )}
     </div>
   );
 }

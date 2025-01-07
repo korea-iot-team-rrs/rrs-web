@@ -8,6 +8,7 @@ import { FaPlusCircle } from "react-icons/fa";
 import HealthRecordCreate from "./HealthRecordCreate";
 import HealthRecordGet from "./HealthRecordGet";
 import HealthRecordUpdate from "./HealthRecordUpdate";
+import DeleteModal from "../../../DeleteModal";
 import {
   getAllHealthRecords,
   deleteHealthRecord,
@@ -23,6 +24,8 @@ export default function PetDiaryHealthRecord({
   const [isCreating, setIsCreating] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [recordToDelete, setRecordToDelete] = useState<number | null>(null);
 
   const [selectedPet, setSelectedPet] = useState<Pet | null>(null);
   const [healthRecords, setHealthRecords] = useState<any[]>([]);
@@ -61,18 +64,26 @@ export default function PetDiaryHealthRecord({
     setIsFetching(true);
   };
 
-  const removeHealthRecord = async (recordId: number) => {
-    if (!selectedPet) return;
+  const confirmDeleteRecord = (recordId: number) => {
+    setRecordToDelete(recordId);
+    setIsModalOpen(true);
+  };
+
+  const removeHealthRecord = async () => {
+    if (!selectedPet || recordToDelete === null) return;
 
     try {
-      await deleteHealthRecord(selectedPet.petId, recordId);
+      await deleteHealthRecord(selectedPet.petId, recordToDelete);
       setHealthRecords((prev) =>
-        prev.filter((record) => record.healthRecordId !== recordId)
+        prev.filter((record) => record.healthRecordId !== recordToDelete)
       );
       alert("건강 기록이 삭제되었습니다.");
     } catch (error) {
       console.error("건강 기록 삭제 실패:", error);
       alert("건강 기록 삭제 중 오류가 발생했습니다.");
+    } finally {
+      setIsModalOpen(false);
+      setRecordToDelete(null);
     }
   };
 
@@ -122,7 +133,7 @@ export default function PetDiaryHealthRecord({
   }, [selectedPet, selectedDate]);
 
   return (
-    <div className="petHealthRecord-Box">
+    <div>
       {isCreating ? (
         <HealthRecordCreate
           selectedPet={selectedPet}
@@ -192,15 +203,19 @@ export default function PetDiaryHealthRecord({
             {selectedPet ? (
               healthRecords.length > 0 ? (
                 healthRecords.map((record) => (
-                  <button
+                  <div
                     key={record.healthRecordId}
-                    className="petHealthRecordButton"
-                    onClick={() => handleRecordClick(record)}
+                    className="petHealthRecordContainer"
                   >
-                    <p>증상: {record.abnormalSymptoms}</p>
-                    {record.memo && <p>메모: {record.memo}</p>}
-
-                    <div className="petHealthButtons">
+                    <div
+                      className="petHealthRecordDetails"
+                      onClick={() => handleRecordClick(record)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <p>증상: {record.abnormalSymptoms}</p>
+                      {record.memo && <p>메모: {record.memo}</p>}
+                    </div>
+                    <div className="petHealthRecordButtons">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -212,13 +227,13 @@ export default function PetDiaryHealthRecord({
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          removeHealthRecord(record.healthRecordId);
+                          confirmDeleteRecord(record.healthRecordId);
                         }}
                       >
                         삭제
                       </button>
                     </div>
-                  </button>
+                  </div>
                 ))
               ) : (
                 <div className="petHealthNoContent">
@@ -231,6 +246,13 @@ export default function PetDiaryHealthRecord({
               </div>
             )}
           </div>
+
+          {isModalOpen && (
+            <DeleteModal
+              onClose={() => setIsModalOpen(false)}
+              onConfirm={removeHealthRecord}
+            />
+          )}
         </>
       )}
     </div>

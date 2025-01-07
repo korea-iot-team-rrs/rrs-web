@@ -2,7 +2,7 @@ import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useAuthStore from "../../../stores/auth.store";
 import { getCommunityById, updateCommunity } from "../../../apis/communityApi";
-import "../../../styles/CommunityEdit.css";
+import "../../../styles/communities/CommunityEdit.css";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const BASE_FILE_URL = "http://localhost:4040/";
@@ -132,6 +132,12 @@ export default function CommunityEdit() {
     }
   };
 
+  const handleCancel = () => {
+    if (communityIdNumber) {
+      navigate(`/community/${communityIdNumber}`);
+    }
+  };
+
   return (
     <div className="community-edit-container">
       <h1 className="community-edit-title">게시글 수정</h1>
@@ -202,9 +208,14 @@ export default function CommunityEdit() {
             </ul>
           )}
         </div>
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "수정 중..." : "수정"}
-        </button>
+        <div className="button-group">
+          <button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "수정 중..." : "수정"}
+          </button>
+          <button type="button" onClick={handleCancel} className="cancel-button">
+            취소
+          </button>
+        </div>
       </form>
     </div>
   );
