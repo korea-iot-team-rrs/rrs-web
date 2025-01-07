@@ -8,7 +8,7 @@ import { CommunityLikeResponseDto, ToggleLikeData } from "../../../types/ToggleL
 import { getUsersWhoLikedCommunity, toggleLike } from "../../../apis/ToggleKikeApi";
 import { FaHeart, FaThumbsUp } from "react-icons/fa";
 import "../../../styles/CommunityDetail.css";
-import DefaultImage from "../../../assets/images/dogIllust02.jpeg"; // 기본 이미지 경로
+import DefaultImage from "../../../assets/images/dogIllust02.jpeg";
 
 const BASE_FILE_URL = "http://localhost:4040/";
 
@@ -71,7 +71,7 @@ export default function CommunityDetail() {
                 : undefined,
               communityThumbnailFile: data.communityThumbnailFile
                 ? `${BASE_FILE_URL}${data.communityThumbnailFile}`
-                : DefaultImage, // 기본 이미지 설정
+                : DefaultImage,
               attachments: data.attachments?.map((attachment: any) => ({
                 url: `${BASE_FILE_URL}${attachment}`,
               })),
@@ -142,6 +142,7 @@ export default function CommunityDetail() {
 
   const handleEdit = () => {
     if (community) {
+      console.log(`/community/edit/${community.communityId}`);
       navigate(`/community/edit/${community.communityId}`);
     }
   };

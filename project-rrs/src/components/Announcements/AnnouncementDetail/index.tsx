@@ -75,7 +75,7 @@ export default function AnnouncementDetailPage() {
                   navigate("/announcements");
                   break;
                 case "사용방법":
-                  navigate("/usageGuide");
+                  navigate("/usage-guide");
                   break;
                 case "이벤트":
                   navigate("/events");
