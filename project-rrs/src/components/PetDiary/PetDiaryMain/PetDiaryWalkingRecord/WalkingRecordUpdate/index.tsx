@@ -28,16 +28,14 @@ const WalkingRecordUpdate = ({
   const [hours, setHours] = useState<number>(0);
   const [minutes, setMinutes] = useState<number>(0);
   const navigate = useNavigate();
-  const [files, setFiles] = useState<
-    Array<{ name: string; url?: string; file?: File }>
-  >([]);
+  const [existingFiles, setExistingFiles] = useState<Array<{ name: string; url: string }>>([]);
+  const [newFiles, setNewFiles] = useState<Array<{ name: string; file: File }>>([]); 
   const [walkingRecord, setWalkingRecord] = useState({
     walkingRecordWeatherState: "",
     walkingRecordDistance: "",
     walkingRecordWalkingTime: "",
     walkingRecordCreateAt: selectedDate,
     walkingRecordMemo: "",
-    files: [] as File[],
   });
 
   const weatherOptions = [
@@ -67,12 +65,7 @@ const WalkingRecordUpdate = ({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const fileList = Array.from(e.target.files);
-      // 기존 파일들과 새로운 파일들을 합쳐서 업데이트
-      setFiles((prevFiles) => [...prevFiles, ...fileList]);
-      setWalkingRecord((prevRecord) => ({
-        ...prevRecord,
-        files: [...prevRecord.files, ...fileList],  // 기존 파일에 새 파일 추가
-      }));
+      setNewFiles((prevFiles) => [...prevFiles, ...fileList.map((file) => ({ name: file.name, file }))]);
     }
   };
 
@@ -110,10 +103,11 @@ const WalkingRecordUpdate = ({
             const filesWithUrls = data.files
             ? data.files.map((file: any) => ({
                 name: file.fileName,
-                url: file.fileUrl,  // 서버에서 제공하는 파일 URL을 추가
+                url: file.fileUrl,
               }))
             : [];
 
+            setExistingFiles(filesWithUrls);
             setWalkingRecord((prevRecord) => ({
               ...prevRecord,
               walkingRecordWeatherState: data.walkingRecordWeatherState,
@@ -121,7 +115,6 @@ const WalkingRecordUpdate = ({
               walkingRecordWalkingTime: data.walkingRecordWalkingTime,
               walkingRecordCreateAt: data.walkingRecordCreateAt,
               walkingRecordMemo: data.walkingRecordMemo,
-              files: filesWithUrls,  
             }));
           }
         } catch (error) {
@@ -132,7 +125,7 @@ const WalkingRecordUpdate = ({
       fetchWalkingRecord();
     }
   }, [walkingRecordId, cookies, navigate, selectedPet]);
-
+  
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -150,7 +143,13 @@ const WalkingRecordUpdate = ({
       return;
     }
 
-    const walkingRecordWalkingTime = hours * 60 + minutes;
+    const currentDate = new Date();
+    const selectedDate = new Date(walkingRecord.walkingRecordCreateAt);
+
+    if (selectedDate > currentDate) {
+      alert("미래 날짜는 입력할 수 없습니다.");
+      return;
+    }
 
     const formData = new FormData();
     formData.append("petId", String(selectedPet?.petId));
@@ -172,13 +171,22 @@ const WalkingRecordUpdate = ({
     );
     formData.append("walkingRecordMemo", walkingRecord.walkingRecordMemo);
 
-    if (files && files.length > 0) {
-      files.forEach((fileObj) => {
-        if (fileObj && fileObj.file) {
-          formData.append("files", fileObj.file, fileObj.file.name);
-        }
-      });
-    }
+    const allFiles = [
+      ...existingFiles.map((file) => ({ ...file, file: null })), // existingFiles는 url만 있으므로, file 속성을 null로 설정
+      ...newFiles, // newFiles는 실제 File 객체가 있으므로 그대로 사용
+    ];
+
+    console.log("All files to upload:", allFiles);
+    
+    allFiles.forEach((fileObj) => {
+      // file이 null이 아닌지 확인
+      if (fileObj.file) {
+        console.log("Appending file:", fileObj.name); // 어떤 파일이 추가되는지 확인
+        formData.append("files", fileObj.file, fileObj.name);
+      } else {
+        console.log("Skipping file, fileObj.file is null or undefined:", fileObj.name);
+      }
+    });
 
     try {
       const token = cookies.token || localStorage.getItem("token");
@@ -198,7 +206,7 @@ const WalkingRecordUpdate = ({
 
       if (response.status === 200) {
         alert("산책 기록이 수정되었습니다.");
-        goBack(); // 수정 후 돌아가기
+        goBack();
       } else {
         alert("수정에 실패했습니다.");
       }
@@ -212,12 +220,12 @@ const WalkingRecordUpdate = ({
     return <p>산책 기록을 불러오는 중...</p>;
   }
 
-  const removeFile = (index: number) => {
-    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
-    setWalkingRecord((prevRecord) => ({
-      ...prevRecord,
-      files: prevRecord.files.filter((_, i) => i !== index),
-    }));
+  const removeFile = (index: number, isNewFile: boolean) => {
+    if (isNewFile) {
+      setNewFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    } else {
+      setExistingFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    }
   };
 
   const CustomOption = (props: any) => {
@@ -227,7 +235,7 @@ const WalkingRecordUpdate = ({
       </components.Option>
     );
   };
-
+  
   return (
     <div>
       <h2>산책 기록 수정</h2>
@@ -312,6 +320,47 @@ const WalkingRecordUpdate = ({
           </div>
 
           <div>
+          <h3>기존 파일</h3>
+          {existingFiles.length > 0 ? (
+            <ul>
+            {existingFiles.map((file, index) => (
+              <li key={index}>
+                <a href={file.url} target="_blank" rel="noopener noreferrer">
+                  {file.name}
+                </a>
+                <IconButton onClick={() => removeFile(index, false)}>
+                  <DeleteIcon />
+                </IconButton>
+              </li>
+            ))}
+          </ul>
+          ) : (
+            <p>없슈슈</p>
+          )}
+          
+        </div>
+
+        <div>
+          <h3>새 파일</h3>
+          <input
+              type="file"
+              id="files"
+              multiple
+              onChange={handleFileChange}
+            />
+          <ul>
+            {newFiles.map((file, index) => (
+              <li key={index}>
+                {file.name}
+                <IconButton onClick={() => removeFile(index, true)}>
+                  <DeleteIcon />
+                </IconButton>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+          {/* <div>
             <label htmlFor="files">사진</label>
 
             <input
@@ -341,7 +390,7 @@ const WalkingRecordUpdate = ({
             ) : (
               <p>사진 없음</p>
             )}
-          </div>
+          </div> */}
 
           <button type="submit">저장</button>
           <button type="button" onClick={goBack}>
