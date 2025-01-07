@@ -21,6 +21,12 @@ export interface CreateCS {
   files: File[];
   path: string;
 }
+export interface UpdateCS {
+  customerSupportTitle: string;
+  customerSupportContent: string;
+  existingFilePaths: string[];
+  files: File[];
+}
 
 export interface FetchCSList {
   customerSupportId: number;
@@ -52,33 +58,3 @@ export interface EditedCS {
   customerSupportCategory: string;
   fileInfos: FileInfos[];
 }
-
-export interface UpdateCS {
-  customerSupportTitle: string;
-  customerSupportContent: string;
-  customerSupportCategory: string;
-  files: File[];
-  path: string;
-}
-
-export interface UpdateCSRequest {
-  customerSupportTitle?: string;
-  customerSupportContent?: string;
-  customerSupportCategory?: string;
-  files?: File[];
-  path?: string;
-}
-
-export const createFormData = (data: Partial<UpdateCSRequest>): FormData => {
-  const formData = new FormData();
-
-  Object.entries(data).forEach(([key, value]) => {
-    if (key === "files" && Array.isArray(value)) {
-      value.forEach((file) => formData.append("files", file));
-    } else if (value !== null && value !== undefined) {
-      formData.append(key, value.toString());
-    }
-  });
-
-  return formData;
-};
