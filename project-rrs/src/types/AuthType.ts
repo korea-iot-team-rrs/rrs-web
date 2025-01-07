@@ -10,11 +10,7 @@ export interface UserSignUp {
     addressDetail: string;
     email: string;
 }
-
-export interface findId {
+export interface CertificateDto {
     email: string;
-}
-export interface findPassword {
-    email: string;
-    username: string;
+    username: string | null;
 }

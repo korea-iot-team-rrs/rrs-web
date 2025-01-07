@@ -197,14 +197,14 @@ const WalkingRecordUpdate = ({
       );
 
       if (response.status === 200) {
-        alert("산책기록이 수정되었습니다.");
-        goBack();
+        alert("산책 기록이 수정되었습니다.");
+        goBack(); // 수정 후 돌아가기
       } else {
-        alert("수정 실패");
+        alert("수정에 실패했습니다.");
       }
     } catch (error) {
-      console.error("수정 에러:", error);
-      alert("반려동물 정보를 수정하는 중 오류가 발생했습니다.");
+      console.error("수정 중 오류 발생:", error);
+      alert("산책 기록 수정 중 오류가 발생했습니다.");
     }
   };
 
@@ -230,8 +230,7 @@ const WalkingRecordUpdate = ({
 
   return (
     <div>
-      <h3>산책 기록 수정</h3>
-
+      <h2>산책 기록 수정</h2>
       {walkingRecord ? (
         <form onSubmit={handleSubmit}>
           <div className="petCircleBox">
@@ -354,6 +353,6 @@ const WalkingRecordUpdate = ({
       )}
     </div>
   );
-};
+}
 
 export default WalkingRecordUpdate;

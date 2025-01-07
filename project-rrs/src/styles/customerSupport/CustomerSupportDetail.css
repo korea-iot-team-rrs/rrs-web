@@ -3,10 +3,7 @@
   flex-direction: column;
   flex-wrap: wrap;
   align-content: center;
-  padding: 0px;
-  margin: 0px;
   font-family: "Pretendard";
-  padding: 0 20%;
 
   .cs-detail-header {
     display: flex;
@@ -15,6 +12,8 @@
     padding: 10px;
   }
   .cs-detail-body {
+    width: 1000px;
+
     .cs-detail-title {
       background-color: rgb(237, 237, 237);
       border-radius: 10px;
