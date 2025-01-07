@@ -62,12 +62,15 @@ const WalkingRecordCreate = ({
     }
   }, [cookies, navigate]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setWalkingRecord({
-      ...walkingRecord,
-      [name]: value,
-    });
+
+    if (walkingRecord) {
+      setWalkingRecord((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const handleWeatherChange = (selectedOption: any) => {
@@ -272,11 +275,10 @@ const WalkingRecordCreate = ({
 
         <div>
           <label htmlFor="memo">메모</label>
-          <input
-            type="text"
+          <textarea
             id="memo"
             name="walkingRecordMemo"
-            value={walkingRecord.walkingRecordMemo}
+            value={walkingRecord ? walkingRecord.walkingRecordMemo : ""}
             onChange={handleInputChange}
           />
         </div>
