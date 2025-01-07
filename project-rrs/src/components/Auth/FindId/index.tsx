@@ -11,7 +11,7 @@ export default function FindId() {
     console.log(token);
     if(token) {
       FetchIdByToken(token)
-      .then((response) => setUsername(response.name))
+      .then((response) => setUsername(response))
       .catch((e) => console.error("fail to fetch username", e));
     }
     
