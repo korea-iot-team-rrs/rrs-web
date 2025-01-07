@@ -13,30 +13,32 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 interface WalkingRecordUpdateProps {
   selectedPet: Pet | null;
+  selectedDate: string;
   walkingRecordId: number;
   goBack: () => void;
 }
 
-export default function WalkingRecordUpdate({
+const WalkingRecordUpdate = ({
   selectedPet,
+  selectedDate,
   walkingRecordId,
   goBack,
-}: WalkingRecordUpdateProps) {
-  const [walkingRecord, setWalkingRecord] = useState<any>(null);
-  const [walkingRecordDistance, setWalkingRecordDistance] = useState<number>(0);
-  const [walkingRecordWalkingTime, setWalkingRecordWalkingTime] =
-    useState<number>(0);
-  const [walkingRecordMemo, setWalkingRecordMemo] = useState<string>("");
-  const [walkingRecordWeatherState, setWalkingRecordWeatherState] =
-    useState<string>("");
-  const [files, setFiles] = useState<File[]>([]);
+}: WalkingRecordUpdateProps) => {
   const [cookies] = useCookies(["token"]);
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [hours, setHours] = useState<number>(0);
   const [minutes, setMinutes] = useState<number>(0);
-
   const navigate = useNavigate();
-  const petId = selectedPet?.petId;
+  const [files, setFiles] = useState<
+    Array<{ name: string; url?: string; file?: File }>
+  >([]);
+  const [walkingRecord, setWalkingRecord] = useState({
+    walkingRecordWeatherState: "",
+    walkingRecordDistance: "",
+    walkingRecordWalkingTime: "",
+    walkingRecordCreateAt: selectedDate,
+    walkingRecordMemo: "",
+    files: [] as File[],
+  });
 
   const weatherOptions = [
     { value: "SUNNY", label: <IoMdSunny style={{ fontSize: "24px" }} /> },
@@ -52,43 +54,101 @@ export default function WalkingRecordUpdate({
     });
   };
 
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setWalkingRecord({
+      ...walkingRecord,
+      [name]: value,
+    });
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const fileList = Array.from(e.target.files);
+      // 기존 파일들과 새로운 파일들을 합쳐서 업데이트
+      setFiles((prevFiles) => [...prevFiles, ...fileList]);
+      setWalkingRecord((prevRecord) => ({
+        ...prevRecord,
+        files: [...prevRecord.files, ...fileList],  // 기존 파일에 새 파일 추가
+      }));
+    }
+  };
+
   useEffect(() => {
-    const fetchWalkingRecord = async () => {
-      try {
-        const token = cookies.token || localStorage.getItem("token");
-        if (!token) {
-          alert("로그인 정보가 없습니다.");
-          navigate("/");
-          return;
-        }
-
-        const response = await axios.get(
-          `http://localhost:4040/api/v1/walking-record/petId/${petId}/walkingRecordId/${walkingRecordId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+    if (selectedPet) {
+      const petId = selectedPet.petId;
+      const fetchWalkingRecord = async () => {
+        try {
+          const token = cookies.token || localStorage.getItem("token");
+          if (!token) {
+            alert("로그인 정보가 없습니다.");
+            navigate("/");
+            return;
           }
-        );
 
-        if (response.status === 200) {
-          const data = response.data.data;
-          setWalkingRecord(data);
-          setWalkingRecordDistance(data.walkingRecordDistance);
-          setWalkingRecordWalkingTime(data.walkingRecordWalkingTime);
-          setWalkingRecordMemo(data.walkingRecordMemo);
-          setWalkingRecordWeatherState(data.walkingRecordWeatherState);
+          const response = await axios.get(
+            `http://localhost:4040/api/v1/walking-record/petId/${petId}/walkingRecordId/${walkingRecordId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+
+          if (response.status === 200) {
+            console.log("response:", response.data);
+            const data = response.data.data;
+            const totalMinutes = data.walkingRecordWalkingTime;
+            const hours = Math.floor(totalMinutes / 60);
+            const minutes = totalMinutes % 60;
+            setHours(hours);
+            setMinutes(minutes);
+
+            const filesWithUrls = data.files
+            ? data.files.map((file: any) => ({
+                name: file.fileName,
+                url: file.fileUrl,  // 서버에서 제공하는 파일 URL을 추가
+              }))
+            : [];
+
+            setWalkingRecord((prevRecord) => ({
+              ...prevRecord,
+              walkingRecordWeatherState: data.walkingRecordWeatherState,
+              walkingRecordDistance: data.walkingRecordDistance,
+              walkingRecordWalkingTime: data.walkingRecordWalkingTime,
+              walkingRecordCreateAt: data.walkingRecordCreateAt,
+              walkingRecordMemo: data.walkingRecordMemo,
+              files: filesWithUrls,  
+            }));
+          }
+        } catch (error) {
+          console.error("산책 기록을 불러오는 중 오류 발생:", error);
         }
-      } catch (error) {
-        console.error("산책 기록을 불러오는 중 오류 발생:", error);
-      }
-    };
+      };
 
-    fetchWalkingRecord();
-  }, [walkingRecordId, cookies, navigate]);
+      fetchWalkingRecord();
+    }
+  }, [walkingRecordId, cookies, navigate, selectedPet]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    // 유효성 검사
+    if (!walkingRecord.walkingRecordWeatherState) {
+      alert("날씨를 선택해 주세요.");
+      return;
+    }
+
+    if (hours === 0 && minutes === 0) {
+      alert("산책 시간을 입력해 주세요.");
+      return;
+    } else if (minutes >= 60) {
+      alert("60분 미만으로 입력해 주세요.");
+      return;
+    }
 
     const walkingRecordWalkingTime = hours * 60 + minutes;
 
@@ -104,7 +164,7 @@ export default function WalkingRecordUpdate({
     );
     formData.append(
       "walkingRecordWalkingTime",
-      String(walkingRecordWalkingTime)
+      String(walkingRecord.walkingRecordWalkingTime)
     );
     formData.append(
       "walkingRecordCreateAt",
@@ -112,36 +172,39 @@ export default function WalkingRecordUpdate({
     );
     formData.append("walkingRecordMemo", walkingRecord.walkingRecordMemo);
 
-    if (files) {
-      for (let i = 0; i < files.length; i++) {
-        formData.append("files", files[i]);
-      }
+    if (files && files.length > 0) {
+      files.forEach((fileObj) => {
+        if (fileObj && fileObj.file) {
+          formData.append("files", fileObj.file, fileObj.file.name);
+        }
+      });
     }
-    
+
     try {
       const token = cookies.token || localStorage.getItem("token");
       const petId = selectedPet?.petId;
-      console.log('token: ', token);
+      console.log("token: ", token);
 
       const response = await axios.put(
-        `http://localhost:4040/api/v1/walking-record/petId/${petId}/walkingRecordId/${walkingRecordId}`, formData,
+        `http://localhost:4040/api/v1/walking-record/petId/${petId}/walkingRecordId/${walkingRecordId}`,
+        formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
           },
         }
       );
 
       if (response.status === 200) {
-        alert("산책기록이 수정되었습니다.");
-        goBack();
+        alert("산책 기록이 수정되었습니다.");
+        goBack(); // 수정 후 돌아가기
       } else {
-        alert("수정 실패");
+        alert("수정에 실패했습니다.");
       }
     } catch (error) {
-      console.error("수정 에러:", error);
-      alert("반려동물 정보를 수정하는 중 오류가 발생했습니다.");
+      console.error("수정 중 오류 발생:", error);
+      alert("산책 기록 수정 중 오류가 발생했습니다.");
     }
   };
 
@@ -149,40 +212,25 @@ export default function WalkingRecordUpdate({
     return <p>산책 기록을 불러오는 중...</p>;
   }
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newFiles = e.target.files;
-
-    if (newFiles) {
-      setFiles((prevFiles) => [
-        ...prevFiles,
-        ...Array.from(newFiles).filter(
-          (newFile) =>
-            !prevFiles.some(
-              (existingFile) => existingFile.name === newFile.name
-            )
-        ),
-      ]);
-    }
-  };
-
   const removeFile = (index: number) => {
-    setFiles((prevFiles) =>
-      prevFiles.filter((_, i) => i !== index)
-    );
+    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    setWalkingRecord((prevRecord) => ({
+      ...prevRecord,
+      files: prevRecord.files.filter((_, i) => i !== index),
+    }));
   };
 
   const CustomOption = (props: any) => {
-      return (
-        <components.Option {...props}>
-          <span style={{ fontSize: "24px" }}>{props.data.label}</span>
-        </components.Option>
-      );
-    };
+    return (
+      <components.Option {...props}>
+        <span style={{ fontSize: "24px" }}>{props.data.label}</span>
+      </components.Option>
+    );
+  };
 
   return (
     <div>
-      <h3>산책 기록 수정</h3>
-
+      <h2>산책 기록 수정</h2>
       {walkingRecord ? (
         <form onSubmit={handleSubmit}>
           <div className="petCircleBox">
@@ -208,17 +256,17 @@ export default function WalkingRecordUpdate({
           <div>
             <label htmlFor="weather">날씨</label>
             <Select
-            id="weather"
-            className="select-weather"
-            value={weatherOptions.find(
-              (option) =>
-                option.value === walkingRecord.walkingRecordWeatherState
-            )}
-            onChange={handleWeatherChange}
-            options={weatherOptions}
-            components={{ Option: CustomOption }}
-          />
-        </div>
+              id="weather"
+              className="select-weather"
+              value={weatherOptions.find(
+                (option) =>
+                  option.value === walkingRecord.walkingRecordWeatherState
+              )}
+              onChange={handleWeatherChange}
+              options={weatherOptions}
+              components={{ Option: CustomOption }}
+            />
+          </div>
 
           <div>
             <label htmlFor="walking-time">산책 시간</label>
@@ -242,12 +290,12 @@ export default function WalkingRecordUpdate({
 
           <div>
             <label htmlFor="walking-distance">산책 거리</label>
-              <input
+            <input
               type="number"
               id="walking-distance"
               name="walkingRecordDistance"
-              value={walkingRecordDistance}
-              onChange={(e) => setWalkingRecordDistance(Number(e.target.value))}
+              value={walkingRecord.walkingRecordDistance}
+              onChange={handleInputChange}
               min="0"
             />{" "}
             m
@@ -257,28 +305,43 @@ export default function WalkingRecordUpdate({
             <label htmlFor="memo">메모</label>
             <textarea
               id="memo"
-              value={walkingRecordMemo}
-              onChange={(e) => setWalkingRecordMemo(e.target.value)}
+              name="walkingRecordMemo"
+              value={walkingRecord.walkingRecordMemo}
+              onChange={handleInputChange}
             />
           </div>
 
           <div>
-          <label htmlFor="files">사진</label>
-          <input type="file" id="files" multiple onChange={handleFileChange} />
+            <label htmlFor="files">사진</label>
 
-          <ul className="file-list">
-            {files.map((file, index) => (
-              <li key={index} className="file-item">
-                <span><FaFolder /></span>
-                <span className="file-name">{file.name}</span>
+            <input
+              type="file"
+              id="files"
+              multiple
+              onChange={handleFileChange}
+            />
 
-                <IconButton onClick={() => removeFile(index)} className="delete-btn">
-                  <DeleteIcon color="primary" />
-                </IconButton>
-              </li>
-            ))}
-          </ul>
-        </div>
+            {walkingRecord.files.length > 0 ? (
+              <ul className="file-list">
+                {walkingRecord.files.map((file, index) => (
+                  <li key={index} className="file-item">
+                    <span>
+                      <FaFolder />
+                    </span>
+                    <span className="file-name">{file.name}</span>
+                    <IconButton
+                      onClick={() => removeFile(index)}
+                      className="delete-btn"
+                    >
+                      <DeleteIcon color="primary" />
+                    </IconButton>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>사진 없음</p>
+            )}
+          </div>
 
           <button type="submit">저장</button>
           <button type="button" onClick={goBack}>
@@ -291,3 +354,5 @@ export default function WalkingRecordUpdate({
     </div>
   );
 }
+
+export default WalkingRecordUpdate;
