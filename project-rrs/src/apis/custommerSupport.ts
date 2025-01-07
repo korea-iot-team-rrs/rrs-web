@@ -1,11 +1,9 @@
 import axios from "axios";
 import {
   CreateCS,
-  createFormData,
   FetchCS,
   FetchCSList,
   UpdateCS,
-  UpdateCSRequest,
 } from "../types/customerSupport";
 
 export const createCustomerSupport = async (data: CreateCS, token: string) => {
@@ -68,7 +66,7 @@ export const fetchOneCustomerSupport = async (
 
 export const updateCustomerSupport = async (
   customerSupportId: number,
-  data: Partial<UpdateCSRequest>,
+  data: UpdateCS,
   token: string
 ) => {
   const formData = createFormData(data);
@@ -100,4 +98,18 @@ export const deleteCustomerSupport = async (
     }
   );
   return response.data.data;
+};
+
+export const createFormData = (data: Partial<UpdateCS>): FormData => {
+  const formData = new FormData();
+
+  Object.entries(data).forEach(([key, value]) => {
+    if (key === "files" && Array.isArray(value)) {
+      value.forEach((file) => formData.append("files", file));
+    } else if (value !== null && value !== undefined) {
+      formData.append(key, value.toString());
+    }
+  });
+
+  return formData;
 };

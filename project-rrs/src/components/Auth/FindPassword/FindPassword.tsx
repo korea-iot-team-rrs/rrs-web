@@ -1,28 +1,53 @@
-import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom';
-import { User } from '../../../types';
-import { fetchUserInfo } from '../../../apis/userInfo';
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { User } from "../../../types";
+import { fetchUserInfoForCertification } from "../../../apis/userInfo";
+import { OutlinedInput } from "@mui/material";
+import { Button } from "rsuite";
 
 export default function FindPassword() {
-  const location = useLocation();
-  const { token } = location.state || {}; 
+  const { token } = useParams<{ token: string }>();
   const [user, setUser] = useState<User>();
-  const [password , setPassword] = useState<string>("")
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const navigate = useNavigate();
 
-    useEffect(() => {
-      if(token) {
-        fetchUserInfo()
-        .then((response) => setPassword(response.password))
-        .catch((e) => console.error("fail to fetch user", e))
-      }
-    }, [token])
+  useEffect(() => {
+    if (token) {
+      fetchUserInfoForCertification(token)
+        .then((response) => setUser(response))
+        .catch((e) => console.error("fail to fetch user", e));
+    }
+  }, [token]);
 
-  if (!token) {
-    return <div>인증 정보가 없습니다. 다시 시도해주세요.</div>;
-  }
+  const passwordInputHandler = (e:React.ChangeEvent<HTMLInputElement>) => {setPassword(e.target.value)};
+  const passwordConfirmInputHandler = (e:React.ChangeEvent<HTMLInputElement>) => {setConfirmPassword(e.target.value)};
 
-  return <>
-  
+  const updatePasswordInClickHandler = () => {
+    if(token && (password === confirmPassword)){
+      navigate('/');
+    }
+  };
 
-  </>
+  return (
+    <>
+      <p>{user?.nickname}</p>
+      <p>토큰{token}</p>
+      <OutlinedInput
+        name="password"
+        placeholder="변경할 비밀번호를 입력해주세요."
+        fullWidth
+        onChange={passwordInputHandler}
+        value={password}
+      />
+      <OutlinedInput
+        name="passwordConfirm"
+        placeholder="입력하신 비밀번호를 재입력해주세요."
+        fullWidth
+        onChange={passwordConfirmInputHandler}
+        value={confirmPassword}
+      />
+      <Button onClick={updatePasswordInClickHandler}>비밀번호 재설정 하기</Button>
+    </>
+  );
 }

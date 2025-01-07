@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import ReportIcon from "@mui/icons-material/Report";
-import { CreateCS, EditedCS, UpdateCS } from "../../../types/customerSupport";
+import { CreateCS } from "../../../types/customerSupport";
 import "../../../styles/customerSupport/CustomerSupportWrite.css";
-import {
-  createCustomerSupport,
-  updateCustomerSupport,
-} from "../../../apis/custommerSupport";
+import { createCustomerSupport } from "../../../apis/custommerSupport";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import {
@@ -21,13 +18,7 @@ import {
 import FolderIcon from "@mui/icons-material/Folder";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-type CustomerSupportWriteProps = {
-  editData?: EditedCS | null;
-};
-
-export default function CustomerSupportWrite({
-  editData,
-}: CustomerSupportWriteProps) {
+export default function CustomerSupportWrite() {
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
   const [createCSReqDto, setCreateCSRequestDto] = useState<CreateCS>({
@@ -37,10 +28,8 @@ export default function CustomerSupportWrite({
     files: [],
     path: "/uploads/customer-support",
   });
+
   const [isInquiry, setIsInquiry] = useState<boolean>(true);
-  const [existingFiles, setExistingFiles] = useState<
-    { filePath: string; fileName: string }[]
-  >([]);
 
   const csBtnClickHandler = (category: string, isInquiry: boolean) => {
     setIsInquiry(isInquiry);
@@ -85,49 +74,29 @@ export default function CustomerSupportWrite({
 
   const handleSubmit = async () => {
     const token = cookies.token;
-  
+
     if (!token) {
       alert("로그인이 필요합니다.");
       return;
     }
-  
+
     try {
-      const requestData = {
+      const createRequestData = {
         customerSupportTitle: createCSReqDto.customerSupportTitle,
         customerSupportContent: createCSReqDto.customerSupportContent,
         customerSupportCategory: createCSReqDto.customerSupportCategory,
         files: createCSReqDto.files,
         path: "customer-support",
       };
-  
-      const responseMessage = editData
-        ? await updateCustomerSupport(editData.customerSupportId, requestData, token)
-        : await createCustomerSupport(requestData, token);
-  
-      alert(`성공적으로 ${editData ? "수정" : "저장"}되었습니다!`);
+
+      await createCustomerSupport(createRequestData, token);
+      alert("성공적으로 저장되었습니다!");
       navigate("/customer-supports");
     } catch (error) {
       console.error("Error during submit:", error);
       alert("요청 처리 중 오류가 발생했습니다.");
     }
   };
-
-  useEffect(() => {
-    if (editData) {
-      setCreateCSRequestDto({
-        ...editData,
-        files: [],
-        path: "/uploads/customer-support",
-      });
-
-      setExistingFiles(
-        editData.fileInfos.map(({ filePath, fileName }) => ({
-          filePath,
-          fileName,
-        }))
-      );
-    }
-  }, [editData]);
 
   return (
     <div className="cs-write-wrapper">
@@ -178,32 +147,6 @@ export default function CustomerSupportWrite({
         <div className="cs-write-attachment">
           <h3>{isInquiry ? "첨부 파일 (선택)" : "증빙 자료 첨부 (선택)"}</h3>
           <input type="file" multiple onChange={handleFileChange} />
-          <List>
-            {existingFiles.map((file, index) => (
-              <ListItem
-                key={index}
-                secondaryAction={
-                  <IconButton
-                    edge="end"
-                    onClick={() =>
-                      setExistingFiles((prev) =>
-                        prev.filter((_, i) => i !== index)
-                      )
-                    }
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                }
-              >
-                <ListItemAvatar>
-                  <Avatar>
-                    <FolderIcon />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={file.fileName} />
-              </ListItem>
-            ))}
-          </List>
           <List>
             {createCSReqDto.files.map((file, index) => (
               <ListItem
