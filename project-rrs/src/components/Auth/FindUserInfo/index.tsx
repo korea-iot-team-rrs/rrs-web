@@ -2,10 +2,12 @@ import { Breadcrumbs, Button, OutlinedInput } from "@mui/material";
 import React, { useState } from "react";
 import { CertificateDto } from "../../../types/AuthType";
 import { sendEmailForId, sendEmailForPw } from "../../../apis/emailApi";
-import { useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
 
-export default function FinduserInfo() {
+interface FinduserInfoProps {
+  IsfindId: boolean;
+}
+
+export default function FinduserInfo({ IsfindId }: FinduserInfoProps) {
   const [findId, setFindId] = useState<boolean>(true);
 
   const [findIdDto, setFindIdDto] = useState<{ email: string }>({ email: "" });
