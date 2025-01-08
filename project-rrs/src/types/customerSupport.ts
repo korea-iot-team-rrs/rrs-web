@@ -24,7 +24,6 @@ export interface CreateCS {
 export interface UpdateCS {
   customerSupportTitle: string;
   customerSupportContent: string;
-  existingFilePaths: string[];
   files: File[];
 }
 
@@ -49,6 +48,7 @@ export interface FetchCS {
 export interface FileInfos {
   filePath: string;
   fileName: string;
+  fileSize?: number | null;
 }
 
 export interface EditedCS {
