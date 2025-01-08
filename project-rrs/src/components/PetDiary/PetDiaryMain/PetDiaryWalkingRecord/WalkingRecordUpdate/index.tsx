@@ -28,16 +28,19 @@ const WalkingRecordUpdate = ({
   const [hours, setHours] = useState<number>(0);
   const [minutes, setMinutes] = useState<number>(0);
   const navigate = useNavigate();
-  const [files, setFiles] = useState<
-    Array<{ name: string; url?: string; file?: File }>
+  const [existingFiles, setExistingFiles] = useState<
+    Array<{ name: string; url: string }>
   >([]);
+  const [newFiles, setNewFiles] = useState<Array<{ name: string; file: File }>>(
+    []
+  );
+  const [removedFiles, setRemovedFiles] = useState<string[]>([]);
   const [walkingRecord, setWalkingRecord] = useState({
     walkingRecordWeatherState: "",
     walkingRecordDistance: "",
     walkingRecordWalkingTime: "",
     walkingRecordCreateAt: selectedDate,
     walkingRecordMemo: "",
-    files: [] as File[],
   });
 
   const weatherOptions = [
@@ -67,12 +70,10 @@ const WalkingRecordUpdate = ({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const fileList = Array.from(e.target.files);
-      // 기존 파일들과 새로운 파일들을 합쳐서 업데이트
-      setFiles((prevFiles) => [...prevFiles, ...fileList]);
-      setWalkingRecord((prevRecord) => ({
-        ...prevRecord,
-        files: [...prevRecord.files, ...fileList],  // 기존 파일에 새 파일 추가
-      }));
+      setNewFiles((prevFiles) => [
+        ...prevFiles,
+        ...fileList.map((file) => ({ name: file.name, file })),
+      ]);
     }
   };
 
@@ -99,7 +100,6 @@ const WalkingRecordUpdate = ({
           );
 
           if (response.status === 200) {
-            console.log("response:", response.data);
             const data = response.data.data;
             const totalMinutes = data.walkingRecordWalkingTime;
             const hours = Math.floor(totalMinutes / 60);
@@ -107,12 +107,18 @@ const WalkingRecordUpdate = ({
             setHours(hours);
             setMinutes(minutes);
 
-            const filesWithUrls = data.files
-            ? data.files.map((file: any) => ({
-                name: file.fileName,
-                url: file.fileUrl,  // 서버에서 제공하는 파일 URL을 추가
-              }))
-            : [];
+            const fetchedFiles = data.fileName || [];
+            const filesWithNamesAndUrls = fetchedFiles.map((filePath: any) => {
+              const fileName = filePath.split("/").pop();
+              const fileUrl = `http://localhost:4040/${filePath}`;
+
+              return {
+                name: fileName,
+                url: fileUrl,
+              };
+            });
+
+            setExistingFiles(filesWithNamesAndUrls);
 
             setWalkingRecord((prevRecord) => ({
               ...prevRecord,
@@ -121,7 +127,6 @@ const WalkingRecordUpdate = ({
               walkingRecordWalkingTime: data.walkingRecordWalkingTime,
               walkingRecordCreateAt: data.walkingRecordCreateAt,
               walkingRecordMemo: data.walkingRecordMemo,
-              files: filesWithUrls,  
             }));
           }
         } catch (error) {
@@ -132,6 +137,22 @@ const WalkingRecordUpdate = ({
       fetchWalkingRecord();
     }
   }, [walkingRecordId, cookies, navigate, selectedPet]);
+
+  const removeFile = (index: number, isNewFile: boolean) => {
+    const fileName = isNewFile ? newFiles[index].name : existingFiles[index].name;
+  
+  if (isNewFile) {
+    setNewFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+  } else {
+    setExistingFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    setRemovedFiles((prevRemovedFiles) => [...prevRemovedFiles, fileName]); // 삭제된 파일 이름을 추가
+  }
+};
+
+const allFiles = [
+  ...existingFiles.filter((file) => !removedFiles.includes(file.name)), // 삭제된 파일 제외
+  ...newFiles,
+];
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -150,7 +171,13 @@ const WalkingRecordUpdate = ({
       return;
     }
 
-    const walkingRecordWalkingTime = hours * 60 + minutes;
+    const currentDate = new Date();
+    const selectedDate = new Date(walkingRecord.walkingRecordCreateAt);
+
+    if (selectedDate > currentDate) {
+      alert("미래 날짜는 입력할 수 없습니다.");
+      return;
+    }
 
     const formData = new FormData();
     formData.append("petId", String(selectedPet?.petId));
@@ -172,13 +199,26 @@ const WalkingRecordUpdate = ({
     );
     formData.append("walkingRecordMemo", walkingRecord.walkingRecordMemo);
 
-    if (files && files.length > 0) {
-      files.forEach((fileObj) => {
-        if (fileObj && fileObj.file) {
-          formData.append("files", fileObj.file, fileObj.file.name);
-        }
-      });
-    }
+    formData.append("removedFiles", JSON.stringify(removedFiles));
+
+    const allFiles = [
+    ...existingFiles.filter(file => !removedFiles.includes(file.name)), // 삭제된 파일 제외
+    ...newFiles,
+  ];
+
+  existingFiles.forEach(fileObj => {
+  if (!('file' in fileObj)) {
+    // 기존 파일에 file 속성 강제로 추가
+    const file = new File([fileObj.url], fileObj.name);  // 'url'을 실제 파일 데이터로 바꿀 필요 있음
+    (fileObj as any).file = file; // 'file' 속성을 강제로 추가
+  }
+  formData.append('files', (fileObj as any).file, fileObj.name);
+});
+
+// 새로 추가된 파일 처리
+newFiles.forEach(fileObj => {
+  formData.append('files', fileObj.file, fileObj.name);
+});
 
     try {
       const token = cookies.token || localStorage.getItem("token");
@@ -198,7 +238,7 @@ const WalkingRecordUpdate = ({
 
       if (response.status === 200) {
         alert("산책 기록이 수정되었습니다.");
-        goBack(); // 수정 후 돌아가기
+        goBack();
       } else {
         alert("수정에 실패했습니다.");
       }
@@ -211,14 +251,6 @@ const WalkingRecordUpdate = ({
   if (!walkingRecord) {
     return <p>산책 기록을 불러오는 중...</p>;
   }
-
-  const removeFile = (index: number) => {
-    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
-    setWalkingRecord((prevRecord) => ({
-      ...prevRecord,
-      files: prevRecord.files.filter((_, i) => i !== index),
-    }));
-  };
 
   const CustomOption = (props: any) => {
     return (
@@ -313,34 +345,44 @@ const WalkingRecordUpdate = ({
 
           <div>
             <label htmlFor="files">사진</label>
-
             <input
               type="file"
               id="files"
               multiple
               onChange={handleFileChange}
             />
-
-            {walkingRecord.files.length > 0 ? (
-              <ul className="file-list">
-                {walkingRecord.files.map((file, index) => (
-                  <li key={index} className="file-item">
-                    <span>
-                      <FaFolder />
-                    </span>
-                    <span className="file-name">{file.name}</span>
-                    <IconButton
-                      onClick={() => removeFile(index)}
-                      className="delete-btn"
-                    >
-                      <DeleteIcon color="primary" />
-                    </IconButton>
-                  </li>
-                ))}
+            {existingFiles.length > 0 ? (
+              <ul>
+                {existingFiles.map((file, index) => {
+                  return (
+                    <li key={index}>
+                      <a
+                        href={file.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {file.name}
+                      </a>
+                      <IconButton onClick={() => removeFile(index, false)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </li>
+                  );
+                })}
               </ul>
             ) : (
-              <p>사진 없음</p>
+              <p>없슈슈</p>
             )}
+            <ul>
+              {newFiles.map((file, index) => (
+                <li key={index}>
+                  {file.name}
+                  <IconButton onClick={() => removeFile(index, true)}>
+                    <DeleteIcon />
+                  </IconButton>
+                </li>
+              ))}
+            </ul>
           </div>
 
           <button type="submit">저장</button>
@@ -353,6 +395,6 @@ const WalkingRecordUpdate = ({
       )}
     </div>
   );
-}
+};
 
 export default WalkingRecordUpdate;
