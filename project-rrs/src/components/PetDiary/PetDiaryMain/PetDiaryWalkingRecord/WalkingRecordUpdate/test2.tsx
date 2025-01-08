@@ -36,8 +36,12 @@ export default function test2() {
 //   const [hours, setHours] = useState<number>(0);
 //   const [minutes, setMinutes] = useState<number>(0);
 //   const navigate = useNavigate();
-//   const [existingFiles, setExistingFiles] = useState<Array<{ name: string; url: string }>>([]);
-//   const [newFiles, setNewFiles] = useState<Array<{ name: string; file: File }>>([]); 
+//   const [existingFiles, setExistingFiles] = useState<
+//     Array<{ name: string; url: string }>
+//   >([]);
+//   const [newFiles, setNewFiles] = useState<Array<{ name: string; file: File }>>(
+//     []
+//   );
 //   const [walkingRecord, setWalkingRecord] = useState({
 //     walkingRecordWeatherState: "",
 //     walkingRecordDistance: "",
@@ -73,7 +77,10 @@ export default function test2() {
 //   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 //     if (e.target.files) {
 //       const fileList = Array.from(e.target.files);
-//       setNewFiles((prevFiles) => [...prevFiles, ...fileList.map((file) => ({ name: file.name, file }))]);
+//       setNewFiles((prevFiles) => [
+//         ...prevFiles,
+//         ...fileList.map((file) => ({ name: file.name, file })),
+//       ]);
 //     }
 //   };
 
@@ -100,7 +107,6 @@ export default function test2() {
 //           );
 
 //           if (response.status === 200) {
-//             console.log("response:", response.data);
 //             const data = response.data.data;
 //             const totalMinutes = data.walkingRecordWalkingTime;
 //             const hours = Math.floor(totalMinutes / 60);
@@ -108,14 +114,19 @@ export default function test2() {
 //             setHours(hours);
 //             setMinutes(minutes);
 
-//             const filesWithUrls = data.files
-//             ? data.files.map((file: any) => ({
-//                 name: file.fileName,
-//                 url: file.fileUrl,
-//               }))
-//             : [];
+//             const fetchedFiles = data.fileName || [];
+//             const filesWithNamesAndUrls = fetchedFiles.map((filePath: any) => {
+//               const fileName = filePath.split("/").pop();
+//               const fileUrl = `http://localhost:4040/${filePath}`;
 
-//             setExistingFiles(filesWithUrls);
+//               return {
+//                 name: fileName,
+//                 url: fileUrl,
+//               };
+//             });
+
+//             setExistingFiles(filesWithNamesAndUrls);
+
 //             setWalkingRecord((prevRecord) => ({
 //               ...prevRecord,
 //               walkingRecordWeatherState: data.walkingRecordWeatherState,
@@ -133,7 +144,7 @@ export default function test2() {
 //       fetchWalkingRecord();
 //     }
 //   }, [walkingRecordId, cookies, navigate, selectedPet]);
-  
+
 //   const handleSubmit = async (event: React.FormEvent) => {
 //     event.preventDefault();
 
@@ -180,19 +191,22 @@ export default function test2() {
 //     formData.append("walkingRecordMemo", walkingRecord.walkingRecordMemo);
 
 //     const allFiles = [
-//       ...existingFiles.map((file) => ({ ...file, file: null })), // existingFiles는 url만 있으므로, file 속성을 null로 설정
-//       ...newFiles, // newFiles는 실제 File 객체가 있으므로 그대로 사용
+//       ...existingFiles.map((file) => ({ ...file, file: null })),
+//       ...newFiles,
 //     ];
 
 //     console.log("All files to upload:", allFiles);
-    
+
 //     allFiles.forEach((fileObj) => {
 //       // file이 null이 아닌지 확인
 //       if (fileObj.file) {
 //         console.log("Appending file:", fileObj.name); // 어떤 파일이 추가되는지 확인
 //         formData.append("files", fileObj.file, fileObj.name);
 //       } else {
-//         console.log("Skipping file, fileObj.file is null or undefined:", fileObj.name);
+//         console.log(
+//           "Skipping file, fileObj.file is null or undefined:",
+//           fileObj.name
+//         );
 //       }
 //     });
 
@@ -243,7 +257,7 @@ export default function test2() {
 //       </components.Option>
 //     );
 //   };
-  
+
 //   return (
 //     <div>
 //       <h2>산책 기록 수정</h2>
@@ -328,72 +342,46 @@ export default function test2() {
 //           </div>
 
 //           <div>
-//           <h3>기존 파일</h3>
-//           <ul>
-//             {existingFiles.map((file, index) => (
-//               <li key={index}>
-//                 <a href={file.url} target="_blank" rel="noopener noreferrer">
-//                   {file.name}
-//                 </a>
-//                 <IconButton onClick={() => removeFile(index, false)}>
-//                   <DeleteIcon />
-//                 </IconButton>
-//               </li>
-//             ))}
-//           </ul>
-//         </div>
-
-//         <div>
-//           <h3>새 파일</h3>
-//           <input
-//               type="file"
-//               id="files"
-//               multiple
-//               onChange={handleFileChange}
-//             />
-//           <ul>
-//             {newFiles.map((file, index) => (
-//               <li key={index}>
-//                 {file.name}
-//                 <IconButton onClick={() => removeFile(index, true)}>
-//                   <DeleteIcon />
-//                 </IconButton>
-//               </li>
-//             ))}
-//           </ul>
-//         </div>
-
-//           {/* <div>
 //             <label htmlFor="files">사진</label>
-
 //             <input
 //               type="file"
 //               id="files"
 //               multiple
 //               onChange={handleFileChange}
 //             />
-
-//             {walkingRecord.files.length > 0 ? (
-//               <ul className="file-list">
-//                 {walkingRecord.files.map((file, index) => (
-//                   <li key={index} className="file-item">
-//                     <span>
-//                       <FaFolder />
-//                     </span>
-//                     <span className="file-name">{file.name}</span>
-//                     <IconButton
-//                       onClick={() => removeFile(index)}
-//                       className="delete-btn"
-//                     >
-//                       <DeleteIcon color="primary" />
-//                     </IconButton>
-//                   </li>
-//                 ))}
+//             {existingFiles.length > 0 ? (
+//               <ul>
+//                 {existingFiles.map((file, index) => {
+//                   return (
+//                     <li key={index}>
+//                       <a
+//                         href={file.url}
+//                         target="_blank"
+//                         rel="noopener noreferrer"
+//                       >
+//                         {file.name}
+//                       </a>
+//                       <IconButton onClick={() => removeFile(index, false)}>
+//                         <DeleteIcon />
+//                       </IconButton>
+//                     </li>
+//                   );
+//                 })}
 //               </ul>
 //             ) : (
-//               <p>사진 없음</p>
+//               <p>없슈슈</p>
 //             )}
-//           </div> */}
+//             <ul>
+//               {newFiles.map((file, index) => (
+//                 <li key={index}>
+//                   {file.name}
+//                   <IconButton onClick={() => removeFile(index, true)}>
+//                     <DeleteIcon />
+//                   </IconButton>
+//                 </li>
+//               ))}
+//             </ul>
+//           </div>
 
 //           <button type="submit">저장</button>
 //           <button type="button" onClick={goBack}>
@@ -405,6 +393,6 @@ export default function test2() {
 //       )}
 //     </div>
 //   );
-// }
+// };
 
 // export default WalkingRecordUpdate;
