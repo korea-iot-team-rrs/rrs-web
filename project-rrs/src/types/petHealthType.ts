@@ -1,11 +1,12 @@
 export interface HealthRecord {
-  healthRecordId: string;
-  createdAt: string;
-  abnormalSymptoms: string;
+  healthRecordId: number;
+  petId: number;
   weight: number;
   petAge: number;
+  abnormalSymptoms: string;
   memo?: string;
-  attachments?: File[];
+  createdAt: string;
+  attachments?: string[];
 }
 export interface HealthRecordResponse {
   healthRecordId: number;

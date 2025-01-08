@@ -29,6 +29,7 @@ export default function HealthRecordGet({
 
       try {
         const record = await getHealthRecordById(selectedPet.petId, healthRecordId);
+        console.log(record)
         setHealthRecord(record);
       } catch {
         console.log("건강 기록이 없습니다.")

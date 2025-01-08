@@ -1,218 +1,218 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Pet } from "../../../../../stores/petstore";
-import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
-import { FaFolder } from "react-icons/fa";
+import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
+import { getHealthRecordById, updateHealthRecord } from "../../../../../apis/petHealthApi";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { Pet } from "../../../../../types";
+import { HealthRecordResponse } from "../../../../../types/petHealthType";
+
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const MAX_FILE_COUNT = 5; // 최대 첨부 파일 개수
+const ErrorMessages = {
+  FETCH_FAILED: "건강 기록 정보를 가져오는 데 실패했습니다.",
+  FILE_TOO_LARGE: "파일 크기가 너무 큽니다. 최대 5MB까지 가능합니다.",
+  TOO_MANY_FILES: `첨부 파일은 최대 ${MAX_FILE_COUNT}개까지만 업로드할 수 있습니다.`,
+  UPDATE_FAILED: "건강 기록 수정 중 오류가 발생했습니다.",
+};
 
 interface HealthRecordUpdateProps {
   selectedPet: Pet | null;
   healthRecordId: number;
   goBack: () => void;
+  refreshRecords: () => void; // 리스트를 재랜더링하기 위한 함수
 }
 
-export default function HealthRecordUpdate({
+const HealthRecordUpdate = ({
   selectedPet,
   healthRecordId,
   goBack,
-}: HealthRecordUpdateProps) {
-  const [healthRecord, setHealthRecord] = useState<any>(null);
-  const [weight, setWeight] = useState<number>(0);
-  const [petAge, setPetAge] = useState<number>(0);
-  const [abnormalSymptoms, setAbnormalSymptoms] = useState<string>("");
-  const [memo, setMemo] = useState<string>("");
-  const [files, setFiles] = useState<File[]>([]);
-  const [cookies] = useCookies(["token"]);
-
-  const navigate = useNavigate();
-
-  const petId = selectedPet?.petId;
+  refreshRecords,
+}: HealthRecordUpdateProps) => {
+  const [attachments, setAttachments] = useState<File[]>([]);
+  const [healthRecord, setHealthRecord] = useState<HealthRecordResponse | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!selectedPet || !healthRecordId) {
+      setError(ErrorMessages.FETCH_FAILED);
+      return;
+    }
+
     const fetchHealthRecord = async () => {
       try {
-        const token = cookies.token || localStorage.getItem("token");
-        if (!token) {
-          alert("로그인 정보가 없습니다.");
-          navigate("/");
-          return;
-        }
-
-        const response = await axios.get(
-          `http://localhost:4040/api/v1/health-record/petId/${petId}/healthRecordId/${healthRecordId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (response.status === 200) {
-          const data = response.data.data;
-          setHealthRecord(data);
-          setWeight(data.weight);
-          setPetAge(data.petAge);
-          setAbnormalSymptoms(data.abnormalSymptoms);
-          setMemo(data.memo);
-        }
-      } catch (error) {
-        console.error("건강 기록을 불러오는 중 오류 발생:", error);
+        const record = await getHealthRecordById(selectedPet.petId, healthRecordId);
+        console.log(record)
+        setHealthRecord(record);
+      } catch (err) {
+        console.error("Health record fetch error:", err);
+        setError(ErrorMessages.FETCH_FAILED);
       }
     };
 
     fetchHealthRecord();
-  }, [healthRecordId, cookies, navigate, petId]);
+  }, [selectedPet, healthRecordId]);
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-
-    const formData = new FormData();
-    formData.append("weight", String(weight));
-    formData.append("petAge", String(petAge));
-    formData.append("abnormalSymptoms", abnormalSymptoms);
-    formData.append("memo", memo);
-
-    if (files) {
-      for (let i = 0; i < files.length; i++) {
-        formData.append("files", files[i]);
-      }
+  const validateFile = (file: File): boolean => {
+    if (file.size > MAX_FILE_SIZE) {
+      alert(ErrorMessages.FILE_TOO_LARGE);
+      return false;
     }
-
-    try {
-      const token = cookies.token || localStorage.getItem("token");
-      const response = await axios.put(
-        `http://localhost:4040/api/v1/health-record/petId/${petId}/healthRecordId/${healthRecordId}`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        alert("건강 기록이 수정되었습니다.");
-        goBack();
-      } else {
-        alert("수정 실패");
-      }
-    } catch (error) {
-      console.error("수정 에러:", error);
-      alert("건강 기록을 수정하는 중 오류가 발생했습니다.");
-    }
+    return true;
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newFiles = e.target.files;
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
 
-    if (newFiles) {
-      setFiles((prevFiles) => [
-        ...prevFiles,
-        ...Array.from(newFiles).filter(
-          (newFile) =>
-            !prevFiles.some(
-              (existingFile) => existingFile.name === newFile.name
-            )
-        ),
-      ]);
+    const validFiles = Array.from(files).filter((file) => {
+      const isValid = validateFile(file);
+      const isDuplicate = attachments.some((existingFile) => existingFile.name === file.name);
+      if (isDuplicate) {
+        alert(`중복된 파일입니다: ${file.name}`);
+        return false;
+      }
+      return isValid;
+    });
+
+    if (attachments.length + validFiles.length > MAX_FILE_COUNT) {
+      alert(ErrorMessages.TOO_MANY_FILES);
+      return;
     }
+
+    setAttachments((prev) => [...prev, ...validFiles]);
   };
 
   const removeFile = (index: number) => {
-    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    setAttachments((prev) => prev.filter((_, i) => i !== index));
   };
 
-  if (!healthRecord) {
-    return <p>건강 기록을 불러오는 중...</p>;
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setHealthRecord((prev) => (prev ? { ...prev, [name]: value } : null));
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!selectedPet || !healthRecord) {
+      setError(ErrorMessages.UPDATE_FAILED);
+      return;
+    }
+
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      const data = {
+        ...healthRecord,
+        files: attachments,
+      };
+
+      await updateHealthRecord(selectedPet.petId, healthRecordId, data);
+
+      alert("건강 기록이 성공적으로 수정되었습니다!");
+
+      // 리스트 갱신을 요청
+      refreshRecords();
+
+      // 뒤로가기
+      goBack();
+    } catch (error) {
+      console.error("Error updating health record:", error);
+      setError(ErrorMessages.UPDATE_FAILED);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (!healthRecord && !error) {
+    return <p>로딩 중...</p>;
+  }
+
+  if (error) {
+    return <p className="error-message">{error}</p>;
   }
 
   return (
-    <div>
-      <h3>건강 기록 수정</h3>
-
-      {healthRecord ? (
-        <form onSubmit={handleSubmit}>
-          <div className="petCircleBox">
-            <img
-              src={selectedPet?.petImageUrl}
-              alt={`${selectedPet?.petName}의 사진`}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="weight">체중 (kg)</label>
-            <input
-              type="number"
-              id="weight"
-              value={weight}
-              onChange={(e) => setWeight(Number(e.target.value))}
-              min="0"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="pet-age">나이 (개월)</label>
-            <input
-              type="number"
-              id="pet-age"
-              value={petAge}
-              onChange={(e) => setPetAge(Number(e.target.value))}
-              min="0"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="abnormal-symptoms">이상 증상</label>
-            <textarea
-              id="abnormal-symptoms"
-              value={abnormalSymptoms}
-              onChange={(e) => setAbnormalSymptoms(e.target.value)}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="memo">메모</label>
-            <textarea
-              id="memo"
-              value={memo}
-              onChange={(e) => setMemo(e.target.value)}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="files">첨부 파일</label>
-            <input type="file" id="files" multiple onChange={handleFileChange} />
-
+    <div className="health-record-update-container">
+      <h1 className="health-record-update-title">건강 기록 수정</h1>
+      <form onSubmit={handleSubmit} className="health-record-update-form">
+        <div className="form-group">
+          <label htmlFor="weight">몸무게 (kg)</label>
+          <input
+            type="number"
+            id="weight"
+            name="weight"
+            value={healthRecord?.weight || ""}
+            onChange={handleInputChange}
+            placeholder="몸무게를 입력하세요"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="petAge">나이 (년)</label>
+          <input
+            type="number"
+            id="petAge"
+            name="petAge"
+            value={healthRecord?.petAge || ""}
+            onChange={handleInputChange}
+            placeholder="나이를 입력하세요"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="abnormalSymptoms">이상 증상</label>
+          <textarea
+            id="abnormalSymptoms"
+            name="abnormalSymptoms"
+            value={healthRecord?.abnormalSymptoms || ""}
+            onChange={handleInputChange}
+            placeholder="이상 증상을 입력하세요"
+            rows={5}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="memo">메모</label>
+          <textarea
+            id="memo"
+            name="memo"
+            value={healthRecord?.memo || ""}
+            onChange={handleInputChange}
+            placeholder="메모를 입력하세요"
+            rows={5}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="attachments">첨부 파일</label>
+          <input
+            type="file"
+            id="attachments"
+            onChange={handleFileChange}
+            multiple
+          />
+          {attachments.length > 0 && (
             <ul className="file-list">
-              {files.map((file, index) => (
+              {attachments.map((file, index) => (
                 <li key={index} className="file-item">
-                  <span>
-                    <FaFolder />
-                  </span>
-                  <span className="file-name">{file.name}</span>
-
-                  <IconButton
-                    onClick={() => removeFile(index)}
-                    className="delete-btn"
-                  >
-                    <DeleteIcon color="primary" />
+                  <span>{file.name}</span>
+                  <IconButton onClick={() => removeFile(index)}>
+                    <DeleteIcon />
                   </IconButton>
                 </li>
               ))}
             </ul>
-          </div>
-
-          <button type="submit">저장</button>
-          <button type="button" onClick={goBack}>
+          )}
+        </div>
+        <div className="button-group">
+          <button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "수정 중..." : "수정"}
+          </button>
+          <button type="button" onClick={goBack} className="cancel-button">
             취소
           </button>
-        </form>
-      ) : (
-        <p>건강 기록을 불러오는 중...</p>
-      )}
+        </div>
+      </form>
     </div>
   );
-}
+};
+
+export default HealthRecordUpdate;

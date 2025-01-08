@@ -15,7 +15,7 @@ body {
   font-family: "Noto Sans", sans-serif;
 }
 
-.loginModalOverlay {
+.modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -29,7 +29,7 @@ body {
   z-index: 999;
 }
 
-.loginModalContainer {
+.modalContainer {
   position: relative;
   background-color: #fff;
   border-radius: 16px;
@@ -52,7 +52,7 @@ body {
   color: #888;
 }
 
-.loginModalTitle {
+.modalTitle {
   font-size: 1.25rem;
   margin-bottom: 24px;
   font-weight: 700;
@@ -64,7 +64,7 @@ body {
   gap: 12px;
 }
 
-.loginModalButton {
+.modalButton {
   font-family: "Noto Sans", sans-serif;
   font-size: 0.9rem;
   border: none;
