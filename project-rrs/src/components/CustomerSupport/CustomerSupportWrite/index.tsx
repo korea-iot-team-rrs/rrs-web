@@ -21,6 +21,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 export default function CustomerSupportWrite() {
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
+  const MAX_FILE_SIZE = 5 * 1024 * 1024;
+  const MAX_TOTAL_SIZE = 20 * 1024 * 1024;
   const [createCSReqDto, setCreateCSRequestDto] = useState<CreateCS>({
     customerSupportTitle: "",
     customerSupportContent: "",
@@ -51,18 +53,35 @@ export default function CustomerSupportWrite() {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files ? Array.from(e.target.files) : [];
+    let totalSize = createCSReqDto.files.reduce(
+      (acc, file) => acc + file.size,
+      0
+    );
 
-    setCreateCSRequestDto((prev) => {
-      const newFiles = files.filter(
-        (file) =>
-          !prev.files.some((existingFile) => existingFile.name === file.name)
-      );
+    const validFiles: File[] = [];
+    const invalidFiles: string[] = [];
 
-      return {
-        ...prev,
-        files: [...prev.files, ...newFiles],
-      };
+    files.forEach((file) => {
+      if (file.size > MAX_FILE_SIZE) {
+        invalidFiles.push(
+          `${file.name} (크기: ${(file.size / (1024 * 1024)).toFixed(2)}MB)`
+        );
+      } else if (totalSize + file.size > MAX_TOTAL_SIZE) {
+        invalidFiles.push(`${file.name} (총 크기 초과)`);
+      } else {
+        validFiles.push(file);
+        totalSize += file.size;
+      }
     });
+
+    if (invalidFiles.length > 0) {
+      alert(`다음 파일은 업로드할 수 없습니다:\n${invalidFiles.join("\n")}`);
+    }
+
+    setCreateCSRequestDto((prev) => ({
+      ...prev,
+      files: [...prev.files, ...validFiles],
+    }));
   };
 
   const removeFile = (index: number) => {
@@ -162,7 +181,7 @@ export default function CustomerSupportWrite() {
                     <FolderIcon />
                   </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={file.name} />
+                <ListItemText primary={file.name} secondary={`크기: ${(file.size / (1024 * 1024)).toFixed(2)} MB`}/>
               </ListItem>
             ))}
           </List>

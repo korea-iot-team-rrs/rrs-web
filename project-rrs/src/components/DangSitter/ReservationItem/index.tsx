@@ -11,14 +11,14 @@ interface ReservationItemProps {
   reservation: Reservation;
   onClick: (id: number) => void;
   reviewStatus: string; // "Y" or "N"
-  index: number
+  index: number;
 }
 
 export default function ReservationItem({
   reservation,
   onClick,
   reviewStatus,
-  index
+  index,
 }: ReservationItemProps) {
   const [cookies] = useCookies(["token"]);
   const incrementRefreshKey = useRefreshStore(
@@ -44,7 +44,8 @@ export default function ReservationItem({
     }
   };
 
-  const handleCancel = async () => {
+  const handleCancel = async (e: React.MouseEvent) => {
+    e.stopPropagation();
     const token = cookies.token;
     const confirmCancel = window.confirm("정말 취소하시겠습니까?");
     if (!confirmCancel) return;
@@ -63,7 +64,8 @@ export default function ReservationItem({
     }
   };
 
-  const handleReviewButtonClick = () => {
+  const handleReviewButtonClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setIsEditing(reviewStatus === "Y");
     setReviewModalOpen(true);
   };
@@ -99,7 +101,7 @@ export default function ReservationItem({
               <Button
                 variant="contained"
                 color="primary"
-                onClick={handleReviewButtonClick}
+                onClick={handleReviewButtonClick} // 이벤트 전파 방지 추가
               >
                 {reviewStatus === "Y" ? "리뷰 수정" : "리뷰 쓰기"}
               </Button>
