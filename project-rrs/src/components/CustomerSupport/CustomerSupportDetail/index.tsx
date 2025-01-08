@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { deleteCustomerSupport, fetchOneCustomerSupport } from "../../../apis/custommerSupport";
+import {
+  deleteCustomerSupport,
+  fetchOneCustomerSupport,
+} from "../../../apis/custommerSupport";
 import { useNavigate, useParams } from "react-router-dom";
 import { FetchCS } from "../../../types/customerSupport";
 import {
@@ -20,6 +23,7 @@ export default function CustomerSupportDetail() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
 
+  const [totalFileSize, setTotalFileSize] = useState<number | null>(null);
   const [cs, setCs] = useState<FetchCS>({
     customerSupportId: 0,
     customerSupportTitle: "",
@@ -33,7 +37,10 @@ export default function CustomerSupportDetail() {
   const normalizePath = (path: string) => {
     const baseUrl =
       process.env.REACT_APP_API_BASE_URL || "http://localhost:4040/";
-    return baseUrl + encodeURIComponent(path.replace(/\\/g, "/"));
+    if (path.startsWith("http://") || path.startsWith("https://")) {
+      return path;
+    }
+    return `${baseUrl}${path.replace(/\\/g, "/")}`;
   };
 
   const categoryLabel = (status: string) => {
@@ -81,14 +88,37 @@ export default function CustomerSupportDetail() {
         });
     }
   };
+  const fetchFileSize = async (filePath: string): Promise<number | null> => {
+    try {
+      const response = await fetch(filePath, { method: "HEAD" });
+      const size = response.headers.get("Content-Length");
+      return size ? parseInt(size, 10) : null;
+    } catch (error) {
+      console.error("Failed to fetch file size:", error);
+      return null;
+    }
+  };
 
   useEffect(() => {
     const token = cookies.token;
     if (token && id) {
       const csId = Number(id);
+
       fetchOneCustomerSupport(csId, token)
-        .then((data: FetchCS) => {
-          setCs(data);
+        .then(async (data: FetchCS) => {
+          const fileInfosWithSize = await Promise.all(
+            data.fileInfos.map(async (file) => ({
+              ...file,
+              fileSize: await fetchFileSize(normalizePath(file.filePath)),
+            }))
+          );
+
+          const totalSize = fileInfosWithSize.reduce((sum, file) => {
+            return sum + (file.fileSize || 0);
+          }, 0);
+
+          setCs({ ...data, fileInfos: fileInfosWithSize });
+          setTotalFileSize(totalSize);
         })
         .catch((e) => {
           console.error("Failed to fetch customer support:", e);
@@ -114,6 +144,14 @@ export default function CustomerSupportDetail() {
         <div className="cs-detail-title">{cs.customerSupportTitle}</div>
         <div className="cs-detail-content">{cs.customerSupportContent}</div>
         <div className="cs-detail-attachment">
+          <div>
+            <p>
+              <strong>총 파일 크기:</strong>{" "}
+              {totalFileSize !== null
+                ? `${(totalFileSize / (1024 * 1024)).toFixed(2)} MB`
+                : "계산 중..."}
+            </p>
+          </div>
           {cs.fileInfos.length > 0 ? (
             <List>
               {cs.fileInfos.map((att, index) => (
@@ -128,6 +166,13 @@ export default function CustomerSupportDetail() {
                       <a href={normalizePath(att.filePath)} download>
                         {att.fileName}
                       </a>
+                    }
+                    secondary={
+                      att.fileSize
+                        ? `크기: ${(att.fileSize / (1024 * 1024)).toFixed(
+                            2
+                          )} MB`
+                        : "크기 정보 없음"
                     }
                   />
                 </ListItem>

@@ -5,24 +5,27 @@ import { getToken } from "../utils/auth";
 // 사용자 정보 조회
 export const fetchUserInfo = async (): Promise<User> => {
   const token = getToken();
-  
+
   if (!token) {
     throw new Error("사용자 정보 조회 실패: 로그인되지 않음");
   }
 
-  try{
-    const response = await axios.get<{ data: User }>('http://localhost:4040/api/v1/users', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
+  try {
+    const response = await axios.get<{ data: User }>(
+      "http://localhost:4040/api/v1/users",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
     return response.data.data;
   } catch (error) {
     console.log("Failed to fetch user info:", error);
     throw new Error("사용자 정보 조회 실패");
   }
-}
+};
 
 interface UpdateUserResponse {
   message: string;
@@ -40,7 +43,7 @@ export const updateUserInfo = async (
 
   try {
     const response = await axios.put<UpdateUserResponse>(
-      'http://localhost:4040/api/v1/users',
+      "http://localhost:4040/api/v1/users",
       userData,
       {
         headers: {
@@ -68,38 +71,39 @@ export const deleteUserInfo = async (password: string): Promise<void> => {
   }
 
   try {
-    const response = await axios.delete(
-      'http://localhost:4040/api/v1/users',
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        data: { password },
-      }
-    );
+    const response = await axios.delete("http://localhost:4040/api/v1/users", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: { password },
+    });
     console.log("User deleted successfully");
   } catch (error) {
     // AxiosError 처리
     if (axios.isAxiosError(error)) {
-      console.error('Axios error:', error.response?.data || error.message);
-      throw new Error(error.response?.data?.message || 'Request failed');
+      console.error("Axios error:", error.response?.data || error.message);
+      throw new Error(error.response?.data?.message || "Request failed");
     } else {
-      console.error('Unknown error occurred');
-      throw new Error('An unknown error occurred');
+      console.error("Unknown error occurred");
+      throw new Error("An unknown error occurred");
     }
   }
 };
 
-
-export const fetchUserInfoForCertification = async (token: string): Promise<User> => {
+export const fetchUserInfoForCertification = async (
+  token: string
+): Promise<User> => {
   try {
-    const response = await axios.get<{ data: User }>('http://localhost:4040/api/v1/users', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data.data; 
+    const response = await axios.get<{ data: User }>(
+      "http://localhost:4040/api/v1/users",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data.data;
   } catch (error: any) {
     console.error("Failed to fetch user info:", error);
     throw new Error("Failed to fetch user information.");
@@ -107,31 +111,20 @@ export const fetchUserInfoForCertification = async (token: string): Promise<User
 };
 
 export const updateUserPassword = async (
-  userData: Partial<User>,
+  data: {
+    password: string;
+    confirmPassword: string;
+  },
   token: string
-): Promise<UpdateUserResponse> => {
-  if (!token) {
-    throw new Error("No token found");
-  }
-
-  try {
-    const response = await axios.put<UpdateUserResponse>(
-      'http://localhost:4040/api/v1/users',
-      userData,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    console.log("Response Data:", response.data);
-    return response.data;
-  } catch (error) {
-    console.error("Error in updateUserInfo:", error);
-    if (axios.isAxiosError(error)) {
-      console.error("Axios error response:", error.response);
+) => {
+  const response = await axios.put(
+    `http://localhost:4040/api/v1/users/update-password`,
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     }
-    throw error;
-  }
+  );
+  return response.data.data;
 };

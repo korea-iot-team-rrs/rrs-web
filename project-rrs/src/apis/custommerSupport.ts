@@ -66,22 +66,29 @@ export const fetchOneCustomerSupport = async (
 
 export const updateCustomerSupport = async (
   customerSupportId: number,
-  data: UpdateCS,
+  formData: FormData,
   token: string
 ) => {
-  const formData = createFormData(data);
+  formData.forEach((value, key) => {
+    console.log(key, value);
+  });
 
-  const response = await axios.put(
-    `http://localhost:4040/api/v1/customer-supports/${customerSupportId}`,
-    formData,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
-      },
-    }
-  );
-  return response.data.data;
+  if (!token) {
+    console.error("Token is missing");
+    throw new Error("Authentication token is required");
+  }
+
+    const response = await axios.put(
+      `http://localhost:4040/api/v1/customer-supports/${customerSupportId}`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("Update successful:", response.data);
+    return response.data;
 };
 
 export const deleteCustomerSupport = async (
@@ -97,7 +104,7 @@ export const deleteCustomerSupport = async (
       },
     }
   );
-  return response.data.data;
+  return response.data;
 };
 
 export const createFormData = (data: Partial<UpdateCS>): FormData => {

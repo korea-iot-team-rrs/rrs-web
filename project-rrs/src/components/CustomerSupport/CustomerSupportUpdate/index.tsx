@@ -18,9 +18,13 @@ import {
 import FolderIcon from "@mui/icons-material/Folder";
 
 export default function CustomerSupportUpdate() {
+  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+  const MAX_TOTAL_SIZE = 20 * 1024 * 1024; // 20MB
+
   const { id } = useParams<{ id: string }>();
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
+  const [totalFileSize, setTotalFileSize] = useState<number>(0);
 
   const [cs, setCs] = useState<FetchCS>({
     customerSupportId: 0,
@@ -35,90 +39,156 @@ export default function CustomerSupportUpdate() {
   const [updateCs, setUpdateCs] = useState<UpdateCS>({
     customerSupportTitle: "",
     customerSupportContent: "",
-    existingFilePaths: [],
     files: [],
   });
 
-  const [existingFiles, setExistingFiles] = useState<{
-    filePath: string;
-    fileName: string;
-  }[]>([]);
-
+  const [existingFilesInfo, setExistingFilesInfo] = useState<
+    { filePath: string; fileName: string }[]
+  >([]);
+  const [existingFiles, setExistingFiles] = useState<File[]>([]);
   const [newFiles, setNewFiles] = useState<File[]>([]);
-  
-  const [removedFiles, setRemovedFiles] = useState<string[]>([]);
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUpdateCs((prev) => ({
+      ...prev,
+      customerSupportTitle: e.target.value,
+    }));
+  };
+
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setUpdateCs((prev) => ({
+      ...prev,
+      customerSupportContent: e.target.value,
+    }));
+  };
+
+  const calculateTotalSize = () => {
+    const existingTotalSize = existingFiles.reduce(
+      (acc, file) => acc + file.size,
+      0
+    );
+    const newFilesTotalSize = newFiles.reduce(
+      (acc, file) => acc + file.size,
+      0
+    );
+    return existingTotalSize + newFilesTotalSize;
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files ? Array.from(e.target.files) : [];
-    setNewFiles((prev) => [...prev, ...files]);
-  };
+    let totalSize = calculateTotalSize();
 
-  const removeExistingFile = (index: number) => {
-    const fileToRemove = existingFiles[index];
-    setRemovedFiles((prev) => [...prev, fileToRemove.filePath]); // 삭제된 파일 추가
-    setExistingFiles((prev) => prev.filter((_, i) => i !== index)); // UI 업데이트
+    const validFiles: File[] = [];
+    const invalidFiles: string[] = [];
+
+    files.forEach((file) => {
+      if (file.size > MAX_FILE_SIZE) {
+        invalidFiles.push(
+          `${file.name} (크기: ${(file.size / (1024 * 1024)).toFixed(2)}MB)`
+        );
+      } else if (totalSize + file.size > MAX_TOTAL_SIZE) {
+        invalidFiles.push(`${file.name} (총 크기 초과)`);
+      } else {
+        validFiles.push(file);
+        totalSize += file.size;
+      }
+    });
+
+    if (invalidFiles.length > 0) {
+      alert(`다음 파일은 업로드할 수 없습니다:\n${invalidFiles.join("\n")}`);
+    }
+
+    setNewFiles((prev) => [...prev, ...validFiles]);
+    setTotalFileSize(totalSize);
   };
 
   const removeNewFile = (index: number) => {
-    setNewFiles((prev) => prev.filter((_, i) => i !== index));
+    const updatedFiles = newFiles.filter((_, i) => i !== index);
+    setNewFiles(updatedFiles);
+    setTotalFileSize(calculateTotalSize());
   };
 
+  const removeExistingFile = (index: number) => {
+    const updatedFilesInfo = existingFilesInfo.filter((_, i) => i !== index);
+    const updatedFiles = existingFiles.filter((_, i) => i !== index);
+  
+    setExistingFilesInfo(updatedFilesInfo);
+    setExistingFiles(updatedFiles);
+  
+    const totalSize = [
+      ...updatedFiles.map((file) => file.size),
+      ...newFiles.map((file) => file.size),
+    ].reduce((acc, size) => acc + size, 0);
+  
+    setTotalFileSize(totalSize);
+  };
   const submitClickHandler = () => {
     const token = cookies.token;
-  
-    const data: UpdateCS = {
-      customerSupportTitle: updateCs.customerSupportTitle,
-      customerSupportContent: updateCs.customerSupportContent,
-      existingFilePaths: existingFiles.map((file) => file.filePath),
-      files: newFiles,
-    };
-  
-    if (id && token) {
-      updateCustomerSupport(Number(id), data, token)
-        .then(() => {
-          alert("수정이 완료 되었습니다.")
-          navigate(`/customer-supports/${id}`)
-        }).catch((e) => {
-          console.error("Failed to edit customer support:", e);
-        });
-        
-    } else {
+
+    if (!token || !id) {
       console.error("Token or ID is missing.");
+      return;
     }
+
+    const formData = new FormData();
+    formData.append("customerSupportTitle", updateCs.customerSupportTitle);
+    formData.append("customerSupportContent", updateCs.customerSupportContent);
+
+    const allFiles = [...existingFiles, ...newFiles];
+    allFiles.forEach((file) => {
+      formData.append("files", file);
+    });
+
+    updateCustomerSupport(Number(id), formData, token)
+      .then(() => {
+        alert("수정이 완료되었습니다.");
+        navigate(`/customer-supports/${id}`);
+      })
+      .catch((error) => {
+        console.error("Failed to edit customer support:", error);
+        alert("수정 중 에러가 발생했습니다.");
+      });
   };
-  
 
   useEffect(() => {
     const token = cookies.token;
     if (token && id) {
-      const csId = Number(id);
-      fetchOneCustomerSupport(csId, token)
+      fetchOneCustomerSupport(Number(id), token)
         .then(async (response: FetchCS) => {
           setCs(response);
           setUpdateCs({
             customerSupportTitle: response.customerSupportTitle,
             customerSupportContent: response.customerSupportContent,
-            existingFilePaths: [],
             files: [],
           });
-          setExistingFiles(
-            response.fileInfos.map(({ filePath, fileName }) => ({
-              filePath,
-              fileName,
-            }))
+
+          const filesWithPaths = response.fileInfos.map((file) => ({
+            filePath: normalizePath(file.filePath),
+            fileName: file.fileName,
+          }));
+
+          setExistingFilesInfo(filesWithPaths);
+
+          const fileObjects = await Promise.all(
+            filesWithPaths.map((file) =>
+              convertFilePathToFile(file.filePath, file.fileName)
+            )
           );
 
-          const files = await Promise.all(
-            response.fileInfos.map(async ({ filePath, fileName }) => {
-              const res = await fetch(filePath);
-              const blob = await res.blob();
-              return new File([blob], fileName, { type: blob.type });
-            })
+          setExistingFiles(fileObjects);
+
+          const existingSize = fileObjects.reduce(
+            (acc, file) => acc + file.size,
+            0
           );
-          setNewFiles(files); 
+          const newFilesSize = newFiles.reduce(
+            (acc, file) => acc + file.size,
+            0
+          );
+          setTotalFileSize(existingSize + newFilesSize);
         })
         .catch((e) => {
-          console.error("Failed to fetch customer support:", e);
+          console.error("Failed to fetch customer support files:", e);
         });
     }
   }, [id, cookies.token]);
@@ -126,19 +196,41 @@ export default function CustomerSupportUpdate() {
   const normalizePath = (path: string) => {
     const baseUrl =
       process.env.REACT_APP_API_BASE_URL || "http://localhost:4040/";
-    return baseUrl + path.replace(/\\/g, "/");
+    if (path.startsWith("http://") || path.startsWith("https://")) {
+      return path;
+    }
+    return `${baseUrl}${path.replace(/\\/g, "/")}`;
+  };
+
+  const convertFilePathToFile = async (filePath: string, fileName: string) => {
+    const response = await fetch(filePath);
+    const blob = await response.blob();
+    return new File([blob], fileName, { type: blob.type });
   };
 
   return (
     <div>
-      <h2>{cs.customerSupportTitle}</h2>
-      <p>{cs.customerSupportContent}</p>
+      <h2>
+        <input
+          type="text"
+          value={updateCs.customerSupportTitle}
+          onChange={handleTitleChange}
+          placeholder="제목을 입력하세요"
+        />
+      </h2>
+      <p>
+        <textarea
+          value={updateCs.customerSupportContent}
+          onChange={handleContentChange}
+          placeholder="내용을 입력하세요"
+        />
+      </p>
 
       <div>
         <h3>기존 첨부 파일</h3>
-        {existingFiles.length > 0 ? (
+        {existingFilesInfo.length > 0 ? (
           <List>
-            {existingFiles.map((att, index) => (
+            {existingFilesInfo.map((att, index) => (
               <ListItem
                 key={index}
                 secondaryAction={
@@ -160,6 +252,14 @@ export default function CustomerSupportUpdate() {
                     <a href={normalizePath(att.filePath)} download>
                       {att.fileName}
                     </a>
+                  }
+                  secondary={
+                    existingFiles[index]
+                      ? `크기: ${(
+                          existingFiles[index].size /
+                          (1024 * 1024)
+                        ).toFixed(2)} MB`
+                      : "크기 정보 없음"
                   }
                 />
               </ListItem>
@@ -189,7 +289,12 @@ export default function CustomerSupportUpdate() {
                     <FolderIcon />
                   </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={file.name} />
+                <ListItemText
+                  primary={file.name}
+                  secondary={`크기: ${(file.size / (1024 * 1024)).toFixed(
+                    2
+                  )} MB`}
+                />
               </ListItem>
             ))}
           </List>
@@ -197,6 +302,11 @@ export default function CustomerSupportUpdate() {
           <p>추가된 파일이 없습니다.</p>
         )}
       </div>
+
+      <p>
+        <strong>총 파일 크기:</strong>{" "}
+        {(totalFileSize / (1024 * 1024)).toFixed(2)} MB
+      </p>
 
       <Button variant="contained" color="primary" onClick={submitClickHandler}>
         수정하기
