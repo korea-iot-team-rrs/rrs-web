@@ -152,7 +152,7 @@ export default function FinduserInfo() {
                     }}
                   />
                 </div>
-                <div>
+                <div className="Input-btn">
                   <p>아이디</p>
                   <OutlinedInput
                     name="username"
