@@ -6,7 +6,27 @@ import {
 } from "../types/petHealthType";
 import { getToken } from "../utils/auth";
 
-const HEALTH_RECORD_API_URL = "http://localhost:4040/api/v1/users/pet/petHealth";
+const BASE_URL = "http://localhost:4040/api/v1";
+const HEALTH_RECORD_API_URL = `${BASE_URL}/users/pet/petHealth`;
+
+const createFormData = (
+  data: Partial<HealthRecord> & { files?: File[] }
+): FormData => {
+  const formData = new FormData();
+  Object.entries(data).forEach(([key, value]) => {
+    if (key === "files" && Array.isArray(value)) {
+      value.forEach((file) => {
+        // 파일 타입 확인 및 크기 검사
+        if (file instanceof File && file.size > 0) {
+          formData.append("files", file);
+        }
+      });
+    } else if (value !== undefined && value !== null) {
+      formData.append(key, typeof value === "string" ? value : String(value));
+    }
+  });
+  return formData;
+};
 
 // Health Record 생성
 export const createHealthRecord = async (
@@ -14,23 +34,10 @@ export const createHealthRecord = async (
   data: Partial<HealthRecord> & { files?: File[] }
 ): Promise<HealthRecordResponse> => {
   const token = getToken();
-
-  if (!token) {
-    throw new Error("인증 토큰이 없습니다. 로그인을 먼저 해주세요.");
-  }
+  if (!token) throw new Error("인증 토큰이 없습니다. 로그인을 먼저 해주세요.");
 
   try {
-    const formData = new FormData();
-    
-    formData.append("petId", String(petId));
-    Object.entries(data).forEach(([key, value]) => {
-      if (key === "files" && Array.isArray(value)) {
-        value.forEach((file) => formData.append("files", file));
-      } else if (value !== undefined && value !== null) {
-        formData.append(key, value as string | Blob);
-      }
-    });
-
+    const formData = createFormData({ ...data, petId });
     const response = await axios.post<{ data: HealthRecordResponse }>(
       `${HEALTH_RECORD_API_URL}/${petId}`,
       formData,
@@ -41,7 +48,6 @@ export const createHealthRecord = async (
         },
       }
     );
-
     return response.data.data;
   } catch (error: any) {
     console.error("건강 기록 생성 실패:", error);
@@ -58,22 +64,18 @@ export const updateHealthRecord = async (
   data: Partial<HealthRecord> & { files?: File[] }
 ): Promise<HealthRecordResponse> => {
   const token = getToken();
-
   if (!token) {
     throw new Error("인증 토큰이 없습니다. 로그인을 먼저 해주세요.");
   }
 
   try {
-    const formData = new FormData();
-    
-    Object.entries(data).forEach(([key, value]) => {
-      if (key === "files" && Array.isArray(value)) {
-        value.forEach((file) => formData.append("files", file));
-      } else if (value !== undefined && value !== null) {
-        formData.append(key, value as string | Blob);
-      }
-    });
+    // FormData 생성
+    const formData = createFormData(data);
 
+    // 디버깅용: FormData 확인
+    console.log("FormData 내용:", Array.from(formData.entries()));
+
+    // API 호출
     const response = await axios.put<{ data: HealthRecordResponse }>(
       `${HEALTH_RECORD_API_URL}/${petId}/${healthRecordId}`,
       formData,
@@ -89,10 +91,11 @@ export const updateHealthRecord = async (
   } catch (error: any) {
     console.error("건강 기록 수정 실패:", error);
     throw new Error(
-      error.response?.data?.message || "건강 기록 수정 중 오류가 발생했습니다."
+      error.response?.data?.message || "건강 기록 수정 중 알 수 없는 오류가 발생했습니다."
     );
   }
 };
+
 
 // 특정 Health Record 조회
 export const getHealthRecordById = async (
@@ -100,7 +103,6 @@ export const getHealthRecordById = async (
   healthRecordId: number
 ): Promise<HealthRecordResponse> => {
   const token = getToken();
-
   if (!token) {
     throw new Error("인증 토큰이 없습니다. 로그인을 먼저 해주세요.");
   }
@@ -115,7 +117,6 @@ export const getHealthRecordById = async (
         },
       }
     );
-
     return response.data.data;
   } catch (error: any) {
     console.error("건강 기록 조회 실패:", error);
@@ -130,7 +131,6 @@ export const getAllHealthRecords = async (
   petId: number
 ): Promise<HealthRecordResponse[]> => {
   const token = getToken();
-
   if (!token) {
     throw new Error("인증 토큰이 없습니다. 로그인을 먼저 해주세요.");
   }
@@ -145,7 +145,6 @@ export const getAllHealthRecords = async (
         },
       }
     );
-
     return response.data.data;
   } catch (error: any) {
     console.error("건강 기록 목록 조회 실패:", error);
@@ -161,7 +160,6 @@ export const deleteHealthRecord = async (
   healthRecordId: number
 ): Promise<DeleteResponse> => {
   const token = getToken();
-
   if (!token) {
     throw new Error("인증 토큰이 없습니다. 로그인을 먼저 해주세요.");
   }
@@ -175,7 +173,6 @@ export const deleteHealthRecord = async (
         },
       }
     );
-
     return response.data.data;
   } catch (error: any) {
     console.error("건강 기록 삭제 실패:", error);
