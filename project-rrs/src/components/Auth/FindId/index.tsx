@@ -6,7 +6,6 @@ export default function FindId() {
   const { token } = useParams<{ token: string }>(); 
   const [username, setUsername] = useState<string>("");
 
-
   useEffect(() => {
     console.log(token);
     if(token) {

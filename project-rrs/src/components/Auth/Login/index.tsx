@@ -5,7 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import useAuthStore from "../../../stores/auth.store";
-import FinduserInfo from "../FindUserInfo";
+import { Link } from "@mui/material";
 
 interface Credentials {
   username: string;
@@ -103,6 +103,14 @@ export default function Login() {
     }
   };
 
+  const handleNavigateToFindId = () => {
+    navigate('/find-userInfo', { state: { isFindId: true } });
+  };
+
+  const handleNavigateToFindPassword = () => {
+    navigate('/find-userInfo', { state: { isFindId: false } });
+  };
+
   return (
     <div className="login">
       <img src={logo} alt="MainLogo" />
@@ -135,12 +143,12 @@ export default function Login() {
 
       <div className="login-links">
         <a href="/signup">회원가입</a>
-        <a href="/find-useInfo?type=id" onClick={() => setFindId(true)}>
+        <Link onClick={handleNavigateToFindId}>
           아이디 찾기
-        </a>
-        <a href="/find-useInfo?type=password" onClick={() => setFindId(false)}>
+        </Link>
+        <Link onClick={handleNavigateToFindPassword}>
           비밀번호 찾기
-        </a>
+        </Link>
       </div>
     </div>
   );
