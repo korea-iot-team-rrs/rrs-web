@@ -26,9 +26,8 @@ export default function PetDiaryHealthRecord({
   const [isEditing, setIsEditing] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [recordToDelete, setRecordToDelete] = useState<number | null>(null);
-
-  const [selectedPet, setSelectedPet] = useState<Pet | null>(null);
   const [healthRecords, setHealthRecords] = useState<any[]>([]);
+  const [selectedPet, setSelectedPet] = useState<Pet | null>(null);
   const [healthRecordId, setHealthRecordId] = useState<number>(0);
   const [selectedDate, setSelectedDate] = useState<string>(
     initialSelectedDate || ""
@@ -40,8 +39,17 @@ export default function PetDiaryHealthRecord({
     setIsEditing(false);
   };
 
-  const addHealthRecord = (newRecord: any) => {
-    setHealthRecords((prevRecords) => [newRecord, ...prevRecords]);
+  const refreshRecords = async () => {
+    if (!selectedPet || !selectedDate) return;
+
+    try {
+      const records = await getAllHealthRecords(selectedPet.petId);
+      setHealthRecords(
+        records.filter((record) => record.createdAt.startsWith(selectedDate))
+      );
+    } catch (error) {
+      console.error("저장된 건강 기록이 없습니다:", error);
+    }
   };
 
   const handleAddHealthRecordClick = () => {
@@ -87,19 +95,6 @@ export default function PetDiaryHealthRecord({
     }
   };
 
-  const loadHealthRecords = async () => {
-    if (!selectedPet || !selectedDate) return;
-
-    try {
-      const records = await getAllHealthRecords(selectedPet.petId);
-      setHealthRecords(
-        records.filter((record) => record.createdAt.startsWith(selectedDate))
-      );
-    } catch (error) {
-      console.error("저장된 건강 기록이 없습니다:", error);
-    }
-  };
-
   const loadPets = async () => {
     const token = cookies.token || localStorage.getItem("token");
     if (!token) {
@@ -129,7 +124,7 @@ export default function PetDiaryHealthRecord({
   }, [cookies]);
 
   useEffect(() => {
-    loadHealthRecords();
+    refreshRecords();
   }, [selectedPet, selectedDate]);
 
   return (
@@ -139,7 +134,7 @@ export default function PetDiaryHealthRecord({
           selectedPet={selectedPet}
           selectedDate={selectedDate}
           goBack={goBack}
-          addHealthRecord={addHealthRecord}
+          addHealthRecord={(newRecord) => setHealthRecords((prev) => [newRecord, ...prev])}
         />
       ) : isFetching ? (
         <HealthRecordGet
@@ -153,6 +148,7 @@ export default function PetDiaryHealthRecord({
           selectedPet={selectedPet}
           healthRecordId={healthRecordId}
           goBack={goBack}
+          refreshRecords={refreshRecords}
         />
       ) : (
         <>

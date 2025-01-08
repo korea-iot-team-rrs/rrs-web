@@ -44,7 +44,6 @@ export default function CommunityEdit() {
     (async () => {
       try {
         const community = await getCommunityById(communityIdNumber);
-        console.log(community);
         setTitle(community.communityTitle);
         setContent(community.communityContent);
         if (community.communityThumbnailFile) {
