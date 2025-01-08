@@ -1,28 +1,29 @@
 .find-user-info-wrapper {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* 두 열을 1:1 비율로 설정 */
-  gap: 100px; /* 열 사이 간격 */
-  align-items: center; /* 수직 정렬 */
-  justify-items: center; /* 수평 정렬 */
-  padding: 100px 20% 0 20%;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px; 
+  align-items: center; 
+  justify-items: center;
+  padding: 100px 25% 0 25%;
 }
 
 .find-user-info-left,
 .find-user-info-right {
-  width: 100%; /* 각각의 아이템이 그리드 셀을 채우도록 설정 */
+  width: 100%;
 }
 
 .find-user-info-left {
-  padding: 16px;
-  background-color: #f9f9f9; /* 배경색 설정 */
+  padding: 25px;
+  background-color: #f9f9f9;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   min-height: 350px;
 
   ul {
     list-style-type: none;
     padding: 0px;
     margin: 0px;
+    padding: 10px 0;
 
     .left-title {
       font-size: 24px;
@@ -32,26 +33,30 @@
     li:nth-child(2) {
       width: 50%;
       min-height: 40px;
+      font-size: 18px;
       border-radius: 20px;
       background-color: #3c3c3c;
       display: flex;
       justify-content: center;
       align-items: center;
       color: #f9f9f9;
+      margin-top: 30px;
     }
 
     .find-container {
       display: flex;
-      flex-grow: 8;
-      background-color: red;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+      padding-top: 20px;
+
 
       .find-inputs {
-        flex-grow: 8;
         display: flex;
         flex-direction: column;
+        gap: 10px;
+        flex-grow: 7;
+
         div {
           display: flex;
           flex-direction: row;
@@ -62,6 +67,14 @@
             text-align: center;
           }
         }
+      }
+
+      .find-submit-btn-box {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        flex-grow: 2;
+
       }
     }
   }

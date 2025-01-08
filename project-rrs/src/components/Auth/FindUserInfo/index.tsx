@@ -119,7 +119,7 @@ export default function FinduserInfo() {
                 </div>
               </div>
 
-              <div>
+              <div className="find-submit-btn-box">
                 <Button className="find-submit-btn" onClick={sendEmailHandler}>
                   이메일 발송
                 </Button>
@@ -152,7 +152,7 @@ export default function FinduserInfo() {
                     }}
                   />
                 </div>
-                <div className="Input-btn">
+                <div>
                   <p>아이디</p>
                   <OutlinedInput
                     name="username"
@@ -168,7 +168,7 @@ export default function FinduserInfo() {
                 </div>
               </div>
 
-              <div>
+              <div className="find-submit-btn-box">
                 <Button className="find-submit-btn" onClick={sendEmailHandler}>
                   이메일 발송
                 </Button>
