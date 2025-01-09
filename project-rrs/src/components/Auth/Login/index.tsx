@@ -104,12 +104,13 @@ export default function Login() {
   };
 
   const handleNavigateToFindId = () => {
-    navigate('/find-userInfo', { state: { isFindId: true } });
+    navigate('/find-user-info', { state: { isFindId: true } });
+  };
+  
+  const handleNavigateToFindPassword = () => {
+    navigate('/find-user-info', { state: { isFindId: false } });
   };
 
-  const handleNavigateToFindPassword = () => {
-    navigate('/find-userInfo', { state: { isFindId: false } });
-  };
 
   return (
     <div className="login">

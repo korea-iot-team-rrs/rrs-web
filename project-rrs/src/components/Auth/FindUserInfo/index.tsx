@@ -1,4 +1,8 @@
-import { Breadcrumbs, Button, OutlinedInput, TextField } from "@mui/material";
+import {
+  Breadcrumbs,
+  Button,
+  OutlinedInput,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { CertificateDto } from "../../../types/AuthType";
 import { sendEmailForId, sendEmailForPw } from "../../../apis/emailApi";
@@ -9,7 +13,7 @@ import pwImg from "../../../assets/images/findPwImg.jpg";
 
 export default function FinduserInfo() {
   const location = useLocation();
-  const [findId, setFindId] = useState<boolean>(true);
+  const [findId, setFindId] = useState<boolean>(false);
   const [findIdDto, setFindIdDto] = useState<{ email: string }>({ email: "" });
   const [findPasswordDto, setFindPasswordDto] = useState<CertificateDto>({
     username: null,
@@ -58,7 +62,8 @@ export default function FinduserInfo() {
   };
 
   useEffect(() => {
-    setFindId(location.state?.isFindId ?? true);
+    const state = location.state as { isFindId?: boolean };
+    setFindId(state?.isFindId ?? false);
   }, [location.state]);
 
   return (
@@ -111,16 +116,23 @@ export default function FinduserInfo() {
                     fullWidth
                     onChange={findIdChangeHandler}
                     value={findIdDto.email}
-                    sx={{
-                      borderRadius: "25px",
-                      height: "35px",
-                    }}
+                    size="small"
                   />
                 </div>
               </div>
 
               <div className="find-submit-btn-box">
-                <Button className="find-submit-btn" onClick={sendEmailHandler}>
+                <Button
+                  variant="contained"
+                  onClick={sendEmailHandler}
+                  sx={{
+                    fontFamily: "Pretendard",
+                    height: "100%",
+                    backgroundColor: " #0085ff",
+                    color: "#fffff",
+                    borderRadius: "18px",
+                  }}
+                >
                   이메일 발송
                 </Button>
               </div>
@@ -146,10 +158,7 @@ export default function FinduserInfo() {
                     fullWidth
                     onChange={findPasswordChangeHandler}
                     value={findPasswordDto.email}
-                    sx={{
-                      borderRadius: "25px",
-                      height: "35px",
-                    }}
+                    size="small"
                   />
                 </div>
                 <div>
@@ -160,16 +169,23 @@ export default function FinduserInfo() {
                     fullWidth
                     onChange={findPasswordChangeHandler}
                     value={findPasswordDto.username || ""}
-                    sx={{
-                      borderRadius: "25px",
-                      height: "35px",
-                    }}
+                    size="small"
                   />
                 </div>
               </div>
 
               <div className="find-submit-btn-box">
-                <Button className="find-submit-btn" onClick={sendEmailHandler}>
+                <Button
+                  variant="contained"
+                  onClick={sendEmailHandler}
+                  sx={{
+                    fontFamily: "Pretendard",
+                    height: "100%",
+                    backgroundColor: " #0085ff",
+                    color: "#fffff",
+                    borderRadius: "18px",
+                  }}
+                >
                   이메일 발송
                 </Button>
               </div>
@@ -178,6 +194,31 @@ export default function FinduserInfo() {
         )}
       </div>
       <div className="find-user-info-right">
+        <div className="img-copyright">
+          {findId ? (
+            <div>
+              <strong className="img-copyright-title">
+                아이디를 잊어버리셨나요 ?<br />
+                <br />
+              </strong>
+              <span>
+                등록한 이메일로 <br />
+                찾을 수 있답니다.
+              </span>
+            </div>
+          ) : (
+            <div>
+              <strong className="img-copyright-title">
+                비밀번호를 잊어버리셨나요 ?<br />
+              </strong>
+              <br />
+              <span>
+                등록한 이메일과 아이디로 <br />
+                찾을 수 있답니다.
+              </span>
+            </div>
+          )}
+        </div>
         <img src={findId ? idImg : pwImg} alt="IdPw찾기 이미지" />
       </div>
     </div>

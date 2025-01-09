@@ -5,8 +5,8 @@ import {
   fetchUserInfoForCertification,
   updateUserPassword,
 } from "../../../apis/userInfo";
-import { OutlinedInput } from "@mui/material";
-import { Button } from "rsuite";
+import { Button, OutlinedInput } from "@mui/material";
+import "../../../styles/findUserInfo/FindPassword.css";
 
 export default function FindPassword() {
   const { token } = useParams<{ token: string }>();
@@ -39,7 +39,7 @@ export default function FindPassword() {
       confirmPassword: confirmPassword,
     };
 
-    if(data.password !== data.confirmPassword){
+    if (data.password !== data.confirmPassword) {
       alert("비밀번호가 일치하지 않습니다.");
       return;
     }
@@ -48,7 +48,7 @@ export default function FindPassword() {
       updateUserPassword(data, token)
         .then(() => {
           alert("비밀번호 변경에 성공하셨습니다.");
-          navigate("/")
+          navigate("/");
         })
         .catch((e) => console.error("fail to update password", e));
     } else {
@@ -59,25 +59,59 @@ export default function FindPassword() {
 
   return (
     <>
-      <p>{user?.nickname}</p>
-      <p>토큰{token}</p>
-      <OutlinedInput
-        name="password"
-        placeholder="변경할 비밀번호를 입력해주세요."
-        fullWidth
-        onChange={passwordInputHandler}
-        value={password}
-      />
-      <OutlinedInput
-        name="passwordConfirm"
-        placeholder="입력하신 비밀번호를 재입력해주세요."
-        fullWidth
-        onChange={passwordConfirmInputHandler}
-        value={confirmPassword}
-      />
-      <Button onClick={updatePasswordInClickHandler}>
-        비밀번호 재설정 하기
-      </Button>
+      <div className="find-pw-wrapper">
+        <div>
+          <div className="find-pw-header">
+            <h2>비밀번호 재설정</h2>
+          </div>
+          <div className="find-pw-body">
+            <div>
+              {" "}
+              <div>
+                <p>재설정 할 비밀번호</p>
+                <OutlinedInput
+                  name="password"
+                  placeholder="변경할 비밀번호를 입력해주세요."
+                  onChange={passwordInputHandler}
+                  value={password}
+                  size="small"
+                />
+              </div>
+              <div>
+                <p>설정한 비밀번호 재확인</p>
+                <OutlinedInput
+                  name="passwordConfirm"
+                  placeholder="입력하신 비밀번호를 재입력해주세요."
+                  onChange={passwordConfirmInputHandler}
+                  value={confirmPassword}
+                  size="small"
+                />
+              </div>
+            </div>
+
+            <Button
+              variant="contained"
+              onClick={updatePasswordInClickHandler}
+              sx={{
+                fontFamily: "Pretendard",
+                height: "100%",
+                backgroundColor: " #0085ff",
+                color: "#fffff",
+                borderRadius: "18px",
+              }}
+            >
+              비밀번호 재설정 하기
+            </Button>
+          </div>
+
+          <div className="find-pw-dog">
+            <div className="speech-bubble">
+              <p>{user?.nickname}님 재 설정할 비밀번호를 입력해 주세요!</p>
+            </div>
+            <p className="dog-imo">🐶</p>
+          </div>
+        </div>
+      </div>
     </>
   );
 }
