@@ -16,6 +16,8 @@ import {
   Button,
 } from "@mui/material";
 import FolderIcon from "@mui/icons-material/Folder";
+import DeleteIcon from "@mui/icons-material/Delete";
+import "../../../styles/customerSupport/CustomerSupportUpdate.css";
 
 export default function CustomerSupportUpdate() {
   const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
@@ -111,15 +113,15 @@ export default function CustomerSupportUpdate() {
   const removeExistingFile = (index: number) => {
     const updatedFilesInfo = existingFilesInfo.filter((_, i) => i !== index);
     const updatedFiles = existingFiles.filter((_, i) => i !== index);
-  
+
     setExistingFilesInfo(updatedFilesInfo);
     setExistingFiles(updatedFiles);
-  
+
     const totalSize = [
       ...updatedFiles.map((file) => file.size),
       ...newFiles.map((file) => file.size),
     ].reduce((acc, size) => acc + size, 0);
-  
+
     setTotalFileSize(totalSize);
   };
   const submitClickHandler = () => {
@@ -209,108 +211,138 @@ export default function CustomerSupportUpdate() {
   };
 
   return (
-    <div>
-      <h2>
-        <input
-          type="text"
-          value={updateCs.customerSupportTitle}
-          onChange={handleTitleChange}
-          placeholder="제목을 입력하세요"
-        />
-      </h2>
-      <p>
-        <textarea
-          value={updateCs.customerSupportContent}
-          onChange={handleContentChange}
-          placeholder="내용을 입력하세요"
-        />
-      </p>
+    <div className="cs-update-wrapper">
+      <div className="cs-update-header">
+        <div className="cs-update-title">
+          <input
+            type="text"
+            value={updateCs.customerSupportTitle}
+            onChange={handleTitleChange}
+            placeholder="제목을 입력하세요"
+          />
+        </div>
+        <div className="cs-update-content">
+          <textarea
+            name="customerSupportContent"
+            value={updateCs.customerSupportContent}
+            onChange={handleContentChange}
+            placeholder="내용을 입력하세요"
+          />
+        </div>
+      </div>
+      <div className="cs-update-attachment">
+        <div className="cs-update-exist-attachment">
+          <h3>기존 첨부 파일</h3>
+          {existingFilesInfo.length > 0 ? (
+            <List>
+              {existingFilesInfo.map((att, index) => (
+                <ListItem
+                  key={index}
+                  secondaryAction={
+                    <IconButton
+                      edge="end"
+                      onClick={() => removeExistingFile(index)}
+                    >
+                      <DeleteIcon color="primary" />
+                    </IconButton>
+                  }
+                >
+                  <ListItemAvatar>
+                    <Avatar>
+                      <FolderIcon />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={
+                      <a href={normalizePath(att.filePath)} download>
+                        {att.fileName}
+                      </a>
+                    }
+                    secondary={
+                      existingFiles[index]
+                        ? `크기: ${(
+                            existingFiles[index].size /
+                            (1024 * 1024)
+                          ).toFixed(2)} MB`
+                        : "크기 정보 없음"
+                    }
+                  />
+                </ListItem>
+              ))}
+            </List>
+          ) : (
+            <p>첨부된 파일이 없습니다.</p>
+          )}
+        </div>
 
-      <div>
-        <h3>기존 첨부 파일</h3>
-        {existingFilesInfo.length > 0 ? (
-          <List>
-            {existingFilesInfo.map((att, index) => (
-              <ListItem
-                key={index}
-                secondaryAction={
-                  <IconButton
-                    edge="end"
-                    onClick={() => removeExistingFile(index)}
-                  >
-                    삭제
-                  </IconButton>
-                }
-              >
-                <ListItemAvatar>
-                  <Avatar>
-                    <FolderIcon />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                  primary={
-                    <a href={normalizePath(att.filePath)} download>
-                      {att.fileName}
-                    </a>
+        <div className="cs-update-new-attachment">
+          <h3>새로 추가된 파일</h3>
+          <div className="file-input-wrapper">
+            <input
+              type="file"
+              id="custom-file-input"
+              multiple
+              onChange={handleFileChange}
+              className="file-upload-input"
+              hidden
+            />
+            <label htmlFor="custom-file-input" className="custom-file-label">
+              파일 선택
+            </label>
+          </div>
+
+          {newFiles.length > 0 ? (
+            <List>
+              {newFiles.map((file, index) => (
+                <ListItem
+                  key={index}
+                  secondaryAction={
+                    <IconButton edge="end" onClick={() => removeNewFile(index)}>
+                      <DeleteIcon color="primary" />
+                    </IconButton>
                   }
-                  secondary={
-                    existingFiles[index]
-                      ? `크기: ${(
-                          existingFiles[index].size /
-                          (1024 * 1024)
-                        ).toFixed(2)} MB`
-                      : "크기 정보 없음"
-                  }
-                />
-              </ListItem>
-            ))}
-          </List>
-        ) : (
-          <p>첨부된 파일이 없습니다.</p>
-        )}
+                >
+                  <ListItemAvatar>
+                    <Avatar>
+                      <FolderIcon />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={file.name}
+                    secondary={`크기: ${(file.size / (1024 * 1024)).toFixed(
+                      2
+                    )} MB`}
+                  />
+                </ListItem>
+              ))}
+            </List>
+          ) : (
+            <p>추가된 파일이 없습니다.</p>
+          )}
+        </div>
+      </div>
+      <div className="total-file-size">
+        <p>
+          <strong>총 파일 크기:</strong>{" "}
+          {(totalFileSize / (1024 * 1024)).toFixed(2)} MB
+        </p>
       </div>
 
-      <div>
-        <h3>새로 추가된 파일</h3>
-        <input type="file" multiple onChange={handleFileChange} />
-        {newFiles.length > 0 ? (
-          <List>
-            {newFiles.map((file, index) => (
-              <ListItem
-                key={index}
-                secondaryAction={
-                  <IconButton edge="end" onClick={() => removeNewFile(index)}>
-                    삭제
-                  </IconButton>
-                }
-              >
-                <ListItemAvatar>
-                  <Avatar>
-                    <FolderIcon />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                  primary={file.name}
-                  secondary={`크기: ${(file.size / (1024 * 1024)).toFixed(
-                    2
-                  )} MB`}
-                />
-              </ListItem>
-            ))}
-          </List>
-        ) : (
-          <p>추가된 파일이 없습니다.</p>
-        )}
+      <div className="cs-update-submit-btn">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={submitClickHandler}
+          sx={{
+            width: "100%",
+            backgroundColor: "#2194FF",
+            color: "#ffffff",
+            fontFamily: "Pretendard",
+          }}
+        >
+          수정하기
+        </Button>
       </div>
-
-      <p>
-        <strong>총 파일 크기:</strong>{" "}
-        {(totalFileSize / (1024 * 1024)).toFixed(2)} MB
-      </p>
-
-      <Button variant="contained" color="primary" onClick={submitClickHandler}>
-        수정하기
-      </Button>
     </div>
   );
 }

@@ -239,6 +239,8 @@ export default function ReservationForm() {
                 const isSelected = selectDangSitterId === petSitter.providerId;
                 return (
                   <button
+                  style={{
+                    marginTop: "10px"                  }}
                     key={petSitter.providerId}
                     onClick={() =>
                       setSelectDangSitterBtnHandler(petSitter.providerId)

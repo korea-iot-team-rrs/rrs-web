@@ -6,6 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import useAuthStore from "../../../stores/auth.store";
 import { Link } from "@mui/material";
+import googleLogo from '../../../assets/logo/google-icon-file.png';
+import naverLogo from '../../../assets/logo/naver-icon-file.png';
+import kakaoLogo from '../../../assets/logo/kakaotalk_logo.png';
 
 interface Credentials {
   username: string;
@@ -50,6 +53,12 @@ export default function Login() {
     }));
   };
 
+  const loginlinks = [
+    { id: "kakao", name: "Kakao", link: "/", logo: kakaoLogo },
+    { id: "google", name: "Google", link: "/", logo: googleLogo },
+    { id: "naver", name: "Naver", link: "/", logo: naverLogo },
+  ];
+
   const handleSuccessfulLogin = (token: string, user: any) => {
     setCookie("token", token, { path: "/" });
     console.log(token);
@@ -58,7 +67,6 @@ export default function Login() {
     login(token, user);
     navigate("/");
   };
-
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,6 +89,7 @@ export default function Login() {
         setCookie("token", token, { path: "/" });
         localStorage.setItem("token", token);
         login(token, user);
+        console.log(token);
         navigate("/");
       }
     } catch (err: any) {
@@ -104,13 +113,12 @@ export default function Login() {
   };
 
   const handleNavigateToFindId = () => {
-    navigate('/find-user-info', { state: { isFindId: true } });
-  };
-  
-  const handleNavigateToFindPassword = () => {
-    navigate('/find-user-info', { state: { isFindId: false } });
+    navigate("/find-user-info", { state: { isFindId: true } });
   };
 
+  const handleNavigateToFindPassword = () => {
+    navigate("/find-user-info", { state: { isFindId: false } });
+  };
 
   return (
     <div className="login">
@@ -144,12 +152,18 @@ export default function Login() {
 
       <div className="login-links">
         <a href="/signup">회원가입</a>
-        <Link onClick={handleNavigateToFindId}>
-          아이디 찾기
-        </Link>
-        <Link onClick={handleNavigateToFindPassword}>
-          비밀번호 찾기
-        </Link>
+        <Link onClick={handleNavigateToFindId}>아이디 찾기</Link>
+        <Link onClick={handleNavigateToFindPassword}>비밀번호 찾기</Link>
+      </div>
+      <div className="sns-login-links">
+        <ul>
+          {loginlinks.map((link, index) => (
+            <li>
+               <img className="sns-login-logo" src={link.logo} alt={`${link.name} logo`} />
+              <Link className="sns-login-link" href={link.link}>{link.name}</Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );

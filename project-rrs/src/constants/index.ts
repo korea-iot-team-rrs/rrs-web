@@ -1,5 +1,6 @@
 export const MAIN_PATH = 'http://localhost:3000';
 export const MAIN_URL = 'http://localhost:4040/api/v1';
+export const FILE_URL = "http://localhost:4040/"
 
 export const USER_PATH = '/users';
 
@@ -28,3 +29,5 @@ export const REVIEW_PATH = '/reviews';
 
 // CustomerSupport
 export const CUSTOMER_SUPPORT_PATH = '/customer-supports'
+
+export const DEFAULT_FILE_URL = "http://localhost:4040/file/default/defaultImg.png"

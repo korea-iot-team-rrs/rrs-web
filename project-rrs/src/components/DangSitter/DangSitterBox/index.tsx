@@ -7,6 +7,7 @@ import DangSitterModal from "../DangSitterModal";
 import { DangSitter } from "../../../types/reservationType";
 import { useCookies } from "react-cookie";
 import { fetchOneProviderInfo } from "../../../apis/providerApi";
+import { FILE_URL } from "../../../constants";
 
 interface DangSitterProps {
   providerId: number;
@@ -55,16 +56,23 @@ export default function DangSitterBox({ providerId }: DangSitterProps) {
         <div className="dangSitterContainer">
           <div className="leftContent">
             <div className="dangSitterImg">
-            <img src={`http://localhost:4040/${petSitter.profileImageUrl|| "file/default-profile.jpg"}`} alt="프로필 이미지" />
+              <img
+                src={`${FILE_URL}${petSitter.profileImageUrl}`}
+                alt="프로필 이미지"
+              />
             </div>
             <div className="dangSitterInfo">
               <div className="dangSitterReviewStar">
                 <Rating
-                  name="reviewStar"
+                  name="dang-sitter-reviewStar"
                   value={petSitter.avgReviewScore}
                   precision={0.5}
                   readOnly
                   size="small"
+                  sx={{
+                    margin: "0px",
+                    padding: "0px",
+                  }}
                   emptyIcon={<StarIcon fontSize="inherit" />}
                 />
               </div>

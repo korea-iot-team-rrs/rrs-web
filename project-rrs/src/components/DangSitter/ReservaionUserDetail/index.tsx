@@ -61,7 +61,6 @@ export default function ReservationUserDetail() {
       const response = await fetchReservation(reservationId, token);
       setReservation(response);
       setReservationMemo(response.reservationMemo || "");
-      console.log("reservation.providerId", response);
     } catch (e) {
       console.error("Failed to fetch reservation", e);
     }

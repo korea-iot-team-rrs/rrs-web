@@ -1,17 +1,18 @@
-import React, { useEffect } from 'react'
-import '../../../styles/Header.css';
-import { NavLink, useNavigate } from 'react-router-dom';
-import useAuthStore from '../../../stores/auth.store';
+import React, { useEffect } from "react";
+import "../../../styles/Header.css";
+import { NavLink, useNavigate } from "react-router-dom";
+import useAuthStore from "../../../stores/auth.store";
 import { useCookies } from "react-cookie";
+import { FILE_URL } from "../../../constants";
 
 export default function NavAuth() {
   const { isLoggedIn, login, logout, user, setIsLoggedIn } = useAuthStore();
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = cookies.token || localStorage.getItem('token');
-    const saveUser = localStorage.getItem('user');
+    const token = cookies.token || localStorage.getItem("token");
+    const saveUser = localStorage.getItem("user");
 
     if (token && saveUser) {
       const parsedUser = JSON.parse(saveUser);
@@ -22,36 +23,36 @@ export default function NavAuth() {
     }
   }, [cookies.token, setIsLoggedIn, login]);
 
-  useEffect(() => {
-  }, [user]);
+  useEffect(() => {}, [user]);
 
   const handleLogout = () => {
-    removeCookie('token', {path: '/'});
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    removeCookie("token", { path: "/" });
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     logout();
-    navigate('/');
+    navigate("/");
   };
-  
+
   return (
-    <div className='navAuth'>
+    <div className="navAuth">
       {isLoggedIn ? (
-        <div className='authLogout'>
-          <img src={`http://localhost:4040/${user?.profileImageUrl || "file/default-profile.jpg"}`} alt="프로필 이미지" />
+        <div className="authLogout">
+          <img
+            src={`${FILE_URL}${user?.profileImageUrl}`}
+            alt="프로필 이미지"
+          />
           <span>
-            <span className='nickname'>{user?.nickname}</span>님
+            <span className="nickname">{user?.nickname}</span>님
           </span>
           <div className="divider" />
-          <NavLink to='/user/info' className='myPage' >
+          <NavLink to="/user/info" className="myPage">
             MyPage
           </NavLink>
           <div className="divider" />
-          <button onClick={handleLogout}>
-            Logout
-          </button>
+          <button onClick={handleLogout}>Logout</button>
         </div>
       ) : (
-        <NavLink to='/login' className='authLoginButton'>
+        <NavLink to="/login" className="authLoginButton">
           Login
         </NavLink>
       )}

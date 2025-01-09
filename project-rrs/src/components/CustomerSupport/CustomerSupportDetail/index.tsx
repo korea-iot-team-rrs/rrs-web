@@ -184,13 +184,35 @@ export default function CustomerSupportDetail() {
         </div>
         <div className="cs-detail-btn">
           {cs.customerSupportStatus !== "1" ? (
-            <Button onClick={handleEdit}>수정하기</Button>
+            <Button
+            variant="outlined"
+            onClick={handleEdit}
+            sx={{
+              fontFamily: "Pretendard",
+            }}
+            >
+              수정하기
+            </Button>
           ) : (
-            <Button disabled color="error">
+            <Button
+              variant="outlined"
+              disabled
+              color="error"
+              sx={{
+                fontFamily: "Pretendard",
+              }}
+            >
               수정 불가
             </Button>
           )}
-          <Button onClick={deleteBtnHandler} color="error">
+          <Button
+            variant="outlined"
+            onClick={deleteBtnHandler}
+            color="warning"
+            sx={{
+              fontFamily: "Pretendard",
+            }}
+          >
             삭제하기
           </Button>
         </div>
