@@ -1,11 +1,18 @@
 import React from "react";
-import { fetchAttachmentsByCommunityId, communityAttachmentApi } from "../../../apis/communityAttachmentApi";
+import {
+  fetchAttachmentsByCommunityId,
+  communityAttachmentApi,
+} from "../../../apis/communityAttachmentApi";
+
+const removeUUIDFromFileName = (fileName: string): string => {
+  return fileName.replace(/^[a-f0-9-]{36}_/, "");
+};
 
 interface AttachmentsControllerProps {
-  attachments: string[]; // 로컬 첨부파일 URL 목록
-  communityId: number; // 커뮤니티 ID
-  onRemove: (updatedAttachments: string[]) => void; // 특정 파일 삭제 후 업데이트된 목록 콜백
-  onRemoveAll: () => void; // 전체 파일 삭제 콜백
+  attachments: string[];
+  communityId: number;
+  onRemove: (updatedAttachments: string[]) => void;
+  onRemoveAll: () => void;
 }
 
 export default function AttachmentsController({
@@ -16,26 +23,28 @@ export default function AttachmentsController({
 }: AttachmentsControllerProps) {
   const handleRemove = async (index: number) => {
     const attachmentUrl = attachments[index];
-    const fileName = attachmentUrl.split("/").pop(); // URL에서 파일 이름 추출
+    const fileName = attachmentUrl.split("/").pop();
 
     try {
-      // 서버에서 첨부파일 목록 가져오기
-      const serverAttachments = await fetchAttachmentsByCommunityId(communityId);
+      const serverAttachments = await fetchAttachmentsByCommunityId(
+        communityId
+      );
 
-      // 서버에서 이름이 일치하는 첨부파일 찾기
       const matchingAttachment = serverAttachments.find(
-        (attachment) => attachment.fileName === fileName
+        (attachment) =>
+          removeUUIDFromFileName(attachment.fileName) ===
+          removeUUIDFromFileName(fileName || "")
       );
 
       if (!matchingAttachment) {
         throw new Error("해당 첨부파일을 서버에서 찾을 수 없습니다.");
       }
 
-      // ID를 기반으로 첨부파일 삭제
-      const message = await communityAttachmentApi.deleteAttachmentById(matchingAttachment.attachmentId);
+      const message = await communityAttachmentApi.deleteAttachmentById(
+        matchingAttachment.attachmentId
+      );
       console.log(message);
 
-      // 로컬 목록 업데이트
       const updatedAttachments = attachments.filter((_, i) => i !== index);
       onRemove(updatedAttachments);
     } catch (error) {
@@ -46,7 +55,10 @@ export default function AttachmentsController({
 
   const handleRemoveAll = async () => {
     try {
-      const message = await communityAttachmentApi.deleteAttachmentsByCommunityId(communityId);
+      const message =
+        await communityAttachmentApi.deleteAttachmentsByCommunityId(
+          communityId
+        );
       console.log(message);
       onRemoveAll();
     } catch (error) {
@@ -64,7 +76,9 @@ export default function AttachmentsController({
             {attachments.map((attachment, index) => (
               <li key={index} className="attachment-item">
                 <a href={attachment} target="_blank" rel="noopener noreferrer">
-                  {attachment.split("/").pop()}
+                  {removeUUIDFromFileName(
+                    attachment.split("/").pop() || "알 수 없는 파일"
+                  )}
                 </a>
                 <button
                   type="button"

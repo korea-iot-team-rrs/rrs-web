@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { fetchUserInfo } from "../../../apis/userInfo";
-import { createComment, deleteCommentFromCommunity, getCommentsByCommunity, updateComment } from "../../../apis/communityCommentApi";
+import {
+  createComment,
+  deleteCommentFromCommunity,
+  getCommentsByCommunity,
+  updateComment,
+} from "../../../apis/communityCommentApi";
 import { FaChevronDown, FaChevronUp, FaEdit } from "react-icons/fa";
 import { CommunityComment } from "../../../types/commentType";
 
