@@ -109,19 +109,25 @@ export default function CustomerSupportUpdate() {
   };
 
   const removeExistingFile = (index: number) => {
+    const confirmDelete = window.confirm(
+      `파일 "${existingFilesInfo[index].fileName}"을(를) 삭제하시겠습니까?`
+    );
+    if (!confirmDelete) return;
+
     const updatedFilesInfo = existingFilesInfo.filter((_, i) => i !== index);
     const updatedFiles = existingFiles.filter((_, i) => i !== index);
-  
+
     setExistingFilesInfo(updatedFilesInfo);
     setExistingFiles(updatedFiles);
-  
+
     const totalSize = [
       ...updatedFiles.map((file) => file.size),
       ...newFiles.map((file) => file.size),
     ].reduce((acc, size) => acc + size, 0);
-  
+
     setTotalFileSize(totalSize);
   };
+
   const submitClickHandler = () => {
     const token = cookies.token;
 
@@ -253,14 +259,13 @@ export default function CustomerSupportUpdate() {
                       {att.fileName}
                     </a>
                   }
-                  secondary={
+                  secondary={`크기: ${
                     existingFiles[index]
-                      ? `크기: ${(
-                          existingFiles[index].size /
-                          (1024 * 1024)
-                        ).toFixed(2)} MB`
+                      ? `${(existingFiles[index].size / (1024 * 1024)).toFixed(
+                          2
+                        )} MB`
                       : "크기 정보 없음"
-                  }
+                  }`}
                 />
               </ListItem>
             ))}

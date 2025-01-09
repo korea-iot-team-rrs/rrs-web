@@ -2,6 +2,8 @@ import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useAuthStore from "../../../stores/auth.store";
 import { getCommunityById, updateCommunity } from "../../../apis/communityApi";
+import AttachmentsController from "../AttachmentsController";
+import { communityAttachmentApi } from "../../../apis/communityAttachmentApi";
 import "../../../styles/communities/CommunityEdit.css";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
@@ -25,6 +27,7 @@ export default function CommunityEdit() {
   const [content, setContent] = useState("");
   const [communityThumbnailFile, setCommunityThumbnailFile] = useState<File | undefined>(undefined);
   const [attachments, setAttachments] = useState<File[]>([]);
+  const [existingAttachments, setExistingAttachments] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [thumbnailPreview, setThumbnailPreview] = useState<string>("");
@@ -46,21 +49,24 @@ export default function CommunityEdit() {
         const community = await getCommunityById(communityIdNumber);
         setTitle(community.communityTitle);
         setContent(community.communityContent);
+
         if (community.communityThumbnailFile) {
           const thumbnailUrl = `${BASE_FILE_URL}${community.communityThumbnailFile.replace(/\\/g, "/")}`;
           setThumbnailPreview(thumbnailUrl);
+        }
+
+        if (community.attachments) {
+          const attachmentUrls = community.attachments.map((attachment: any) => {
+            const filePath = typeof attachment === "string" ? attachment : attachment.url;
+            return `${BASE_FILE_URL}${filePath.replace(/\\/g, "/")}`;
+          });
+          setExistingAttachments(attachmentUrls);
         }
       } catch {
         setError(ErrorMessages.FETCH_FAILED);
       }
     })();
   }, [communityIdNumber]);
-
-  useEffect(() => {
-    if (thumbnailPreview) {
-      return () => URL.revokeObjectURL(thumbnailPreview);
-    }
-  }, [thumbnailPreview]);
 
   const validateFile = (file: File): boolean => {
     const allowedTypes = ["image/jpeg", "image/png", "application/pdf"];
@@ -93,8 +99,20 @@ export default function CommunityEdit() {
     }
   };
 
-  const removeFile = (index: number) => {
-    setAttachments((prev) => prev.filter((_, i) => i !== index));
+  const handleRemoveAttachment = async (updatedAttachments: string[]) => {
+    setExistingAttachments(updatedAttachments);
+  };
+
+  const handleRemoveAllAttachments = async () => {
+    const communityId = communityIdNumber;
+    if (!communityId) return;
+
+    try {
+      await communityAttachmentApi.deleteAttachmentsByCommunityId(communityId);
+      setExistingAttachments([]);
+    } catch {
+      alert("전체 첨부파일 삭제에 실패했습니다.");
+    }
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -119,6 +137,7 @@ export default function CommunityEdit() {
           communityContent: content,
           communityThumbnailFile,
           attachments,
+          existingAttachments,
         });
 
         alert("게시글이 성공적으로 수정되었습니다!");
@@ -182,7 +201,15 @@ export default function CommunityEdit() {
           )}
         </div>
         <div className="form-group">
-          <label htmlFor="attachments">첨부 파일</label>
+          <AttachmentsController
+            attachments={existingAttachments}
+            communityId={communityIdNumber!} // 필수 communityId 전달
+            onRemove={handleRemoveAttachment}
+            onRemoveAll={handleRemoveAllAttachments}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="attachments">새 첨부 파일</label>
           <input
             type="file"
             id="attachments"
@@ -198,7 +225,7 @@ export default function CommunityEdit() {
                   <button
                     type="button"
                     className="file-remove-button"
-                    onClick={() => removeFile(index)}
+                    onClick={() => setAttachments((prev) => prev.filter((_, i) => i !== index))}
                   >
                     삭제
                   </button>

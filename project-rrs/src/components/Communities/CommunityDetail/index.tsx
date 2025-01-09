@@ -184,30 +184,6 @@ export default function CommunityDetail() {
                   style={{ cursor: "pointer" }}
                 />
               </div>
-              {community.attachments && community.attachments.length > 0 && (
-                <div className="attachments-dropdown">
-                  <button
-                    className="dropdown-button"
-                    onClick={() => setAttachmentsVisible(!attachmentsVisible)}
-                  >
-                    {attachmentsVisible ? "첨부 파일 숨기기 ▲" : "첨부 파일 보기 ▼"}
-                  </button>
-                  {attachmentsVisible && (
-                    <div className="dropdown-content">
-                      {community.attachments.map((attachment, index) => (
-                        <a
-                          key={index}
-                          href={attachment.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          첨부 파일 {index + 1}
-                        </a>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              )}
             </div>
             <hr />
             <img
@@ -217,6 +193,30 @@ export default function CommunityDetail() {
             />
             <hr />
             <p className="community-detail-content">{community.communityContent}</p>
+            {community.attachments && community.attachments.length > 0 && (
+              <div className="attachments-dropdown">
+                <button
+                  className="dropdown-button"
+                  onClick={() => setAttachmentsVisible(!attachmentsVisible)}
+                >
+                  {attachmentsVisible ? "첨부 파일 숨기기 ▲" : "첨부 파일 보기 ▼"}
+                </button>
+                {attachmentsVisible && (
+                  <div className="dropdown-content">
+                    {community.attachments.map((attachment, index) => (
+                      <a
+                        key={index}
+                        href={attachment.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        첨부 파일 {index + 1}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
             {token && (
               <CommentsSection
                 communityId={community.communityId}
