@@ -6,17 +6,24 @@ export interface HealthRecord {
   abnormalSymptoms: string;
   memo?: string;
   createdAt: string;
-  attachments?: string[];
+  attachments?: HealthAttachmentData[];
 }
 export interface HealthRecordResponse {
-  healthRecordId: number;
-  petId: number;
   weight: number;
   petAge: number;
+  healthRecordId: number;
+  petId: number;
   abnormalSymptoms: string;
   memo?: string;
   createdAt: string;
-  attachments?: string[];
+  attachments?: HealthAttachmentData[];
+}
+
+export interface HealthAttachmentData {
+  attachmentId: number;
+  filePath: string;
+  fileName: string;
+  fileSize?: number | null;
 }
 
 // 삭제 요청의 응답 타입

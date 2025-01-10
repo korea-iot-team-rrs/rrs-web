@@ -1,24 +1,34 @@
 import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { getHealthRecordById, updateHealthRecord } from "../../../../../apis/petHealthApi";
+import {
+  fetchAttachmentsByHealthRecordId,
+  healthRecordAttachmentApi,
+} from "../../../../../apis/healthRecordAttachment";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Pet } from "../../../../../types";
 import { HealthRecordResponse } from "../../../../../types/petHealthType";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-const MAX_FILE_COUNT = 5; // 최대 첨부 파일 개수
+const MAX_FILE_COUNT = 5;
+
 const ErrorMessages = {
   FETCH_FAILED: "건강 기록 정보를 가져오는 데 실패했습니다.",
-  FILE_TOO_LARGE: "파일 크기가 너무 큽니다. 최대 5MB까지 가능합니다.",
-  TOO_MANY_FILES: `첨부 파일은 최대 ${MAX_FILE_COUNT}개까지만 업로드할 수 있습니다.`,
-  UPDATE_FAILED: "건강 기록 수정 중 오류가 발생했습니다.",
+  FILE_TOO_LARGE: "파일 크기가 5MB 제한을 초과합니다.",
+  TOO_MANY_FILES: `최대 ${MAX_FILE_COUNT}개의 파일만 업로드할 수 있습니다.`,
+  UPDATE_FAILED: "건강 기록을 업데이트하는 중 오류가 발생했습니다.",
+};
+
+// UUID 제거 유틸리티 함수
+const removeUUIDFromFileName = (fileName: string): string => {
+  return fileName.replace(/^[a-f0-9-]{36}_/, ""); // UUID 형식을 제거
 };
 
 interface HealthRecordUpdateProps {
   selectedPet: Pet | null;
   healthRecordId: number;
   goBack: () => void;
-  refreshRecords: () => void; // 리스트를 재랜더링하기 위한 함수
+  refreshRecords: () => void;
 }
 
 const HealthRecordUpdate = ({
@@ -28,6 +38,7 @@ const HealthRecordUpdate = ({
   refreshRecords,
 }: HealthRecordUpdateProps) => {
   const [attachments, setAttachments] = useState<File[]>([]);
+  const [existingAttachments, setExistingAttachments] = useState<string[]>([]);
   const [healthRecord, setHealthRecord] = useState<HealthRecordResponse | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -41,10 +52,13 @@ const HealthRecordUpdate = ({
     const fetchHealthRecord = async () => {
       try {
         const record = await getHealthRecordById(selectedPet.petId, healthRecordId);
-        console.log(record)
         setHealthRecord(record);
+
+        const serverAttachments = await fetchAttachmentsByHealthRecordId(healthRecordId);
+        const filePaths = serverAttachments.map((attachment) => attachment.filePath);
+        setExistingAttachments(filePaths);
       } catch (err) {
-        console.error("Health record fetch error:", err);
+        console.error("건강 기록을 가져오는 중 오류:", err);
         setError(ErrorMessages.FETCH_FAILED);
       }
     };
@@ -68,7 +82,7 @@ const HealthRecordUpdate = ({
       const isValid = validateFile(file);
       const isDuplicate = attachments.some((existingFile) => existingFile.name === file.name);
       if (isDuplicate) {
-        alert(`중복된 파일입니다: ${file.name}`);
+        alert(`중복된 파일: ${file.name}`);
         return false;
       }
       return isValid;
@@ -82,8 +96,26 @@ const HealthRecordUpdate = ({
     setAttachments((prev) => [...prev, ...validFiles]);
   };
 
-  const removeFile = (index: number) => {
-    setAttachments((prev) => prev.filter((_, i) => i !== index));
+  const handleRemoveExistingAttachment = async (index: number) => {
+    const fileToRemove = existingAttachments[index];
+
+    try {
+      const serverAttachments = await fetchAttachmentsByHealthRecordId(healthRecordId);
+      const matchingAttachment = serverAttachments.find(
+        (attachment) => attachment.filePath === fileToRemove
+      );
+
+      if (!matchingAttachment) {
+        alert("서버에서 해당 파일을 찾을 수 없습니다.");
+        return;
+      }
+
+      await healthRecordAttachmentApi.deleteAttachmentById(matchingAttachment.attachmentId);
+      setExistingAttachments((prev) => prev.filter((_, i) => i !== index));
+    } catch (error) {
+      console.error("첨부파일 삭제에 실패했습니다:", error);
+      alert("첨부파일 삭제에 실패했습니다.");
+    }
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -104,46 +136,46 @@ const HealthRecordUpdate = ({
 
     try {
       const data = {
-        ...healthRecord,
-        files: attachments,
+        weight: healthRecord.weight,
+        petAge: healthRecord.petAge,
+        abnormalSymptoms: healthRecord.abnormalSymptoms,
+        memo: healthRecord.memo || "",
+        attachments,
+        existingAttachments,
       };
 
       await updateHealthRecord(selectedPet.petId, healthRecordId, data);
 
-      alert("건강 기록이 성공적으로 수정되었습니다!");
-
-      // 리스트 갱신을 요청
+      alert("건강 기록이 성공적으로 업데이트되었습니다!");
       refreshRecords();
-
-      // 뒤로가기
       goBack();
-    } catch (error) {
-      console.error("Error updating health record:", error);
+    } catch (err) {
+      console.error("건강 기록 업데이트 중 오류:", err);
       setError(ErrorMessages.UPDATE_FAILED);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  if (!healthRecord && !error) {
-    return <p>로딩 중...</p>;
-  }
-
   if (error) {
     return <p className="error-message">{error}</p>;
   }
 
+  if (!healthRecord) {
+    return <p>로딩 중...</p>;
+  }
+
   return (
     <div className="health-record-update-container">
-      <h1 className="health-record-update-title">건강 기록 수정</h1>
-      <form onSubmit={handleSubmit} className="health-record-update-form">
+      <h1>건강 기록 수정</h1>
+      <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="weight">몸무게 (kg)</label>
           <input
             type="number"
             id="weight"
             name="weight"
-            value={healthRecord?.weight || ""}
+            value={healthRecord.weight || ""}
             onChange={handleInputChange}
             placeholder="몸무게를 입력하세요"
           />
@@ -154,7 +186,7 @@ const HealthRecordUpdate = ({
             type="number"
             id="petAge"
             name="petAge"
-            value={healthRecord?.petAge || ""}
+            value={healthRecord.petAge || ""}
             onChange={handleInputChange}
             placeholder="나이를 입력하세요"
           />
@@ -164,25 +196,26 @@ const HealthRecordUpdate = ({
           <textarea
             id="abnormalSymptoms"
             name="abnormalSymptoms"
-            value={healthRecord?.abnormalSymptoms || ""}
+            value={healthRecord.abnormalSymptoms || ""}
             onChange={handleInputChange}
-            placeholder="이상 증상을 입력하세요"
-            rows={5}
+            placeholder="이상 증상을 설명하세요"
           />
         </div>
         <div className="form-group">
-          <label htmlFor="memo">메모</label>
-          <textarea
-            id="memo"
-            name="memo"
-            value={healthRecord?.memo || ""}
-            onChange={handleInputChange}
-            placeholder="메모를 입력하세요"
-            rows={5}
-          />
+          <label htmlFor="attachments">기존 첨부 파일</label>
+          <ul className="file-list">
+            {existingAttachments.map((filePath, index) => (
+              <li key={index}>
+                <span>{removeUUIDFromFileName(filePath.split("/").pop() || "")}</span>
+                <IconButton onClick={() => handleRemoveExistingAttachment(index)}>
+                  <DeleteIcon />
+                </IconButton>
+              </li>
+            ))}
+          </ul>
         </div>
         <div className="form-group">
-          <label htmlFor="attachments">첨부 파일</label>
+          <label htmlFor="attachments">새 첨부 파일</label>
           <input
             type="file"
             id="attachments"
@@ -192,9 +225,9 @@ const HealthRecordUpdate = ({
           {attachments.length > 0 && (
             <ul className="file-list">
               {attachments.map((file, index) => (
-                <li key={index} className="file-item">
+                <li key={index}>
                   <span>{file.name}</span>
-                  <IconButton onClick={() => removeFile(index)}>
+                  <IconButton onClick={() => setAttachments((prev) => prev.filter((_, i) => i !== index))}>
                     <DeleteIcon />
                   </IconButton>
                 </li>
@@ -204,7 +237,7 @@ const HealthRecordUpdate = ({
         </div>
         <div className="button-group">
           <button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "수정 중..." : "수정"}
+            {isSubmitting ? "수정 중..." : "수정하기"}
           </button>
           <button type="button" onClick={goBack} className="cancel-button">
             취소

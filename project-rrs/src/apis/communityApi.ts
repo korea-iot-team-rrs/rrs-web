@@ -86,11 +86,11 @@ export const updateCommunity = async (
     communityContent: string;
     communityThumbnailFile?: File;
     attachments?: File[];
+    existingAttachments?: string[];
   }
 ): Promise<CommunityData> => {
   const token = getToken();
 
-  // FormData 생성 및 데이터 추가
   const formData = new FormData();
   if (data.communityTitle) {
     formData.append("communityTitle", data.communityTitle);
@@ -106,8 +106,12 @@ export const updateCommunity = async (
       formData.append("attachments", file);
     });
   }
+  if (data.existingAttachments) {
+    data.existingAttachments.forEach((url, index) =>
+      formData.append(`existingAttachments[${index}]`, url)
+    );
+  }
 
-  // API 호출
   try {
     const response = await axios.put<{ data: CommunityData }>(
       `${COMMUNITY_API_URL}/edit/${communityId}`,
@@ -123,7 +127,6 @@ export const updateCommunity = async (
   } catch (error: any) {
     console.error("Error updating community:", error);
 
-    // 에러 메시지 처리
     if (error.response?.data?.message) {
       throw new Error(error.response.data.message);
     }
