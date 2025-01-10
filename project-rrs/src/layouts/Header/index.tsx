@@ -9,7 +9,7 @@ export default function Header() {
     <nav className="header">
       <Logo />
       <Navbar />
-      {/* <NavAuth /> */}
+      <NavAuth />
     </nav>
   )
 }

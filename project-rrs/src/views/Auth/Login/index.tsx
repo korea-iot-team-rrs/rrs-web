@@ -63,7 +63,7 @@ export default function Login() {
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(user));
     login(token, user);
-    navigate("/");
+    navigate("/main");
   };
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -87,7 +87,7 @@ export default function Login() {
         setCookie("token", token, { path: "/" });
         localStorage.setItem("token", token);
         login(token, user);
-        navigate("/");
+        navigate("/main");
       }
     } catch (err: any) {
       console.error(err);

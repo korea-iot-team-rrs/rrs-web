@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { FetchCSList } from "../../../types/customerSupport";
 import { Fab, Pagination } from "@mui/material";
 import { useCookies } from "react-cookie";
@@ -19,17 +19,21 @@ export default function CustomerSupportList() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  const filteredCS = csList
-    .filter((value) =>
-      isInquiry
-        ? value.customerSupportCategory === "1"
-        : value.customerSupportCategory === "0"
-    )
-    .sort(
-      (a, b) =>
-        new Date(b.customerSupportCreateAt).getTime() -
-        new Date(a.customerSupportCreateAt).getTime()
-    );
+  const filteredCS = useMemo(() => {
+    if (!Array.isArray(csList)) return [];
+    return csList
+      .filter((value) =>
+        isInquiry
+          ? value.customerSupportCategory === "1"
+          : value.customerSupportCategory === "0"
+      )
+      .sort(
+        (a, b) =>
+          new Date(b.customerSupportCreateAt).getTime() -
+          new Date(a.customerSupportCreateAt).getTime()
+      );
+  }, [csList, isInquiry]);
+
 
   const totalPages = Math.ceil(filteredCS.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;

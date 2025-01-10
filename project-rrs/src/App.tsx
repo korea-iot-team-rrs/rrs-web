@@ -33,52 +33,89 @@ import DangSitterMain from "./views/DangSitter/DangSitterMain";
 import CustomerSupportDetail from "./views/CustomerSupport/CustomerSupportDetail";
 import CustomerSupportWrite from "./views/CustomerSupport/CustomerSupportWrite";
 import CustomerSupportUpdate from "./views/CustomerSupport/CustomerSupportUpdate";
+import { useAccessTokenValid } from "./hooks/useAccessTokenValid";
 
 function App() {
+  const { isLoding } = useAccessTokenValid();
+
   return (
-    <div className="app-container">
-      <Header />
-      <div className="content">
-        <Routes>
-          <Route path="/main" element={<Main />} />
-          {/* 인증 관련 라우트  */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUpMain />} />
-          <Route path="/signup/rrs" element={<SignUp />} />
-          <Route path="/find-id/:token" element={<FindId />} />
-          <Route path="/find-password/:token" element={<FindPassword />} />
-          <Route path="/find-user-info" element={<FinduserInfo />} />
+    <>
+      {!isLoding && (
+        <div className="app-container">
+          <Header />
+          <div className="content">
+            <Routes>
+              <Route path="/main" element={<Main />} />
+              {/* 인증 관련 라우트  */}
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<SignUpMain />} />
+              <Route path="/signup/rrs" element={<SignUp />} />
+              <Route path="/find-id/:token" element={<FindId />} />
+              <Route path="/find-password/:token" element={<FindPassword />} />
+              <Route path="/find-user-info" element={<FinduserInfo />} />
 
-          <Route path="/announcements" element={<AnnouncementListView />} />
-          <Route path="/announcements/:id" element={<AnnouncementView />} />
-          <Route path="/usage-guide" element={<UsageGuideListView />} />
-          <Route path="/usage-guide/:id" element={<UsageGuideDetailView />} />
-          <Route path="/events" element={<EventListView />} />
-          <Route path="/events/:id" element={<EventDetailView />} />
+              <Route path="/announcements" element={<AnnouncementListView />} />
+              <Route path="/announcements/:id" element={<AnnouncementView />} />
+              <Route path="/usage-guide" element={<UsageGuideListView />} />
+              <Route
+                path="/usage-guide/:id"
+                element={<UsageGuideDetailView />}
+              />
+              <Route path="/events" element={<EventListView />} />
+              <Route path="/events/:id" element={<EventDetailView />} />
 
-          <Route path="/pet-diary" element={<PetDiaryView />} />
+              <Route path="/pet-diary" element={<PetDiaryView />} />
 
-          <Route path="/community" element={<CommunityListView />} />
-          <Route path="/community/:id" element={<CommunityDetailView/>} />
-          <Route path="/community/write" element={<CommunityCreateView/>} />
-          <Route path="/community/edit/:communityId" element={<CommunityEditView/>} />
+              <Route path="/community" element={<CommunityListView />} />
+              <Route path="/community/:id" element={<CommunityDetailView />} />
+              <Route
+                path="/community/write"
+                element={<CommunityCreateView />}
+              />
+              <Route
+                path="/community/edit/:communityId"
+                element={<CommunityEditView />}
+              />
 
-          <Route path="/dang-sitter" element={<DangSitterMain />}/>
-          
-          <Route path="/users/dang-sitter/reservations" element={<ReservationList />} /> 
-          <Route path="/users/dang-sitter/reservations/write" element={<ReservationForm />} />
-          <Route path="/users/dang-sitter/reservations/:id" element={<ReservationUserDetail />} />
+              <Route path="/dang-sitter" element={<DangSitterMain />} />
 
-          <Route path="/customer-supports" element={<CustomerSupportList />}/>
-          <Route path="/customer-supports/:id" element={<CustomerSupportDetail />}/>
-          <Route path="/customer-supports/write" element={<CustomerSupportWrite />}/>
-          <Route path="/customer-supports/edit/:id" element={<CustomerSupportUpdate />}/>
+              <Route
+                path="/users/dang-sitter/reservations"
+                element={<ReservationList />}
+              />
+              <Route
+                path="/users/dang-sitter/reservations/write"
+                element={<ReservationForm />}
+              />
+              <Route
+                path="/users/dang-sitter/reservations/:id"
+                element={<ReservationUserDetail />}
+              />
 
-          <Route path="/user/*" element={<MyPageView />} />
-        </Routes>
-      </div>
-      <Footer />
-    </div>
+              <Route
+                path="/customer-supports"
+                element={<CustomerSupportList />}
+              />
+              <Route
+                path="/customer-supports/:id"
+                element={<CustomerSupportDetail />}
+              />
+              <Route
+                path="/customer-supports/write"
+                element={<CustomerSupportWrite />}
+              />
+              <Route
+                path="/customer-supports/edit/:id"
+                element={<CustomerSupportUpdate />}
+              />
+
+              <Route path="/user/*" element={<MyPageView />} />
+            </Routes>
+          </div>
+          <Footer />
+        </div>
+      )}
+    </>
   );
 }
 
