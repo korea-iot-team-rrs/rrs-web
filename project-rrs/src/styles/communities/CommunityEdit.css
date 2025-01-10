@@ -1,124 +1,145 @@
-/* Container styling */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+
 .community-edit-container {
   max-width: 800px;
-  margin: 0 auto;
+  margin: 40px auto;
   padding: 20px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .community-edit-title {
   font-size: 24px;
   font-weight: bold;
-  margin-bottom: 20px;
   text-align: center;
-  color: #333;
+  margin-bottom: 20px;
 }
 
-/* Form styling */
-.community-edit-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.form-group {
+  margin-bottom: 20px;
 }
 
-.community-edit-form-group {
-  display: flex;
-  flex-direction: column;
-}
-
-.community-edit-label {
+label {
+  display: block;
   font-weight: bold;
   margin-bottom: 8px;
-  color: #555;
 }
 
-.community-edit-input,
-.community-edit-textarea {
-  font-size: 16px;
+input[type="text"],
+textarea,
+input[type="file"] {
+  width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 100%;
-  box-sizing: border-box;
+  font-size: 14px;
 }
 
-.community-edit-input:focus,
-.community-edit-textarea:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
-.community-edit-textarea {
-  resize: vertical;
-}
-
-/* Thumbnail preview */
-.community-edit-form-group img {
-  max-width: 100%;
-  height: auto;
-  margin-top: 10px;
+textarea {
+  width: 100%; /* 가로 크기를 컨테이너에 맞춤 */
+  height: 200px; /* 고정 높이 설정 */
+  padding: 10px;
+  border: 1px solid #ccc;
   border-radius: 4px;
-  border: 1px solid #ddd;
+  font-size: 14px;
+  resize: none;
 }
 
-/* Attachments list */
-.community-edit-form-group ul {
+.thumbnail-preview {
+  margin-top: 10px;
+  max-width: 200px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.file-list {
   list-style: none;
   padding: 0;
-  margin-top: 10px;
+  margin: 0;
 }
 
-.community-edit-form-group ul li {
+.file-item {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 8px 10px;
-  background-color: #fff;
-  border: 1px solid #ddd;
+  align-items: center;
+  margin-bottom: 8px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
   border-radius: 4px;
-  margin-bottom: 5px;
 }
 
-.community-edit-form-group ul li button {
-  background-color: #e74c3c;
+.file-remove-button {
+  background-color: #e3342f;
   color: #fff;
   border: none;
   padding: 5px 10px;
   border-radius: 4px;
-  font-size: 14px;
   cursor: pointer;
 }
 
-.community-edit-form-group ul li button:hover {
-  background-color: #c0392b;
+.file-remove-button:hover {
+  background-color: #cc1f1a;
 }
 
-/* Submit button */
-button[type="submit"] {
-  background-color: #007bff;
-  color: #fff;
-  font-size: 16px;
-  padding: 10px 15px;
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 14px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+button[type="submit"] {
+  background-color: #007bff;
+  color: white;
 }
 
 button[type="submit"]:hover {
   background-color: #0056b3;
 }
 
-button[type="submit"]:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+.cancel-button {
+  background-color: #6c757d;
+  color: white;
+  margin-left: 10px;
 }
 
-/* Error message */
+.cancel-button:hover {
+  background-color: #5a6268;
+}
+
 .error-message {
-  color: #e74c3c;
+  color: red;
   font-size: 14px;
+  margin-bottom: 10px;
   text-align: center;
+}
+
+.custom-file-input {
+  color: transparent; /* 기본 텍스트 숨김 */
+}
+
+.custom-file-input::file-selector-button {
+  color: black; /* 선택 버튼 스타일 조정 */
+}
+
+.custom-file-input::after {
+  content: "파일을 선택해주세요"; /* 기본 텍스트 */
+  color: #666;
+}
+
+.custom-file-input:focus-visible {
+  outline: none;
 }

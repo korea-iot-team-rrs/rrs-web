@@ -44,6 +44,7 @@ export default function PetDiaryHealthRecord({
 
     try {
       const records = await getAllHealthRecords(selectedPet.petId);
+      console.log(records)
       setHealthRecords(
         records.filter((record) => record.createdAt.startsWith(selectedDate))
       );

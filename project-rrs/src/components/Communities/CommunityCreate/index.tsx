@@ -14,7 +14,8 @@ export default function CommunityCreate() {
 
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
-  const [communityThumbnailFile, setCommunityThumbnailFile] = useState<File | null>(null);
+  const [communityThumbnailFile, setCommunityThumbnailFile] =
+    useState<File | null>(null);
   const [attachments, setAttachments] = useState<File[]>([]);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -39,19 +40,21 @@ export default function CommunityCreate() {
   ) => {
     const { name, value } = e.target;
     if (name === "title") {
-      setTitle(value.slice(0, TITLE_MAX_LENGTH)); // 제목 길이 제한
+      setTitle(value.slice(0, TITLE_MAX_LENGTH));
     }
     if (name === "content") {
-      setContent(value.slice(0, CONTENT_MAX_LENGTH)); // 내용 길이 제한
+      setContent(value.slice(0, CONTENT_MAX_LENGTH));
     }
   };
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>, isThumbnail = false) => {
+  const handleFileChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    isThumbnail = false
+  ) => {
     const files = e.target.files;
     if (files) {
       const fileArray = Array.from(files);
 
-      // 썸네일 파일 처리
       if (isThumbnail) {
         const file = fileArray[0];
         if (file && file.size > MAX_FILE_SIZE) {
@@ -61,8 +64,9 @@ export default function CommunityCreate() {
         setCommunityThumbnailFile(file);
         setThumbnailPreview(URL.createObjectURL(file));
       } else {
-        // 첨부 파일 처리
-        const validFiles = fileArray.filter((file) => file.size <= MAX_FILE_SIZE);
+        const validFiles = fileArray.filter(
+          (file) => file.size <= MAX_FILE_SIZE
+        );
 
         if (validFiles.length !== fileArray.length) {
           alert("일부 파일이 너무 큽니다. 최대 5MB까지 업로드할 수 있습니다.");
@@ -114,7 +118,6 @@ export default function CommunityCreate() {
     <div className="community-create-container">
       <h1 className="community-create-title">댕소통 글쓰기</h1>
       <form onSubmit={handleSubmit} className="community-create-form">
-        {/* 제목 입력 */}
         <div className="community-create-form-group">
           <label htmlFor="title" className="community-create-label">
             제목 (최대 {TITLE_MAX_LENGTH}자)
@@ -134,7 +137,6 @@ export default function CommunityCreate() {
           </p>
         </div>
 
-        {/* 내용 입력 */}
         <div className="community-create-form-group">
           <label htmlFor="content" className="community-create-label">
             내용 (최대 {CONTENT_MAX_LENGTH}자)
@@ -154,7 +156,6 @@ export default function CommunityCreate() {
           </p>
         </div>
 
-        {/* 썸네일 입력 */}
         <div className="community-create-form-group">
           <label htmlFor="thumbnail" className="community-create-label">
             썸네일 이미지
@@ -174,7 +175,6 @@ export default function CommunityCreate() {
           )}
         </div>
 
-        {/* 첨부 파일 입력 */}
         <div className="community-create-form-group">
           <label htmlFor="attachments" className="community-create-label">
             첨부 파일
