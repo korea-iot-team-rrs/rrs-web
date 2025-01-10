@@ -5,7 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import useAuthStore from "../../../stores/auth.store";
-import { Link } from "@mui/material";
+import { Button, Link } from "@mui/material";
 import naverLogo from "../../../assets/logo/naver-icon-file.png";
 import kakaoLogo from "../../../assets/logo/kakaotalk_logo.png";
 
@@ -87,7 +87,7 @@ export default function Login() {
         setCookie("token", token, { path: "/" });
         localStorage.setItem("token", token);
         login(token, user);
-        navigate("/");
+        navigate("/main");
       }
     } catch (err: any) {
       console.error(err);
@@ -144,7 +144,7 @@ export default function Login() {
         {error.password && <p className="error-message">{error.password}</p>}
         {error.general && <p className="error-message">{error.general}</p>}
 
-        <button onClick={handleLogin}>로그인</button>
+        <button className="login-btn" onClick={handleLogin}>로그인</button>
       </form>
 
       <div className="login-links">
@@ -153,20 +153,33 @@ export default function Login() {
         <Link onClick={handleNavigateToFindPassword}>비밀번호 찾기</Link>
       </div>
       <div className="sns-login-links">
-        <ul>
-          {loginlinks.map((link) => (
-            <li key={link.id}>
-              <img
-                className="sns-login-logo"
-                src={link.logo}
-                alt={`${link.name} logo`}
-              />
-              <Link className="sns-login-link" href={link.link}>
-                {link.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        {loginlinks.map((link) => (
+          <Button
+            variant="outlined"
+            className="sns-login-link"
+            onClick={() => navigate(link.link)}
+            sx={{
+              backgroundColor: "#fafafa",
+              boxShadow: "none",
+              border: "2px solid #f0f0f0",
+              borderRadius: "20px",
+              width: "300px",
+              padding: "5px",
+              transition: "background-color 0.3s ease, border-color 0.3s ease",
+              ":hover": {
+                backgroundColor: "#e6f3ff",
+                borderColor: "#b2cdff"
+              }
+            }}
+          >
+            <img
+              className="sns-login-logo"
+              src={link.logo}
+              alt={`${link.name} logo`}
+            />
+            {link.name}
+          </Button>
+        ))}
       </div>
     </div>
   );

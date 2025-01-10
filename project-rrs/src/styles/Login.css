@@ -35,7 +35,7 @@
   box-sizing: border-box;
 }
 
-.login button {
+.login .login-btn {
   margin-top: 5px;
   background-color: #2194ff;
   border-radius: 15px;
@@ -46,11 +46,11 @@
   text-align: center;
 }
 
-.login button:hover {
+.login .login-btn:hover {
   background-color: #1c82e0;
 }
 
-.login .error-message + button {
+.login .error-message + .login-btn {
   margin-top: 15px;
 }
 
@@ -78,52 +78,22 @@
   margin-top: 10px;
 }
 
-.sns-login-links ul li {
-  display: grid;
-  grid-template-columns: 20% 20% 30% 20%;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  min-height: 40px;
-  margin-top: 10px;
-  border-radius: 15px;
-  border: 2px solid #cbcbcb;
-  padding: 5px 10px;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-.sns-login-links ul {
+.sns-login-links {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  min-width: 300px;
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
+  padding: 10px;
+  margin-top: 40px;
+  gap: 10px;
 }
 
-.sns-login-links ul li .sns-login-logo {
+.sns-login-link {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.sns-login-link img {
   width: 30px;
   height: 30px;
-  grid-column: 2;
-  justify-self: start;
   margin: 0px;
-}
-
-.sns-login-links ul li .sns-login-link {
-  color: #959595;
-  font-size: 15px;
-  text-decoration: none;
-  grid-column: 3;
-  justify-self: start;
-}
-
-.sns-login-links ul li:hover {
-  border-color: #b2cdff;
-  background-color: #e6f3ff;
-}
-
-.sns-login-links ul li:hover .login-link {
-  color: #000;
 }

@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Stack, Typography } from "@mui/material";
 import { AntSwitch } from "../../../styles/dangSitter/DangSitterCommon";
 import { useNavigate } from "react-router-dom";
 import "../../../styles/dangSitter/DangSitterMain.css";
 import { TfiArrowTopRight } from "react-icons/tfi";
-import img from "../../../assets/images/dang-sitter-back.jpg";
-
 export default function DangSitterMain() {
   const navigate = useNavigate();
   const [toggleChecked, setToggleChecked] = useState(false);
@@ -41,7 +39,7 @@ export default function DangSitterMain() {
         <div
           className="dang-sitter-container01"
           onClick={() =>
-            navigate(toggleChecked ? "/" : "/dang-sitter/reservations/write")
+            navigate(toggleChecked ? "/" : "/users/dang-sitter/reservations/write")
           }
         >
           <h2 className="reservation-title">
@@ -55,7 +53,7 @@ export default function DangSitterMain() {
             navigate(
               toggleChecked
                 ? "/dang-sitter/reservations"
-                : "/dang-sitter/reservations"
+                : "/users/dang-sitter/reservations"
             )
           }
         >

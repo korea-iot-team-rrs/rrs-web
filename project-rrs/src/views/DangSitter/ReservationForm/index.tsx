@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import DangSitterBox from "../DangSitterBox";
+import DangSitterBox from "../../../components/DangSitter/DangSitterBox";
 import { Box, Button, Checkbox, FormControlLabel } from "@mui/material";
 import { Notice } from "../../../constants/Notice";
 import "../../../styles/reservation/ReservationForm.css";
@@ -17,8 +17,7 @@ import { FaSearch } from "react-icons/fa";
 import { fetchUserInfo } from "../../../apis/userInfo";
 import { fetchPets } from "../../../apis/petApi";
 import { useNavigate } from "react-router-dom";
-import { RESERVATION_DETAIL_PATH } from "../../../constants";
-import ReservationUserInfo from "../ReservationUserInfo";
+import ReservationUserInfo from "../../../components/DangSitter/ReservationUserInfo";
 
 export default function ReservationForm() {
   const [cookies] = useCookies(["token"]);
@@ -109,7 +108,7 @@ export default function ReservationForm() {
         .then((response) => {
           console.log("API Response:", response);
           alert("요청에 성공하였습니다.");
-          navigate(`${RESERVATION_DETAIL_PATH}/${response.reservationId}`);
+          navigate(`/users/dang-sitter/reservations/${response.reservationId}`);
         })
         .catch((e) => {
           console.error("요청에 실패하였습니다.", e);
