@@ -23,7 +23,6 @@ export interface User {
 export interface Reservation {
     reservationId: number;
     userId: number; // FK
-    providerId: number; // FK
     reservationStartDate: string;
     reservationEndDate: string;
     reservationStatus: ReservationStatus;
@@ -41,4 +40,15 @@ export enum ReservationStatus {
 
 export interface HasReviewResult {
     reviewStatus: string
+}
+
+export interface GetReservation {
+    reservationId: number;
+    userId: number; // FK
+    providerId: number; // FK
+    reservationStartDate: string;
+    reservationEndDate: string;
+    reservationStatus: ReservationStatus;
+    providerInfo: DangSitter;
+    reservationMemo: string;
 }
