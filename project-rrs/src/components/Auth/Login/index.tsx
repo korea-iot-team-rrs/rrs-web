@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import useAuthStore from "../../../stores/auth.store";
 import { Link } from "@mui/material";
-import googleLogo from "../../../assets/logo/google-icon-file.png";
 import naverLogo from "../../../assets/logo/naver-icon-file.png";
 import kakaoLogo from "../../../assets/logo/kakaotalk_logo.png";
 
@@ -56,7 +55,6 @@ export default function Login() {
   const loginlinks = [
     { id: "naver", name: "Naver", link: "/", logo: naverLogo },
     { id: "kakao", name: "Kakao", link: "/", logo: kakaoLogo },
-    // { id: "google", name: "Google", link: "/", logo: googleLogo },
   ];
 
   const handleSuccessfulLogin = (token: string, user: any) => {

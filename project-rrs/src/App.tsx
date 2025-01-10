@@ -2,8 +2,6 @@ import "./App.css";
 import Footer from "./layouts/Footer";
 import { Route, Routes } from "react-router-dom";
 import Main from "./views/Main";
-import LoginView from "./views/Authentication/LoginView";
-import SignUpView from "./views/Authentication";
 import Header from "./layouts/Header";
 
 import PetDiaryView from "./views/PetDiaryView/PetDiaryView";
@@ -32,6 +30,9 @@ import FindPassword from "./components/Auth/FindPassword/FindPassword";
 import FindId from "./components/Auth/FindId";
 import CustomerSupportUpdate from "./components/CustomerSupport/CustomerSupportUpdate";
 import FinduserInfo from "./components/Auth/FindUserInfo";
+import Login from "./components/Auth/Login";
+import SignUp from "./components/Auth/SignUp";
+import SignUpList from "./components/Auth/SignUpList";
 
 function App() {
   return (
@@ -41,8 +42,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           {/* 인증 관련 라우트  */}
-          <Route path="/login" element={<LoginView />} />
-          <Route path="/signup" element={<SignUpView />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUpList />} />
+          <Route path="/signup/rrs" element={<SignUp />} />
           <Route path="/find-user-info" element={<FinduserInfo />} />
           <Route path="/find-id/:token" element={<FindId />} />
           <Route path="/find-password/:token" element={<FindPassword />} />
