@@ -40,7 +40,7 @@ function App() {
       <Header />
       <div className="content">
         <Routes>
-          <Route path="/" element={<Main />} />
+          <Route path="/main" element={<Main />} />
           {/* 인증 관련 라우트  */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUpMain />} />
