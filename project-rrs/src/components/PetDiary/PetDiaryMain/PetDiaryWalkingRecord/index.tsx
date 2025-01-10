@@ -120,6 +120,16 @@ export default function PetDiaryWalkingRecord({
     setWalkingRecords((prevRecords) => [newRecord, ...prevRecords]);
   };
 
+  const updateWalkingRecord = (updateRecord: any) => {
+    setWalkingRecords((prevRecords) => 
+      prevRecords.map(record => 
+        record.walkingRecordId === updateRecord.walkingRecordId 
+          ? { ...record, ...updateRecord } 
+          : record
+      )
+    );
+  };
+
   // 산책기록 조회
   const handleRecordClick = (record: WalkingRecord) => {
     setWalkingRecordId(record.walkingRecordId);
@@ -194,7 +204,7 @@ export default function PetDiaryWalkingRecord({
             selectedDate={selectedDate}
             walkingRecordId={walkingRecordId}
             goBack={goBack}
-            
+            updateWalkingRecord={updateWalkingRecord}
           />
         </div>
       ) : (
