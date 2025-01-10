@@ -26,13 +26,13 @@ import ReservationForm from "./components/DangSitter/ReservationForm";
 import ReservationUserDetail from "./components/DangSitter/ReservaionUserDetail";
 
 import CommunityEditView from "./views/CommunityVIew/CommunityEditView";
-import FindPassword from "./components/Auth/FindPassword/FindPassword";
-import FindId from "./components/Auth/FindId";
 import CustomerSupportUpdate from "./components/CustomerSupport/CustomerSupportUpdate";
-import FinduserInfo from "./components/Auth/FindUserInfo";
-import Login from "./components/Auth/Login";
-import SignUp from "./components/Auth/SignUp";
-import SignUpList from "./components/Auth/SignUpList";
+import SignUpMain from "./views/Auth/SignUp/SignUpMain";
+import SignUp from "./views/Auth/SignUp/RrsSignUp";
+import FindId from "./views/Auth/FindId";
+import FindPassword from "./views/Auth/FindPassword/FindPassword";
+import FinduserInfo from "./views/Auth/FindUserInfo";
+import Login from "./views/Auth/Login";
 
 function App() {
   return (
@@ -43,11 +43,11 @@ function App() {
           <Route path="/" element={<Main />} />
           {/* 인증 관련 라우트  */}
           <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUpList />} />
+          <Route path="/signup" element={<SignUpMain />} />
           <Route path="/signup/rrs" element={<SignUp />} />
-          <Route path="/find-user-info" element={<FinduserInfo />} />
           <Route path="/find-id/:token" element={<FindId />} />
           <Route path="/find-password/:token" element={<FindPassword />} />
+          <Route path="/find-user-info" element={<FinduserInfo />} />
 
           <Route path="/announcements" element={<AnnouncementListView />} />
           <Route path="/announcements/:id" element={<AnnouncementView />} />
