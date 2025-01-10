@@ -92,8 +92,8 @@
   background-color: transparent;
   border-radius: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-height: 500px;
+  height: 600px;
+  width: auto;
   overflow: hidden;
 }
 
@@ -124,4 +124,26 @@
   font-weight: 400;
   line-height: 0.5;
   display: block;
+}
+
+@media (min-width: 768px) {
+  .img-copyright {
+    font-size: 16px;
+    line-height: 1.1;
+  }
+  .find-user-info-right .img-copyright-title {
+    font-size: 18px;
+    line-height: 1.1;
+  }
+}
+
+@media (min-width: 480px) {
+  .img-copyright {
+    font-size: 16x;
+    line-height: 1.1;
+  }
+  .find-user-info-right .img-copyright-title {
+    font-size: 18px;
+    line-height: 1.1;
+  }
 }

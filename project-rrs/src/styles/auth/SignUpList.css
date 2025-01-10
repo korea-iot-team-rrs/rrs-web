@@ -1,0 +1,80 @@
+.sns-signup-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}
+
+.sns-signup-wrapper img {
+  height: 110px;
+  margin-bottom: 10px;
+}
+
+.sns-signup-wrapper h4 {
+  color: #959595;
+  font-weight: 400;
+  font-size: 20px;
+  cursor: default;
+}
+
+.sns-signup-links ul li {
+  display: grid;
+  grid-template-columns: 20% 20% 30% 20%;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 40px;
+  margin-top: 10px;
+  border-radius: 15px;
+  border: 2px solid #cbcbcb;
+  padding: 5px 10px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.sns-signup-links ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  min-width: 300px;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.sns-signup-links ul li .sns-signup-logo {
+  width: 30px;
+  height: 30px;
+  grid-column: 2;
+  justify-self: start;
+  margin: 0px;
+}
+
+.sns-signup-links ul li .sns-signup-link {
+  color: #959595;
+  font-size: 15px;
+  text-decoration: none;
+  grid-column: 3;
+  justify-self: start;
+}
+
+.sns-signup-links ul li:hover {
+  border-color: #b2cdff;
+  background-color: #e6f3ff;
+}
+
+.sns-signup-links ul li:hover .signup-link {
+  color: #000;
+}
+
+.go-back-to-login {
+    margin-top: 20px;
+    
+    cursor: pointer;
+    text-align: center;
+    
+    background-color: rgb(239, 239, 239);
+    padding: 5px;
+    border-radius: 10px;
+}
