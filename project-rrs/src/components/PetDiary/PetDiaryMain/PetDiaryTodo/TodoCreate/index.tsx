@@ -20,6 +20,7 @@ export default function TodoCreate({
   const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setTodoContent(e.target.value);
   };
+
   const inputTodoContentBtnHandler = async () => {
     const token = cookies.token;
     console.log(token);

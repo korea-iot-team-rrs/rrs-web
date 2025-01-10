@@ -24,7 +24,6 @@ export default function ReservationUserDetail() {
   const [reservation, setReservation] = useState<Reservation>({
     reservationId: 0,
     userId: 0,
-    providerId: 0,
     reservationStartDate: "",
     reservationEndDate: "",
     reservationStatus: ReservationStatus.PENDING,
@@ -48,17 +47,45 @@ export default function ReservationUserDetail() {
 
   const [pets, setPets] = useState<Pet[]>([]);
 
-  const memoInputChangeHandler = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setReservationMemo(e.target.value);
+  useEffect(() => {
+    const token = cookies.token;
+    if (!token) return console.error("Token not found");
+    
+    fetchReservationData(Number(id), token);
+    fetchUserData(token);
+    fetchPetsData(token);
+  }, [cookies.token, id]);
+
+  const fetchReservationData = async (reservationId: number, token: string) => {
+    try {
+      const response = await fetchReservation(reservationId, token);
+      setReservation(response);
+      setReservationMemo(response.reservationMemo || "");
+    } catch (e) {
+      console.error("Failed to fetch reservation", e);
+    }
   };
 
-  const reservationModifyBtnHandler = async (
-    e: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  const fetchUserData = async (token: string) => {
+    try {
+      const userData = await fetchUserInfo();
+      setUser(userData);
+    } catch (e) {
+      console.error("Failed to fetch user info", e);
+    }
+  };
+
+  const fetchPetsData = async (token: string) => {
+    try {
+      const petsData = await fetchPets(token);
+      setPets(petsData);
+    } catch (e) {
+      console.error("Failed to fetch pets", e);
+    }
+  };
+
+  const reservationModifyBtnHandler = async () => {
     const token = cookies.token;
-    setReservationMemo(reservationMemo);
     try {
       await updateMemo(reservation.reservationId, { reservationMemo }, token);
       alert("수정이 완료되었습니다.");
@@ -69,80 +96,16 @@ export default function ReservationUserDetail() {
     }
   };
 
-  const formatStatus = (status: string) => {
-    switch (status) {
-      case "PENDING":
-        return "댕시터의 예약 수락을 기다리는 중입니다.";
-      case "IN_PROGRESS":
-        return "현재 예약이 진행중입니다.";
-      case "REJECTED":
-        return "예약이 성사되지 않았습니다.";
-      case "CANCELLED":
-        return "예약이 취소 되었습니다.";
-      case "COMPLETED":
-        return "예약이 완료 되었습니다.";
-      default:
-        return "알 수 없음";
-    }
+  const formatStatus = (status: ReservationStatus) => {
+    const statusMessages: Record<ReservationStatus, string> = {
+      [ReservationStatus.PENDING]: "댕시터의 예약 수락을 기다리는 중입니다.",
+      [ReservationStatus.IN_PROGRESS]: "현재 예약이 진행중입니다.",
+      [ReservationStatus.REJECTED]: "예약이 성사되지 않았습니다.",
+      [ReservationStatus.CANCELLED]: "예약이 취소 되었습니다.",
+      [ReservationStatus.COMPLETED]: "예약이 완료 되었습니다.",
+    };
+    return statusMessages[status] || "알 수 없음";
   };
-
-  useEffect(() => {
-    const fetchReservationData = async () => {
-      const token = cookies.token;
-      if (!token) {
-        console.error("Token not found");
-        return;
-      }
-
-      try {
-        const fetchedReservation = await fetchReservation(Number(id), token);
-        setReservation(fetchedReservation);
-        setReservationMemo(fetchedReservation.reservationMemo || "");
-      } catch (e) {
-        console.error("Failed to fetch reservation", e);
-      }
-    };
-
-    fetchReservationData();
-  }, [cookies.token, id]);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const token = cookies.token;
-      if (!token) {
-        console.error("Token not found");
-        return;
-      }
-
-      try {
-        const userData = await fetchUserInfo();
-        setUser(userData);
-      } catch (e) {
-        console.error("Failed to fetch user info", e);
-      }
-    };
-
-    fetchUser();
-  }, [cookies.token]);
-
-  useEffect(() => {
-    const fetchUserPets = async () => {
-      const token = cookies.token;
-      if (!token) {
-        console.error("Token not found");
-        return;
-      }
-
-      try {
-        const petsData = await fetchPets(token);
-        setPets(petsData);
-      } catch (e) {
-        console.error("Failed to fetch pets", e);
-      }
-    };
-
-    fetchUserPets();
-  }, [cookies.token]);
 
   return (
     <>
@@ -181,7 +144,7 @@ export default function ReservationUserDetail() {
         <div className="reservation-detail-title">
           <span>예약한 댕시터</span>
         </div>
-        <DangSitterBox providerId={reservation.providerId} />
+        <DangSitterBox providerId={reservation.providerInfo.providerId} />
         <ReservationUserInfo pets={pets} user={user} />
         <div className="reservation-detail-bottom">
           <div className="reservation-detail-title">
@@ -191,7 +154,7 @@ export default function ReservationUserDetail() {
             id="reservation-memo"
             className="memo"
             value={reservationMemo}
-            onChange={(e) => memoInputChangeHandler(e)}
+            onChange={(e) => setReservationMemo(e.target.value)}
             rows={4}
             cols={50}
           />

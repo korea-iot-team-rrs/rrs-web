@@ -8,6 +8,7 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import {
   Avatar,
+  Button,
   Fab,
   IconButton,
   List,
@@ -165,7 +166,19 @@ export default function CustomerSupportWrite() {
         </div>
         <div className="cs-write-attachment">
           <h3>{isInquiry ? "첨부 파일 (선택)" : "증빙 자료 첨부 (선택)"}</h3>
-          <input type="file" multiple onChange={handleFileChange} />
+          <div className="file-input-wrapper">
+            <input
+              type="file"
+              id="custom-file-input"
+              multiple
+              onChange={handleFileChange}
+              hidden
+            />
+            <label htmlFor="custom-file-input" className="custom-file-label">
+              파일 선택
+            </label>
+          </div>
+
           <List>
             {createCSReqDto.files.map((file, index) => (
               <ListItem
@@ -181,15 +194,29 @@ export default function CustomerSupportWrite() {
                     <FolderIcon />
                   </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={file.name} secondary={`크기: ${(file.size / (1024 * 1024)).toFixed(2)} MB`}/>
+                <ListItemText
+                  primary={file.name}
+                  secondary={`크기: ${(file.size / (1024 * 1024)).toFixed(
+                    2
+                  )} MB`}
+                />
               </ListItem>
             ))}
           </List>
         </div>
         <div className="cs-complete-btn">
-          <Fab variant="extended" color="primary" onClick={handleSubmit}>
+          <Button
+            color="primary"
+            onClick={handleSubmit}
+            sx={{
+              width: "100%",
+              backgroundColor: "#2194FF",
+              color: "#ffffff",
+              fontFamily: "Pretendard",
+            }}
+          >
             완료하기
-          </Fab>
+          </Button>
         </div>
       </div>
     </div>

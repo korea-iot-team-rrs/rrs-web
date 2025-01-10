@@ -62,7 +62,7 @@ export default function DangSitterModal({
   return (
     <>
       <Modal open={open} onClose={onClose}>
-        <Box sx={{ ...boxStyle, }}>
+        <Box sx={{ ...boxStyle }}>
           <div className="DangSitterModalheader">
             <button onClick={onClose}>
               <IoCloseCircle size={30} />
@@ -74,7 +74,12 @@ export default function DangSitterModal({
             </div>
 
             <div className="dangSitterImg">
-              <img src={`http://localhost:4040/${petSitterProps.profileImageUrl|| "file/default-profile.jpg"}`} alt="댕시터 프로필 이미지" />
+              <img
+                src={`http://localhost:4040/${
+                  petSitterProps.profileImageUrl || "file/default-profile.jpg"
+                }`}
+                alt="댕시터 프로필 이미지"
+              />
             </div>
 
             <div className="providerDetailAvgReview">
@@ -86,6 +91,8 @@ export default function DangSitterModal({
                 emptyIcon={<StarIcon fontSize="inherit" />}
                 sx={{
                   color: "#0099ff",
+                  margin: "0px",
+                  padding: "0px",
                 }}
               />
             </div>
@@ -100,7 +107,10 @@ export default function DangSitterModal({
               <div>
                 <div className="userImg">
                   <img
-                    src={`http://localhost:4040/${latesetReview.profileImageUrl || "file/default-profile.jpg"}`}
+                    src={`http://localhost:4040/${
+                      latesetReview.profileImageUrl ||
+                      "file/default-profile.jpg"
+                    }`}
                     alt="댕시터 이미지"
                   />
                 </div>
@@ -136,7 +146,12 @@ export default function DangSitterModal({
                 <IconButton
                   aria-label="view more reviews"
                   size="small"
-                  sx={{ borderRadius: "10px", marginLeft: "8px" }}
+                  sx={{
+                    margin: "0px",
+                    padding: "0px",
+                    borderRadius: "10px",
+                    marginLeft: "8px",
+                  }}
                   onClick={viewMoreReviewButtonHandler}
                   className="viewMoreBtn"
                 >
