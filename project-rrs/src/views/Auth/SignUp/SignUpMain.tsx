@@ -6,6 +6,7 @@ import naverLogo from "../../../assets/logo/naver-icon-file.png";
 import kakaoLogo from "../../../assets/logo/kakaotalk_logo.png";
 import "../../../styles/auth/SignUpList.css";
 import logo from "../../../assets/rrs_main_assets/rrs_main_logo.png";
+import { useNavigate } from "react-router-dom";
 
 const signUplinks = [
   { id: "rrs", name: "RRS", link: "/signup/rrs", logo: rrsLogo },
@@ -13,7 +14,16 @@ const signUplinks = [
   { id: "kakao", name: "Kakao", link: "/", logo: kakaoLogo },
 ];
 
-export default function SignUpList() {
+export default function SignUpMain() {
+  const navigation = useNavigate();
+
+  const onButtonClickHandler = (id: string) => {
+    if (id === 'rrs') {
+      navigation(id);
+    }
+    window.location.href = `http://localhost:8081/api/v1/auth/sns-sign-in/${id}`;
+};
+
   return (
     <>
       <div className="sns-signup-wrapper">
@@ -28,9 +38,9 @@ export default function SignUpList() {
                   src={link.logo}
                   alt={`${link.name} logo`}
                 />
-                <Link className="sns-signup-link" href={link.link}>
+                <div className="sns-signup-link" onClick={() => onButtonClickHandler('id')}>
                   {link.name}
-                </Link>
+                </div>
               </li>
             ))}
           </ul>

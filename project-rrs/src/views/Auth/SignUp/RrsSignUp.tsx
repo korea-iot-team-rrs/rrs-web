@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { UserSignUp } from '../../../types/AuthType'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { MAIN_URL, SIGN_UP } from '../../../constants';
 
@@ -13,8 +13,14 @@ interface Errors {
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-export default function SignUp() {
+export default function RrsSignUp() {
   const navigate = useNavigate();
+  
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const snsId = params.get("snsId");
+  const joinPath = params.get("joinPath");
+
 
   const [errors, setErrors] = useState<Errors>({});
 
