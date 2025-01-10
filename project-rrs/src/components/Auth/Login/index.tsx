@@ -6,9 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import useAuthStore from "../../../stores/auth.store";
 import { Link } from "@mui/material";
-import googleLogo from '../../../assets/logo/google-icon-file.png';
-import naverLogo from '../../../assets/logo/naver-icon-file.png';
-import kakaoLogo from '../../../assets/logo/kakaotalk_logo.png';
+import googleLogo from "../../../assets/logo/google-icon-file.png";
+import naverLogo from "../../../assets/logo/naver-icon-file.png";
+import kakaoLogo from "../../../assets/logo/kakaotalk_logo.png";
 
 interface Credentials {
   username: string;
@@ -54,9 +54,9 @@ export default function Login() {
   };
 
   const loginlinks = [
-    { id: "kakao", name: "Kakao", link: "/", logo: kakaoLogo },
-    { id: "google", name: "Google", link: "/", logo: googleLogo },
     { id: "naver", name: "Naver", link: "/", logo: naverLogo },
+    { id: "kakao", name: "Kakao", link: "/", logo: kakaoLogo },
+    // { id: "google", name: "Google", link: "/", logo: googleLogo },
   ];
 
   const handleSuccessfulLogin = (token: string, user: any) => {
@@ -89,7 +89,6 @@ export default function Login() {
         setCookie("token", token, { path: "/" });
         localStorage.setItem("token", token);
         login(token, user);
-        console.log(token);
         navigate("/");
       }
     } catch (err: any) {
@@ -157,10 +156,16 @@ export default function Login() {
       </div>
       <div className="sns-login-links">
         <ul>
-          {loginlinks.map((link, index) => (
-            <li>
-               <img className="sns-login-logo" src={link.logo} alt={`${link.name} logo`} />
-              <Link className="sns-login-link" href={link.link}>{link.name}</Link>
+          {loginlinks.map((link) => (
+            <li key={link.id}>
+              <img
+                className="sns-login-logo"
+                src={link.logo}
+                alt={`${link.name} logo`}
+              />
+              <Link className="sns-login-link" href={link.link}>
+                {link.name}
+              </Link>
             </li>
           ))}
         </ul>
