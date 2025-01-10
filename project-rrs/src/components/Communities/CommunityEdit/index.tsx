@@ -260,6 +260,7 @@ export default function CommunityEdit() {
             onChange={handleFileChange}
             multiple
             accept="image/*,application/pdf"
+            className="custom-file-input"
           />
           {attachments.length > 0 && (
             <ul className="file-list">

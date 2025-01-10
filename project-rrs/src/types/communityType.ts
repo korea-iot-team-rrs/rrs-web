@@ -8,10 +8,10 @@ export interface CommunityData {
   communityLikeCount: number;
   communityContent: string;
   communityThumbnailFile?: string;
-  comments?: CommunityComment[]; // 댓글 리스트
-  attachments?: AttachmentData[]; // 첨부 파일 리스트로 명확화
+  comments?: CommunityComment[];
+  attachments?: AttachmentData[];
   existingAttachments : File[];
-  userLiked: number[]; // 좋아요 누른 사용자 ID 배열
+  userLiked: number[];
 }
 
 export interface CommunityComment {

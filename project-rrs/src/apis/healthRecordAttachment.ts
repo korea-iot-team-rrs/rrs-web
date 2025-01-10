@@ -1,11 +1,11 @@
 import axios from "axios";
-import { CommunityApiResponse } from "../types/communityInterfaces";
+import { HealthRecordApiResponse } from "../types/healthRecordIntefaces";
 import { getToken } from "../utils/auth";
 
-const API_BASE_URL = "http://localhost:4040/api/v1/community-attachments";
+const API_BASE_URL = "http://localhost:4040/api/v1/health-attachments";
 
-export const fetchAttachmentsByCommunityId = async (
-  communityId: number
+export const fetchAttachmentsByHealthRecordId = async (
+  healthRecordId: number
 ): Promise<
   Array<{
     attachmentId: number;
@@ -21,20 +21,20 @@ export const fetchAttachmentsByCommunityId = async (
     }
 
     const response = await axios.get<
-      CommunityApiResponse<Array<{ attachmentId: number; communityAttachmentFile: string }>>
-    >(`${API_BASE_URL}/community/${communityId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+      HealthRecordApiResponse<Array<{ attachmentId: number; healthRecordAttachmentFile: string }>>
+      >(`${API_BASE_URL}/health-record/${healthRecordId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
     if (response.data.result) {
       console.log("Attachments fetched successfully:", response.data.data);
 
       return response.data.data.map((attachment) => ({
         attachmentId: attachment.attachmentId,
-        filePath: attachment.communityAttachmentFile,
-        fileName: attachment.communityAttachmentFile.split("/").pop() || "",
+        filePath: attachment.healthRecordAttachmentFile,
+        fileName: attachment.healthRecordAttachmentFile.split("/").pop() || "",
         fileSize: null,
       }));
     } else {
@@ -46,7 +46,7 @@ export const fetchAttachmentsByCommunityId = async (
   }
 };
 
-export const communityAttachmentApi = {
+export const healthRecordAttachmentApi = {
   async deleteAttachmentById(attachmentId: number): Promise<string> {
     try {
       const token = getToken();
@@ -54,7 +54,7 @@ export const communityAttachmentApi = {
         throw new Error("인증 토큰이 없습니다. 로그인을 먼저 해주세요.");
       }
 
-      const response = await axios.delete<CommunityApiResponse<string>>(
+      const response = await axios.delete<HealthRecordApiResponse<string>>(
         `${API_BASE_URL}/${attachmentId}`,
         {
           headers: {
@@ -69,15 +69,15 @@ export const communityAttachmentApi = {
     }
   },
 
-  async deleteAttachmentsByCommunityId(communityId: number): Promise<string> {
+  async deleteAttachmentsByHealthRecordId(healthRecordId: number): Promise<string> {
     try {
       const token = getToken();
       if (!token) {
         throw new Error("인증 토큰이 없습니다. 로그인을 먼저 해주세요.");
       }
 
-      const response = await axios.delete<CommunityApiResponse<string>>(
-        `${API_BASE_URL}/community/${communityId}`,
+      const response = await axios.delete<HealthRecordApiResponse<string>>(
+        `${API_BASE_URL}/health-record/${healthRecordId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -86,7 +86,7 @@ export const communityAttachmentApi = {
       );
       return response.data.message;
     } catch (error) {
-      console.error("Error deleting all attachments for community:", error);
+      console.error("Error deleting all attachments for health record:", error);
       throw error;
     }
   },
