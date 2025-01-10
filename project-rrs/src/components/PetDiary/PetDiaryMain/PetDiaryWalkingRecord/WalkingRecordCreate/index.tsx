@@ -108,7 +108,7 @@ const WalkingRecordCreate = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    
     // 유효성 검사
     if (!walkingRecord.walkingRecordWeatherState) {
       alert("날씨를 선택해 주세요.");
@@ -141,6 +141,16 @@ const WalkingRecordCreate = ({
     if (selectedDateObj > today) {
       alert("미래 날짜는 입력할 수 없습니다.");
       return;
+    }
+
+    if (files.length > 0) {
+      for (const file of files) {
+        const isValidType = /\.(jpg|jpeg|png)$/i.test(file.name);
+        if (!isValidType) {
+          alert("파일 형식은 JPG, JPEG, PNG만 가능합니다.");
+          return;
+        }
+      }
     }
 
     const formData = new FormData();
@@ -185,9 +195,6 @@ const WalkingRecordCreate = ({
       );
       console.log("산책기록 저장:", response.data.data);
       alert("산책기록이 저장되었습니다.");
-
-      // const walkingRecorId = response.data.data.walkingRecordId;
-
       addWalkingRecord(response.data.data);
       goBack();
     } catch (error) {
