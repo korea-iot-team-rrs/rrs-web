@@ -91,17 +91,27 @@ export default function ReservationItem({
               reservation.reservationStatus === "IN_PROGRESS") && (
               <Button
                 variant="outlined"
-                color="secondary"
+                color="warning"
                 onClick={handleCancel}
+                size="medium"
+                sx={{
+                  fontFamily: "Pretendard",
+                  borderRadius: "15px",
+                }}
               >
                 예약 취소
               </Button>
             )}
             {reservation.reservationStatus === "COMPLETED" && (
               <Button
-                variant="contained"
-                color="primary"
-                onClick={handleReviewButtonClick} // 이벤트 전파 방지 추가
+                variant="outlined"
+                color={reviewStatus === "Y" ? "primary" : "success"}
+                onClick={handleReviewButtonClick}
+                size="medium"
+                sx={{
+                  fontFamily: "Pretendard",
+                  borderRadius: "15px",
+                }}
               >
                 {reviewStatus === "Y" ? "리뷰 수정" : "리뷰 쓰기"}
               </Button>
@@ -115,6 +125,7 @@ export default function ReservationItem({
           onClose={closeReviewModal}
           reservationId={reservation.reservationId}
           isEditing={isEditing}
+          providerNickname={reservation.providerInfo.providerNickname}
         />
       )}
     </>

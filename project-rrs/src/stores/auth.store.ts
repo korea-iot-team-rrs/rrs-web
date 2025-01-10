@@ -20,8 +20,15 @@ interface User {
   profileImageUrl: string;
 }
 
-const storedUser = localStorage.getItem("user");
-const parsedUser = storedUser ? JSON.parse(storedUser) : null;
+let parsedUser: User | null = null;
+try {
+  const storedUser = localStorage.getItem("user");
+  if (storedUser) {
+    parsedUser = JSON.parse(storedUser) as User;
+  }
+} catch (error) {
+  console.error("localStorage에서 사용자 정보를 파싱하는 데 실패했습니다:", error);
+}
 
 const useAuthStore = create<AuthState>((set) => ({
   isLoggedIn: !!parsedUser,

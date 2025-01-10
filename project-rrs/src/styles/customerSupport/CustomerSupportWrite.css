@@ -3,6 +3,7 @@
     flex-direction: column;
     padding: 0 20%;
     gap: 20px;
+    font-family: "Pretendard";
   }
   
   .cs-write-header {
@@ -46,6 +47,7 @@
   }
   
   .cs-write-attachment h3 {
+    font-size: 16px;
     margin-bottom: 10px;
   }
   
@@ -78,5 +80,31 @@
     display: flex;
     justify-content: end;
     text-align: center;
+    padding-top: 20px;
+  }
+
+  .file-input-wrapper {
+    position: relative;
+    display: inline-block;
   }
   
+  .custom-file-label {
+    display: inline-block;
+    background-color: #bdbdbd;
+    color: #fff;
+    padding: 5px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    font-weight: 400;
+  }
+  
+  .custom-file-label:hover {
+    background-color: #727272;
+  }
+  
+  .custom-file-label:active {
+    background-color: #585858;
+  }

@@ -2,8 +2,6 @@ import "./App.css";
 import Footer from "./layouts/Footer";
 import { Route, Routes } from "react-router-dom";
 import Main from "./views/Main";
-import LoginView from "./views/Authentication/LoginView";
-import SignUpView from "./views/Authentication";
 import Header from "./layouts/Header";
 
 import PetDiaryView from "./views/PetDiaryView/PetDiaryView";
@@ -18,21 +16,23 @@ import CommunityDetailView from "./views/CommunityVIew/CommunityDetailView";
 
 import CommunityCreateView from "./views/CommunityVIew/CommunityCreateView";
 import MyPageView from "./views/MyPage/User";
-import DangSitter from "./components/DangSitter";
-import CustomerSupport from "./views/CustomerSupport";
-import CustomerSupportDetail from "./components/CustomerSupport/CustomerSupportDetail";
-import CustomerSupportWrite from "./components/CustomerSupport/CustomerSupportWrite";
 
-import ReservationList from "./components/DangSitter/ReservaionList";
-import ReservationForm from "./components/DangSitter/ReservationForm";
-import ReservationUserDetail from "./components/DangSitter/ReservaionUserDetail";
+import ReservationList from "./views/DangSitter/ReservaionList";
+import ReservationForm from "./views/DangSitter/ReservationForm";
+import ReservationUserDetail from "./views/DangSitter/ReservaionUserDetail";
 
 import CommunityEditView from "./views/CommunityVIew/CommunityEditView";
-import FindPassword from "./components/Auth/FindPassword/FindPassword";
-import FindId from "./components/Auth/FindId";
-import CustomerSupportUpdate from "./components/CustomerSupport/CustomerSupportUpdate";
-import FindUserInfoView from "./views/Authentication/FindUserInfoView";
-import FinduserInfo from "./components/Auth/FindUserInfo";
+import SignUpMain from "./views/Auth/SignUp/SignUpMain";
+import SignUp from "./views/Auth/SignUp/RrsSignUp";
+import FindId from "./views/Auth/FindId";
+import FindPassword from "./views/Auth/FindPassword/FindPassword";
+import FinduserInfo from "./views/Auth/FindUserInfo";
+import Login from "./views/Auth/Login";
+import CustomerSupportList from "./views/CustomerSupport/CustomerSupportList";
+import DangSitterMain from "./views/DangSitter/DangSitterMain";
+import CustomerSupportDetail from "./views/CustomerSupport/CustomerSupportDetail";
+import CustomerSupportWrite from "./views/CustomerSupport/CustomerSupportWrite";
+import CustomerSupportUpdate from "./views/CustomerSupport/CustomerSupportUpdate";
 
 function App() {
   return (
@@ -42,11 +42,12 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           {/* 인증 관련 라우트  */}
-          <Route path="/login" element={<LoginView />} />
-          <Route path="/signup" element={<SignUpView />} />
-          <Route path="/find-userInfo" element={<FinduserInfo />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUpMain />} />
+          <Route path="/signup/rrs" element={<SignUp />} />
           <Route path="/find-id/:token" element={<FindId />} />
           <Route path="/find-password/:token" element={<FindPassword />} />
+          <Route path="/find-user-info" element={<FinduserInfo />} />
 
           <Route path="/announcements" element={<AnnouncementListView />} />
           <Route path="/announcements/:id" element={<AnnouncementView />} />
@@ -56,28 +57,22 @@ function App() {
           <Route path="/events/:id" element={<EventDetailView />} />
 
           <Route path="/pet-diary" element={<PetDiaryView />} />
+
           <Route path="/community" element={<CommunityListView />} />
           <Route path="/community/:id" element={<CommunityDetailView/>} />
           <Route path="/community/write" element={<CommunityCreateView/>} />
+          <Route path="/community/edit/:communityId" element={<CommunityEditView/>} />
 
-          <Route path="/dang-sitter" element={<DangSitter />}/>
-          <Route path="/dang-sitter/reservations" element={<ReservationList />} /> 
-          <Route path="/dang-sitter/reservations/write" element={<ReservationForm />} />
-          <Route path="/dang-sitter/reservations/:id" element={<ReservationUserDetail />} />
+          <Route path="/dang-sitter" element={<DangSitterMain />}/>
+          
+          <Route path="/users/dang-sitter/reservations" element={<ReservationList />} /> 
+          <Route path="/users/dang-sitter/reservations/write" element={<ReservationForm />} />
+          <Route path="/users/dang-sitter/reservations/:id" element={<ReservationUserDetail />} />
 
-          <Route path="/customer-supports" element={<CustomerSupport />}/>
+          <Route path="/customer-supports" element={<CustomerSupportList />}/>
           <Route path="/customer-supports/:id" element={<CustomerSupportDetail />}/>
           <Route path="/customer-supports/write" element={<CustomerSupportWrite />}/>
           <Route path="/customer-supports/edit/:id" element={<CustomerSupportUpdate />}/>
-
-          <Route path="/community/edit/:communityId" element={<CommunityEditView/>} />
-
-          <Route path="/dang-sitter" element={<DangSitter />}/>
-          <Route path="/dang-sitter/reservations" element={<ReservationList />} /> 
-          <Route path="/dang-sitter/reservations/write" element={<ReservationForm />} />
-          <Route path="/dang-sitter/reservations/:id" element={<ReservationUserDetail />} />
-
-          <Route path="/customer-supports" element={<CustomerSupport />}/>
 
           <Route path="/user/*" element={<MyPageView />} />
         </Routes>

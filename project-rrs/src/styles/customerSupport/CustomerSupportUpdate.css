@@ -1,0 +1,87 @@
+.cs-update-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 0 20%;
+    gap: 10px;
+    font-family: "Pretendard";
+  } 
+
+
+  .cs-update-title input{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 20px 40px;
+  }
+
+  .cs-update-content textarea {
+    width: 100%;
+    padding: 40px;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+    height: 300px;
+    overflow-y: scroll;
+  }
+
+  .cs-update-attachment{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0px 40px 0px 40px;
+  }
+
+  .cs-update-exist-attachment h3, 
+  .cs-update-new-attachment h3 {
+    font-size: 16px;
+    color:#2194FF;
+  }
+
+  .total-file-size {
+    padding: 0px 40px 0px 40px;
+  }
+
+  .cs-update-submit-btn {
+    padding-top: 20px;
+    width: 100%;
+
+    & > p {
+        width: 100%;
+    }
+  }
+
+  .custom-file-label {
+    display: inline-block;
+    background-color: #bdbdbd;
+    color: #fff;
+    padding: 5px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    font-weight: 400;
+  }
+  
+  .custom-file-label:hover {
+    background-color: #727272;
+  }
+  
+  .custom-file-label:active {
+    background-color: #585858;
+  }
+
+  .cs-update-attachment ul li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    background-color: #fff;
+  }

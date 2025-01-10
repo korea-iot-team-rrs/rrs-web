@@ -55,7 +55,10 @@ export const createReview = async (
   return response.data.data;
 };
 
-export const fetchReviewByReservationId = async (reservationId: number, token: string) => {
+export const fetchReviewByReservationId = async (
+  reservationId: number,
+  token: string
+) => {
   const response = await axios.get(
     `http://localhost:4040/api/v1/reviews/reservation/${reservationId}`,
     {
@@ -80,6 +83,19 @@ export const updateReviewByReservationId = async (
   const response = await axios.put(
     `http://localhost:4040/api/v1/reviews/reservation/${reservationId}`,
     data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return response.data.data;
+};
+
+export const deleteReview = async (reviewId: number, token: string) => {
+  const response = await axios.delete(
+    `http://localhost:4040/api/v1/reviews/${reviewId}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
