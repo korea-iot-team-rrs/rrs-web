@@ -1,0 +1,107 @@
+/* HealthRecordUpdate 화면 */
+.health-record-update-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.health-record-update-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8em;
+  color: #333;
+}
+
+.health-record-form-group {
+  margin-bottom: 15px;
+}
+
+.health-record-form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.health-record-form-group input,
+.health-record-form-group textarea,
+.health-record-form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.health-record-file-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.health-record-file-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.health-record-file-list li span {
+  flex: 1;
+  font-size: 0.9em;
+}
+
+.health-record-icon-button {
+  cursor: pointer;
+  color: #d32f2f;
+  font-size: 1.2em;
+}
+
+.health-record-button-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+button[type="submit"] {
+  background: #007bff;
+  color: white;
+}
+
+button.health-record-cancel-button {
+  background: #f44336;
+  color: white;
+}
+
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.petHealthLoadingMessage,
+.petHealthErrorMessage {
+  font-size: 14px;
+  text-align: center;
+}
+
+.petHealthLoadingMessage {
+  color: #2194FF;
+}
+
+.petHealthErrorMessage {
+  color: red;
+}
+

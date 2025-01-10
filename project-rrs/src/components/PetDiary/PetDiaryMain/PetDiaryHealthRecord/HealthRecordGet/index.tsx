@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getHealthRecordById } from "../../../../../apis/petHealthApi";
+import { fetchAttachmentsByHealthRecordId } from "../../../../../apis/healthRecordAttachment";
 import "../../../../../styles/PetHealthRecord.css";
 import { HealthRecordResponse } from "../../../../../types/petHealthType";
 
@@ -21,6 +22,7 @@ export default function HealthRecordGet({
   const [healthRecord, setHealthRecord] = useState<HealthRecordResponse | null>(
     null
   );
+  const [existingAttachments, setExistingAttachments] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -34,10 +36,17 @@ export default function HealthRecordGet({
           selectedPet.petId,
           healthRecordId
         );
-        console.log(record);
         setHealthRecord(record);
-      } catch {
-        console.log("건강 기록이 없습니다.");
+
+        const serverAttachments = await fetchAttachmentsByHealthRecordId(
+          healthRecordId
+        );
+        const filePaths = serverAttachments.map(
+          (attachment) => attachment.filePath
+        );
+        setExistingAttachments(filePaths);
+      } catch (err) {
+        console.error("건강 기록을 가져오는 중 오류:", err);
       } finally {
         setIsLoading(false);
       }
@@ -91,21 +100,20 @@ export default function HealthRecordGet({
               <strong>메모:</strong> {healthRecord.memo}
             </p>
           )}
-          {healthRecord.attachments && healthRecord.attachments.length > 0 && (
+          {existingAttachments.length > 0 && (
             <div>
               <strong>첨부 파일:</strong>
               <ul>
-                {healthRecord.attachments.map((filePath, index) => (
-                  <li key={index}>
-                    <a
-                      href={`${BASE_FILE_URL}${filePath}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      첨부 파일 {index + 1}
-                    </a>
-                  </li>
-                ))}
+                {existingAttachments.map((filePath, index) => {
+                  const fileNameWithUuid = filePath.split("/").pop(); // 파일 경로에서 파일 이름 추출
+                  const fileName = fileNameWithUuid
+                    ? fileNameWithUuid.replace(
+                        /^[0-9a-fA-F-]{36}_/, // UUID와 뒤에 붙는 언더스코어 제거
+                        ""
+                      )
+                    : "Unknown File";
+                  return <li key={index}>{fileName}</li>;
+                })}
               </ul>
             </div>
           )}

@@ -202,6 +202,16 @@ const HealthRecordUpdate = ({
           />
         </div>
         <div className="form-group">
+          <label htmlFor="memo">메모</label>
+          <textarea
+            id="memo"
+            name="memo"
+            value={healthRecord.memo || ""}
+            onChange={handleInputChange}
+            placeholder="메모를 입력하세요"
+          />
+        </div>
+        <div className="form-group">
           <label htmlFor="attachments">기존 첨부 파일</label>
           <ul className="file-list">
             {existingAttachments.map((filePath, index) => (

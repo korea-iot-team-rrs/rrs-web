@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import usePetStore, { Pet } from "../../../../stores/petstore";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import "../../../../styles/PetHealthRecord.css";
+import "../../../../styles/pethealthRecord/pethealthRecordList.css";
 import { PetDiaryTodoProps } from "../../../../types/petDiaryType";
 import { FaPlusCircle } from "react-icons/fa";
 import HealthRecordCreate from "./HealthRecordCreate";
