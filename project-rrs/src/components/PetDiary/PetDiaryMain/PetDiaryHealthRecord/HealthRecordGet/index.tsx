@@ -18,7 +18,9 @@ export default function HealthRecordGet({
   goBack,
   selectedDate,
 }: HealthRecordGetProps) {
-  const [healthRecord, setHealthRecord] = useState<HealthRecordResponse | null>(null);
+  const [healthRecord, setHealthRecord] = useState<HealthRecordResponse | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -28,11 +30,14 @@ export default function HealthRecordGet({
       setIsLoading(true);
 
       try {
-        const record = await getHealthRecordById(selectedPet.petId, healthRecordId);
-        console.log(record)
+        const record = await getHealthRecordById(
+          selectedPet.petId,
+          healthRecordId
+        );
+        console.log(record);
         setHealthRecord(record);
       } catch {
-        console.log("건강 기록이 없습니다.")
+        console.log("건강 기록이 없습니다.");
       } finally {
         setIsLoading(false);
       }
@@ -69,7 +74,8 @@ export default function HealthRecordGet({
             <strong>반려 동물:</strong> {selectedPet.petName}
           </p>
           <p>
-            <strong>날짜:</strong> {new Date(healthRecord.createdAt).toLocaleDateString()}
+            <strong>날짜:</strong>{" "}
+            {new Date(healthRecord.createdAt).toLocaleDateString()}
           </p>
           <p>
             <strong>이상 증상:</strong> {healthRecord.abnormalSymptoms}

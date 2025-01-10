@@ -37,7 +37,7 @@ export const updateComment = async (
 ) => {
   const token = getToken();
   const response = await axios.put<{ data: CommunityComment }>(
-    `${COMMUNITY_COMMENT_API_URL}/${communityId}/${commentId}`, // commentId 추가
+    `${COMMUNITY_COMMENT_API_URL}/${communityId}/${commentId}`,
     data,
     {
       headers: {

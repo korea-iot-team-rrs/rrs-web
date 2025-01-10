@@ -87,7 +87,7 @@ export default function Login() {
         setCookie("token", token, { path: "/" });
         localStorage.setItem("token", token);
         login(token, user);
-        navigate("/main");
+        navigate("/");
       }
     } catch (err: any) {
       console.error(err);

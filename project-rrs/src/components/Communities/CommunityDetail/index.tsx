@@ -4,8 +4,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getToken } from "../../../utils/auth";
 import { fetchUserInfo } from "../../../apis/userInfo";
 import { deleteCommunity, getCommunityById } from "../../../apis/communityApi";
-import { CommunityLikeResponseDto, ToggleLikeData } from "../../../types/ToggleLikeType";
-import { getUsersWhoLikedCommunity, toggleLike } from "../../../apis/ToggleKikeApi";
+import {
+  CommunityLikeResponseDto,
+  ToggleLikeData,
+} from "../../../types/ToggleLikeType";
+import {
+  getUsersWhoLikedCommunity,
+  toggleLike,
+} from "../../../apis/ToggleKikeApi";
 import { FaHeart, FaThumbsUp } from "react-icons/fa";
 import "../../../styles/communities/CommunityDetail.css";
 import DefaultImage from "../../../assets/images/dogIllust02.jpeg";
@@ -13,8 +19,20 @@ import DeleteModal from "../../../components/DeleteModal";
 
 const BASE_FILE_URL = "http://localhost:4040/";
 
+// UUID 제거 함수
+const removeUUIDFromFileName = (fileName: string): string => {
+  return fileName.replace(/^[a-f0-9-]{36}_/, ""); // UUID 형식 제거
+};
+
+// 파일 이름 추출 함수
+const extractFileName = (filePath: string): string => {
+  const fullName = filePath.split("/").pop() || "알 수 없는 파일";
+  return removeUUIDFromFileName(fullName);
+};
+
 interface AttachmentData {
   url: string;
+  name: string;
 }
 
 interface CommunityData {
@@ -25,7 +43,7 @@ interface CommunityData {
   communityUpdatedAt?: Date;
   communityLikeCount: number;
   communityContent: string;
-  communityThumbnailFile: string | null; // null 허용
+  communityThumbnailFile: string | null;
   attachments?: AttachmentData[];
 }
 
@@ -76,6 +94,7 @@ export default function CommunityDetail() {
                 : DefaultImage,
               attachments: data.attachments?.map((attachment: any) => ({
                 url: `${BASE_FILE_URL}${attachment}`,
+                name: extractFileName(attachment),
               })),
             });
 
@@ -87,7 +106,8 @@ export default function CommunityDetail() {
               setIsAuthor(false);
             }
 
-            const usersWhoLiked: CommunityLikeResponseDto[] = await getUsersWhoLikedCommunity(Number(id));
+            const usersWhoLiked: CommunityLikeResponseDto[] =
+              await getUsersWhoLikedCommunity(Number(id));
             const nicknames = usersWhoLiked.map((user) => user.nickname);
 
             setUserLiked(nicknames.includes(fetchedUserInfo.nickname));
@@ -158,13 +178,18 @@ export default function CommunityDetail() {
               {community.communityTitle}
             </h2>
             <div className="community-detail-meta">
-              <p className="community-detail-author">작성자: {community.nickname}</p>
+              <p className="community-detail-author">
+                작성자: {community.nickname}
+              </p>
               {isAuthor && (
                 <div className="author-actions">
                   <button onClick={handleEdit} className="edit-button">
                     수정
                   </button>
-                  <button onClick={() => setIsModalOpen(true)} className="delete-button">
+                  <button
+                    onClick={() => setIsModalOpen(true)}
+                    className="delete-button"
+                  >
                     삭제
                   </button>
                 </div>
@@ -184,30 +209,6 @@ export default function CommunityDetail() {
                   style={{ cursor: "pointer" }}
                 />
               </div>
-              {community.attachments && community.attachments.length > 0 && (
-                <div className="attachments-dropdown">
-                  <button
-                    className="dropdown-button"
-                    onClick={() => setAttachmentsVisible(!attachmentsVisible)}
-                  >
-                    {attachmentsVisible ? "첨부 파일 숨기기 ▲" : "첨부 파일 보기 ▼"}
-                  </button>
-                  {attachmentsVisible && (
-                    <div className="dropdown-content">
-                      {community.attachments.map((attachment, index) => (
-                        <a
-                          key={index}
-                          href={attachment.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          첨부 파일 {index + 1}
-                        </a>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              )}
             </div>
             <hr />
             <img
@@ -216,7 +217,35 @@ export default function CommunityDetail() {
               style={{ width: "100%", height: "auto" }}
             />
             <hr />
-            <p className="community-detail-content">{community.communityContent}</p>
+            <p className="community-detail-content">
+              {community.communityContent}
+            </p>
+            {community.attachments && community.attachments.length > 0 && (
+              <div className="attachments-dropdown">
+                <button
+                  className="dropdown-button"
+                  onClick={() => setAttachmentsVisible(!attachmentsVisible)}
+                >
+                  {attachmentsVisible
+                    ? "첨부 파일 숨기기 ▲"
+                    : "첨부 파일 보기 ▼"}
+                </button>
+                {attachmentsVisible && (
+                  <div className="dropdown-content">
+                    {community.attachments.map((attachment, index) => (
+                      <a
+                        key={index}
+                        href={attachment.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {attachment.name}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
             {token && (
               <CommentsSection
                 communityId={community.communityId}

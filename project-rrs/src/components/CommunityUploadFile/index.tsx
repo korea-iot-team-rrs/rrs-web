@@ -2,14 +2,8 @@ import axios from "axios";
 import { getToken } from "../../utils/auth";
 import { MAIN_URL, USER_PATH } from "../../constants";
 
-const UPLOAD_USER_FILE_API_URL = `${MAIN_URL}${USER_PATH}/upload/`; // 파일 업로드 API URL
+const UPLOAD_USER_FILE_API_URL = `${MAIN_URL}${USER_PATH}/upload/`;
 
-/**
- * 파일 업로드 함수
- * @param file 업로드할 파일
- * @param path 저장할 경로
- * @returns 업로드된 파일의 서버 경로
- */
 export const uploadFile = async (file: File, path: string): Promise<string> => {
   const token = getToken();
 

@@ -330,3 +330,30 @@
   border-color: #575757;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
 }
+
+.attachments-controller {
+  margin-top: 20px;
+}
+
+.attachments-list {
+  list-style: none;
+  padding: 0;
+}
+
+.attachment-item {
+  margin-bottom: 10px;
+}
+
+.remove-button,
+.remove-all-button {
+  margin-left: 10px;
+  color: white;
+  background-color: red;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.remove-all-button {
+  margin-top: 10px;
+}
