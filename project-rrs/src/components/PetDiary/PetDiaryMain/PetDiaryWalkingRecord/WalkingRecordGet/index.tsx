@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Pet } from "../../../../../types";
 import axios from "axios";
 import { useCookies } from "react-cookie";
+import { IoMdSunny } from "react-icons/io";
+import { IoCloudy, IoRainy } from "react-icons/io5";
+import { TbSnowman } from "react-icons/tb";
 
 interface WalkingRecorGetProps {
   selectedPet: Pet | null;
@@ -18,6 +21,18 @@ const WalkingRecordGet = ({
 }: WalkingRecorGetProps) => {
   const [walkingRecord, setWalkingRecord] = useState<any | null>(null);
   const [cookies] = useCookies(["token"]);
+
+  const weatherOptions = [
+    { value: "SUNNY", label: <IoMdSunny style={{ fontSize: "24px" }} /> },
+    { value: "CLOUDY", label: <IoCloudy style={{ fontSize: "24px" }} /> },
+    { value: "RAINY", label: <IoRainy style={{ fontSize: "24px" }} /> },
+    { value: "SNOWY", label: <TbSnowman style={{ fontSize: "24px" }} /> },
+  ];
+
+  const getWeatherIcon = (weatherState: string) => {
+    const weather = weatherOptions.find((option) => option.value === weatherState);
+    return weather?.label;
+  };
 
   useEffect(() => {
     console.log("walkingRecordId: ", walkingRecordId);
@@ -72,7 +87,7 @@ const WalkingRecordGet = ({
 
       <div className="weather-container">
         <label>날씨</label>
-        <p>{walkingRecord.walkingRecordWeatherState || "정보 없음"}</p>
+        <p>{getWeatherIcon(walkingRecord.walkingRecordWeatherState)}</p>
       </div>
 
       <div>
@@ -98,7 +113,7 @@ const WalkingRecordGet = ({
         {walkingRecord.fileName?.length > 0 ? (
           <div className="image-list">
             {walkingRecord.fileName.map((url: string, index: number) => (
-            <img key={index} src={url} alt={`산책 기록 사진 ${index + 1}`} />
+            <img key={index} src={`http://localhost:4040/${url}`} alt={`산책 기록 사진 ${index + 1}`} />
           ))}
         </div>
         ) : (
