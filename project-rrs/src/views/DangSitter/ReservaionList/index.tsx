@@ -7,7 +7,7 @@ import {
 import { Reservation } from "../../../types/reservationType";
 import { useCookies } from "react-cookie";
 import { Button, Pagination } from "@mui/material";
-import ReservationItem from "../ReservationItem";
+import ReservationItem from "../../../components/DangSitter/ReservationItem";
 import { useRefreshStore } from "../../../stores/refreshStore";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -165,7 +165,7 @@ export default function ReservationList() {
                 <ReservationItem
                   reservation={reservation}
                   reviewStatus={reviewsStatus[reservation.reservationId] || "N"}
-                  onClick={(id) => navigate(`/dang-sitter/reservations/${id}`)}
+                  onClick={(id) => navigate(`/users/dang-sitter/reservations/${id}`)}
                   index={descendingIndex}
                 />
               </li>

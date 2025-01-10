@@ -8,8 +8,8 @@ import {
 } from "../../../types/reservationType";
 import { useCookies } from "react-cookie";
 import { fetchReservation, updateMemo } from "../../../apis/reservationApi";
-import DangSitterBox from "../DangSitterBox";
-import ReservationUserInfo from "../ReservationUserInfo";
+import DangSitterBox from "../../../components/DangSitter/DangSitterBox";
+import ReservationUserInfo from "../../../components/DangSitter/ReservationUserInfo";
 import { fetchUserInfo } from "../../../apis/userInfo";
 import { fetchPets } from "../../../apis/petApi";
 import { Button, Chip } from "@mui/material";
@@ -89,7 +89,7 @@ export default function ReservationUserDetail() {
     try {
       await updateMemo(reservation.reservationId, { reservationMemo }, token);
       alert("수정이 완료되었습니다.");
-      navigate("/dang-sitter/reservations");
+      navigate("users/dang-sitter/reservations");
     } catch (e) {
       console.error("Failed to update reservation memo", e);
       alert("예약 대기중일때만 메모 수정이 가능합니다.");
