@@ -33,88 +33,175 @@ import DangSitterMain from "./views/DangSitter/DangSitterMain";
 import CustomerSupportDetail from "./views/CustomerSupport/CustomerSupportDetail";
 import CustomerSupportWrite from "./views/CustomerSupport/CustomerSupportWrite";
 import CustomerSupportUpdate from "./views/CustomerSupport/CustomerSupportUpdate";
-import { useAccessTokenValid } from "./hooks/useAccessTokenValid";
+import { useAuthCheck } from "./stores/useAuthCheck";
+import ProtectedRoute from "./types/routerType";
+import { CircularProgress } from "@mui/material";
 
 function App() {
-  const { isLoding } = useAccessTokenValid();
+  const { isLoading } = useAuthCheck();
+
+  if (isLoading) {
+    return <CircularProgress />;
+  }
 
   return (
     <>
-      {!isLoding && (
-        <div className="app-container">
-          <Header />
-          <div className="content">
-            <Routes>
-              <Route path="/main" element={<Main />} />
-              {/* 인증 관련 라우트  */}
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<SignUpMain />} />
-              <Route path="/signup/rrs" element={<SignUp />} />
-              <Route path="/find-id/:token" element={<FindId />} />
-              <Route path="/find-password/:token" element={<FindPassword />} />
-              <Route path="/find-user-info" element={<FinduserInfo />} />
+      <div className="app-container">
+        <Header />
+        <div className="content">
+          <Routes>
+            <Route path="/main" element={<Main />} />
+            {/* 인증 관련 라우트  */}
+            <Route
+              path="/login"
+              element={
+                <ProtectedRoute requireAuth={false}>
+                  <Login />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <ProtectedRoute requireAuth={false}>
+                  <SignUpMain />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/signup/rrs"
+              element={
+                <ProtectedRoute requireAuth={false}>
+                  <SignUp />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/find-id/:token"
+              element={
+                <ProtectedRoute requireAuth={false}>
+                  <FindId />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/find-password/:token"
+              element={
+                <ProtectedRoute requireAuth={false}>
+                  <FindPassword />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/find-user-info"
+              element={
+                <ProtectedRoute requireAuth={false}>
+                  <FinduserInfo />
+                </ProtectedRoute>
+              }
+            />
 
-              <Route path="/announcements" element={<AnnouncementListView />} />
-              <Route path="/announcements/:id" element={<AnnouncementView />} />
-              <Route path="/usage-guide" element={<UsageGuideListView />} />
-              <Route
-                path="/usage-guide/:id"
-                element={<UsageGuideDetailView />}
-              />
-              <Route path="/events" element={<EventListView />} />
-              <Route path="/events/:id" element={<EventDetailView />} />
+            <Route path="/announcements" element={<AnnouncementListView />} />
+            <Route path="/announcements/:id" element={<AnnouncementView />} />
+            <Route path="/usage-guide" element={<UsageGuideListView />} />
+            <Route path="/usage-guide/:id" element={<UsageGuideDetailView />} />
+            <Route path="/events" element={<EventListView />} />
+            <Route path="/events/:id" element={<EventDetailView />} />
 
-              <Route path="/pet-diary" element={<PetDiaryView />} />
+            <Route path="/pet-diary" element={<PetDiaryView />} />
 
-              <Route path="/community" element={<CommunityListView />} />
-              <Route path="/community/:id" element={<CommunityDetailView />} />
-              <Route
-                path="/community/write"
-                element={<CommunityCreateView />}
-              />
-              <Route
-                path="/community/edit/:communityId"
-                element={<CommunityEditView />}
-              />
+            <Route path="/community" element={<CommunityListView />} />
+            <Route path="/community/:id" element={<CommunityDetailView />} />
+            <Route path="/community/write" element={<CommunityCreateView />} />
+            <Route
+              path="/community/edit/:communityId"
+              element={<CommunityEditView />}
+            />
 
-              <Route path="/dang-sitter" element={<DangSitterMain />} />
+            <Route
+              path="/community/write"
+              element={
+                <ProtectedRoute>
+                  <CommunityCreateView />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dang-sitter"
+              element={
+                  <DangSitterMain />
+              }
+            />
+            <Route
+              path="/users/dang-sitter/reservations"
+              element={
+                <ProtectedRoute>
+                  <ReservationList />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/users/dang-sitter/reservations/write"
+              element={
+                <ProtectedRoute>
+                  <ReservationForm />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/users/dang-sitter/reservations/:id"
+              element={
+                <ProtectedRoute>
+                  <ReservationUserDetail />
+                </ProtectedRoute>
+              }
+            />
 
-              <Route
-                path="/users/dang-sitter/reservations"
-                element={<ReservationList />}
-              />
-              <Route
-                path="/users/dang-sitter/reservations/write"
-                element={<ReservationForm />}
-              />
-              <Route
-                path="/users/dang-sitter/reservations/:id"
-                element={<ReservationUserDetail />}
-              />
+            <Route
+              path="/customer-supports"
+              element={
+                <ProtectedRoute>
+                  <CustomerSupportList />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/customer-supports/:id"
+              element={
+                <ProtectedRoute>
+                  <CustomerSupportDetail />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/customer-supports/write"
+              element={
+                <ProtectedRoute>
+                  <CustomerSupportWrite />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/customer-supports/edit/:id"
+              element={
+                <ProtectedRoute>
+                  <CustomerSupportUpdate />
+                </ProtectedRoute>
+              }
+            />
 
-              <Route
-                path="/customer-supports"
-                element={<CustomerSupportList />}
-              />
-              <Route
-                path="/customer-supports/:id"
-                element={<CustomerSupportDetail />}
-              />
-              <Route
-                path="/customer-supports/write"
-                element={<CustomerSupportWrite />}
-              />
-              <Route
-                path="/customer-supports/edit/:id"
-                element={<CustomerSupportUpdate />}
-              />
-
-              <Route path="/user/*" element={<MyPageView />} />
-            </Routes>
-          </div>
-          <Footer />
+            <Route
+              path="/user/*"
+              element={
+                <ProtectedRoute>
+                  <MyPageView />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
         </div>
-      )}
+        <Footer />
+      </div>
     </>
   );
 }

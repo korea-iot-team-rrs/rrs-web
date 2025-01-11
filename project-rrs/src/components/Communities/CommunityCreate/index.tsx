@@ -1,8 +1,8 @@
 import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import useAuthStore from "../../../stores/auth.store";
 import { createCommunity } from "../../../apis/communityApi";
 import "../../../styles/communities/CommunityCreate.css";
+import useAuthStore from "../../../stores/useAuthStore";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const TITLE_MAX_LENGTH = 50;

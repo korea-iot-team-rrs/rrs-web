@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import logo from "../../../assets/images/logo.png";
-import "../../../styles/Login.css";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import useAuthStore from "../../../stores/auth.store";
+import axios from "axios";
 import { Button, Link } from "@mui/material";
+import { LoginResponseDto } from "../../../types/AuthType";
+import logo from "../../../assets/images/logo.png";
 import naverLogo from "../../../assets/logo/naver-icon-file.png";
 import kakaoLogo from "../../../assets/logo/kakaotalk_logo.png";
+import "../../../styles/Login.css";
+import useAuthStore from "../../../stores/useAuthStore";
 
 interface Credentials {
   username: string;
@@ -35,74 +36,78 @@ export default function Login() {
   const { login } = useAuthStore();
   const navigate = useNavigate();
   const [cookies, setCookie] = useCookies(["token"]);
-  const [findId, setFindId] = useState<boolean>(true);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setCredentials({
-      ...credentials,
-      [name]: value,
-    });
-  };
-
-  const setErrorMessage = (type: keyof ErrorMessage, message: string) => {
-    setError((prevError) => ({
-      ...prevError,
-      [type]: message,
-    }));
-  };
 
   const loginlinks = [
     { id: "naver", name: "Naver", link: "/", logo: naverLogo },
     { id: "kakao", name: "Kakao", link: "/", logo: kakaoLogo },
   ];
 
-  const handleSuccessfulLogin = (token: string, user: any) => {
-    setCookie("token", token, { path: "/" });
-    console.log(token);
-    localStorage.setItem("token", token);
-    localStorage.setItem("user", JSON.stringify(user));
-    login(token, user);
-    navigate("/main");
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setCredentials(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+    // 에러 메시지 초기화
+    setError(prev => ({
+      ...prev,
+      [name]: "",
+      general: "",
+    }));
+  };
+
+  const setErrorMessage = (type: keyof ErrorMessage, message: string) => {
+    setError(prev => ({
+      ...prev,
+      [type]: message,
+    }));
   };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // 입력값 검증
     if (!credentials.username || !credentials.password) {
       setErrorMessage("general", "아이디 또는 비밀번호를 입력해 주세요.");
       return;
     }
 
     try {
-      const response = await axios.post(
+      const response = await axios.post<{ data: LoginResponseDto }>(
         "http://localhost:4040/api/v1/auth/login",
         credentials
       );
-      console.log("first");
-      console.log(response.data.data);
 
       if (response.status === 200) {
-        const { token, user } = response.data.data;
-        setCookie("token", token, { path: "/" });
-        localStorage.setItem("token", token);
-        login(token, user);
+        const loginData = response.data.data;
+        
+        // 쿠키와 로컬 스토리지에 저장
+        setCookie("token", loginData.token, { path: "/" });
+        localStorage.setItem("token", loginData.token);
+        
+        // store 업데이트
+        login(loginData);
+        
         navigate("/main");
       }
     } catch (err: any) {
-      console.error(err);
+      console.error("Login error:", err);
+      
       let errorMessage = "서버와 연결할 수 없습니다. 다시 시도해주세요.";
 
-      if (err.response) {
-        const { message } = err.response.data;
-        if (message === "UserId does not match.") {
-          errorMessage = "존재하지 않는 ID입니다.";
-        } else if (message === "Password does not match.") {
-          errorMessage = "비밀번호가 일치하지 않습니다.";
+      if (err.response?.data?.message) {
+        switch (err.response.data.message) {
+          case "UserId does not match.":
+            errorMessage = "존재하지 않는 ID입니다.";
+            break;
+          case "Password does not match.":
+            errorMessage = "비밀번호가 일치하지 않습니다.";
+            break;
         }
       }
-      setCredentials((prevCredentials) => ({
-        ...prevCredentials,
+
+      setCredentials(prev => ({
+        ...prev,
         password: "",
       }));
       setErrorMessage("general", errorMessage);
@@ -130,6 +135,7 @@ export default function Login() {
           placeholder="아이디를 입력해 주세요."
           value={credentials.username}
           onChange={handleInputChange}
+          autoComplete="username"
         />
         <input
           type="password"
@@ -138,13 +144,14 @@ export default function Login() {
           placeholder="비밀번호를 입력해 주세요."
           value={credentials.password}
           onChange={handleInputChange}
+          autoComplete="current-password"
         />
 
-        {error.username && <p className="error-message">{error.username}</p>}
-        {error.password && <p className="error-message">{error.password}</p>}
-        {error.general && <p className="error-message">{error.general}</p>}
+        {Object.entries(error).map(([key, message]) => 
+          message && <p key={key} className="error-message">{message}</p>
+        )}
 
-        <button className="login-btn" onClick={handleLogin}>로그인</button>
+        <button type="submit" className="login-btn">로그인</button>
       </form>
 
       <div className="login-links">
@@ -152,9 +159,11 @@ export default function Login() {
         <Link onClick={handleNavigateToFindId}>아이디 찾기</Link>
         <Link onClick={handleNavigateToFindPassword}>비밀번호 찾기</Link>
       </div>
+
       <div className="sns-login-links">
         {loginlinks.map((link) => (
           <Button
+            key={link.id}
             variant="outlined"
             className="sns-login-link"
             onClick={() => navigate(link.link)}
