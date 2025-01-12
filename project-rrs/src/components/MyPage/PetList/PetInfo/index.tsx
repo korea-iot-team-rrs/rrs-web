@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { Pet } from '../../../../stores/petstore';
+import petDefaultImage from '../../../../assets/images/pet-default-profile.jpg' 
 
 export default function PetInfo() {
   const { petId } = useParams();
@@ -46,7 +47,7 @@ export default function PetInfo() {
   };
 
   const formatBirthDate = (birthDate: string) => {
-    if (birthDate && birthDate.length === 6) { // birthDate가 존재하고 길이가 6인 경우만 처리
+    if (birthDate && birthDate.length === 6) { 
       const year = birthDate.substring(0, 4);
       const month = birthDate.substring(4, 6);
       return `${year}년 ${month}월`;
@@ -63,7 +64,14 @@ export default function PetInfo() {
       <h2>{pet.petName} 정보 </h2>
       <div className='element'>
         <label>강아지 프로필 사진</label>
-        <img src={pet.petImageUrl} alt={`${pet.petName}의 사진`} />
+        <img 
+          src={pet.petImageUrl ? `http://localhost:4040/${pet.petImageUrl}` : petDefaultImage} 
+          alt={`${pet.petName}의 사진`} 
+          onError={(e) => {
+            const imgElement = e.target as HTMLImageElement;
+            imgElement.src = petDefaultImage;
+          }}
+        />
       </div>
 
       <div className='element'>

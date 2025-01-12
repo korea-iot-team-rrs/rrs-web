@@ -34,13 +34,11 @@ export default function PetCreate() {
     });
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    console.log("선택된 파일:", file);
-    if (file) {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
       setPet({
         ...pet,
-        petImageUrl: file, 
+        petImageUrl: e.target.files[0], 
       });
     }
   };
@@ -52,10 +50,9 @@ export default function PetCreate() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log('pet:', pet);
-
     // 유효성 검사
     const nameRegex = /^[가-힣]+$/;
+    const petImageUrlRegex = /.*\.(jpg|png|jpeg)$/;
 
     if (!pet.petName) {
       alert('반려 동물 이름을 입력해 주세요.')
@@ -84,7 +81,12 @@ export default function PetCreate() {
     }
 
     if (!pet.petImageUrl) {
-      pet.petImageUrl = 'default-image.jpg';
+      pet.petImageUrl = "/images/pet-default-profile.jpg";
+    }
+
+    if (pet.petImageUrl && pet.petImageUrl instanceof File && !petImageUrlRegex.test(pet.petImageUrl.name)) {
+      alert("프로필 사진은 jpg, jpeg, png 형식만 지원됩니다.");
+      return false;
     }
 
     const formData = new FormData();
@@ -95,11 +97,8 @@ export default function PetCreate() {
       formData.append('petAddInfo', pet.petAddInfo);
       formData.append('petNeutralityYn', pet.petNeutralityYn);
 
-      if (pet.petImageUrl) {
-        console.log("파일이 추가됩니다:", pet.petImageUrl); // 이 부분에서 petImageUrl이 제대로 설정되었는지 확인
-        formData.append('petImageUrl', pet.petImageUrl);
-      } else {
-        console.log("파일이 선택되지 않았습니다.");
+      if (!pet.petImageUrl || pet.petImageUrl === "") {
+        formData.append('petImageUrl', "pet-default-profile.jpg"); 
       }
 
       formData.forEach((value, key) => {
@@ -133,7 +132,7 @@ export default function PetCreate() {
           <input 
             type="file" 
             id='petImageUrl'
-            onChange={handleImageChange}
+            onChange={handleFileChange}
           />
         </div>
 
@@ -227,7 +226,6 @@ export default function PetCreate() {
         <button type='submit'>확인</button>
         <button type='button' onClick={goBack}>취소</button>
       </form>
-      
     </div>
   )
 }

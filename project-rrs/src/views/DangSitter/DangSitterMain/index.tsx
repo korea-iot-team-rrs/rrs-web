@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Stack, Typography } from "@mui/material";
 import { AntSwitch } from "../../../styles/dangSitter/DangSitterCommon";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "../../../styles/dangSitter/DangSitterMain.css";
 import { TfiArrowTopRight } from "react-icons/tfi";
 export default function DangSitterMain() {
@@ -39,7 +39,9 @@ export default function DangSitterMain() {
         <div
           className="dang-sitter-container01"
           onClick={() =>
-            navigate(toggleChecked ? "/" : "/users/dang-sitter/reservations/write")
+            navigate(toggleChecked 
+              ? `/users/dang-sitter/provider/profile`
+              : "/users/dang-sitter/reservations/write")
           }
         >
           <h2 className="reservation-title">

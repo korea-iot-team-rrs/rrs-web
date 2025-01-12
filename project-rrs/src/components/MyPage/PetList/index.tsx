@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import usePetStore, { Pet } from "../../../stores/petstore";
 import '../../../styles/Pet.css'
 import axios from "axios";
+import petDefaultImage from '../../../assets/images/pet-default-profile.jpg'
 
 export default function PetList() {
   const [pets, setPets] = useState<any[]>([]);
@@ -92,7 +93,14 @@ export default function PetList() {
       {pets.length > 0 &&
         pets.map((pet, index) => (
           <div key={index} className="petListBox">
-            <img src={pet.petImageUrl} alt={`${pet.petName}의 사진`} />
+            <img 
+              src={pet.petImageUrl ? `http://localhost:4040/${pet.petImageUrl}` : petDefaultImage} 
+              alt={`${pet.petName}의 사진`} 
+              onError={(e) => {
+                const imgElement = e.target as HTMLImageElement;
+                imgElement.src = petDefaultImage;
+          }}
+        />
             <p>{pet.petName}</p>
             <button className="toggle-btn" onClick={() => handleToggle(index)}>...</button>
 
