@@ -6,6 +6,9 @@
   background: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  height: 550px;
+  overflow-y: auto;
+  
 }
 
 .health-record-update-container h1 {
@@ -17,6 +20,7 @@
 
 .health-record-form-group {
   margin-bottom: 15px;
+  height: 800px;
 }
 
 .health-record-form-group label {

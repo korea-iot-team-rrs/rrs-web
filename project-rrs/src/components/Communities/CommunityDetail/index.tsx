@@ -174,43 +174,78 @@ export default function CommunityDetail() {
       <div>
         {community ? (
           <div className="community-content-box">
-            <h2 className="community-detail-header">
-              {community.communityTitle}
-            </h2>
-            <div className="community-detail-meta">
-              <p className="community-detail-author">
-                작성자: {community.nickname}
-              </p>
-              {isAuthor && (
-                <div className="author-actions">
-                  <button onClick={handleEdit} className="edit-button">
-                    수정
-                  </button>
+            {/* 제목과 첨부파일을 같은 줄에 배치 */}
+            <div className="community-title-row">
+              <h2 className="community-detail-header">
+                {community.communityTitle}
+              </h2>
+              {community.attachments && community.attachments.length > 0 && (
+                <div className="attachments-dropdown">
                   <button
-                    onClick={() => setIsModalOpen(true)}
-                    className="delete-button"
+                    className="dropdown-button"
+                    onClick={() =>
+                      setAttachmentsVisible(!attachmentsVisible)
+                    }
                   >
-                    삭제
+                    {attachmentsVisible
+                      ? "첨부 파일 숨기기 ▲"
+                      : "첨부 파일 보기 ▼"}
                   </button>
+                  {attachmentsVisible && (
+                    <div className="dropdown-content">
+                      {community.attachments.map((attachment, index) => (
+                        <a
+                          key={index}
+                          href={attachment.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {attachment.name}
+                        </a>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
-            <div className="community-sub-header-box">
-              <div className="community-detail-date">
-                작성일: {community.communityCreatedAt.toLocaleString("ko-KR")}
-              </div>
-              <div className="community-detail-likecount">
-                <FaHeart color={userLiked ? "red" : "gray"} size={20} />
-                <span className="like-count-number">{likeCount}</span>
-                <FaThumbsUp
-                  color={userLiked ? "black" : "gray"}
-                  size={20}
-                  onClick={handleToggleLike}
-                  style={{ cursor: "pointer" }}
-                />
+
+            {/* 작성일, 좋아요 버튼, 수정/삭제 버튼을 한 줄에 배치 */}
+            <div className="community-detail-meta-row">
+              <p className="community-detail-author">
+                작성자: {community.nickname}
+              </p>
+              <div className="community-sub-actions">
+                <span className="community-detail-date">
+                  작성일: {community.communityCreatedAt.toLocaleString("ko-KR")}
+                </span>
+                <div className="community-detail-likecount">
+                  <FaHeart color={userLiked ? "red" : "gray"} size={20} />
+                  <span className="like-count-number">{likeCount}</span>
+                  <FaThumbsUp
+                    color={userLiked ? "black" : "gray"}
+                    size={20}
+                    onClick={handleToggleLike}
+                    style={{ cursor: "pointer" }}
+                  />
+                </div>
+                {isAuthor && (
+                  <div className="author-actions">
+                    <button onClick={handleEdit} className="community-detail-edit-button">
+                      수정
+                    </button>
+                    <button
+                      onClick={() => setIsModalOpen(true)}
+                      className="community-detail-delete-button"
+                    >
+                      삭제
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
             <hr />
+
+            {/* 본문 및 기타 */}
             <img
               src={community.communityThumbnailFile || DefaultImage}
               alt="Thumbnail"
@@ -220,32 +255,6 @@ export default function CommunityDetail() {
             <p className="community-detail-content">
               {community.communityContent}
             </p>
-            {community.attachments && community.attachments.length > 0 && (
-              <div className="attachments-dropdown">
-                <button
-                  className="dropdown-button"
-                  onClick={() => setAttachmentsVisible(!attachmentsVisible)}
-                >
-                  {attachmentsVisible
-                    ? "첨부 파일 숨기기 ▲"
-                    : "첨부 파일 보기 ▼"}
-                </button>
-                {attachmentsVisible && (
-                  <div className="dropdown-content">
-                    {community.attachments.map((attachment, index) => (
-                      <a
-                        key={index}
-                        href={attachment.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {attachment.name}
-                      </a>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
             {token && (
               <CommentsSection
                 communityId={community.communityId}

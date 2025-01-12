@@ -13,6 +13,7 @@ import {
   getAllHealthRecords,
   deleteHealthRecord,
 } from "../../../../apis/petHealthApi";
+import "../../../../styles/pethealthRecord/pethealthRecordList.css";
 
 export default function PetDiaryHealthRecord({
   selectedDate: initialSelectedDate,
@@ -44,7 +45,6 @@ export default function PetDiaryHealthRecord({
 
     try {
       const records = await getAllHealthRecords(selectedPet.petId);
-      console.log(records)
       setHealthRecords(
         records.filter((record) => record.createdAt.startsWith(selectedDate))
       );
@@ -172,9 +172,7 @@ export default function PetDiaryHealthRecord({
             ) : (
               <div>
                 <p>등록된 반려 동물이 없습니다.</p>
-                <button onClick={() => navigate("/user/pet-create")}>
-                  반려 동물 등록
-                </button>
+                <button onClick={() => navigate("/user/pet-create")}>반려 동물 등록</button>
               </div>
             )}
           </div>
@@ -209,8 +207,8 @@ export default function PetDiaryHealthRecord({
                       onClick={() => handleRecordClick(record)}
                       style={{ cursor: "pointer" }}
                     >
-                      <p>증상: {record.abnormalSymptoms}</p>
-                      {record.memo && <p>메모: {record.memo}</p>}
+                      <p className="limitedText">증상: {record.abnormalSymptoms}</p>
+                      {record.memo && <p className="limitedText">메모: {record.memo}</p>}
                     </div>
                     <div className="petHealthRecordButtons">
                       <button

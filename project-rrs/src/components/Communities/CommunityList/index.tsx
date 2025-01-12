@@ -185,7 +185,6 @@ export default function CommunityList() {
                       : DefaultImage
                   }
                   alt={truncateText(data.title, 15)}
-                  style={{ width: "100%", height: "auto" }}
                 />
               </div>
               <p className="community-card-content">
@@ -215,6 +214,7 @@ export default function CommunityList() {
           handlePreSectionClick={handlePreSectionClick}
           handleNextSectionClick={handleNextSectionClick}
         />
+        
       </div>
     </div>
   );

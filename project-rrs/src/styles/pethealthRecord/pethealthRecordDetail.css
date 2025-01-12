@@ -1,106 +1,127 @@
 /* HealthRecordDetail 화면 */
-.health-record-detail-container {
-  max-width: 600px;
-  margin: 0 auto;
+.healthRecordGetContainer {
+  max-width: 800px;
+  margin: 20px auto;
   padding: 20px;
-  background: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.health-record-detail-container h1 {
-  text-align: center;
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
-  font-size: 1.8em;
+}
+
+.header h2 {
+  font-size: 2em;
   color: #333;
+  margin: 0;
 }
 
-.health-record-detail-form-group {
-  margin-bottom: 15px;
-}
-
-.health-record-detail-form-group label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #555;
-}
-
-.health-record-detail-form-group input,
-.health-record-detail-form-group textarea,
-.health-record-detail-form-group select {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.goBackButton {
+  padding: 10px 16px;
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 8px;
   font-size: 1em;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
-textarea {
-  resize: vertical;
-  min-height: 80px;
+.goBackButton:hover {
+  background: #e53935;
 }
 
-.health-record-detail-file-list {
+.topSection {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.petImageContainer {
+  width: 200px;
+  height: 200px;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.petImage {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+.basicInfo {
+  text-align: left;
+}
+
+.basicInfo p {
+  margin: 10px 0;
+  font-size: 1.25em;
+  color: #555;
+  line-height: 1.5;
+}
+
+.bottomSection {
+  margin-top: 20px;
+}
+
+.belowImageDetails {
+  text-align: left;
+  margin: 10px 0;
+}
+
+.belowImageDetails p {
+  margin: 10px 0;
+  font-size: 1.25em;
+  color: #555;
+  line-height: 1.5;
+  white-space: pre-line; /* 줄바꿈 처리 */
+}
+
+.attachmentSection {
+  margin-top: 20px;
+}
+
+.attachmentSection strong {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 1.1em;
+}
+
+.attachmentSection ul {
   list-style-type: none;
   padding: 0;
 }
 
-.health-record-detail-file-list li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.attachmentSection li {
   padding: 5px 0;
+  font-size: 0.9em;
+  color: #333;
   border-bottom: 1px solid #e0e0e0;
 }
 
-.health-record-detail-file-list li span {
-  flex: 1;
-  font-size: 0.9em;
+.attachmentSection li:last-child {
+  border-bottom: none;
 }
 
-.health-record-detail-icon-button {
-  cursor: pointer;
-  color: #d32f2f;
-  font-size: 1.2em;
+.attachmentLink {
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
 
-.health-record-detail-button-group {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 20px;
-}
-
-button[type="submit"] {
-  background: #007bff;
-  color: white;
-}
-
-button.health-record-detail-cancel-button {
-  background: #f44336;
-  color: white;
-}
-
-button:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-}
-
-button:hover:not(:disabled) {
-  opacity: 0.9;
-}
-
-.healthRecordDetailLoadingMessage,
-.healthRecordDetailErrorMessage {
-  font-size: 14px;
-  text-align: center;
-}
-
-.healthRecordDetailLoadingMessage {
-  color: #2194FF;
-}
-
-.healthRecordDetailErrorMessage {
-  color: red;
+.attachmentLink:hover {
+  color: #0056b3;
+  text-decoration: underline;
 }

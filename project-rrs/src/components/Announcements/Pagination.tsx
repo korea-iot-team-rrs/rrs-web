@@ -18,7 +18,7 @@ const paginationBoxStyle = css`
   gap: 24px;
 `;
 
-const buttonStyle = css`
+const paginationbuttonStyle = css`
   width: 40px;
   height: 40px;
   display: flex;
@@ -65,7 +65,7 @@ export default function Pagination({
   return (
     <div css={paginationBoxStyle}>
       <button
-        css={buttonStyle}
+        css={paginationbuttonStyle}
         onClick={handlePreSectionClick}
         disabled={currentPage === 1}
       >
@@ -85,7 +85,7 @@ export default function Pagination({
       </div>
 
       <button
-        css={buttonStyle}
+        css={paginationbuttonStyle}
         onClick={handleNextSectionClick}
         disabled={currentPage === pageList.length}
       >

@@ -8,6 +8,7 @@ import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Pet } from "../../../../../types";
 import { HealthRecordResponse } from "../../../../../types/petHealthType";
+import "../../../../../styles/pethealthRecord/pethealthRecordUpdate.css"
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const MAX_FILE_COUNT = 5;
@@ -19,9 +20,8 @@ const ErrorMessages = {
   UPDATE_FAILED: "건강 기록을 업데이트하는 중 오류가 발생했습니다.",
 };
 
-// UUID 제거 유틸리티 함수
 const removeUUIDFromFileName = (fileName: string): string => {
-  return fileName.replace(/^[a-f0-9-]{36}_/, ""); // UUID 형식을 제거
+  return fileName.replace(/^[a-f0-9-]{36}_/, "");
 };
 
 interface HealthRecordUpdateProps {
@@ -118,6 +118,16 @@ const HealthRecordUpdate = ({
     }
   };
 
+  const handleRemoveAllExistingAttachments = async () => {
+    try {
+      await healthRecordAttachmentApi.deleteAttachmentsByHealthRecordId(healthRecordId);
+      setExistingAttachments([]);
+    } catch (error) {
+      console.error("첨부파일 전체 삭제에 실패했습니다:", error);
+      alert("첨부파일 전체 삭제에 실패했습니다.");
+    }
+  };
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setHealthRecord((prev) => (prev ? { ...prev, [name]: value } : null));
@@ -168,7 +178,7 @@ const HealthRecordUpdate = ({
   return (
     <div className="health-record-update-container">
       <h1>건강 기록 수정</h1>
-      <form onSubmit={handleSubmit}>
+      <form className="form-box" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="weight">몸무게 (kg)</label>
           <input
@@ -223,6 +233,11 @@ const HealthRecordUpdate = ({
               </li>
             ))}
           </ul>
+          {existingAttachments.length > 0 && (
+            <button type="button" onClick={handleRemoveAllExistingAttachments}>
+              <DeleteIcon /> 전체 삭제
+            </button>
+          )}
         </div>
         <div className="form-group">
           <label htmlFor="attachments">새 첨부 파일</label>

@@ -1,10 +1,143 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
-  margin: 0;
-  padding: 0;
+/* HealthRecordUpdate 화면 */
+.health-record-update-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.health-record-update-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8em;
+  color: #333;
+}
+
+.health-record-form-group {
+  margin-bottom: 15px;
+}
+
+.health-record-form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.health-record-form-group input,
+.health-record-form-group textarea,
+.health-record-form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.health-record-file-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.health-record-file-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.health-record-file-list li span {
+  flex: 1;
+  font-size: 0.9em;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.health-record-icon-button {
+  cursor: pointer;
+  color: #e3342f;
+  font-size: 1.2em;
+  transition: color 0.3s ease;
+}
+
+.health-record-icon-button:hover {
+  color: #cc1f1a;
+}
+
+.health-record-button-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+button[type="submit"] {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+button.health-record-cancel-button {
+  background: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button.health-record-cancel-button:hover {
+  background: #c62828;
+}
+
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.petHealthLoadingMessage,
+.petHealthErrorMessage {
+  font-size: 14px;
+  text-align: center;
+}
+
+.petHealthLoadingMessage {
+  color: #2194FF;
+}
+
+.petHealthErrorMessage {
+  color: red;
+}
+
+/* Community Edit 화면 */
 .community-edit-container {
   max-width: 800px;
   margin: 40px auto;
@@ -42,8 +175,8 @@ input[type="file"] {
 }
 
 textarea {
-  width: 100%; /* 가로 크기를 컨테이너에 맞춤 */
-  height: 200px; /* 고정 높이 설정 */
+  width: 100%;
+  height: 200px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -68,23 +201,33 @@ textarea {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 8px 10px;
   margin-bottom: 8px;
-  padding: 5px 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  background-color: #f9f9f9;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.file-item span {
+  flex: 1;
+  font-size: 0.9em;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .file-remove-button {
-  background-color: #e3342f;
-  color: #fff;
   border: none;
   padding: 5px 10px;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .file-remove-button:hover {
-  background-color: #cc1f1a;
+  background-color: rgb(0, 0, 0.5);
 }
 
 .button-group {
@@ -128,15 +271,15 @@ button[type="submit"]:hover {
 }
 
 .custom-file-input {
-  color: transparent; /* 기본 텍스트 숨김 */
+  color: transparent;
 }
 
 .custom-file-input::file-selector-button {
-  color: black; /* 선택 버튼 스타일 조정 */
+  color: black;
 }
 
 .custom-file-input::after {
-  content: "파일을 선택해주세요"; /* 기본 텍스트 */
+  content: "파일을 선택해주세요";
   color: #666;
 }
 

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { getHealthRecordById } from "../../../../../apis/petHealthApi";
 import { fetchAttachmentsByHealthRecordId } from "../../../../../apis/healthRecordAttachment";
-import "../../../../../styles/PetHealthRecord.css";
+import "../../../../../styles/pethealthRecord/pethealthRecordDetail.css";
 import { HealthRecordResponse } from "../../../../../types/petHealthType";
 
 const BASE_FILE_URL = "http://localhost:4040/"; // 파일 URL 기본 경로
 
 interface HealthRecordGetProps {
-  selectedPet: { petId: number; petName: string } | null;
+  selectedPet: { petId: number; petName: string; petImageUrl?: string } | null;
   healthRecordId: number;
   goBack: () => void;
   selectedDate: string;
@@ -76,54 +76,75 @@ export default function HealthRecordGet({
 
   return (
     <div className="healthRecordGetContainer">
-      <h2>건강 기록 상세 정보</h2>
-      {healthRecord ? (
-        <>
+      <div className="header">
+        <h2>건강 기록 상세 정보</h2>
+        <button onClick={goBack} className="goBackButton">
+          뒤로 가기
+        </button>
+      </div>
+      <div className="topSection">
+        {selectedPet.petImageUrl && (
+          <div className="petImageContainer">
+            <img
+              src={selectedPet.petImageUrl}
+              alt={`${selectedPet.petName}의 사진`}
+              className="petImage"
+            />
+          </div>
+        )}
+        <div className="basicInfo">
           <p>
-            <strong>반려 동물:</strong> {selectedPet.petName}
+            <strong>반려동물:</strong> {selectedPet.petName}
           </p>
           <p>
             <strong>날짜:</strong>{" "}
-            {new Date(healthRecord.createdAt).toLocaleDateString()}
+            {new Date(healthRecord?.createdAt || selectedDate).toLocaleDateString()}
           </p>
           <p>
-            <strong>이상 증상:</strong> {healthRecord.abnormalSymptoms}
+            <strong>체중:</strong> {healthRecord?.weight || "-"} kg
           </p>
           <p>
-            <strong>체중:</strong> {healthRecord.weight} kg
+            <strong>반려동물 나이:</strong> {healthRecord?.petAge || "-"} 세
           </p>
+        </div>
+      </div>
+      <div className="bottomSection">
+        <div className="belowImageDetails">
           <p>
-            <strong>반려동물 나이:</strong> {healthRecord.petAge} 세
+            <strong>이상 증상:</strong> {healthRecord?.abnormalSymptoms || "-"}
           </p>
-          {healthRecord.memo && (
+          {healthRecord?.memo && (
             <p>
               <strong>메모:</strong> {healthRecord.memo}
             </p>
           )}
-          {existingAttachments.length > 0 && (
-            <div>
-              <strong>첨부 파일:</strong>
-              <ul>
-                {existingAttachments.map((filePath, index) => {
-                  const fileNameWithUuid = filePath.split("/").pop(); // 파일 경로에서 파일 이름 추출
-                  const fileName = fileNameWithUuid
-                    ? fileNameWithUuid.replace(
-                        /^[0-9a-fA-F-]{36}_/, // UUID와 뒤에 붙는 언더스코어 제거
-                        ""
-                      )
-                    : "Unknown File";
-                  return <li key={index}>{fileName}</li>;
-                })}
-              </ul>
-            </div>
-          )}
-        </>
-      ) : (
-        <p>건강 기록을 찾을 수 없습니다.</p>
+        </div>
+      </div>
+      {existingAttachments.length > 0 && (
+        <div className="attachmentSection">
+          <strong>첨부 파일:</strong>
+          <ul>
+            {existingAttachments.map((filePath, index) => {
+              const fileNameWithUuid = filePath.split("/").pop();
+              const fileName = fileNameWithUuid
+                ? fileNameWithUuid.replace(/^[0-9a-fA-F-]{36}_/, "")
+                : "Unknown File";
+              return (
+                <li key={index}>
+                  <a
+                    href={`${BASE_FILE_URL}${filePath}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="attachmentLink"
+                  >
+                    {fileName}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       )}
-      <button onClick={goBack} className="goBackButton">
-        뒤로 가기
-      </button>
     </div>
   );
 }
