@@ -7,13 +7,16 @@ interface ReservationUserInfoProps {
   user: User;
 }
 const formatPhoneNumber = (phone: string) => {
-  if (!phone) return '';
-  const cleanPhone = phone.replace(/[^0-9]/g, ''); // 숫자만 추출
+  if (!phone) return "";
+  const cleanPhone = phone.replace(/[^0-9]/g, ""); // 숫자만 추출
   if (cleanPhone.length <= 3) return cleanPhone;
   if (cleanPhone.length <= 7) {
     return `${cleanPhone.slice(0, 3)}-${cleanPhone.slice(3)}`;
   }
-  return `${cleanPhone.slice(0, 3)}-${cleanPhone.slice(3, 7)}-${cleanPhone.slice(7)}`;
+  return `${cleanPhone.slice(0, 3)}-${cleanPhone.slice(
+    3,
+    7
+  )}-${cleanPhone.slice(7)}`;
 };
 
 export default function ReservationUserInfo({
@@ -38,13 +41,13 @@ export default function ReservationUserInfo({
                 {pets.length > 0 ? (
                   pets.map((pet) => (
                     <div key={pet.petId} className="pet-info">
-                        <img
-                          src={`http://localhost:4040/${
-                            pet.petImageUrl || "file/default-profile.jpg"
-                          }`}
-                          alt="프로필 이미지"
-                        />
-                        <p>{pet.petName}</p>
+                      <img
+                        src={`http://localhost:4040/${
+                          pet.petImageUrl || "file/default-profile.jpg"
+                        }`}
+                        alt="프로필 이미지"
+                      />
+                      <p>{pet.petName}</p>
                     </div>
                   ))
                 ) : (

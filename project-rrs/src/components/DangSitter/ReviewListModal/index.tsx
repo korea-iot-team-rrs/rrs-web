@@ -75,8 +75,15 @@ export default function ReviewListModal({
             className="review-list-container"
           >
             {reviews.map((review, index) => (
-              <Grid size={6} key={index} sx={{border: "1px solid #e6e6e6", borderRadius: "15px", padding:"10px"}}>
-                
+              <Grid
+                size={6}
+                key={index}
+                sx={{
+                  border: "1px solid #e6e6e6",
+                  borderRadius: "15px",
+                  padding: "10px",
+                }}
+              >
                 <div className="review-item">
                   <div className="review-item-header">
                     <div>
