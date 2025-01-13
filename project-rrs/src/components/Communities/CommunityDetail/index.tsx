@@ -183,9 +183,7 @@ export default function CommunityDetail() {
                 <div className="attachments-dropdown">
                   <button
                     className="dropdown-button"
-                    onClick={() =>
-                      setAttachmentsVisible(!attachmentsVisible)
-                    }
+                    onClick={() => setAttachmentsVisible(!attachmentsVisible)}
                   >
                     {attachmentsVisible
                       ? "첨부 파일 숨기기 ▲"
@@ -230,7 +228,10 @@ export default function CommunityDetail() {
                 </div>
                 {isAuthor && (
                   <div className="author-actions">
-                    <button onClick={handleEdit} className="community-detail-edit-button">
+                    <button
+                      onClick={handleEdit}
+                      className="community-detail-edit-button"
+                    >
                       수정
                     </button>
                     <button

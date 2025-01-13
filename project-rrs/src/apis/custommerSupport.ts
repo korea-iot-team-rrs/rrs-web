@@ -78,17 +78,17 @@ export const updateCustomerSupport = async (
     throw new Error("Authentication token is required");
   }
 
-    const response = await axios.put(
-      `http://localhost:4040/api/v1/customer-supports/${customerSupportId}`,
-      formData,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    console.log("Update successful:", response.data);
-    return response.data;
+  const response = await axios.put(
+    `http://localhost:4040/api/v1/customer-supports/${customerSupportId}`,
+    formData,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  console.log("Update successful:", response.data);
+  return response.data;
 };
 
 export const deleteCustomerSupport = async (

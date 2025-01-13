@@ -1,145 +1,554 @@
-import React, { useState } from 'react'
-import { UserSignUp } from '../../../types/AuthType'
-import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { MAIN_URL, SIGN_UP } from '../../../constants';
+import React, { useState } from "react";
+import { UserSignUp } from "../../../types/AuthType";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import '../../../styles/Signup.css';
 
-interface Errors {
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
-  form?: string; // 전체 폼 오류 메시지 (EX: 서버 오류 등)
+const API_BASE_URL = "http://localhost:4040/api/v1/auth";
+
+const ENDPOINTS = {
+  DUPLICATE_USERNAME: "/duplicate-username",
+  DUPLICATE_NICKNAME: "/duplicate-nickname",
+  DUPLICATE_PHONE: "/duplicate-phone",
+  DUPLICATE_EMAIL: "/duplicate-email",
+};
+
+const axiosInstance = axios.create({
+  baseURL: API_BASE_URL,
+  timeout: 5000,
+});
+
+interface DuplicateCheckResponse {
+  result: boolean;
+  data: {
+    duplicate: boolean;
+  };
 }
 
-const API_URL = process.env.REACT_APP_API_URL;
+const handleError = (error: unknown) => {
+  if (axios.isAxiosError(error)) {
+    return error.response?.data || error.message;
+  }
+  return String(error);
+};
+
+const checkUsernameDuplicate = async (
+  username: string
+): Promise<DuplicateCheckResponse> => {
+  try {
+    const response = await axiosInstance.get<DuplicateCheckResponse>(
+      ENDPOINTS.DUPLICATE_USERNAME,
+      {
+        params: { username },
+      }
+    );
+    return response.data;
+  } catch (error: unknown) {
+    console.error("Error checking username duplicate:", handleError(error));
+    return { result: false, data: { duplicate: true } };
+  }
+};
+
+const checkNicknameDuplicate = async (
+  nickname: string
+): Promise<DuplicateCheckResponse> => {
+  try {
+    const response = await axiosInstance.get<DuplicateCheckResponse>(
+      ENDPOINTS.DUPLICATE_NICKNAME,
+      {
+        params: { nickname },
+      }
+    );
+    return response.data;
+  } catch (error: unknown) {
+    console.error("Error checking nickname duplicate:", handleError(error));
+    return { result: false, data: { duplicate: true } };
+  }
+};
+
+const checkPhoneDuplicate = async (
+  phone: string
+): Promise<DuplicateCheckResponse> => {
+  try {
+    const response = await axiosInstance.get<DuplicateCheckResponse>(
+      ENDPOINTS.DUPLICATE_PHONE,
+      {
+        params: { phone },
+      }
+    );
+    return response.data;
+  } catch (error: unknown) {
+    console.error("Error checking phone duplicate:", handleError(error));
+    return { result: false, data: { duplicate: true } };
+  }
+};
+
+const checkEmailDuplicate = async (
+  email: string
+): Promise<DuplicateCheckResponse> => {
+  try {
+    const response = await axiosInstance.get<DuplicateCheckResponse>(
+      ENDPOINTS.DUPLICATE_EMAIL,
+      {
+        params: { email },
+      }
+    );
+    return response.data;
+  } catch (error: unknown) {
+    console.error("Error checking email duplicate:", handleError(error));
+    return { result: false, data: { duplicate: true } };
+  }
+};
 
 export default function RrsSignUp() {
   const navigate = useNavigate();
-  
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const snsId = params.get("snsId");
   const joinPath = params.get("joinPath");
 
-
-  const [errors, setErrors] = useState<Errors>({});
-
-  const [ userInfo , setUserInfo ] = useState<UserSignUp>({
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [userInfo, setUserInfo] = useState<UserSignUp>({
     profileImageUrl: "",
     username: "",
-    password:"",
+    password: "",
     comfirmPassword: "",
     name: "",
     nickname: "",
     address: "",
     addressDetail: "",
     email: "",
-    phone: ""
-  })
+    phone: "",
+  });
+  const [emailDomain, setEmailDomain] = useState("custom");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const element = e.target;
+    const { name, value } = e.target;
+    setUserInfo((prev) => {
+      const updatedInfo = { ...prev, [name]: value };
 
-    setUserInfo({
-      ...userInfo,
-      [element.name]: element.value
-    })
+      if (name === "password") {
+        if (
+          !/^(?=.*\d)(?=.*[!@#$%^&*()_\-+=])[A-Za-z\d!@#$%^&*()_\-+=]{8,15}$/.test(
+            value
+          )
+        ) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            password:
+              "비밀번호는 8~15자이며 숫자와 특수문자를 포함해야 합니다.",
+          }));
+        } else {
+          setErrors((prevErrors) => {
+            const { password, ...rest } = prevErrors;
+            return rest;
+          });
+        }
+      }
+
+      if (name === "comfirmPassword") {
+        if (value !== updatedInfo.password) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            comfirmPassword: "비밀번호가 일치하지 않습니다.",
+          }));
+        } else {
+          setErrors((prevErrors) => {
+            const { comfirmPassword, ...rest } = prevErrors;
+            return rest;
+          });
+        }
+      }
+
+      return updatedInfo;
+    });
   };
 
-  const handleSignUp = async() => {
-    const isValidation = validateForm();
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setUserInfo((prev) => ({ ...prev, email: value }));
 
-    if (isValidation) {
+    if (emailDomain === "custom") {
+      if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(value)) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          email: "유효한 이메일 주소를 입력하세요.",
+        }));
+      } else {
+        setErrors((prevErrors) => {
+          const { email, ...rest } = prevErrors;
+          return rest;
+        });
+      }
+    }
+  };
+
+  const handleEmailDomainChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = e.target;
+    setEmailDomain(value);
+    if (value === "custom") {
+      setUserInfo((prev) => ({
+        ...prev,
+        email: prev.email.split("@")[0] + "@",
+      }));
+    } else {
+      setUserInfo((prev) => ({
+        ...prev,
+        email: prev.email.split("@")[0] + "@" + value,
+      }));
+
+      setErrors((prevErrors) => {
+        const { email, ...rest } = prevErrors;
+        return rest;
+      });
+    }
+  };
+
+  const handleAddressSearch = () => {
+    new (window as any).daum.Postcode({
+      oncomplete: function (data: any) {
+        setUserInfo((prev) => ({
+          ...prev,
+          address: data.address,
+        }));
+      },
+    }).open();
+  };
+
+  const validateField = (field: string): boolean => {
+    switch (field) {
+      case "username":
+        return /^[a-zA-Z0-9]{5,15}$/.test(userInfo.username);
+      case "name":
+        return (
+          /^[가-힣]{2,10}$/.test(userInfo.name) &&
+          !/(.)\1{2,}/.test(userInfo.name)
+        );
+      case "nickname":
+        return /^[a-zA-Z0-9가-힣]{2,10}$/.test(userInfo.nickname);
+      case "email":
+        return /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(
+          userInfo.email
+        );
+      case "phone":
+        return /^[0-9]{11}$/.test(userInfo.phone);
+      default:
+        return true;
+    }
+  };
+
+  const handleDuplicateCheck = async (field: string) => {
+    if (!validateField(field)) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [field]: "입력값이 올바르지 않습니다.",
+      }));
+      return;
+    }
+
+    try {
+      let response: DuplicateCheckResponse;
+      let message = "";
+      switch (field) {
+        case "username":
+          response = await checkUsernameDuplicate(userInfo.username);
+          message = response.data.duplicate
+            ? "이미 등록된 아이디입니다."
+            : "사용 가능한 아이디입니다.";
+          break;
+        case "nickname":
+          response = await checkNicknameDuplicate(userInfo.nickname);
+          message = response.data.duplicate
+            ? "이미 등록된 닉네임입니다."
+            : "사용 가능한 닉네임입니다.";
+          break;
+        case "email":
+          response = await checkEmailDuplicate(userInfo.email);
+          message = response.data.duplicate
+            ? "이미 등록된 이메일입니다."
+            : "사용 가능한 이메일입니다.";
+          break;
+        case "phone":
+          response = await checkPhoneDuplicate(userInfo.phone);
+          message = response.data.duplicate
+            ? "이미 등록된 연락처입니다."
+            : "사용 가능한 연락처입니다.";
+          break;
+        default:
+          return;
+      }
+
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [field]: message,
+      }));
+    } catch (error) {
+      console.error("Error during duplicate check:", handleError(error));
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [field]: "중복 확인 중 오류가 발생했습니다.",
+      }));
+    }
+  };
+
+  const handleSignUp = async () => {
+    const isValid = validateForm();
+
+    if (isValid) {
       try {
-        // 서버에 회원가입 요청 (POST 메서드)
-        const response = await axios.post(MAIN_URL + SIGN_UP, userInfo);
-
+        const response = await axios.post(`${API_BASE_URL}/signup`, userInfo);
         if (response.data) {
-          navigate('/');
+          navigate("/");
         } else {
-          setErrors(prev => ({
+          setErrors((prev) => ({
             ...prev,
-            form: '회원가입에 실패했습니다.'
+            form: "회원가입에 실패했습니다.",
           }));
         }
-
       } catch {
-        setErrors(prev => ({
+        setErrors((prev) => ({
           ...prev,
-          form: '서버 에러가 발생하였습니다.'
+          form: "서버 에러가 발생하였습니다.",
         }));
       }
     }
-  }
+  };
 
-    // 폼 유효성 검사 함수 //
-    const validateForm = () => {
-      // 임시 오류 객체 생성
-      let tempErrors: Errors = {};
+  const validateForm = () => {
+    const tempErrors: { [key: string]: string } = {};
 
-      tempErrors.email = userInfo.email ? '' : '이메일을 입력하세요.';
-      tempErrors.password = userInfo.password.length >= 8 
-        ? ''
-        : '비밀번호는 8자 이상이어야 합니다.';
-      tempErrors.confirmPassword 
-        = userInfo.comfirmPassword === userInfo.password
-          ? ''
-          : '비밀번호가 일치하지 않습니다.';
+    if (!userInfo.username || !/^[a-zA-Z0-9]{5,15}$/.test(userInfo.username))
+      tempErrors.username = "아이디는 영문 및 숫자로 5~15자이어야 합니다.";
 
-      setErrors(tempErrors);
+    if (
+      !userInfo.name ||
+      !/^[가-힣]{2,10}$/.test(userInfo.name) ||
+      /(.)(?=\1\1)/.test(userInfo.name)
+    )
+      tempErrors.name =
+        "이름은 한글로 2~10자 이내이어야 하며, 반복된 문자는 허용되지 않습니다.";
 
-      return Object.values(tempErrors).every(x => x === '');
-  }
+    if (
+      !userInfo.nickname ||
+      !/^[a-zA-Z0-9가-힣]{2,10}$/.test(userInfo.nickname)
+    )
+      tempErrors.nickname = "닉네임은 2~10자 이내로 입력하세요.";
 
-  return <>
-        <div>
-            <div>
-                <h1>회원가입</h1>
-                <div>
-                    <label htmlFor="">개인 프로필 사진</label>
-                    {userInfo.profileImageUrl && <img src={userInfo.profileImageUrl} alt="profile" />}
-                </div>
+    if (
+      !userInfo.email ||
+      !/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(userInfo.email)
+    )
+      tempErrors.email = "유효한 이메일 주소를 입력하세요.";
 
-                <form>
-                    <label htmlFor="id">아이디</label>
-                    <input type="text" id="username" name="username" placeholder="영문, 숫자 5 ~ 20자 이내 작성" />
-                    <button>중복확인</button>
-                    <br />
-                    <label htmlFor="password">비밀번호</label>
-                    <input type="password" id="password" name="password" />
-                    <br />
-                    <label htmlFor="comfirmPassword">비밀번호 확인</label>
-                    <input type="password" id="comfirmPassword" name="comfirmPassword" />
-                    <br />
-                    <label htmlFor="name">이름</label>
-                    <input type="text" id="name" name="name" placeholder="홍길동" />
-                    <br />
-                    <label htmlFor="nickname">닉네임</label>
-                    <input type="text" id="nickname" name="nickname" placeholder="닉네임을 입력해주세요 (2 ~ 10자)" />
-                    <button>중복확인</button>
-                    <br />
-                    <label htmlFor="address">주소</label>
-                    <input type="text" id="address" name="address" placeholder="주소 입력" />
-                    <button>주소검색</button>
-                    <br />
-                    <label htmlFor="addressDetail">상세주소</label>
-                    <input type="text" id="addressDetail" name="addressDetail" placeholder="상세 주소 입력" />
-                    <br />
-                    <label htmlFor="email">이메일</label>
-                    <input type="email" id="email" name="email" placeholder="example@domain.com" />
-                    <button>중복확인</button>
-                    <br />
-                    <label htmlFor="certifyNum">인증번호</label>
-                    <input type="number" id="certifyNum" name="certifyNum" placeholder="인증번호를 입력해주세요." />
-                    <button>인증하기기</button>
-                    <br />
-                    <label htmlFor="phone">연락처</label>
-                    <input type="number" id="phone" name="phone" placeholder="010-1111-1111" />
-                    <button>중복확인</button>
-                    <br />
-                    <button type="submit">완료</button>
-                </form>
-            </div>
-        </div>
-  </>
-} 
+    if (!userInfo.phone || !/^[0-9]{11}$/.test(userInfo.phone))
+      tempErrors.phone = "연락처는 11자리 숫자여야 합니다.";
+
+    if (!userInfo.password) tempErrors.password = "비밀번호를 입력하세요.";
+    else if (
+      !/^(?=.*\d)(?=.*[!@#$%^&*()_\-+=])[A-Za-z\d!@#$%^&*()_\-+=]{8,15}$/.test(
+        userInfo.password
+      )
+    )
+      tempErrors.password =
+        "비밀번호는 8~15자이며 숫자와 특수문자를 포함해야 합니다.";
+
+    if (userInfo.password !== userInfo.comfirmPassword)
+      tempErrors.comfirmPassword = "비밀번호가 일치하지 않습니다.";
+
+    if (!userInfo.address) tempErrors.address = "주소를 입력하세요.";
+
+    setErrors(tempErrors);
+
+    return Object.keys(tempErrors).length === 0;
+  };
+
+  return (
+    <div className="signup-main">
+      <h1>회원가입</h1>
+      <form>
+        <label htmlFor="username">아이디</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="영문, 숫자 5 ~ 15자 이내 작성"
+          onChange={handleInputChange}
+        />
+        <button
+          type="button"
+          onClick={() => handleDuplicateCheck("username")}
+          disabled={!validateField("username")}
+        >
+          중복확인
+        </button>
+        <p
+          style={{
+            color: errors.username?.includes("사용 가능") ? "green" : "red",
+          }}
+        >
+          {errors.username}
+        </p>
+
+        <label htmlFor="name">이름</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="이름을 입력하세요"
+          onChange={handleInputChange}
+        />
+        <p
+          style={{
+            color: errors.name?.includes("사용 가능") ? "green" : "red",
+          }}
+        >
+          {errors.name}
+        </p>
+
+        <label htmlFor="nickname">닉네임</label>
+        <input
+          type="text"
+          id="nickname"
+          name="nickname"
+          placeholder="닉네임을 입력해주세요 (2 ~ 10자)"
+          onChange={handleInputChange}
+        />
+        <button
+          type="button"
+          onClick={() => handleDuplicateCheck("nickname")}
+          disabled={!validateField("nickname")}
+        >
+          중복확인
+        </button>
+        <p
+          style={{
+            color: errors.nickname?.includes("사용 가능") ? "green" : "red",
+          }}
+        >
+          {errors.nickname}
+        </p>
+
+        <label htmlFor="email">이메일</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="example@domain.com"
+          onChange={handleEmailChange}
+        />
+        <select
+          name="emailDomain"
+          value={emailDomain}
+          onChange={handleEmailDomainChange}
+        >
+          <option value="custom">직접입력</option>
+          <option value="@gmail.com">@gmail.com</option>
+          <option value="@naver.com">@naver.com</option>
+          <option value="@daum.net">@daum.net</option>
+        </select>
+        <button
+          type="button"
+          onClick={() => handleDuplicateCheck("email")}
+          disabled={!validateField("email")}
+        >
+          중복확인
+        </button>
+        <p
+          style={{
+            color: errors.email?.includes("사용 가능") ? "green" : "red",
+          }}
+        >
+          {errors.email}
+        </p>
+
+        <label htmlFor="phone">연락처</label>
+        <input
+          type="text"
+          id="phone"
+          name="phone"
+          placeholder='01011111111 "-제외"'
+          onChange={handleInputChange}
+        />
+        <button
+          type="button"
+          onClick={() => handleDuplicateCheck("phone")}
+          disabled={!validateField("phone")}
+        >
+          중복확인
+        </button>
+        <p
+          style={{
+            color: errors.phone?.includes("사용 가능") ? "green" : "red",
+          }}
+        >
+          {errors.phone}
+        </p>
+
+        <label htmlFor="password">비밀번호</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="비밀번호를 입력하세요."
+          onChange={handleInputChange}
+        />
+        <p style={{ color: "red" }}>{errors.password}</p>
+
+        <label htmlFor="comfirmPassword">비밀번호 확인</label>
+        <input
+          type="password"
+          id="comfirmPassword"
+          name="comfirmPassword"
+          placeholder="비밀번호를 다시 입력하세요."
+          onChange={handleInputChange}
+        />
+        <p style={{ color: "red" }}>{errors.comfirmPassword}</p>
+
+        <label htmlFor="address">주소</label>
+        <input
+          type="text"
+          id="address"
+          name="address"
+          placeholder="주소 입력"
+          value={userInfo.address}
+          readOnly
+        />
+        <button type="button" onClick={handleAddressSearch}>
+          주소검색
+        </button>
+        <p
+          style={{
+            color: errors.address?.includes("사용 가능") ? "green" : "red",
+          }}
+        >
+          {errors.address}
+        </p>
+
+        <label htmlFor="addressDetail">상세주소</label>
+        <input
+          type="text"
+          id="addressDetail"
+          name="addressDetail"
+          placeholder="상세 주소 입력"
+          onChange={handleInputChange}
+        />
+
+        <label htmlFor="certifyNum">인증번호</label>
+        <input
+          type="number"
+          id="certifyNum"
+          name="certifyNum"
+          placeholder="인증번호를 입력해주세요."
+          onChange={handleInputChange}
+        />
+        <button type="button">인증하기</button>
+
+        <button type="button" onClick={handleSignUp}>
+          완료
+        </button>
+        <p style={{ color: "red" }}>{errors.form}</p>
+      </form>
+    </div>
+  );
+}
+

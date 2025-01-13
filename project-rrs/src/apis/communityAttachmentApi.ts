@@ -21,7 +21,9 @@ export const fetchAttachmentsByCommunityId = async (
     }
 
     const response = await axios.get<
-      CommunityApiResponse<Array<{ attachmentId: number; communityAttachmentFile: string }>>
+      CommunityApiResponse<
+        Array<{ attachmentId: number; communityAttachmentFile: string }>
+      >
     >(`${API_BASE_URL}/community/${communityId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
