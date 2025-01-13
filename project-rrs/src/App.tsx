@@ -36,6 +36,7 @@ import CustomerSupportUpdate from "./views/CustomerSupport/CustomerSupportUpdate
 import { useAuthCheck } from "./stores/useAuthCheck";
 import ProtectedRoute from "./types/routerType";
 import { CircularProgress } from "@mui/material";
+import PetRoad from "./views/PetRoad";
 
 function App() {
   const { isLoading } = useAuthCheck();
@@ -101,6 +102,16 @@ function App() {
               }
             />
 
+            {/* 유저 개인 페이지 관련 라우트 */}
+            <Route
+              path="/user/*"
+              element={
+                <ProtectedRoute>
+                  <MyPageView />
+                </ProtectedRoute>
+              }
+            />
+
             <Route path="/announcements" element={<AnnouncementListView />} />
             <Route path="/announcements/:id" element={<AnnouncementView />} />
             <Route path="/usage-guide" element={<UsageGuideListView />} />
@@ -118,20 +129,8 @@ function App() {
               element={<CommunityEditView />}
             />
 
-            <Route
-              path="/community/write"
-              element={
-                <ProtectedRoute>
-                  <CommunityCreateView />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/dang-sitter"
-              element={
-                  <DangSitterMain />
-              }
-            />
+            {/* 댕시터 관련 라우터 */}
+            <Route path="/dang-sitter" element={<DangSitterMain />} />
             <Route
               path="/users/dang-sitter/reservations"
               element={
@@ -157,6 +156,7 @@ function App() {
               }
             />
 
+            {/* 고객센터 관련 라우터 */}
             <Route
               path="/customer-supports"
               element={
@@ -190,14 +190,8 @@ function App() {
               }
             />
 
-            <Route
-              path="/user/*"
-              element={
-                <ProtectedRoute>
-                  <MyPageView />
-                </ProtectedRoute>
-              }
-            />
+            {/* 댕로드 관련 라우터 */}
+            <Route path="/pet-road" element={<PetRoad />} />
           </Routes>
         </div>
         <Footer />
