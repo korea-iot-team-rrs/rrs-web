@@ -3,6 +3,7 @@ import {
   fetchAttachmentsByCommunityId,
   communityAttachmentApi,
 } from "../../../apis/communityAttachmentApi";
+import { FaTrash } from "react-icons/fa"; // 삭제 아이콘 추가
 
 const removeUUIDFromFileName = (fileName: string): string => {
   return fileName.replace(/^[a-f0-9-]{36}_/, "");
@@ -85,7 +86,7 @@ export default function AttachmentsController({
                   className="remove-button"
                   onClick={() => handleRemove(index)}
                 >
-                  삭제
+                  <FaTrash /> {/* 삭제 아이콘 */}
                 </button>
               </li>
             ))}
@@ -95,7 +96,7 @@ export default function AttachmentsController({
             className="remove-all-button"
             onClick={handleRemoveAll}
           >
-            전체 삭제
+            <FaTrash /> 전체 삭제 {/* 전체 삭제 아이콘 추가 */}
           </button>
         </>
       ) : (

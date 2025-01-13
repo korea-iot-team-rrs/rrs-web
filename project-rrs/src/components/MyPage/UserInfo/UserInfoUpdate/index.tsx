@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../../../styles/MyPage.css";
-import useAuthStore from "../../../../stores/auth.store";
+import useAuthStore from "../../../../stores/useAuthStore";
 import { useNavigate } from "react-router-dom";
-import { updateUserInfo } from "../../../../apis/userInfo";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 

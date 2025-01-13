@@ -21,12 +21,14 @@ export const fetchAttachmentsByHealthRecordId = async (
     }
 
     const response = await axios.get<
-      HealthRecordApiResponse<Array<{ attachmentId: number; healthRecordAttachmentFile: string }>>
-      >(`${API_BASE_URL}/health-record/${healthRecordId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      HealthRecordApiResponse<
+        Array<{ attachmentId: number; healthRecordAttachmentFile: string }>
+      >
+    >(`${API_BASE_URL}/health-record/${healthRecordId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     if (response.data.result) {
       console.log("Attachments fetched successfully:", response.data.data);
@@ -69,7 +71,9 @@ export const healthRecordAttachmentApi = {
     }
   },
 
-  async deleteAttachmentsByHealthRecordId(healthRecordId: number): Promise<string> {
+  async deleteAttachmentsByHealthRecordId(
+    healthRecordId: number
+  ): Promise<string> {
     try {
       const token = getToken();
       if (!token) {

@@ -21,7 +21,7 @@ export default function SignUpMain() {
     if (id === "rrs") {
       navigation(id);
     }
-    window.location.href = `http://localhost:8081/api/v1/auth/sns-sign-in/${id}`;
+    // window.location.href = `http://localhost:8081/api/v1/auth/sns-sign-in/${id}`;
   };
 
   return (

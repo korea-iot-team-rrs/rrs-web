@@ -11,7 +11,11 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ onClose, onConfirm }) => {
   return (
     <div className="modalOverlay">
       <div className="modalContainer">
-        <button onClick={onClose} className="closeButton" aria-label="닫기 버튼">
+        <button
+          onClick={onClose}
+          className="closeButton"
+          aria-label="닫기 버튼"
+        >
           &times;
         </button>
 
