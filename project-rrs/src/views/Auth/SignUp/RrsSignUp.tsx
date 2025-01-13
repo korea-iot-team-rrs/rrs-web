@@ -116,6 +116,7 @@ export default function RrsSignUp() {
                     <br />
                     <label htmlFor="nickname">닉네임</label>
                     <input type="text" id="nickname" name="nickname" placeholder="닉네임을 입력해주세요 (2 ~ 10자)" />
+                    <button>중복확인</button>
                     <br />
                     <label htmlFor="address">주소</label>
                     <input type="text" id="address" name="address" placeholder="주소 입력" />
@@ -126,12 +127,15 @@ export default function RrsSignUp() {
                     <br />
                     <label htmlFor="email">이메일</label>
                     <input type="email" id="email" name="email" placeholder="example@domain.com" />
+                    <button>중복확인</button>
                     <br />
                     <label htmlFor="certifyNum">인증번호</label>
                     <input type="number" id="certifyNum" name="certifyNum" placeholder="인증번호를 입력해주세요." />
+                    <button>인증하기기</button>
                     <br />
                     <label htmlFor="phone">연락처</label>
                     <input type="number" id="phone" name="phone" placeholder="010-1111-1111" />
+                    <button>중복확인</button>
                     <br />
                     <button type="submit">완료</button>
                 </form>
