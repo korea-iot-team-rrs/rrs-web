@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useAuthStore from "../../../stores/auth.store";
 import { getCommunity } from "../../../apis/communityApi";
 import Pagination from "../Pagination";
 import "../../../styles/communities/Community.css";
@@ -8,6 +7,7 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { IoSearch } from "react-icons/io5";
 import LoginModal from "../../LoginModal";
 import DefaultImage from "../../../assets/images/dogIllust02.jpeg";
+import useAuthStore from "../../../stores/useAuthStore";
 
 interface CommunityData {
   id: number;

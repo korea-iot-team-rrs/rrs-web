@@ -5,7 +5,7 @@ import logo from '../../../assets/images/logo.png'
 export default function Logo() {
   return (
     <div className='mainLogo'>
-      <NavLink to="/" className="logo-link">
+      <NavLink to="/main" className="logo-link">
         <img src={logo} alt="MainLogo" />
       </NavLink>
     </div>

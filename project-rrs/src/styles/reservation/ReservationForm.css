@@ -59,6 +59,10 @@
         font-weight: bold;
       }
     }
+    
+    input[type="text"], textarea, input[type="file"] {
+      border: none;
+    }
 
     .reservation-date-picker-main {
       display: flex;
@@ -154,4 +158,6 @@
     min-height: 40px;
     margin: 30px 0;
   }
+
 }
+
