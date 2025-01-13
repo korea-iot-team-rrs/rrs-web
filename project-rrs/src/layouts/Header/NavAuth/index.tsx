@@ -21,15 +21,29 @@ export default function NavAuth() {
         const loginData: LoginResponseDto = {
           ...parsedUser,
           token,
-          exprTime: 0, // 저장된 만료 시간이 필요하다면 localStorage에서 추가로 관리 필요
+          exprTime: parsedUser.exprTime,
         };
+        const currentTime = Date.now();
+
+        if (currentTime >= loginData.exprTime) {
+          console.warn("토큰이 만료되었습니다.");
+          handleLogout();
+          return;
+        }
+
+        const timeLeft = loginData.exprTime - currentTime;
+        setTimeout(() => {
+          console.warn("토큰이 만료되어 로그아웃됩니다.");
+          handleLogout();
+        }, timeLeft);
+
         login(loginData);
       } catch (error) {
         console.error("Failed to parse user data:", error);
         handleLogout();
       }
     }
-  }, [cookies.token, login]);
+  }, [cookies.token, login, removeCookie, logout, navigate]);
 
   const handleLogout = () => {
     removeCookie("token", { path: "/main" });

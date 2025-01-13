@@ -10,10 +10,7 @@ interface TodoUpdateProps {
   selectedDate: string;
 }
 
-export default function TodoCreate({
-  goBack,
-  selectedDate,
-}: TodoUpdateProps) {
+export default function TodoCreate({ goBack, selectedDate }: TodoUpdateProps) {
   const [todoContent, setTodoContent] = useState<string>("");
   const [cookies] = useCookies(["token"]);
   const { incrementRefreshKey } = useRefreshStore();
@@ -43,7 +40,6 @@ export default function TodoCreate({
       console.error(e);
     }
   };
-
 
   return (
     <>
@@ -82,7 +78,7 @@ export default function TodoCreate({
         </div>
       </header>
       <div className="createTodoBox">
-      <input
+        <input
           type="text"
           value={todoContent}
           onChange={handleInputChange}

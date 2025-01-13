@@ -15,24 +15,26 @@ const getStoredData = () => {
   const storedUser = sessionStorage.getItem("user");
   const storedToken = sessionStorage.getItem("token");
   const tokenExpiration = sessionStorage.getItem("tokenExpiration");
-  
+
   const parsedUser = storedUser ? JSON.parse(storedUser) : null;
   const parsedToken = storedToken ? JSON.parse(storedToken) : null;
-  const parsedExpiration = tokenExpiration ? Number(JSON.parse(tokenExpiration)) : null;
-  
+  const parsedExpiration = tokenExpiration
+    ? Number(JSON.parse(tokenExpiration))
+    : null;
+
   const isTokenValid = parsedExpiration && parsedExpiration > Date.now();
-  
+
   if (!isTokenValid) {
     sessionStorage.clear();
     return { user: null, token: null };
   }
-  
+
   return { user: parsedUser, token: parsedToken };
 };
 
 const useAuthStore = create<AuthState>((set) => {
   const { user: initialUser, token: initialToken } = getStoredData();
-  
+
   return {
     isLoggedIn: !!initialUser && !!initialToken,
     user: initialUser,
@@ -42,12 +44,12 @@ const useAuthStore = create<AuthState>((set) => {
 
     login: (response: LoginResponseDto) => {
       const { token, exprTime, ...user } = response;
-      
+
       const expirationTime = exprTime * 1000;
       const expirationDate = Date.now() + expirationTime;
-      
+
       set({ isLoggedIn: true, token, user });
-      
+
       sessionStorage.setItem("user", JSON.stringify(user));
       sessionStorage.setItem("token", JSON.stringify(token));
       sessionStorage.setItem("tokenExpiration", JSON.stringify(expirationDate));
@@ -70,9 +72,9 @@ const useAuthStore = create<AuthState>((set) => {
 
         const updatedUser = {
           ...state.user,
-          ...user
+          ...user,
         };
-        
+
         sessionStorage.setItem("user", JSON.stringify(updatedUser));
         return { user: updatedUser };
       });
