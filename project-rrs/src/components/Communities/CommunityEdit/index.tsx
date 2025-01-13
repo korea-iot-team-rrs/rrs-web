@@ -1,10 +1,10 @@
 import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import useAuthStore from "../../../stores/auth.store";
 import { getCommunityById, updateCommunity } from "../../../apis/communityApi";
 import AttachmentsController from "../AttachmentsController";
 import { communityAttachmentApi } from "../../../apis/communityAttachmentApi";
 import "../../../styles/communities/CommunityEdit.css";
+import useAuthStore from "../../../stores/useAuthStore";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const BASE_FILE_URL = "http://localhost:4040/";

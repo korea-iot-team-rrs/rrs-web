@@ -20,44 +20,7 @@ export default function MainContainer() {
   return (
     <>
       <div className="page-wrapper">
-        <div className="global-styles w-embed">
-          <style>
-            {`
-            body {
-              -webkit-font-smoothing: antialiased;
-              -moz-osx-font-smoothing: grayscale;
-              font-smoothing: antialiased;
-              text-rendering: optimizeLegibility;
-            }
-            html {
-              font-size: 1rem;
-            }
-            @media screen and (max-width: 1600px) {
-              html {
-                font-size: calc(0.34318555008210183rem + 0.6568144499178982vw);
-              }
-            }
-            @media screen and (max-width: 991px) {
-              html {
-                font-size: 0.75rem;
-              }
-            }
-            @media screen and (max-width: 767px) {
-              html {
-                font-size: 0.65rem;
-              }
-            }
-            .w-slider-dot {
-              background-color: var(--color--accent-color) !important;
-              opacity: 0.3;
-            }
-            .w-slider-dot.w-active {
-              background-color: var(--color--accent-color) !important;
-              opacity: 1;
-            }
-          `}
-          </style>
-        </div>
+        <div className="global-styles w-embed"></div>
         <div className="main-wrapper">
           <section className="section-bento-grid">
             <div className="container-large page-padding">
@@ -188,7 +151,10 @@ export default function MainContainer() {
                   >
                     <div className="bento-shine"></div>
                     <div className="social-icons1_component">
-                      <a href="/announcements" className="social-icons1_link w-inline-block">
+                      <a
+                        href="/announcements"
+                        className="social-icons1_link w-inline-block"
+                      >
                         <LuDog size={80} />
                         공지사항
                       </a>

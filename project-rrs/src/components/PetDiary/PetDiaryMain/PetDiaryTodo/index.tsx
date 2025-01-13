@@ -4,7 +4,11 @@ import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import { FaPlusCircle } from "react-icons/fa";
 import { useCookies } from "react-cookie";
-import { deleteTodo, fetchTodosByDay, updateTodo } from "../../../../apis/todoApi";
+import {
+  deleteTodo,
+  fetchTodosByDay,
+  updateTodo,
+} from "../../../../apis/todoApi";
 import { PetDiaryTodoProps } from "../../../../types/petDiaryType";
 import { Todo } from "../../../../types/todoType";
 import TodoCreate from "./TodoCreate";
@@ -140,7 +144,7 @@ export default function PetDiaryTodo({ selectedDate }: PetDiaryTodoProps) {
                     },
                     fontWeight: "bold",
                     borderRadius: "20px",
-                    fontFamily: "'Pretendard', Arial, sans-serif;"
+                    fontFamily: "'Pretendard', Arial, sans-serif;",
                   }}
                 >
                   추가하기 &nbsp;

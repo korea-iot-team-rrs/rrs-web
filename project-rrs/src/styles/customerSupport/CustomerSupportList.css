@@ -100,14 +100,14 @@
 
 .cs-list-body-title {
   display: grid;
-  grid-template-columns:  1fr 2fr 1fr 1fr;
+  grid-template-columns: 1fr 2fr 1fr 1fr;
   align-items: center;
   justify-items: center;
   padding: 16px;
   font-weight: bold;
   font-size: 16px;
   color: #333;
-  background-color: #EEEEEE;
+  background-color: #eeeeee;
   border-top: 2px solid #444;
 }
 
