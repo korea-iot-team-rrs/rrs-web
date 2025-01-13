@@ -70,7 +70,7 @@ function App() {
           <Route path="/users/dang-sitter/reservations/write" element={<ReservationForm />} />
           <Route path="/users/dang-sitter/reservations/:id" element={<ReservationUserDetail />} />
 
-          <Route path="/users/dang-sitter/provider/profile" element={<ProviderUpdate />} />
+          <Route path="/users/dang-sitter/provider" element={<ProviderUpdate />} />
 
           <Route path="/customer-supports" element={<CustomerSupportList />}/>
           <Route path="/customer-supports/:id" element={<CustomerSupportDetail />}/>
