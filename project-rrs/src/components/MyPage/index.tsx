@@ -4,10 +4,10 @@ import UserInfo from './UserInfo'
 import PetList from './PetList'
 import UserDelete from './UserDelete'
 import '../../styles/MyPage.css'
-import UserInfoUpdate from './UserInfo/UserInfoUpdate'
 import PetCreate from './PetList/PetCreate'
 import PetInfo from './PetList/PetInfo'
 import PetUpdate from './PetList/PetUpdate'
+import UserInfoUpdate from './UserInfo/UserInfoUpdate'
 
 export default function MyPage() {
   return (

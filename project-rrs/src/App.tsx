@@ -37,6 +37,7 @@ import { useAuthCheck } from "./stores/useAuthCheck";
 import ProtectedRoute from "./types/routerType";
 import { CircularProgress } from "@mui/material";
 import PetRoad from "./views/PetRoad";
+import ProviderUpdate from "./views/DangSitter/providerUpdate";
 
 function App() {
   const { isLoading } = useAuthCheck();
@@ -155,6 +156,8 @@ function App() {
                 </ProtectedRoute>
               }
             />
+
+          <Route path="/users/dang-sitter/provider" element={<ProviderUpdate />} />
 
             {/* 고객센터 관련 라우터 */}
             <Route
