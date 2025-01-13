@@ -1,10 +1,10 @@
 import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getCommunityById, updateCommunity } from "../../../apis/communityApi";
-import AttachmentsController from "../AttachmentsController";
 import { communityAttachmentApi } from "../../../apis/communityAttachmentApi";
 import "../../../styles/communities/CommunityEdit.css";
 import useAuthStore from "../../../stores/useAuthStore";
+import { FaTrash } from "react-icons/fa";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const BASE_FILE_URL = "http://localhost:4040/";
@@ -127,19 +127,11 @@ export default function CommunityEdit() {
     }
   };
 
-  const handleRemoveAttachment = async (updatedUrls: string[]) => {
-    const updatedAttachments = updatedUrls
-      .map((url) => {
-        const matchingAttachment = existingAttachments.find(
-          (attachment) => attachment.url === url
-        );
-        return matchingAttachment ? { ...matchingAttachment } : null;
-      })
-      .filter(Boolean) as { url: string; name: string }[];
-    setExistingAttachments(updatedAttachments);
+  const handleRemoveExistingAttachment = (index: number) => {
+    setExistingAttachments((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleRemoveAllAttachments = async () => {
+  const handleRemoveAllExistingAttachments = async () => {
     const communityId = communityIdNumber;
     if (!communityId) return;
 
@@ -243,14 +235,30 @@ export default function CommunityEdit() {
           )}
         </div>
         <div className="form-group">
-          <AttachmentsController
-            attachments={existingAttachments.map(
-              (attachment) => attachment.url
-            )}
-            communityId={communityIdNumber!}
-            onRemove={handleRemoveAttachment}
-            onRemoveAll={handleRemoveAllAttachments}
-          />
+          <label>기존 첨부 파일</label>
+          <ul className="file-list">
+            {existingAttachments.map((attachment, index) => (
+              <li key={index} className="file-item">
+                <span>{attachment.name}</span>
+                <button
+                  type="button"
+                  className="file-remove-button"
+                  onClick={() => handleRemoveExistingAttachment(index)}
+                >
+                  <FaTrash />
+                </button>
+              </li>
+            ))}
+          </ul>
+          {existingAttachments.length > 0 && (
+            <button
+              type="button"
+              className="file-remove-button"
+              onClick={handleRemoveAllExistingAttachments}
+            >
+              <FaTrash /> 전체 삭제
+            </button>
+          )}
         </div>
         <div className="form-group">
           <label htmlFor="attachments">새 첨부 파일</label>
@@ -276,7 +284,7 @@ export default function CommunityEdit() {
                       )
                     }
                   >
-                    삭제
+                    <FaTrash />
                   </button>
                 </li>
               ))}

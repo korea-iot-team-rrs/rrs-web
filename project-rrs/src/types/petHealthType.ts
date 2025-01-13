@@ -20,6 +20,7 @@ export interface HealthRecordResponse {
 }
 
 export interface HealthAttachmentData {
+  split: string;
   attachmentId: number;
   filePath: string;
   fileName: string;

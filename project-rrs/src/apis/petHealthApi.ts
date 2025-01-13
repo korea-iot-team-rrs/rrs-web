@@ -60,7 +60,9 @@ export const createHealthRecord = async (
     return response.data.data;
   } catch (error: any) {
     console.error("건강 기록 생성 실패:", error);
-    throw new Error(error.response?.data?.message || "건강 기록 생성 중 오류가 발생했습니다.");
+    throw new Error(
+      error.response?.data?.message || "건강 기록 생성 중 오류가 발생했습니다."
+    );
   }
 };
 
@@ -133,7 +135,9 @@ export const getHealthRecordById = async (
     return response.data.data;
   } catch (error: any) {
     console.error("건강 기록 조회 실패:", error);
-    throw new Error(error.response?.data?.message || "건강 기록 조회 중 오류가 발생했습니다.");
+    throw new Error(
+      error.response?.data?.message || "건강 기록 조회 중 오류가 발생했습니다."
+    );
   }
 };
 
@@ -151,7 +155,10 @@ export const getAllHealthRecords = async (
     return response.data.data;
   } catch (error: any) {
     console.error("건강 기록 목록 조회 실패:", error);
-    throw new Error(error.response?.data?.message || "건강 기록 목록 조회 중 오류가 발생했습니다.");
+    throw new Error(
+      error.response?.data?.message ||
+        "건강 기록 목록 조회 중 오류가 발생했습니다."
+    );
   }
 };
 
@@ -170,6 +177,8 @@ export const deleteHealthRecord = async (
     return response.data.data;
   } catch (error: any) {
     console.error("건강 기록 삭제 실패:", error);
-    throw new Error(error.response?.data?.message || "건강 기록 삭제 중 오류가 발생했습니다.");
+    throw new Error(
+      error.response?.data?.message || "건강 기록 삭제 중 오류가 발생했습니다."
+    );
   }
 };
