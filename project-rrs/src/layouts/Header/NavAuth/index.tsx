@@ -5,6 +5,7 @@ import { LoginResponseDto } from "../../../types/AuthType";
 import { FILE_URL } from "../../../constants";
 import "../../../styles/Header.css";
 import useAuthStore from "../../../stores/useAuthStore";
+import DefaultImage from "../../../assets/images/dogIllust02.jpeg";
 
 export default function NavAuth() {
   const { isLoggedIn, login, logout, user } = useAuthStore();
@@ -62,7 +63,7 @@ export default function NavAuth() {
             alt="프로필 이미지"
             onError={(e) => {
               const img = e.target as HTMLImageElement;
-              img.src = "/default-profile.png"; // 기본 이미지 경로
+              img.src = DefaultImage;
             }}
           />
           <span>

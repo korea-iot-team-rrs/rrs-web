@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { UserSignUp } from "../../../types/AuthType";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import '../../../styles/Signup.css';
+import "../../../styles/Signup.css";
 
 const API_BASE_URL = "http://localhost:4040/api/v1/auth";
 
@@ -104,15 +104,15 @@ export default function RrsSignUp() {
   const navigate = useNavigate();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
-  const snsId = params.get("snsId");
-  const joinPath = params.get("joinPath");
+  // const snsId = params.get("snsId");
+  // const joinPath = params.get("joinPath");
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [userInfo, setUserInfo] = useState<UserSignUp>({
-    profileImageUrl: "",
+    profileImageUrl: null,
     username: "",
     password: "",
-    comfirmPassword: "",
+    confirmPassword: "",
     name: "",
     nickname: "",
     address: "",
@@ -120,6 +120,7 @@ export default function RrsSignUp() {
     email: "",
     phone: "",
   });
+
   const [emailDomain, setEmailDomain] = useState("custom");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -146,15 +147,15 @@ export default function RrsSignUp() {
         }
       }
 
-      if (name === "comfirmPassword") {
+      if (name === "confirmPassword") {
         if (value !== updatedInfo.password) {
           setErrors((prevErrors) => ({
             ...prevErrors,
-            comfirmPassword: "비밀번호가 일치하지 않습니다.",
+            confirmPassword: "비밀번호가 일치하지 않습니다.",
           }));
         } else {
           setErrors((prevErrors) => {
-            const { comfirmPassword, ...rest } = prevErrors;
+            const { confirmPassword, ...rest } = prevErrors;
             return rest;
           });
         }
@@ -293,11 +294,20 @@ export default function RrsSignUp() {
 
   const handleSignUp = async () => {
     const isValid = validateForm();
-
+  
     if (isValid) {
       try {
-        const response = await axios.post(`${API_BASE_URL}/signup`, userInfo);
-        if (response.data) {
+        const requestBody = { ...userInfo };
+  
+        const response = await axios.post(`${API_BASE_URL}/sign-up`, requestBody, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+  
+        console.log(response);
+  
+        if (response.data.result) {
           navigate("/");
         } else {
           setErrors((prev) => ({
@@ -305,14 +315,16 @@ export default function RrsSignUp() {
             form: "회원가입에 실패했습니다.",
           }));
         }
-      } catch {
+      } catch (error) {
         setErrors((prev) => ({
           ...prev,
           form: "서버 에러가 발생하였습니다.",
         }));
+        console.error("Error during sign-up:", handleError(error));
       }
     }
   };
+  
 
   const validateForm = () => {
     const tempErrors: { [key: string]: string } = {};
@@ -320,13 +332,8 @@ export default function RrsSignUp() {
     if (!userInfo.username || !/^[a-zA-Z0-9]{5,15}$/.test(userInfo.username))
       tempErrors.username = "아이디는 영문 및 숫자로 5~15자이어야 합니다.";
 
-    if (
-      !userInfo.name ||
-      !/^[가-힣]{2,10}$/.test(userInfo.name) ||
-      /(.)(?=\1\1)/.test(userInfo.name)
-    )
-      tempErrors.name =
-        "이름은 한글로 2~10자 이내이어야 하며, 반복된 문자는 허용되지 않습니다.";
+    if (!userInfo.name || !/^[가-힣]+$/.test(userInfo.name))
+      tempErrors.name = "이름은 한글로만 입력해야 합니다.";
 
     if (
       !userInfo.nickname ||
@@ -352,13 +359,12 @@ export default function RrsSignUp() {
       tempErrors.password =
         "비밀번호는 8~15자이며 숫자와 특수문자를 포함해야 합니다.";
 
-    if (userInfo.password !== userInfo.comfirmPassword)
-      tempErrors.comfirmPassword = "비밀번호가 일치하지 않습니다.";
+    if (userInfo.password !== userInfo.confirmPassword)
+      tempErrors.confirmPassword = "비밀번호가 일치하지 않습니다.";
 
     if (!userInfo.address) tempErrors.address = "주소를 입력하세요.";
 
     setErrors(tempErrors);
-
     return Object.keys(tempErrors).length === 0;
   };
 
@@ -494,15 +500,15 @@ export default function RrsSignUp() {
         />
         <p style={{ color: "red" }}>{errors.password}</p>
 
-        <label htmlFor="comfirmPassword">비밀번호 확인</label>
+        <label htmlFor="confirmPassword">비밀번호 확인</label>
         <input
           type="password"
-          id="comfirmPassword"
-          name="comfirmPassword"
+          id="confirmPassword"
+          name="confirmPassword"
           placeholder="비밀번호를 다시 입력하세요."
           onChange={handleInputChange}
         />
-        <p style={{ color: "red" }}>{errors.comfirmPassword}</p>
+        <p style={{ color: "red" }}>{errors.confirmPassword}</p>
 
         <label htmlFor="address">주소</label>
         <input
@@ -532,17 +538,6 @@ export default function RrsSignUp() {
           placeholder="상세 주소 입력"
           onChange={handleInputChange}
         />
-
-        <label htmlFor="certifyNum">인증번호</label>
-        <input
-          type="number"
-          id="certifyNum"
-          name="certifyNum"
-          placeholder="인증번호를 입력해주세요."
-          onChange={handleInputChange}
-        />
-        <button type="button">인증하기</button>
-
         <button type="button" onClick={handleSignUp}>
           완료
         </button>
