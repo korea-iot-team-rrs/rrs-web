@@ -33,6 +33,8 @@ export interface UserSignUp {
     addressDetail: string; // 상세 주소
     email: string; // 이메일
     phone: string; // 연락처
+    joinPath: string;
+    snsId: string | null;
 }
 
 // 인증 DTO

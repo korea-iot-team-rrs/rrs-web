@@ -104,8 +104,8 @@ export default function RrsSignUp() {
   const navigate = useNavigate();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
-  // const snsId = params.get("snsId");
-  // const joinPath = params.get("joinPath");
+  const snsId = params.get("snsId");
+  const joinPath = params.get("joinPath");
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [userInfo, setUserInfo] = useState<UserSignUp>({
@@ -119,6 +119,8 @@ export default function RrsSignUp() {
     addressDetail: "",
     email: "",
     phone: "",
+    joinPath: joinPath ? joinPath : "Home",
+    snsId: snsId
   });
 
   const [emailDomain, setEmailDomain] = useState("custom");
