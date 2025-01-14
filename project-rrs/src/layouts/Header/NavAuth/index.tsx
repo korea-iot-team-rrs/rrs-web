@@ -46,7 +46,7 @@ export default function NavAuth() {
   }, [cookies.token, login, removeCookie, logout, navigate]);
 
   const handleLogout = () => {
-    removeCookie("token", { path: "/main" });
+    removeCookie("token", { path: "/" });
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     logout();

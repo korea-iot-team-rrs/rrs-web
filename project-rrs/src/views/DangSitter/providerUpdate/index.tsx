@@ -15,8 +15,6 @@ const ProviderUdpate = () => {
   const [cookies] = useCookies(["token"]);
   const [selectedDates, setSelectedDates] = useState<Date[]>([]);
   const [providerIntroduction, setProviderIntroduction] = useState<string>("");
-  const { user } = useAuthStore();
-  const userId = user?.userId;
 
   // Role 조회
   useEffect(() => {
@@ -45,7 +43,8 @@ const ProviderUdpate = () => {
     };
 
     fetchRole();
-  }, [cookies.token, navigate]);
+}, [cookies.token, navigate]);
+
 
   // Role 수정
   const handleRoleToggle = async () => {
@@ -85,7 +84,7 @@ const ProviderUdpate = () => {
       return;
     }
 
-    const fetchProviderDate = async () => {
+    const fetchProviderInfo = async () => {
       try {
         const response = await axios.get(
           `http://localhost:4040/api/v1/provider/profile`,
@@ -106,7 +105,7 @@ const ProviderUdpate = () => {
       }
     };
 
-    fetchProviderDate();
+    fetchProviderInfo();
   }, [cookies.token, navigate]);
 
   const handleCalendarChange = (date: Date) => {
@@ -134,20 +133,29 @@ const ProviderUdpate = () => {
 
     console.log("선택된 날짜들:", selectedDates);
 
+    // 유효성 검사
     if (selectedDates.length === 0) {
       alert("하나의 이상의 근무일을 선택해주세요.");
       return;
     } 
 
+    if (!providerIntroduction || providerIntroduction.trim() === "") {
+      alert("소개를 작성해주세요.");
+      return;
+    }
+
     const data = {
-      availableDates: selectedDates.map((date) => date.toISOString().split("T")[0]),
+      availableDate: selectedDates.map((date) => ({
+        availableDate: date.toLocaleDateString("en-CA"), // 서버가 기대하는 형태로 변환
+      })),
+      providerIntroduction: providerIntroduction
     };
 
-    console.log("전송되는 날짜들:", data.availableDates);
+    console.log("전송되는 데이터:", data);
 
     try {
       const response = await axios.put(
-        `http://localhost:4040/api/v1/provider/profile/${userId}`,
+        `http://localhost:4040/api/v1/provider/profile`,
         data,
         {
           headers: {
@@ -179,7 +187,7 @@ const ProviderUdpate = () => {
           <div>
             <label>근무 일정</label>
             <Calendar
-              onClickDay={handleCalendarChange} // 날짜 클릭 시 실행되는 핸들러
+              onClickDay={handleCalendarChange}
               tileClassName={({ date }) =>
                 selectedDates.some(
                   (selectedDate) =>
