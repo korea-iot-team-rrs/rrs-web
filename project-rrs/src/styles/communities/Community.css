@@ -8,20 +8,12 @@
 
 .community-search-container {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 20px;
   justify-content: space-between;
   align-items: center;
+  margin: 20px auto;
 }
 
-.search-input-wrapper {
-  position: relative;
-  display: inline-block;
-  width: 350px;
-}
-
-.search-icon {
+.community-search-icon {
   position: absolute;
   right: 12px;
   top: 50%;
@@ -30,30 +22,36 @@
   font-size: 1.2rem;
 }
 
-/* 수정된 검색 인풋창 스타일 */
-.search-input {
+.community-search-input-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: #3498ff;
+  border-radius: 50px;
+  padding: 10px 20px;
+  position: relative;
+  max-width: 400px;
+  width: 100%;
+  color: #fff;
+}
+
+.community-search-input {
   flex: 1;
-  max-width: 600px;
-  min-width: 300px;
-  padding: 10px 14px;
-  padding-right: 38px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 0.95rem;
+  border: none;
   outline: none;
-  background-color: #fdfdfd; /* 추가: 배경색 설정 */
-  color: #333; /* 추가: 글자색 설정 */
-  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* 변경: 전환 효과 강화 */
+  background-color: transparent;
+  font-size: 1rem;
+  color: #fff;
+  margin-left: 10px;
 }
 
-.search-input:hover {
-  border-color: #575757; /* 추가: 호버 시 border-color 변경 */
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5); /* 추가: 호버 시 box-shadow 추가 */
+.community-search-input:hover {
+  border-color: #575757;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
 }
 
-.search-input:focus {
-  border-color: #575757; /* 추가: 포커스 시 border-color 변경 */
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5); /* 추가: 포커스 시 box-shadow 추가 */
+.community-search-input:focus {
+  border-color: #575757;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
 }
 
 .community-button-box {
@@ -72,11 +70,20 @@
   transition: background-color 0.2s ease;
 }
 
+.community-search-input::placeholder {
+  color: #fff;
+  transition: opacity 0.2s ease;
+}
+
+.community-search-input:focus::placeholder {
+  opacity: 0;
+}
+
 .community-create-button:hover {
   background-color: #2194FF;
 }
 
-.sort-dropdown {
+.community-sort-dropdown {
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 10px;

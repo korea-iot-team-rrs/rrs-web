@@ -1,0 +1,119 @@
+/* HealthCreate 화면 스타일 */
+.healthCreateContainer {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.healthCreatePetImage {
+  width: 100px;
+  height: 100px;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  object-fit: cover;
+  margin-bottom: 20px;
+
+  max-width: 80px;
+  max-height: 80px;
+}
+
+.healthCreateForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.healthCreateDateSection {
+  font-size: 1.2em;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.healthCreateInputSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.healthCreateInputSection label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.healthCreateInput,
+.healthCreateTextarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1em;
+}
+
+.healthCreateTextarea {
+  resize: none;
+  height: 100px;
+}
+
+.healthCreateFileSection {
+  margin-top: 20px;
+}
+
+.healthCreateFileInput {
+  margin-bottom: 10px;
+}
+
+.healthCreateFileList {
+  list-style: none;
+  padding: 0;
+}
+
+.healthCreateFileItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.healthCreateFileName {
+  font-size: 0.9em;
+  color: #555;
+}
+
+.healthCreateDeleteButton {
+  cursor: pointer;
+}
+
+.healthCreateButtonSection {
+  display: flex;
+  justify-content: space-between;
+}
+
+.healthCreateCancelButton,
+.healthCreateSubmitButton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.healthCreateCancelButton {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.healthCreateCancelButton:hover {
+  background: #c0c0c0;
+}
+
+.healthCreateSubmitButton {
+  background: #007bff;
+  color: #fff;
+}
+
+.healthCreateSubmitButton:hover {
+  background: #0056b3;
+}

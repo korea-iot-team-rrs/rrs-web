@@ -187,11 +187,11 @@ export default function CommunityEdit() {
   };
 
   return (
-    <div className="community-edit-container">
-      <h1 className="community-edit-title">게시글 수정</h1>
-      {error && <p className="error-message">{error}</p>}
-      <form onSubmit={handleSubmit} className="community-edit-form">
-        <div className="form-group">
+    <div className="communityEditContainer">
+      <h1 className="communityEditTitle">게시글 수정</h1>
+      {error && <p className="communityEditErrorMessage">{error}</p>}
+      <form onSubmit={handleSubmit} className="communityEditForm">
+        <div className="communityEditFormGroup">
           <label htmlFor="title">제목</label>
           <input
             type="text"
@@ -203,7 +203,7 @@ export default function CommunityEdit() {
             required
           />
         </div>
-        <div className="form-group">
+        <div className="communityEditFormGroup">
           <label htmlFor="content">내용</label>
           <textarea
             id="content"
@@ -215,7 +215,7 @@ export default function CommunityEdit() {
             required
           />
         </div>
-        <div className="form-group">
+        <div className="communityEditFormGroup">
           <label htmlFor="thumbnail">썸네일 이미지</label>
           <input
             type="file"
@@ -229,20 +229,20 @@ export default function CommunityEdit() {
               <img
                 src={thumbnailPreview}
                 alt="썸네일 미리보기"
-                className="thumbnail-preview"
+                className="communityEditThumbnailPreview"
               />
             </div>
           )}
         </div>
-        <div className="form-group">
+        <div className="communityEditFormGroup">
           <label>기존 첨부 파일</label>
-          <ul className="file-list">
+          <ul className="communityEditFileList">
             {existingAttachments.map((attachment, index) => (
-              <li key={index} className="file-item">
+              <li key={index} className="communityEditFileItem">
                 <span>{attachment.name}</span>
                 <button
                   type="button"
-                  className="file-remove-button"
+                  className="communityEditFileRemoveButton"
                   onClick={() => handleRemoveExistingAttachment(index)}
                 >
                   <FaTrash />
@@ -253,14 +253,14 @@ export default function CommunityEdit() {
           {existingAttachments.length > 0 && (
             <button
               type="button"
-              className="file-remove-button"
+              className="communityEditFileRemoveButton"
               onClick={handleRemoveAllExistingAttachments}
             >
               <FaTrash /> 전체 삭제
             </button>
           )}
         </div>
-        <div className="form-group">
+        <div className="communityEditFormGroup">
           <label htmlFor="attachments">새 첨부 파일</label>
           <input
             type="file"
@@ -268,16 +268,16 @@ export default function CommunityEdit() {
             onChange={handleFileChange}
             multiple
             accept="image/*,application/pdf"
-            className="custom-file-input"
+            className="communityEditCustomFileInput"
           />
           {attachments.length > 0 && (
-            <ul className="file-list">
+            <ul className="communityEditFileList">
               {attachments.map((file, index) => (
-                <li key={index} className="file-item">
+                <li key={index} className="communityEditFileItem">
                   <span>{file.name}</span>
                   <button
                     type="button"
-                    className="file-remove-button"
+                    className="communityEditFileRemoveButton"
                     onClick={() =>
                       setAttachments((prev) =>
                         prev.filter((_, i) => i !== index)
@@ -291,14 +291,18 @@ export default function CommunityEdit() {
             </ul>
           )}
         </div>
-        <div className="button-group">
-          <button type="submit" disabled={isSubmitting}>
+        <div className="communityEditButtonGroup">
+          <button
+            type="submit"
+            className="communityEditSubmitButton"
+            disabled={isSubmitting}
+          >
             {isSubmitting ? "수정 중..." : "수정"}
           </button>
           <button
             type="button"
             onClick={handleCancel}
-            className="cancel-button"
+            className="communityEditCancelButton"
           >
             취소
           </button>

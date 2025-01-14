@@ -1,5 +1,5 @@
-/* 커뮤니티 상세 스타일 */
-.community-detail-container {
+/* CommunityDetail 화면 */
+.communityDetailContainer {
   display: flex;
   justify-content: center;
   padding: 20px;
@@ -7,7 +7,7 @@
   margin: 0 auto;
 }
 
-.community-content-box {
+.communityDetailContentBox {
   width: 800px;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -15,39 +15,37 @@
   border-radius: 20px;
 }
 
-.community-detail-header {
-  font-size: 24px;
+.communityDetailHeader {
+  font-size: 50px;
   margin-bottom: 10px;
 }
 
-/* 작성자 정보 및 액션 버튼을 한 줄로 배치 */
-.community-detail-meta {
+.communityDetailMeta {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
 }
 
-.community-detail-author {
+.communityDetailAuthor {
   font-size: 16px;
   color: #555;
   font-weight: bold;
 }
 
-.community-sub-actions{
+.communityDetailSubActions {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
 }
 
-/* 수정 및 삭제 버튼 스타일 */
-.author-actions {
+.communityDetailAuthorActions {
   display: flex;
-  gap: 10px; /* 버튼 간 간격 */
+  gap: 10px;
 }
 
-.community-detail-edit-button,
-.community-detail-delete-button {
+.communityDetailEditButton,
+.communityDetailDeleteButton {
   padding: 8px 16px;
   border: none;
   border-radius: 4px;
@@ -56,36 +54,36 @@
   transition: background-color 0.3s;
 }
 
-.community-detail-edit-button {
-  background-color: #4caf50; /* 초록색 */
+.communityDetailEditButton {
+  background-color: #4caf50;
   color: white;
 }
 
-.community-detail-edit-button:hover {
+.communityDetailEditButton:hover {
   background-color: #45a049;
 }
 
-.community-detail-delete-button {
+.communityDetailDeleteButton {
   background-color: #ff4d4d;
   color: white;
 }
 
-.community-detail-delete-button:hover {
+.communityDetailDeleteButton:hover {
   background-color: #e60000;
 }
 
-.community-detail-likecount {
+.communityDetailLikeCount {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.like-count-number {
+.communityDetailLikeCountNumber {
   font-size: 16px;
   font-weight: bold;
 }
 
-.community-sub-header-box {
+.communityDetailSubHeaderBox {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -93,27 +91,19 @@
   margin-bottom: 15px;
 }
 
-.community-detail-date {
+.communityDetailDate {
   font-size: 14px;
+  width: 200px;
   color: #777;
-  flex: 1;
 }
 
-.community-detail-likecount {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  justify-content: left;
-  flex: 1;
-}
-
-.attachments-dropdown {
+.communityDetailAttachmentsDropdown {
   flex: 1;
   display: flex;
   justify-content: flex-end;
 }
 
-.dropdown-button {
+.communityDetailDropdownButton {
   background-color: #f0f0f0;
   border: 1px solid #ccc;
   padding: 8px 12px;
@@ -123,16 +113,16 @@
   transition: background-color 0.3s;
 }
 
-.dropdown-button:hover {
+.communityDetailDropdownButton:hover {
   background-color: #e0e0e0;
 }
 
-.dropdown-content {
+.communityDetailDropdownContent {
   margin-top: 5px;
   padding-left: 10px;
 }
 
-.dropdown-content a {
+.communityDetailDropdownContent a {
   display: block;
   margin-bottom: 5px;
   color: #007bff;
@@ -140,34 +130,24 @@
   transition: color 0.3s;
 }
 
-.dropdown-content a:hover {
+.communityDetailDropdownContent a:hover {
   color: #0056b3;
 }
 
-/* 삭제 버튼 스타일 */
-.delete-button {
-  background-color: #ff4d4d;
+.communityDetailDeleteAllButton {
+  margin-top: 10px;
+  background-color: red;
   color: white;
   border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
+  padding: 5px 10px;
   cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s;
-  margin-top: 10px;
 }
 
-.delete-button:hover {
+.communityDetailDeleteAllButton:hover {
   background-color: #e60000;
 }
 
-/* 댓글 섹션 스타일 */
-.comment-detail {
-  display: flex;
-  padding-left: 20px;
-}
-
-.comment-section {
+.communityDetailCommentSection {
   line-height: 1.8;
   font-size: 15px;
   margin-top: 30px;
@@ -176,43 +156,31 @@
   border: 1px solid #ccc;
 }
 
-.comment-writebox {
+.communityDetailCommentWriteBox {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
 }
 
-.comment-viewButton {
-  cursor: pointer;
-  border: none;
-  background: none;
-  font-size: 0.95rem;
-}
-
-.comment-writeButton button {
+.communityDetailCommentWriteButton {
   text-align: center;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  background: #6fb1fc;
-  color: #fff;
   font-size: 0.85rem;
   padding: 6px 12px;
   transition: background-color 0.2s ease;
 }
 
-.comment-writeButton button:hover {
-  background-color: #509be7;
-}
 
-.comment-list {
+.communityDetailCommentList {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.comment-item {
+.communityDetailCommentItem {
   background: #fff;
   border-radius: 10px;
   border: 1px solid #eee;
@@ -220,103 +188,35 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-.comment-header {
+.communityDetailCommentHeader {
   display: flex;
   justify-content: space-between;
   margin-bottom: 6px;
 }
 
-.comment-author {
+.communityDetailCommentAuthor {
   color: #333;
   font-weight: 600;
 }
 
-.comment-date {
+.communityDetailCommentDate {
   font-size: 0.85rem;
   color: #999;
 }
 
-.comment-content {
+.communityDetailCommentContent {
   margin-bottom: 8px;
   line-height: 1.6;
   color: #444;
   word-wrap: break-word;
 }
 
-.comment-actions {
+.communityDetailCommentActions {
   display: flex;
   gap: 8px;
 }
 
-.comment-actions .comment-viewButton {
-  border: none;
-  background: #f0f0f0;
-  cursor: pointer;
-  font-size: 0.85rem;
-  padding: 5px 10px;
-  border-radius: 4px;
-}
-
-.comment-actions .comment-viewButton:hover {
-  background: #e0e0e0;
-}
-
-.comment-viewbox {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin: 10px;
-}
-
-.comment-section .comment-viewbox textarea {
-  width: 80%;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  resize: none;
-  font-family: inherit;
-  background-color: #fdfdfd;
-  color: #333;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.comment-section .comment-viewbox textarea::placeholder {
-  color: #999;
-  opacity: 1;
-}
-
-.comment-section .comment-viewbox textarea:hover {
-  border-color: #575757;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
-}
-
-.comment-edit-textarea:focus {
-  outline: none;
-  border-color: #575757;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
-  height: 100px;
-}
-
-.comment-section .comment-viewbox button {
-  text-align: center;
-  width: 60px;
-  height: 30px;
-  padding: 5px 0;
-  margin-left: 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  background: #59afff;
-  color: #fff;
-  font-size: 0.85rem;
-  transition: background-color 0.2s ease;
-}
-
-.comment-section .comment-viewbox button:hover {
-  background-color: #509be7;
-}
-
-.comment-edit-textarea {
+.communityDetailCommentEditTextarea {
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
@@ -331,36 +231,22 @@
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.comment-edit-textarea:focus {
+.communityDetailCommentEditTextarea:focus {
   outline: none;
   border-color: #575757;
   height: 80px;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
 }
 
-.attachments-controller {
+.communityDetailAttachmentsController {
   margin-top: 20px;
 }
 
-.attachments-list {
+.communityDetailAttachmentsList {
   list-style: none;
   padding: 0;
 }
 
-.attachment-item {
+.communityDetailAttachmentItem {
   margin-bottom: 10px;
-}
-
-.remove-button,
-.remove-all-button {
-  margin-left: 10px;
-  color: white;
-  background-color: red;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-}
-
-.remove-all-button {
-  margin-top: 10px;
 }

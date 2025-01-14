@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap");
 
-@keyframes fadeIn {
+@keyframes deleteFadeIn {
   0% {
     opacity: 0;
     transform: translateY(20px);
@@ -13,9 +13,9 @@
 
 body {
   font-family: "Noto Sans", sans-serif;
-}
+}AC
 
-.modalOverlay {
+.deleteModalOverlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -29,7 +29,7 @@ body {
   z-index: 999;
 }
 
-.modalContainer {
+.deleteModalContainer {
   position: relative;
   background-color: #fff;
   border-radius: 16px;
@@ -37,11 +37,11 @@ body {
   padding: 32px 24px;
   max-width: 400px;
   width: 90%;
-  animation: fadeIn 0.4s ease forwards;
+  animation: deleteFadeIn 0.4s ease forwards;
   text-align: center;
 }
 
-.closeButton {
+.deleteCloseButton {
   position: absolute;
   top: 16px;
   right: 16px;
@@ -52,19 +52,19 @@ body {
   color: #888;
 }
 
-.modalTitle {
+.deleteModalTitle {
   font-size: 1.25rem;
   margin-bottom: 24px;
   font-weight: 700;
 }
 
-.buttonContainer {
+.deleteButtonContainer {
   display: flex;
   justify-content: center;
   gap: 12px;
 }
 
-.modalButton {
+.deleteModalButton {
   font-family: "Noto Sans", sans-serif;
   font-size: 0.9rem;
   border: none;
@@ -74,12 +74,12 @@ body {
   transition: background-color 0.2s ease;
 }
 
-.confirmButton {
+.deleteConfirmButton {
   background-color: #3498ff;
   color: #fff;
 }
 
-.cancelButton {
+.deleteCancelButton {
   background-color: #f0f0f0;
   color: #444;
 }

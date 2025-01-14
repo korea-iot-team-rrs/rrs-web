@@ -1,5 +1,5 @@
-/* HealthRecordDetail 화면 */
-.healthRecordContainer {
+/* HealthDetail 화면 스타일 */
+.healthDetailContainer {
   max-width: 800px;
   margin: 20px auto;
   padding: 20px;
@@ -8,20 +8,20 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.healthRecordHeader {
+.healthDetailHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
 }
 
-.healthRecordHeader h2 {
+.healthDetailHeader h2 {
   font-size: 2em;
   color: #333;
   margin: 0;
 }
 
-.healthRecordBackButton {
+.healthDetailBackButton {
   padding: 10px 16px;
   background: #ff6b6b;
   color: white;
@@ -32,18 +32,18 @@
   transition: background 0.3s ease;
 }
 
-.healthRecordBackButton:hover {
+.healthDetailBackButton:hover {
   background: #e53935;
 }
 
-.healthRecordTopSection {
+.healthDetailTopSection {
   display: flex;
   flex-direction: row;
   align-items: center;
   margin-bottom: 20px;
 }
 
-.healthRecordPetImageContainer {
+.healthDetailPetImageContainer {
   width: 200px;
   height: 200px;
   border: 2px solid #ccc;
@@ -55,33 +55,33 @@
   margin-right: 20px;
 }
 
-.healthRecordPetImage {
+.healthDetailPetImage {
   max-width: 100%;
   max-height: 100%;
   object-fit: cover;
 }
 
-.healthRecordBasicInfo {
+.healthDetailBasicInfo {
   text-align: left;
 }
 
-.healthRecordBasicInfo p {
+.healthDetailBasicInfo p {
   margin: 10px 0;
   font-size: 1.25em;
   color: #555;
   line-height: 1.5;
 }
 
-.healthRecordBottomSection {
+.healthDetailBottomSection {
   margin-top: 20px;
 }
 
-.healthRecordDetails {
+.healthDetailDetails {
   text-align: left;
   margin: 10px 0;
 }
 
-.healthRecordDetails p {
+.healthDetailDetails p {
   margin: 10px 0;
   font-size: 1.25em;
   color: #555;
@@ -89,39 +89,39 @@
   white-space: pre-line; /* 줄바꿈 처리 */
 }
 
-.healthRecordAttachmentSection {
+.healthDetailAttachmentSection {
   margin-top: 20px;
 }
 
-.healthRecordAttachmentSection strong {
+.healthDetailAttachmentSection strong {
   display: block;
   margin-bottom: 10px;
   font-size: 1.1em;
 }
 
-.healthRecordAttachmentSection ul {
+.healthDetailAttachmentSection ul {
   list-style-type: none;
   padding: 0;
 }
 
-.healthRecordAttachmentSection li {
+.healthDetailAttachmentSection li {
   padding: 5px 0;
   font-size: 0.9em;
   color: #333;
   border-bottom: 1px solid #e0e0e0;
 }
 
-.healthRecordAttachmentSection li:last-child {
+.healthDetailAttachmentSection li:last-child {
   border-bottom: none;
 }
 
-.healthRecordAttachmentLink {
+.healthDetailAttachmentLink {
   color: #007bff;
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
-.healthRecordAttachmentLink:hover {
+.healthDetailAttachmentLink:hover {
   color: #0056b3;
   text-decoration: underline;
 }

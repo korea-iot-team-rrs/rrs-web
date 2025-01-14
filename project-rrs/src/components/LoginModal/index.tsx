@@ -14,7 +14,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
   };
 
   const handleCancel = () => {
-    navigate("/");
+    navigate("/login");
     onClose();
   };
 
@@ -23,7 +23,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
       <div className="loginModalContainer">
         <button
           onClick={handleCancel}
-          className="closeButton"
+          className="loginCloseButton"
           aria-label="닫기 버튼"
         >
           &times;
@@ -31,16 +31,16 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
 
         <h2 className="loginModalTitle">로그인이 필요한 서비스입니다.</h2>
 
-        <div className="buttonContainer">
+        <div className="loginButtonContainer">
           <button
             onClick={handleConfirm}
-            className="loginModalButton confirmButton"
+            className="loginModalButton loginConfirmButton"
           >
             확인
           </button>
           <button
             onClick={handleCancel}
-            className="loginModalButton cancelButton"
+            className="loginModalButton loginCancelButton"
           >
             취소
           </button>

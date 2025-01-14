@@ -6,7 +6,7 @@ import "../../../../styles/pethealthRecord/pethealthRecordList.css";
 import { PetDiaryTodoProps } from "../../../../types/petDiaryType";
 import { FaPlusCircle } from "react-icons/fa";
 import HealthRecordCreate from "./HealthRecordCreate";
-import HealthRecordGet from "./HealthRecordGet";
+import HealthRecordGet from "./HealthRecordDetail";
 import HealthRecordUpdate from "./HealthRecordUpdate";
 import DeleteModal from "../../../DeleteModal";
 import {

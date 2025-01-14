@@ -4,21 +4,21 @@ import { fetchAttachmentsByHealthRecordId } from "../../../../../apis/healthReco
 import "../../../../../styles/pethealthRecord/pethealthRecordDetail.css";
 import { HealthRecordResponse } from "../../../../../types/petHealthType";
 
-const BASE_FILE_URL = "http://localhost:4040/"; // 파일 URL 기본 경로
+const BASE_FILE_URL = "http://localhost:4040/";
 
-interface HealthRecordGetProps {
+interface HealthDetailProps {
   selectedPet: { petId: number; petName: string; petImageUrl?: string } | null;
   healthRecordId: number;
   goBack: () => void;
   selectedDate: string;
 }
 
-export default function HealthRecordGet({
+export default function HealthDetail({
   selectedPet,
   healthRecordId,
   goBack,
   selectedDate,
-}: HealthRecordGetProps) {
+}: HealthDetailProps) {
   const [healthRecord, setHealthRecord] = useState<HealthRecordResponse | null>(
     null
   );
@@ -57,9 +57,9 @@ export default function HealthRecordGet({
 
   if (!selectedPet) {
     return (
-      <div className="healthRecordGetContainer">
+      <div className="healthDetailContainer">
         <p>반려 동물이 선택되지 않았습니다.</p>
-        <button onClick={goBack} className="healthRecordBackButton">
+        <button onClick={goBack} className="healthDetailBackButton">
           뒤로 가기
         </button>
       </div>
@@ -68,31 +68,31 @@ export default function HealthRecordGet({
 
   if (isLoading) {
     return (
-      <div className="healthRecordGetContainer">
+      <div className="healthDetailContainer">
         <p>로딩 중...</p>
       </div>
     );
   }
 
   return (
-    <div className="healthRecordGetContainer">
-      <div className="healthRecordHeader">
+    <div className="healthDetailContainer">
+      <div className="healthDetailHeader">
         <h2>건강 기록 상세 정보</h2>
-        <button onClick={goBack} className="healthRecordBackButton">
+        <button onClick={goBack} className="healthDetailBackButton">
           뒤로 가기
         </button>
       </div>
-      <div className="healthRecordTopSection">
+      <div className="healthDetailTopSection">
         {selectedPet.petImageUrl && (
-          <div className="healthRecordPetImageContainer">
+          <div className="healthDetailPetImageContainer">
             <img
               src={selectedPet.petImageUrl}
               alt={`${selectedPet.petName}의 사진`}
-              className="healthRecordPetImage"
+              className="healthDetailPetImage"
             />
           </div>
         )}
-        <div className="healthRecordBasicInfo">
+        <div className="healthDetailBasicInfo">
           <p>
             <strong>반려동물:</strong> {selectedPet.petName}
           </p>
@@ -108,8 +108,8 @@ export default function HealthRecordGet({
           </p>
         </div>
       </div>
-      <div className="healthRecordBottomSection">
-        <div className="belowImageDetails">
+      <div className="healthDetailBottomSection">
+        <div className="healthDetailBelowDetails">
           <p>
             <strong>이상 증상:</strong> {healthRecord?.abnormalSymptoms || "-"}
           </p>
@@ -121,7 +121,7 @@ export default function HealthRecordGet({
         </div>
       </div>
       {existingAttachments.length > 0 && (
-        <div className="healthRecordAttachmentSection">
+        <div className="healthDetailAttachmentSection">
           <strong>첨부 파일:</strong>
           <ul>
             {existingAttachments.map((filePath, index) => {
@@ -135,7 +135,7 @@ export default function HealthRecordGet({
                     href={`${BASE_FILE_URL}${filePath}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="healthRecordAttachmentLink"
+                    className="healthDetailAttachmentLink"
                   >
                     {fileName}
                   </a>

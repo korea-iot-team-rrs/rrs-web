@@ -1,5 +1,5 @@
-/* HealthRecordUpdate 화면 */
-.health-record-update-container {
+/* HealthUpdate 화면 */
+.healthUpdateContainer {
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
@@ -8,31 +8,30 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   height: 550px;
   overflow-y: auto;
-  
 }
 
-.health-record-update-container h1 {
+.healthUpdateContainer h1 {
   text-align: center;
   margin-bottom: 20px;
   font-size: 1.8em;
   color: #333;
 }
 
-.health-record-form-group {
+.healthUpdateFormGroup {
   margin-bottom: 15px;
-  height: 800px;
+  height: 90px;
 }
 
-.health-record-form-group label {
+.healthUpdateFormGroup label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
   color: #555;
 }
 
-.health-record-form-group input,
-.health-record-form-group textarea,
-.health-record-form-group select {
+.healthUpdateFormGroup input,
+.healthUpdateFormGroup textarea,
+.healthUpdateFormGroup select {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
@@ -45,12 +44,12 @@ textarea {
   min-height: 80px;
 }
 
-.health-record-file-list {
+.healthUpdateFileList {
   list-style-type: none;
   padding: 0;
 }
 
-.health-record-file-list li {
+.healthUpdateFileList li {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -58,54 +57,62 @@ textarea {
   border-bottom: 1px solid #e0e0e0;
 }
 
-.health-record-file-list li span {
+.healthUpdateFileList li span {
   flex: 1;
   font-size: 0.9em;
 }
 
-.health-record-icon-button {
+.healthUpdateIconButton {
   cursor: pointer;
   color: #d32f2f;
   font-size: 1.2em;
 }
 
-.health-record-button-group {
+.healthUpdateButtonGroup {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
 }
 
-button[type="submit"] {
+.healthUpdateButton[type="submit"] {
   background: #007bff;
   color: white;
 }
 
-button.health-record-cancel-button {
+.healthUpdateCancelButton {
   background: #f44336;
   color: white;
 }
 
-button:disabled {
+.healthUpdateButton:disabled {
   background: #ccc;
   cursor: not-allowed;
 }
 
-button:hover:not(:disabled) {
+.healthUpdateButton:hover:not(:disabled) {
   opacity: 0.9;
 }
 
-.petHealthLoadingMessage,
-.petHealthErrorMessage {
+.healthUpdateLoadingMessage,
+.healthUpdateErrorMessage {
   font-size: 14px;
   text-align: center;
 }
 
-.petHealthLoadingMessage {
+.healthUpdateLoadingMessage {
   color: #2194FF;
 }
 
-.petHealthErrorMessage {
+.healthUpdateErrorMessage {
   color: red;
 }
 
+.limitedText {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+}

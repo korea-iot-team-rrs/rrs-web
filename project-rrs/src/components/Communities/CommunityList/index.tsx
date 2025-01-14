@@ -130,15 +130,15 @@ export default function CommunityList() {
       {showLoginModal && <LoginModal onClose={handleCloseModal} />}
 
       <div className="community-search-container">
-        <div className="search-input-wrapper">
-          <IoSearch className="search-icon" />
+        <div className="community-search-input-wrapper">
           <input
             type="text"
-            className="search-input"
+            className="community-search-input"
             placeholder="제목 검색"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
+          <IoSearch className="comunity-search-icon" />
         </div>
 
         <div className="community-button-box">
@@ -149,7 +149,7 @@ export default function CommunityList() {
             글쓰기 +
           </button>
           <select
-            className="sort-dropdown"
+            className="community-sort-dropdown"
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
           >

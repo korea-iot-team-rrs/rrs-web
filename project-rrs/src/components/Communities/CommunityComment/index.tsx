@@ -21,48 +21,46 @@ const MAX_TOTAL_COMMENTS = 10;
 // 욕 필터하는 배열(욕 생각 날때마다 적기?)
 const BAD_WORDS = ["개새끼", "씨발", "병신", "꺼져"];
 
-const CommentsSection: React.FC<CommentsProps> = ({ communityId, token }) => {
-  const [comments, setComments] = useState<CommunityComment[]>([]);
-  const [newComment, setNewComment] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [showComments, setShowComments] = useState(false);
-  const [showCommentInput, setShowCommentInput] = useState(false);
-  const [currentUserNickname, setCurrentUserNickname] = useState<string | null>(
-    null
-  );
-  const [commentTimes, setCommentTimes] = useState<number[]>([]);
-  const [editMode, setEditMode] = useState<{ [id: number]: boolean }>({});
-  const [editText, setEditText] = useState<{ [id: number]: string }>({});
+const CommunityDetailCommentsSection: React.FC<CommentsProps> = ({ communityId, token }) => {
+  const [communityDetailComments, setCommunityDetailComments] = useState<CommunityComment[]>([]);
+  const [communityDetailNewComment, setCommunityDetailNewComment] = useState("");
+  const [communityDetailIsLoading, setCommunityDetailIsLoading] = useState(false);
+  const [communityDetailError, setCommunityDetailError] = useState<string | null>(null);
+  const [communityDetailShowComments, setCommunityDetailShowComments] = useState(false);
+  const [communityDetailShowCommentInput, setCommunityDetailShowCommentInput] = useState(false);
+  const [communityDetailCurrentUserNickname, setCommunityDetailCurrentUserNickname] = useState<string | null>(null);
+  const [communityDetailCommentTimes, setCommunityDetailCommentTimes] = useState<number[]>([]);
+  const [communityDetailEditMode, setCommunityDetailEditMode] = useState<{ [id: number]: boolean }>({});
+  const [communityDetailEditText, setCommunityDetailEditText] = useState<{ [id: number]: string }>({});
 
   useEffect(() => {
     const loadUserInfo = async () => {
       try {
         const userInfo = await fetchUserInfo();
-        setCurrentUserNickname(userInfo.nickname);
+        setCommunityDetailCurrentUserNickname(userInfo.nickname);
       } catch (error) {
         console.error("사용자 정보 로드 실패:", error);
       }
     };
 
     loadUserInfo();
-    fetchComments();
+    fetchCommunityDetailComments();
   }, [communityId, token]);
 
-  const fetchComments = async () => {
-    setIsLoading(true);
-    setError(null);
+  const fetchCommunityDetailComments = async () => {
+    setCommunityDetailIsLoading(true);
+    setCommunityDetailError(null);
     try {
       const response = await getCommentsByCommunity(communityId);
-      setComments(
+      setCommunityDetailComments(
         Array.isArray(response.data) ? response.data : [response.data]
       );
     } catch (error) {
       console.error("Failed to fetch comments:", error);
-      setError("Failed to load comments.");
-      setComments([]);
+      setCommunityDetailError("Failed to load comments.");
+      setCommunityDetailComments([]);
     } finally {
-      setIsLoading(false);
+      setCommunityDetailIsLoading(false);
     }
   };
 
@@ -73,18 +71,18 @@ const CommentsSection: React.FC<CommentsProps> = ({ communityId, token }) => {
     );
   };
 
-  const handleAddComment = async () => {
-    if (comments.length >= MAX_TOTAL_COMMENTS) {
+  const handleCommunityDetailAddComment = async () => {
+    if (communityDetailComments.length >= MAX_TOTAL_COMMENTS) {
       alert(`댓글은 최대 ${MAX_TOTAL_COMMENTS}개까지 작성할 수 있습니다.`);
       return;
     }
-    if (!newComment.trim()) return;
-    if (containsBadWord(newComment)) {
+    if (!communityDetailNewComment.trim()) return;
+    if (containsBadWord(communityDetailNewComment)) {
       alert("비속어가 포함된 댓글은 작성할 수 없습니다.");
       return;
     }
     const now = Date.now();
-    const recentTimes = commentTimes.filter((time) => now - time < TIME_WINDOW);
+    const recentTimes = communityDetailCommentTimes.filter((time) => now - time < TIME_WINDOW);
     if (recentTimes.length >= MAX_COMMENTS_IN_WINDOW) {
       alert(
         `연속적으로 최대 ${MAX_COMMENTS_IN_WINDOW}개의 댓글만 작성할 수 있습니다. 잠시 후 다시 시도해주세요.`
@@ -93,30 +91,30 @@ const CommentsSection: React.FC<CommentsProps> = ({ communityId, token }) => {
     }
 
     try {
-      const newCommentData = await createComment(communityId, newComment);
-      setComments((prevComments) => [...prevComments, newCommentData]);
-      setCommentTimes([...recentTimes, now]);
-      setNewComment("");
-      setShowCommentInput(false);
-      setError(null);
+      const newCommentData = await createComment(communityId, communityDetailNewComment);
+      setCommunityDetailComments((prevComments) => [...prevComments, newCommentData]);
+      setCommunityDetailCommentTimes([...recentTimes, now]);
+      setCommunityDetailNewComment("");
+      setCommunityDetailShowCommentInput(false);
+      setCommunityDetailError(null);
     } catch (error) {
       console.error("댓글 등록 실패:", error);
-      setError("댓글 등록에 실패했습니다.");
+      setCommunityDetailError("댓글 등록에 실패했습니다.");
     }
   };
 
-  const handleEditClick = (commentId: number, oldContent: string) => {
-    setEditMode((prev) => ({ ...prev, [commentId]: true }));
-    setEditText((prev) => ({ ...prev, [commentId]: oldContent }));
+  const handleCommunityDetailEditClick = (commentId: number, oldContent: string) => {
+    setCommunityDetailEditMode((prev) => ({ ...prev, [commentId]: true }));
+    setCommunityDetailEditText((prev) => ({ ...prev, [commentId]: oldContent }));
   };
 
-  const handleEditCancel = (commentId: number) => {
-    setEditMode((prev) => ({ ...prev, [commentId]: false }));
-    setEditText((prev) => ({ ...prev, [commentId]: "" }));
+  const handleCommunityDetailEditCancel = (commentId: number) => {
+    setCommunityDetailEditMode((prev) => ({ ...prev, [commentId]: false }));
+    setCommunityDetailEditText((prev) => ({ ...prev, [commentId]: "" }));
   };
 
-  const handleEditSubmit = async (commentId: number) => {
-    const updated = editText[commentId] || "";
+  const handleCommunityDetailEditSubmit = async (commentId: number) => {
+    const updated = communityDetailEditText[commentId] || "";
     if (!updated.trim()) {
       alert("수정할 내용이 비어있습니다.");
       return;
@@ -130,52 +128,50 @@ const CommentsSection: React.FC<CommentsProps> = ({ communityId, token }) => {
       await updateComment(communityId, commentId, {
         communityCommentContent: updated,
       });
-      setEditMode((prev) => ({ ...prev, [commentId]: false }));
-      setEditText((prev) => ({ ...prev, [commentId]: "" }));
-      fetchComments();
+      setCommunityDetailEditMode((prev) => ({ ...prev, [commentId]: false }));
+      setCommunityDetailEditText((prev) => ({ ...prev, [commentId]: "" }));
+      fetchCommunityDetailComments();
     } catch (error) {
       console.error("댓글 수정 실패:", error);
-      setError("댓글 수정에 실패했습니다.");
+      setCommunityDetailError("댓글 수정에 실패했습니다.");
     }
   };
 
-  const handleDeleteComment = async (commentId: number) => {
+  const handleCommunityDetailDeleteComment = async (commentId: number) => {
     if (!window.confirm("댓글을 삭제하시겠습니까?")) return;
     try {
       await deleteCommentFromCommunity(communityId, commentId);
-      fetchComments();
+      fetchCommunityDetailComments();
     } catch (error) {
       console.error("댓글 삭제 실패:", error);
-      setError("댓글 삭제에 실패했습니다.");
+      setCommunityDetailError("댓글 삭제에 실패했습니다.");
     }
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleCommunityDetailKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === "Enter") {
       event.preventDefault();
-      // 만약 엔터키로 댓글을 제출하고 싶다면 아래 주석을 해제하세요.
-      // handleAddComment();
     }
   };
 
   return (
-    <div className="comment-section">
-      <div className="comment-writebox">
+    <div className="communityDetailCommentSection">
+      <div className="communityDetailCommentWriteBox">
         <strong
-          onClick={() => setShowComments(!showComments)}
-          className="comment-viewButton"
+          onClick={() => setCommunityDetailShowComments(!communityDetailShowComments)}
+          className="communityDetailCommentViewButton"
         >
-          댓글 {showComments ? <FaChevronUp /> : <FaChevronDown />}
+          댓글 {communityDetailShowComments ? <FaChevronUp /> : <FaChevronDown />}
         </strong>
-        <strong className="comment-writeButton">
+        <strong className="communityDetailCommentWriteButton">
           <button
             onClick={() => {
-              if (comments.length >= MAX_TOTAL_COMMENTS) {
+              if (communityDetailComments.length >= MAX_TOTAL_COMMENTS) {
                 alert(
                   `댓글은 최대 ${MAX_TOTAL_COMMENTS}개까지 작성할 수 있습니다.`
                 );
               } else {
-                setShowCommentInput(!showCommentInput);
+                setCommunityDetailShowCommentInput(!communityDetailShowCommentInput);
               }
             }}
           >
@@ -184,42 +180,42 @@ const CommentsSection: React.FC<CommentsProps> = ({ communityId, token }) => {
         </strong>
       </div>
 
-      {isLoading && <p>Loading comments...</p>}
-      {error && <p>{error}</p>}
+      {communityDetailIsLoading && <p>Loading comments...</p>}
+      {communityDetailError && <p>{communityDetailError}</p>}
 
-      {showComments && (
-        <div className="comment-list">
-          {comments.map((comment) => {
-            const isEditing = editMode[comment.commentId] || false;
+      {communityDetailShowComments && (
+        <div className="communityDetailCommentList">
+          {communityDetailComments.map((comment) => {
+            const isEditing = communityDetailEditMode[comment.commentId] || false;
             return (
-              <div key={comment.commentId} className="comment-item">
-                <div className="comment-header">
-                  <strong className="comment-author">{comment.nickname}</strong>
+              <div key={comment.commentId} className="communityDetailCommentItem">
+                <div className="communityDetailCommentHeader">
+                  <strong className="communityDetailCommentAuthor">{comment.nickname}</strong>
                 </div>
                 {isEditing ? (
                   <>
                     <textarea
-                      className="comment-edit-textarea"
-                      value={editText[comment.commentId] || ""}
+                      className="communityDetailCommentEditTextarea"
+                      value={communityDetailEditText[comment.commentId] || ""}
                       onChange={(e) =>
-                        setEditText((prev) => ({
+                        setCommunityDetailEditText((prev) => ({
                           ...prev,
                           [comment.commentId]: e.target.value,
                         }))
                       }
-                      onKeyDown={handleKeyDown} // 엔터키 막기
+                      onKeyDown={handleCommunityDetailKeyDown}
                     />
-                    <div className="comment-actions">
+                    <div className="communityDetailCommentActions">
                       <button
-                        className="comment-viewButton"
-                        onClick={() => handleEditSubmit(comment.commentId)}
+                        className="communityDetailCommentViewButton"
+                        onClick={() => handleCommunityDetailEditSubmit(comment.commentId)}
                         aria-label="댓글 수정 완료"
                       >
                         완료
                       </button>
                       <button
-                        className="comment-viewButton"
-                        onClick={() => handleEditCancel(comment.commentId)}
+                        className="communityDetailCommentViewButton"
+                        onClick={() => handleCommunityDetailEditCancel(comment.commentId)}
                         aria-label="댓글 수정 취소"
                       >
                         취소
@@ -228,7 +224,7 @@ const CommentsSection: React.FC<CommentsProps> = ({ communityId, token }) => {
                   </>
                 ) : (
                   <>
-                    <div className="comment-content">
+                    <div className="communityDetailCommentContent">
                       {comment.communityContent
                         .split("\n")
                         .map((line, index) => (
@@ -238,12 +234,12 @@ const CommentsSection: React.FC<CommentsProps> = ({ communityId, token }) => {
                           </span>
                         ))}
                     </div>
-                    {currentUserNickname === comment.nickname && (
-                      <div className="comment-actions">
+                    {communityDetailCurrentUserNickname === comment.nickname && (
+                      <div className="communityDetailCommentActions">
                         <button
-                          className="comment-viewButton"
+                          className="communityDetailCommentViewButton"
                           onClick={() =>
-                            handleEditClick(
+                            handleCommunityDetailEditClick(
                               comment.commentId,
                               comment.communityContent
                             )
@@ -253,8 +249,8 @@ const CommentsSection: React.FC<CommentsProps> = ({ communityId, token }) => {
                           수정
                         </button>
                         <button
-                          className="comment-viewButton"
-                          onClick={() => handleDeleteComment(comment.commentId)}
+                          className="communityDetailCommentViewButton"
+                          onClick={() => handleCommunityDetailDeleteComment(comment.commentId)}
                           aria-label="댓글 삭제"
                         >
                           삭제
@@ -269,21 +265,21 @@ const CommentsSection: React.FC<CommentsProps> = ({ communityId, token }) => {
         </div>
       )}
 
-      {showCommentInput && (
-        <div className="comment-viewbox">
+      {communityDetailShowCommentInput && (
+        <div className="communityDetailCommentViewBox">
           <textarea
-            className="comment-edit-textarea"
+            className="communityDetailCommentEditTextarea"
             autoFocus
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            onKeyDown={handleKeyDown} // 엔터키 막기
+            value={communityDetailNewComment}
+            onChange={(e) => setCommunityDetailNewComment(e.target.value)}
+            onKeyDown={handleCommunityDetailKeyDown}
             placeholder="댓글을 입력해주세요"
           />
-          <button onClick={handleAddComment}>등록</button>
+          <button onClick={handleCommunityDetailAddComment}>등록</button>
           <button
             onClick={() => {
-              setNewComment("");
-              setShowCommentInput(false);
+              setCommunityDetailNewComment("");
+              setCommunityDetailShowCommentInput(false);
             }}
           >
             취소
@@ -294,4 +290,4 @@ const CommentsSection: React.FC<CommentsProps> = ({ communityId, token }) => {
   );
 };
 
-export default CommentsSection;
+export default CommunityDetailCommentsSection;
