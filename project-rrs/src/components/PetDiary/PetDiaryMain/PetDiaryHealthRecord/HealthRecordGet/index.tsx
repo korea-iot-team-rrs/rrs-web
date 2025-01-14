@@ -78,21 +78,21 @@ export default function HealthRecordGet({
     <div className="healthRecordGetContainer">
       <div className="healthRecordHeader">
         <h2>건강 기록 상세 정보</h2>
-        <button onClick={goBack} className="goBackButton">
+        <button onClick={goBack} className="healthRecordBackButton">
           뒤로 가기
         </button>
       </div>
-      <div className="topSection">
+      <div className="healthRecordTopSection">
         {selectedPet.petImageUrl && (
-          <div className="petImageContainer">
+          <div className="healthRecordPetImageContainer">
             <img
               src={selectedPet.petImageUrl}
               alt={`${selectedPet.petName}의 사진`}
-              className="petImage"
+              className="healthRecordPetImage"
             />
           </div>
         )}
-        <div className="basicInfo">
+        <div className="healthRecordBasicInfo">
           <p>
             <strong>반려동물:</strong> {selectedPet.petName}
           </p>
@@ -108,7 +108,7 @@ export default function HealthRecordGet({
           </p>
         </div>
       </div>
-      <div className="bottomSection">
+      <div className="healthRecordBottomSection">
         <div className="belowImageDetails">
           <p>
             <strong>이상 증상:</strong> {healthRecord?.abnormalSymptoms || "-"}
@@ -121,7 +121,7 @@ export default function HealthRecordGet({
         </div>
       </div>
       {existingAttachments.length > 0 && (
-        <div className="attachmentSection">
+        <div className="healthRecordAttachmentSection">
           <strong>첨부 파일:</strong>
           <ul>
             {existingAttachments.map((filePath, index) => {
@@ -135,7 +135,7 @@ export default function HealthRecordGet({
                     href={`${BASE_FILE_URL}${filePath}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="attachmentLink"
+                    className="healthRecordAttachmentLink"
                   >
                     {fileName}
                   </a>
