@@ -119,6 +119,8 @@ export default function RrsSignUp() {
     addressDetail: "",
     email: "",
     phone: "",
+    joinPath: joinPath ? joinPath : "Home",
+    snsId: snsId
   });
   const [emailDomain, setEmailDomain] = useState("custom");
 

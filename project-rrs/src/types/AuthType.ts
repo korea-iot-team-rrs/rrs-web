@@ -33,6 +33,8 @@ export interface UserSignUp {
     address: string;
     addressDetail: string;
     email: string;
+    joinPath: string;
+    snsId: string | null;
 }
 
 // 인증 DTO

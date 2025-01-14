@@ -14,8 +14,7 @@ export default function AuthRedirectHandler() {
     if (snsId && joinPath) {
       console.log("snsId:", snsId, "joinPath:", joinPath);
 
-      // /signup 페이지 -  page: 1값 같이 보내기
-      navigate(`/signup/?snsId=${snsId}&joinPath=${joinPath}`);
+      navigate(`/signup/rrs?snsId=${snsId}&joinPath=${joinPath}`);
     } else {
       console.error("필요한 파라미터가 없습니다.");
     }
