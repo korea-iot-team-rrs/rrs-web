@@ -21,7 +21,6 @@ export default function RrsSignUp() {
   const snsId = params.get("snsId");
   const joinPath = params.get("joinPath");
 
-
   const [errors, setErrors] = useState<Errors>({});
 
   const [ userInfo , setUserInfo ] = useState<UserSignUp>({
@@ -34,7 +33,9 @@ export default function RrsSignUp() {
     address: "",
     addressDetail: "",
     email: "",
-    phone: ""
+    phone: "",
+    joinPath: joinPath ? joinPath : "Home",
+    snsId: snsId
   })
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
