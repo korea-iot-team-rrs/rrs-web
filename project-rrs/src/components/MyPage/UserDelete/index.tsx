@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { deleteUserInfo } from "../../../apis/userInfo";
-import useAuthStore from "../../../stores/auth.store";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+import useAuthStore from "../../../stores/useAuthStore";
 
 export default function UserDelete() {
   const [password, setPassword] = useState<string>("");

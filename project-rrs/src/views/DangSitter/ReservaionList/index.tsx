@@ -7,7 +7,7 @@ import {
 import { Reservation } from "../../../types/reservationType";
 import { useCookies } from "react-cookie";
 import { Button, Pagination } from "@mui/material";
-import ReservationItem from "../ReservationItem";
+import ReservationItem from "../../../components/DangSitter/ReservationItem";
 import { useRefreshStore } from "../../../stores/refreshStore";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -116,19 +116,29 @@ export default function ReservationList() {
     <div className="reservation-list-container">
       <div className="reservation-list-title">
         <h2>나의 예약 목록</h2>
-        <div>
+        <div className="reservation-date-picker">
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              label="조회 시작 날짜"
-              value={startDate}
-              onChange={(newStartDate) => setStartDate(newStartDate)}
-            />
-            <DatePicker
-              label="조회 종료 날짜"
-              value={endDate}
-              minDate={startDate?.add(1, "day")}
-              onChange={(newEndDate) => setEndDate(newEndDate)}
-            />
+            <div className="date-picker-detail">
+              <span>시작일</span>
+              <DatePicker
+                value={startDate}
+                onChange={(newStartDate) => setStartDate(newStartDate)}
+                sx={{
+                  all: "unset",
+                }}
+              />
+            </div>
+            <div className="date-picker-detail">
+              <span>종료일</span>
+              <DatePicker
+                value={endDate}
+                minDate={startDate?.add(1, "day")}
+                onChange={(newEndDate) => setEndDate(newEndDate)}
+                sx={{
+                  all: "unset",
+                }}
+              />
+            </div>
           </LocalizationProvider>
           <Button
             variant="contained"
@@ -137,6 +147,7 @@ export default function ReservationList() {
             sx={{
               borderRadius: "10px",
               fontFamily: "Pretendard",
+              height: "100%"
             }}
           >
             조회
@@ -165,7 +176,9 @@ export default function ReservationList() {
                 <ReservationItem
                   reservation={reservation}
                   reviewStatus={reviewsStatus[reservation.reservationId] || "N"}
-                  onClick={(id) => navigate(`/dang-sitter/reservations/${id}`)}
+                  onClick={(id) =>
+                    navigate(`/users/dang-sitter/reservations/${id}`)
+                  }
                   index={descendingIndex}
                 />
               </li>

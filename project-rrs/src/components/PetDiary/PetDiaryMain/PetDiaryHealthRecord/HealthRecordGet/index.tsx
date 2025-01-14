@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { getHealthRecordById } from "../../../../../apis/petHealthApi";
-import "../../../../../styles/PetHealthRecord.css";
+import { fetchAttachmentsByHealthRecordId } from "../../../../../apis/healthRecordAttachment";
+import "../../../../../styles/pethealthRecord/pethealthRecordDetail.css";
 import { HealthRecordResponse } from "../../../../../types/petHealthType";
 
 const BASE_FILE_URL = "http://localhost:4040/"; // 파일 URL 기본 경로
 
 interface HealthRecordGetProps {
-  selectedPet: { petId: number; petName: string } | null;
+  selectedPet: { petId: number; petName: string; petImageUrl?: string } | null;
   healthRecordId: number;
   goBack: () => void;
   selectedDate: string;
@@ -18,7 +19,10 @@ export default function HealthRecordGet({
   goBack,
   selectedDate,
 }: HealthRecordGetProps) {
-  const [healthRecord, setHealthRecord] = useState<HealthRecordResponse | null>(null);
+  const [healthRecord, setHealthRecord] = useState<HealthRecordResponse | null>(
+    null
+  );
+  const [existingAttachments, setExistingAttachments] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -28,11 +32,21 @@ export default function HealthRecordGet({
       setIsLoading(true);
 
       try {
-        const record = await getHealthRecordById(selectedPet.petId, healthRecordId);
-        console.log(record)
+        const record = await getHealthRecordById(
+          selectedPet.petId,
+          healthRecordId
+        );
         setHealthRecord(record);
-      } catch {
-        console.log("건강 기록이 없습니다.")
+
+        const serverAttachments = await fetchAttachmentsByHealthRecordId(
+          healthRecordId
+        );
+        const filePaths = serverAttachments.map(
+          (attachment) => attachment.filePath
+        );
+        setExistingAttachments(filePaths);
+      } catch (err) {
+        console.error("건강 기록을 가져오는 중 오류:", err);
       } finally {
         setIsLoading(false);
       }
@@ -62,54 +76,75 @@ export default function HealthRecordGet({
 
   return (
     <div className="healthRecordGetContainer">
-      <h2>건강 기록 상세 정보</h2>
-      {healthRecord ? (
-        <>
+      <div className="header">
+        <h2>건강 기록 상세 정보</h2>
+        <button onClick={goBack} className="goBackButton">
+          뒤로 가기
+        </button>
+      </div>
+      <div className="topSection">
+        {selectedPet.petImageUrl && (
+          <div className="petImageContainer">
+            <img
+              src={selectedPet.petImageUrl}
+              alt={`${selectedPet.petName}의 사진`}
+              className="petImage"
+            />
+          </div>
+        )}
+        <div className="basicInfo">
           <p>
-            <strong>반려 동물:</strong> {selectedPet.petName}
+            <strong>반려동물:</strong> {selectedPet.petName}
           </p>
           <p>
-            <strong>날짜:</strong> {new Date(healthRecord.createdAt).toLocaleDateString()}
+            <strong>날짜:</strong>{" "}
+            {new Date(healthRecord?.createdAt || selectedDate).toLocaleDateString()}
           </p>
           <p>
-            <strong>이상 증상:</strong> {healthRecord.abnormalSymptoms}
+            <strong>체중:</strong> {healthRecord?.weight || "-"} kg
           </p>
           <p>
-            <strong>체중:</strong> {healthRecord.weight} kg
+            <strong>반려동물 나이:</strong> {healthRecord?.petAge || "-"} 세
           </p>
+        </div>
+      </div>
+      <div className="bottomSection">
+        <div className="belowImageDetails">
           <p>
-            <strong>반려동물 나이:</strong> {healthRecord.petAge} 세
+            <strong>이상 증상:</strong> {healthRecord?.abnormalSymptoms || "-"}
           </p>
-          {healthRecord.memo && (
+          {healthRecord?.memo && (
             <p>
               <strong>메모:</strong> {healthRecord.memo}
             </p>
           )}
-          {healthRecord.attachments && healthRecord.attachments.length > 0 && (
-            <div>
-              <strong>첨부 파일:</strong>
-              <ul>
-                {healthRecord.attachments.map((filePath, index) => (
-                  <li key={index}>
-                    <a
-                      href={`${BASE_FILE_URL}${filePath}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      첨부 파일 {index + 1}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </>
-      ) : (
-        <p>건강 기록을 찾을 수 없습니다.</p>
+        </div>
+      </div>
+      {existingAttachments.length > 0 && (
+        <div className="attachmentSection">
+          <strong>첨부 파일:</strong>
+          <ul>
+            {existingAttachments.map((filePath, index) => {
+              const fileNameWithUuid = filePath.split("/").pop();
+              const fileName = fileNameWithUuid
+                ? fileNameWithUuid.replace(/^[0-9a-fA-F-]{36}_/, "")
+                : "Unknown File";
+              return (
+                <li key={index}>
+                  <a
+                    href={`${BASE_FILE_URL}${filePath}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="attachmentLink"
+                  >
+                    {fileName}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       )}
-      <button onClick={goBack} className="goBackButton">
-        뒤로 가기
-      </button>
     </div>
   );
 }

@@ -2761,3 +2761,12 @@ figure {
     grid-column: span 1 / span 1;
   }
 }
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: none !important;
+}

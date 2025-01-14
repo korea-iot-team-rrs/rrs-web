@@ -1,110 +1,110 @@
 .cs-write-wrapper {
-    display: flex;
-    flex-direction: column;
-    padding: 0 20%;
-    gap: 20px;
-    font-family: "Pretendard";
-  }
-  
-  .cs-write-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0px;
+  display: flex;
+  flex-direction: column;
+  padding: 0 20%;
+  gap: 20px;
+  font-family: "Pretendard";
+}
 
-    h2 {
-      font-size: 24px;
-      padding: 0;
-      margin: 0;
-    }
-  }
-  
-  .cs-write-header h1 {
-    text-align: center;
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-  }
-  
-  .cs-switch-btn {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-  }
-  
-  .cs-write-title input,
-  .cs-write-content textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .cs-write-content textarea {
-    resize: none;
-  }
-  
-  .cs-write-attachment h3 {
-    font-size: 16px;
-    margin-bottom: 10px;
-  }
-  
-  .cs-write-attachment ul {
-    list-style-type: none;
+.cs-write-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px;
+
+  h2 {
+    font-size: 24px;
     padding: 0;
     margin: 0;
   }
-  
-  .cs-write-attachment ul li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 5px 10px;
-    margin-bottom: 5px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: #fff;
-  }
-  
-  .cs-write-attachment ul li button {
-    margin-left: 10px;
-    color: red;
-    border: none;
-    background: none;
-    cursor: pointer;
-  }
-  
-  .cs-complete-btn {
-    display: flex;
-    justify-content: end;
-    text-align: center;
-    padding-top: 20px;
-  }
+}
 
-  .file-input-wrapper {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .custom-file-label {
-    display: inline-block;
-    background-color: #bdbdbd;
-    color: #fff;
-    padding: 5px 20px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
-    text-align: center;
-    transition: background-color 0.3s ease;
-    font-weight: 400;
-  }
-  
-  .custom-file-label:hover {
-    background-color: #727272;
-  }
-  
-  .custom-file-label:active {
-    background-color: #585858;
-  }
+.cs-write-header h1 {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.cs-switch-btn {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.cs-write-title input,
+.cs-write-content textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.cs-write-content textarea {
+  resize: none;
+}
+
+.cs-write-attachment h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.cs-write-attachment ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cs-write-attachment ul li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 10px;
+  margin-bottom: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.cs-write-attachment ul li button {
+  margin-left: 10px;
+  color: red;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.cs-complete-btn {
+  display: flex;
+  justify-content: end;
+  text-align: center;
+  padding-top: 20px;
+}
+
+.file-input-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.custom-file-label {
+  display: inline-block;
+  background-color: #bdbdbd;
+  color: #fff;
+  padding: 5px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+  transition: background-color 0.3s ease;
+  font-weight: 400;
+}
+
+.custom-file-label:hover {
+  background-color: #727272;
+}
+
+.custom-file-label:active {
+  background-color: #585858;
+}

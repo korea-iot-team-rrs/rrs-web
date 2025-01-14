@@ -142,21 +142,19 @@ export default function DangSitterModal({
 
             <div className="moreBtn">
               <div style={{ display: "flex", alignItems: "center" }}>
-                <span>리뷰 더보기</span>
-                <IconButton
+                <Button
+                  className="viewMoreBtn"
                   aria-label="view more reviews"
+                  endIcon={<MoreVertIcon />}
                   size="small"
+                  onClick={viewMoreReviewButtonHandler}
                   sx={{
-                    margin: "0px",
-                    padding: "0px",
                     borderRadius: "10px",
                     marginLeft: "8px",
                   }}
-                  onClick={viewMoreReviewButtonHandler}
-                  className="viewMoreBtn"
                 >
-                  <MoreVertIcon />
-                </IconButton>
+                  리뷰 더보기
+                </Button>
               </div>
             </div>
           </div>

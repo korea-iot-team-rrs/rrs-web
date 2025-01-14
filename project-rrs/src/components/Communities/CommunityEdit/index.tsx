@@ -1,8 +1,10 @@
 import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import useAuthStore from "../../../stores/auth.store";
 import { getCommunityById, updateCommunity } from "../../../apis/communityApi";
+import { communityAttachmentApi } from "../../../apis/communityAttachmentApi";
 import "../../../styles/communities/CommunityEdit.css";
+import useAuthStore from "../../../stores/useAuthStore";
+import { FaTrash } from "react-icons/fa";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const BASE_FILE_URL = "http://localhost:4040/";
@@ -16,6 +18,15 @@ const ErrorMessages = {
   UPDATE_FAILED: "게시글 수정 중 오류가 발생했습니다.",
 };
 
+const removeUUIDFromFileName = (fileName: string): string => {
+  return fileName.replace(/^[a-f0-9-]{36}_/, ""); // UUID 형식 제거
+};
+
+const extractFileName = (filePath: string): string => {
+  const fullName = filePath.split("/").pop() || "알 수 없는 파일";
+  return removeUUIDFromFileName(fullName);
+};
+
 export default function CommunityEdit() {
   const navigate = useNavigate();
   const { isLoggedIn } = useAuthStore();
@@ -23,8 +34,13 @@ export default function CommunityEdit() {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [communityThumbnailFile, setCommunityThumbnailFile] = useState<File | undefined>(undefined);
+  const [communityThumbnailFile, setCommunityThumbnailFile] = useState<
+    File | undefined
+  >(undefined);
   const [attachments, setAttachments] = useState<File[]>([]);
+  const [existingAttachments, setExistingAttachments] = useState<
+    { url: string; name: string }[]
+  >([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [thumbnailPreview, setThumbnailPreview] = useState<string>("");
@@ -46,21 +62,33 @@ export default function CommunityEdit() {
         const community = await getCommunityById(communityIdNumber);
         setTitle(community.communityTitle);
         setContent(community.communityContent);
+
         if (community.communityThumbnailFile) {
-          const thumbnailUrl = `${BASE_FILE_URL}${community.communityThumbnailFile.replace(/\\/g, "/")}`;
+          const thumbnailUrl = `${BASE_FILE_URL}${community.communityThumbnailFile.replace(
+            /\\/g,
+            "/"
+          )}`;
           setThumbnailPreview(thumbnailUrl);
+        }
+
+        if (community.attachments) {
+          const attachmentUrls = community.attachments.map(
+            (attachment: any) => {
+              const filePath =
+                typeof attachment === "string" ? attachment : attachment.url;
+              return {
+                url: `${BASE_FILE_URL}${filePath.replace(/\\/g, "/")}`,
+                name: extractFileName(filePath),
+              };
+            }
+          );
+          setExistingAttachments(attachmentUrls);
         }
       } catch {
         setError(ErrorMessages.FETCH_FAILED);
       }
     })();
   }, [communityIdNumber]);
-
-  useEffect(() => {
-    if (thumbnailPreview) {
-      return () => URL.revokeObjectURL(thumbnailPreview);
-    }
-  }, [thumbnailPreview]);
 
   const validateFile = (file: File): boolean => {
     const allowedTypes = ["image/jpeg", "image/png", "application/pdf"];
@@ -75,7 +103,10 @@ export default function CommunityEdit() {
     return true;
   };
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>, isThumbnail = false) => {
+  const handleFileChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    isThumbnail = false
+  ) => {
     const files = e.target.files;
     if (!files) return;
 
@@ -89,12 +120,27 @@ export default function CommunityEdit() {
       }
     } else {
       const validFiles = fileArray.filter(validateFile);
-      setAttachments((prev) => [...prev, ...validFiles.filter((file) => !prev.includes(file))]);
+      setAttachments((prev) => [
+        ...prev,
+        ...validFiles.filter((file) => !prev.includes(file)),
+      ]);
     }
   };
 
-  const removeFile = (index: number) => {
-    setAttachments((prev) => prev.filter((_, i) => i !== index));
+  const handleRemoveExistingAttachment = (index: number) => {
+    setExistingAttachments((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleRemoveAllExistingAttachments = async () => {
+    const communityId = communityIdNumber;
+    if (!communityId) return;
+
+    try {
+      await communityAttachmentApi.deleteAttachmentsByCommunityId(communityId);
+      setExistingAttachments([]);
+    } catch {
+      alert("전체 첨부파일 삭제에 실패했습니다.");
+    }
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -119,6 +165,9 @@ export default function CommunityEdit() {
           communityContent: content,
           communityThumbnailFile,
           attachments,
+          existingAttachments: existingAttachments.map(
+            (attachment) => attachment.url
+          ),
         });
 
         alert("게시글이 성공적으로 수정되었습니다!");
@@ -177,18 +226,49 @@ export default function CommunityEdit() {
           {thumbnailPreview && (
             <div>
               <p>현재 썸네일:</p>
-              <img src={thumbnailPreview} alt="썸네일 미리보기" className="thumbnail-preview" />
+              <img
+                src={thumbnailPreview}
+                alt="썸네일 미리보기"
+                className="thumbnail-preview"
+              />
             </div>
           )}
         </div>
         <div className="form-group">
-          <label htmlFor="attachments">첨부 파일</label>
+          <label>기존 첨부 파일</label>
+          <ul className="file-list">
+            {existingAttachments.map((attachment, index) => (
+              <li key={index} className="file-item">
+                <span>{attachment.name}</span>
+                <button
+                  type="button"
+                  className="file-remove-button"
+                  onClick={() => handleRemoveExistingAttachment(index)}
+                >
+                  <FaTrash />
+                </button>
+              </li>
+            ))}
+          </ul>
+          {existingAttachments.length > 0 && (
+            <button
+              type="button"
+              className="file-remove-button"
+              onClick={handleRemoveAllExistingAttachments}
+            >
+              <FaTrash /> 전체 삭제
+            </button>
+          )}
+        </div>
+        <div className="form-group">
+          <label htmlFor="attachments">새 첨부 파일</label>
           <input
             type="file"
             id="attachments"
             onChange={handleFileChange}
             multiple
             accept="image/*,application/pdf"
+            className="custom-file-input"
           />
           {attachments.length > 0 && (
             <ul className="file-list">
@@ -198,9 +278,13 @@ export default function CommunityEdit() {
                   <button
                     type="button"
                     className="file-remove-button"
-                    onClick={() => removeFile(index)}
+                    onClick={() =>
+                      setAttachments((prev) =>
+                        prev.filter((_, i) => i !== index)
+                      )
+                    }
                   >
-                    삭제
+                    <FaTrash />
                   </button>
                 </li>
               ))}
@@ -211,7 +295,11 @@ export default function CommunityEdit() {
           <button type="submit" disabled={isSubmitting}>
             {isSubmitting ? "수정 중..." : "수정"}
           </button>
-          <button type="button" onClick={handleCancel} className="cancel-button">
+          <button
+            type="button"
+            onClick={handleCancel}
+            className="cancel-button"
+          >
             취소
           </button>
         </div>

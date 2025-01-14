@@ -16,75 +16,190 @@ import CommunityDetailView from "./views/CommunityVIew/CommunityDetailView";
 
 import CommunityCreateView from "./views/CommunityVIew/CommunityCreateView";
 import MyPageView from "./views/MyPage/User";
-import DangSitter from "./components/DangSitter";
-import CustomerSupport from "./views/CustomerSupport";
-import CustomerSupportDetail from "./components/CustomerSupport/CustomerSupportDetail";
-import CustomerSupportWrite from "./components/CustomerSupport/CustomerSupportWrite";
 
-import ReservationList from "./components/DangSitter/ReservaionList";
-import ReservationForm from "./components/DangSitter/ReservationForm";
-import ReservationUserDetail from "./components/DangSitter/ReservaionUserDetail";
+import ReservationList from "./views/DangSitter/ReservaionList";
+import ReservationForm from "./views/DangSitter/ReservationForm";
+import ReservationUserDetail from "./views/DangSitter/ReservaionUserDetail";
 
 import CommunityEditView from "./views/CommunityVIew/CommunityEditView";
-import CustomerSupportUpdate from "./components/CustomerSupport/CustomerSupportUpdate";
 import SignUpMain from "./views/Auth/SignUp/SignUpMain";
 import SignUp from "./views/Auth/SignUp/RrsSignUp";
 import FindId from "./views/Auth/FindId";
 import FindPassword from "./views/Auth/FindPassword/FindPassword";
 import FinduserInfo from "./views/Auth/FindUserInfo";
 import Login from "./views/Auth/Login";
+import CustomerSupportList from "./views/CustomerSupport/CustomerSupportList";
+import DangSitterMain from "./views/DangSitter/DangSitterMain";
+import CustomerSupportDetail from "./views/CustomerSupport/CustomerSupportDetail";
+import CustomerSupportWrite from "./views/CustomerSupport/CustomerSupportWrite";
+import CustomerSupportUpdate from "./views/CustomerSupport/CustomerSupportUpdate";
+import { useAuthCheck } from "./stores/useAuthCheck";
+import ProtectedRoute from "./types/routerType";
+import { CircularProgress } from "@mui/material";
+import PetRoad from "./views/PetRoad";
+import ProviderUpdate from "./views/DangSitter/providerUpdate";
 
 function App() {
+  const { isLoading } = useAuthCheck();
+
+  if (isLoading) {
+    return <CircularProgress />;
+  }
+
   return (
-    <div className="app-container">
-      <Header />
-      <div className="content">
-        <Routes>
-          <Route path="/" element={<Main />} />
-          {/* 인증 관련 라우트  */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUpMain />} />
-          <Route path="/signup/rrs" element={<SignUp />} />
-          <Route path="/find-id/:token" element={<FindId />} />
-          <Route path="/find-password/:token" element={<FindPassword />} />
-          <Route path="/find-user-info" element={<FinduserInfo />} />
+    <>
+      <div className="app-container">
+        <Header />
+        <div className="content">
+          <Routes>
+            <Route path="/main" element={<Main />} />
+            {/* 인증 관련 라우트  */}
+            <Route
+              path="/login"
+              element={
+                <ProtectedRoute requireAuth={false}>
+                  <Login />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <ProtectedRoute requireAuth={false}>
+                  <SignUpMain />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/signup/rrs"
+              element={
+                <ProtectedRoute requireAuth={false}>
+                  <SignUp />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/find-id/:token"
+              element={
+                <ProtectedRoute requireAuth={false}>
+                  <FindId />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/find-password/:token"
+              element={
+                <ProtectedRoute requireAuth={false}>
+                  <FindPassword />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/find-user-info"
+              element={
+                <ProtectedRoute requireAuth={false}>
+                  <FinduserInfo />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route path="/announcements" element={<AnnouncementListView />} />
-          <Route path="/announcements/:id" element={<AnnouncementView />} />
-          <Route path="/usage-guide" element={<UsageGuideListView />} />
-          <Route path="/usage-guide/:id" element={<UsageGuideDetailView />} />
-          <Route path="/events" element={<EventListView />} />
-          <Route path="/events/:id" element={<EventDetailView />} />
+            {/* 유저 개인 페이지 관련 라우트 */}
+            <Route
+              path="/user/*"
+              element={
+                <ProtectedRoute>
+                  <MyPageView />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route path="/pet-diary" element={<PetDiaryView />} />
-          <Route path="/community" element={<CommunityListView />} />
-          <Route path="/community/:id" element={<CommunityDetailView/>} />
-          <Route path="/community/write" element={<CommunityCreateView/>} />
+            <Route path="/announcements" element={<AnnouncementListView />} />
+            <Route path="/announcements/:id" element={<AnnouncementView />} />
+            <Route path="/usage-guide" element={<UsageGuideListView />} />
+            <Route path="/usage-guide/:id" element={<UsageGuideDetailView />} />
+            <Route path="/events" element={<EventListView />} />
+            <Route path="/events/:id" element={<EventDetailView />} />
 
-          <Route path="/dang-sitter" element={<DangSitter />}/>
-          <Route path="/dang-sitter/reservations" element={<ReservationList />} /> 
-          <Route path="/dang-sitter/reservations/write" element={<ReservationForm />} />
-          <Route path="/dang-sitter/reservations/:id" element={<ReservationUserDetail />} />
+            <Route path="/pet-diary" element={<PetDiaryView />} />
 
-          <Route path="/customer-supports" element={<CustomerSupport />}/>
-          <Route path="/customer-supports/:id" element={<CustomerSupportDetail />}/>
-          <Route path="/customer-supports/write" element={<CustomerSupportWrite />}/>
-          <Route path="/customer-supports/edit/:id" element={<CustomerSupportUpdate />}/>
+            <Route path="/community" element={<CommunityListView />} />
+            <Route path="/community/:id" element={<CommunityDetailView />} />
+            <Route path="/community/write" element={<CommunityCreateView />} />
+            <Route
+              path="/community/edit/:communityId"
+              element={<CommunityEditView />}
+            />
 
-          <Route path="/community/edit/:communityId" element={<CommunityEditView/>} />
+            {/* 댕시터 관련 라우터 */}
+            <Route path="/dang-sitter" element={<DangSitterMain />} />
+            <Route
+              path="/users/dang-sitter/reservations"
+              element={
+                <ProtectedRoute>
+                  <ReservationList />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/users/dang-sitter/reservations/write"
+              element={
+                <ProtectedRoute>
+                  <ReservationForm />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/users/dang-sitter/reservations/:id"
+              element={
+                <ProtectedRoute>
+                  <ReservationUserDetail />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route path="/dang-sitter" element={<DangSitter />}/>
-          <Route path="/dang-sitter/reservations" element={<ReservationList />} /> 
-          <Route path="/dang-sitter/reservations/write" element={<ReservationForm />} />
-          <Route path="/dang-sitter/reservations/:id" element={<ReservationUserDetail />} />
+          <Route path="/users/dang-sitter/provider" element={<ProviderUpdate />} />
 
-          <Route path="/customer-supports" element={<CustomerSupport />}/>
+            {/* 고객센터 관련 라우터 */}
+            <Route
+              path="/customer-supports"
+              element={
+                <ProtectedRoute>
+                  <CustomerSupportList />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/customer-supports/:id"
+              element={
+                <ProtectedRoute>
+                  <CustomerSupportDetail />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/customer-supports/write"
+              element={
+                <ProtectedRoute>
+                  <CustomerSupportWrite />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/customer-supports/edit/:id"
+              element={
+                <ProtectedRoute>
+                  <CustomerSupportUpdate />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route path="/user/*" element={<MyPageView />} />
-        </Routes>
+            {/* 댕로드 관련 라우터 */}
+            <Route path="/pet-road" element={<PetRoad />} />
+          </Routes>
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </>
   );
 }
 

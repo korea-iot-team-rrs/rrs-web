@@ -48,7 +48,7 @@ export default function FindPassword() {
       updateUserPassword(data, token)
         .then(() => {
           alert("비밀번호 변경에 성공하셨습니다.");
-          navigate("/");
+          navigate("/main");
         })
         .catch((e) => console.error("fail to update password", e));
     } else {

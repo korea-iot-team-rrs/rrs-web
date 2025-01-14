@@ -14,21 +14,21 @@ export const createCommunity = async (
   const token = getToken();
 
   if (!token) {
-    throw new Error('인증 토큰이 없습니다. 로그인을 먼저 해주세요.');
+    throw new Error("인증 토큰이 없습니다. 로그인을 먼저 해주세요.");
   }
 
   try {
     const formData = new FormData();
 
-    formData.append('communityTitle', communityTitle);
-    formData.append('communityContent', communityContent);
+    formData.append("communityTitle", communityTitle);
+    formData.append("communityContent", communityContent);
 
     if (communityThumbnailFile) {
-      formData.append('communityThumbnailFile', communityThumbnailFile);
+      formData.append("communityThumbnailFile", communityThumbnailFile);
     }
 
     attachments.forEach((file) => {
-      formData.append('attachments', file);
+      formData.append("attachments", file);
     });
 
     const response = await axios.post<{ data: CommunityData }>(
@@ -37,14 +37,14 @@ export const createCommunity = async (
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
       }
     );
 
     return response.data.data;
   } catch (error: any) {
-    console.error('커뮤니티 생성 실패:', error);
+    console.error("커뮤니티 생성 실패:", error);
     throw error;
   }
 };
@@ -75,7 +75,9 @@ export const toggleLike = async (
     return response.data.data;
   } catch (error: any) {
     console.error("좋아요 토글 실패:", error.response?.data || error.message);
-    throw error.response?.data?.message || "좋아요 토글 중 오류가 발생했습니다.";
+    throw (
+      error.response?.data?.message || "좋아요 토글 중 오류가 발생했습니다."
+    );
   }
 };
 
@@ -86,11 +88,11 @@ export const updateCommunity = async (
     communityContent: string;
     communityThumbnailFile?: File;
     attachments?: File[];
+    existingAttachments?: string[];
   }
 ): Promise<CommunityData> => {
   const token = getToken();
 
-  // FormData 생성 및 데이터 추가
   const formData = new FormData();
   if (data.communityTitle) {
     formData.append("communityTitle", data.communityTitle);
@@ -106,8 +108,12 @@ export const updateCommunity = async (
       formData.append("attachments", file);
     });
   }
+  if (data.existingAttachments) {
+    data.existingAttachments.forEach((url, index) =>
+      formData.append(`existingAttachments[${index}]`, url)
+    );
+  }
 
-  // API 호출
   try {
     const response = await axios.put<{ data: CommunityData }>(
       `${COMMUNITY_API_URL}/edit/${communityId}`,
@@ -123,7 +129,6 @@ export const updateCommunity = async (
   } catch (error: any) {
     console.error("Error updating community:", error);
 
-    // 에러 메시지 처리
     if (error.response?.data?.message) {
       throw new Error(error.response.data.message);
     }
@@ -138,7 +143,9 @@ export const getCommunity = async (): Promise<CommunityData[]> => {
   return response.data.data;
 };
 
-export const getCommunityById = async (communityId: number): Promise<CommunityData> => {
+export const getCommunityById = async (
+  communityId: number
+): Promise<CommunityData> => {
   const token = getToken();
   const response = await axios.get<{ data: CommunityData }>(
     `${COMMUNITY_API_URL}/${communityId}`,
@@ -154,10 +161,13 @@ export const getCommunityById = async (communityId: number): Promise<CommunityDa
 
 export const deleteCommunity = async (communityId: number) => {
   const token = getToken();
-  const response = await axios.delete(`${COMMUNITY_API_URL}/delete/${communityId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await axios.delete(
+    `${COMMUNITY_API_URL}/delete/${communityId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
   return response.data;
 };

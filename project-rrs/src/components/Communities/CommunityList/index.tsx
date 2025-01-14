@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useAuthStore from "../../../stores/auth.store";
 import { getCommunity } from "../../../apis/communityApi";
 import Pagination from "../Pagination";
 import "../../../styles/communities/Community.css";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { IoSearch } from "react-icons/io5";
 import LoginModal from "../../LoginModal";
-import DefaultImage from "../../../assets/images/dogIllust02.jpeg"; // 기본 이미지 경로
+import DefaultImage from "../../../assets/images/dogIllust02.jpeg";
+import useAuthStore from "../../../stores/useAuthStore";
 
 interface CommunityData {
   id: number;
@@ -143,7 +143,10 @@ export default function CommunityList() {
         </div>
 
         <div className="community-button-box">
-          <button className="community-create-button" onClick={handleCreateClick}>
+          <button
+            className="community-create-button"
+            onClick={handleCreateClick}
+          >
             글쓰기 +
           </button>
           <select
@@ -178,14 +181,15 @@ export default function CommunityList() {
                 <img
                   src={
                     data.thumbnailFile
-                      ? `${BASE_FILE_URL}${data.thumbnailFile}` // 썸네일이 있는 경우
-                      : DefaultImage // 썸네일이 없는 경우 기본 이미지
+                      ? `${BASE_FILE_URL}${data.thumbnailFile}`
+                      : DefaultImage
                   }
                   alt={truncateText(data.title, 15)}
-                  style={{ width: "100%", height: "auto" }}
                 />
               </div>
-              <p className="community-card-content">{truncateText(data.content, 100)}</p>
+              <p className="community-card-content">
+                {truncateText(data.content, 100)}
+              </p>
               <div className="like-and-date-box">
                 <p className="community-like-count">
                   {data.likeCount > 0 ? (
@@ -210,6 +214,7 @@ export default function CommunityList() {
           handlePreSectionClick={handlePreSectionClick}
           handleNextSectionClick={handleNextSectionClick}
         />
+        
       </div>
     </div>
   );

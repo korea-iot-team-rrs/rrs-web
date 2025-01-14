@@ -16,12 +16,18 @@ interface WalkingRecordUpdateProps {
   selectedDate: string;
   walkingRecordId: number;
   goBack: () => void;
+  updateWalkingRecord: (record: {
+    walkingRecordDistance: number;
+    walkingRecordHours: number;
+    walkingRecordMinutes: number;
+  }) => void;
 }
 
 const WalkingRecordUpdate = ({
   selectedPet,
   selectedDate,
   walkingRecordId,
+  updateWalkingRecord,
   goBack,
 }: WalkingRecordUpdateProps) => {
   const [cookies] = useCookies(["token"]);
@@ -179,6 +185,18 @@ const allFiles = [
       return;
     }
 
+    const totalWalkingTime = hours * 60 + minutes;
+
+    if (newFiles.length > 0) {
+      for (const file of newFiles) {
+        const isValidType = /\.(jpg|jpeg|png)$/i.test(file.name);
+        if (!isValidType) {
+          alert("파일 형식은 JPG, JPEG, PNG만 가능합니다.");
+          return;
+        }
+      }
+    }
+
     const formData = new FormData();
     formData.append("petId", String(selectedPet?.petId));
     formData.append(
@@ -191,7 +209,7 @@ const allFiles = [
     );
     formData.append(
       "walkingRecordWalkingTime",
-      String(walkingRecord.walkingRecordWalkingTime)
+      String(totalWalkingTime)
     );
     formData.append(
       "walkingRecordCreateAt",
@@ -200,30 +218,41 @@ const allFiles = [
     formData.append("walkingRecordMemo", walkingRecord.walkingRecordMemo);
 
     formData.append("removedFiles", JSON.stringify(removedFiles));
+  
+  newFiles.forEach(fileObj => {
+    formData.append('files', fileObj.file, fileObj.name);
+  });
 
-    const allFiles = [
-    ...existingFiles.filter(file => !removedFiles.includes(file.name)), // 삭제된 파일 제외
-    ...newFiles,
-  ];
+  // URL로 존재하는 파일을 File 객체로 변환 후 FormData에 추가
+  const addExistingFilesToFormData = async () => {
+    const fetchPromises = existingFiles
+      .filter((fileObj) => !removedFiles.includes(fileObj.name)) // 삭제된 파일 제외
+      .map((fileObj) => {
+        if (!("file" in fileObj)) {
+          // 파일이 URL로만 존재하는 경우
+          return fetch(fileObj.url)
+            .then((response) => response.blob())
+            .then((blob) => {
+              const file = new File([blob], fileObj.name); 
+              formData.append("files", file, fileObj.name);
+            })
+            .catch((error) => {
+              console.error("파일 다운로드 실패:", error);
+            });
+        } else {
+          formData.append("files", (fileObj as any).file, fileObj.name);
+          return Promise.resolve();
+        }
+      });
 
-  existingFiles.forEach(fileObj => {
-  if (!('file' in fileObj)) {
-    // 기존 파일에 file 속성 강제로 추가
-    const file = new File([fileObj.url], fileObj.name);  // 'url'을 실제 파일 데이터로 바꿀 필요 있음
-    (fileObj as any).file = file; // 'file' 속성을 강제로 추가
-  }
-  formData.append('files', (fileObj as any).file, fileObj.name);
-});
-
-// 새로 추가된 파일 처리
-newFiles.forEach(fileObj => {
-  formData.append('files', fileObj.file, fileObj.name);
-});
+    await Promise.all(fetchPromises);
+  };
 
     try {
       const token = cookies.token || localStorage.getItem("token");
       const petId = selectedPet?.petId;
-      console.log("token: ", token);
+      
+      await addExistingFilesToFormData();
 
       const response = await axios.put(
         `http://localhost:4040/api/v1/walking-record/petId/${petId}/walkingRecordId/${walkingRecordId}`,
@@ -235,9 +264,10 @@ newFiles.forEach(fileObj => {
           },
         }
       );
-
+      
       if (response.status === 200) {
         alert("산책 기록이 수정되었습니다.");
+        updateWalkingRecord(response.data.data);
         goBack();
       } else {
         alert("수정에 실패했습니다.");
@@ -352,7 +382,7 @@ newFiles.forEach(fileObj => {
               onChange={handleFileChange}
             />
             {existingFiles.length > 0 ? (
-              <ul>
+              <ul className="file-list">
                 {existingFiles.map((file, index) => {
                   return (
                     <li key={index}>
@@ -371,7 +401,7 @@ newFiles.forEach(fileObj => {
                 })}
               </ul>
             ) : (
-              <p>없슈슈</p>
+              <p></p>
             )}
             <ul>
               {newFiles.map((file, index) => (
