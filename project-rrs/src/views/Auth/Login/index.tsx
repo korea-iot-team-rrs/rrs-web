@@ -66,7 +66,6 @@ export default function Login() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 입력값 검증
     if (!credentials.username || !credentials.password) {
       setErrorMessage("general", "아이디 또는 비밀번호를 입력해 주세요.");
       return;
@@ -81,11 +80,9 @@ export default function Login() {
       if (response.status === 200) {
         const loginData = response.data.data;
         
-        // 쿠키와 로컬 스토리지에 저장
         setCookie("token", loginData.token, { path: "/" });
         localStorage.setItem("token", loginData.token);
         
-        // store 업데이트
         login(loginData);
         
         navigate("/main");

@@ -44,7 +44,6 @@ const useAuthStore = create<AuthState>((set) => {
 
     login: (response: LoginResponseDto) => {
       const { token, exprTime, ...user } = response;
-
       const expirationTime = exprTime * 1000;
       const expirationDate = Date.now() + expirationTime;
 

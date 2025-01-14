@@ -8,7 +8,7 @@ export interface User {
     address: string;
     addressDetail: string;
     email: string;
-    profileImageUrl: string | null;
+    profileImageUrl: string;
     roles: string;
     providerIntroduction: string | null;
 }
