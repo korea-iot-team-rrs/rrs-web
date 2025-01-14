@@ -53,7 +53,7 @@ export default function CommunityList() {
             content: item.communityContent,
             date: new Date(item.communityCreatedAt).toLocaleString("ko-KR"),
             likeCount: item.communityLikeCount,
-            thumbnailFile: item.communityThumbnailFile, // 기존 데이터 그대로 사용
+            thumbnailFile: item.communityThumbnailFile,
             updatedAt: item.communityUpdatedAt
               ? new Date(item.communityUpdatedAt).toLocaleString("ko-KR")
               : null,
@@ -120,7 +120,6 @@ export default function CommunityList() {
     }
   };
 
-  // 카드가 3개 이하라면 한 행만 보여주도록 클래스 설정
   const containerClassName =
     communityData.length <= 3
       ? "community-card-container one-row"
