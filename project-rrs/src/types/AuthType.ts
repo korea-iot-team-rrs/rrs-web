@@ -23,16 +23,18 @@ export interface LoginResponseDto extends Omit<User, 'profileImageUrl' | 'provid
 
 // 회원가입 인터페이스
 export interface UserSignUp {
-    profileImageUrl: string;
-    name: string;
-    username: string;
-    password: string;
-    comfirmPassword: string;
-    nickname: string;
-    phone: string;
-    address: string;
-    addressDetail: string;
-    email: string;
+    profileImageUrl: File | null; // 프로필 이미지 파일
+    username: string; // 아이디
+    password: string; // 비밀번호
+    confirmPassword: string; // 비밀번호 확인
+    name: string; // 이름
+    nickname: string; // 닉네임
+    address: string; // 주소
+    addressDetail: string; // 상세 주소
+    email: string; // 이메일
+    phone: string; // 연락처
+    joinPath: string;
+    snsId: string | null;
 }
 
 // 인증 DTO

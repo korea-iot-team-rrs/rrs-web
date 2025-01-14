@@ -42,6 +42,10 @@ export default function Login() {
     { id: "kakao", name: "Kakao", link: "/", logo: kakaoLogo },
   ];
 
+  const onLoginButtonClickHandler = (id: string) => {
+    window.location.href = `http://localhost:4040/api/v1/auth/sns-sign-in/${id}`;
+  }
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setCredentials(prev => ({
@@ -163,7 +167,7 @@ export default function Login() {
             key={link.id}
             variant="outlined"
             className="sns-login-link"
-            onClick={() => navigate(link.link)}
+            onClick={() => onLoginButtonClickHandler(link.id)}
             sx={{
               backgroundColor: "#fafafa",
               boxShadow: "none",
