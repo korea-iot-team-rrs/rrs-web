@@ -1,4 +1,4 @@
-export interface DangSitter {
+export interface  DangSitter {
     providerId: number;
     profileImageUrl: string
     providerNickname: string;
