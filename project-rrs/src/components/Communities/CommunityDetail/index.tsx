@@ -19,12 +19,10 @@ import DeleteModal from "../../../components/DeleteModal";
 
 const BASE_FILE_URL = "http://localhost:4040/";
 
-// UUID 제거 함수
 const removeUUIDFromFileName = (fileName: string): string => {
-  return fileName.replace(/^[a-f0-9-]{36}_/, ""); // UUID 형식 제거
+  return fileName.replace(/^[a-f0-9-]{36}_/, "");
 };
 
-// 파일 이름 추출 함수
 const extractFileName = (filePath: string): string => {
   const fullName = filePath.split("/").pop() || "알 수 없는 파일";
   return removeUUIDFromFileName(fullName);
@@ -246,7 +244,6 @@ export default function CommunityDetail() {
             </div>
             <hr />
 
-            {/* 본문 및 기타 */}
             <img
               src={community.communityThumbnailFile || DefaultImage}
               alt="Thumbnail"
