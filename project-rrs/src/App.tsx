@@ -23,7 +23,7 @@ import ReservationUserDetail from "./views/DangSitter/ReservaionUserDetail";
 
 import CommunityEditView from "./views/CommunityVIew/CommunityEditView";
 import SignUpMain from "./views/Auth/SignUp/SignUpMain";
-import SignUp from "./views/Auth/SignUp/RrsSignUp";
+import RrsSignUp from "./views/Auth/SignUp/RrsSignUp";
 import FindId from "./views/Auth/FindId";
 import FindPassword from "./views/Auth/FindPassword/FindPassword";
 import FinduserInfo from "./views/Auth/FindUserInfo";
@@ -84,7 +84,7 @@ function App() {
               path="/signup/rrs"
               element={
                 <ProtectedRoute requireAuth={false}>
-                  <SignUp />
+                  <RrsSignUp />
                 </ProtectedRoute>
               }
             />
