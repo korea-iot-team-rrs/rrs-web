@@ -38,6 +38,8 @@ import ProtectedRoute from "./types/routerType";
 import { CircularProgress } from "@mui/material";
 import PetRoad from "./views/PetRoad";
 import ProviderUpdate from "./views/DangSitter/providerUpdate";
+import AuthRedirectHandler from "./views/Auth/SignUp/AuthRedirectHandler";
+import SnsSuccess from "./views/Auth/Login/SnsSuccess";
 
 function App() {
   const { isLoading } = useAuthCheck();
@@ -63,6 +65,14 @@ function App() {
               }
             />
             <Route
+              path="/sns-success"
+              element={
+                <ProtectedRoute requireAuth={false}>
+                  <SnsSuccess />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/signup"
               element={
                 <ProtectedRoute requireAuth={false}>
@@ -75,6 +85,14 @@ function App() {
               element={
                 <ProtectedRoute requireAuth={false}>
                   <SignUp />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/auth"
+              element={
+                <ProtectedRoute requireAuth={false}>
+                  <AuthRedirectHandler />
                 </ProtectedRoute>
               }
             />
