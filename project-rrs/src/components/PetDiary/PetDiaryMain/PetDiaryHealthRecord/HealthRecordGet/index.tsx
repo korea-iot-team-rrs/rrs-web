@@ -59,7 +59,7 @@ export default function HealthRecordGet({
     return (
       <div className="healthRecordGetContainer">
         <p>반려 동물이 선택되지 않았습니다.</p>
-        <button onClick={goBack} className="goBackButton">
+        <button onClick={goBack} className="healthRecordBackButton">
           뒤로 가기
         </button>
       </div>
@@ -76,7 +76,7 @@ export default function HealthRecordGet({
 
   return (
     <div className="healthRecordGetContainer">
-      <div className="header">
+      <div className="healthRecordHeader">
         <h2>건강 기록 상세 정보</h2>
         <button onClick={goBack} className="goBackButton">
           뒤로 가기
