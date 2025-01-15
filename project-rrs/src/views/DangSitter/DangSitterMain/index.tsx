@@ -40,7 +40,7 @@ export default function DangSitterMain() {
           className="dang-sitter-container01"
           onClick={() =>
             navigate(toggleChecked 
-              ? `/users/dang-sitter/provider`
+              ? `/dang-sitter/provider`
               : "/users/dang-sitter/reservations/write")
           }
         >
