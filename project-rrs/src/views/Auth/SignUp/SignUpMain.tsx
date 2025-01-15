@@ -8,21 +8,27 @@ import "../../../styles/auth/SignUpList.css";
 import logo from "../../../assets/rrs_main_assets/rrs_main_logo.png";
 import { useNavigate } from "react-router-dom";
 
-const signUplinks = [
+interface LinksType {
+  id: "rrs" | "naver" | "kakao";
+  name: string;
+  link: string;
+  logo: string;
+}
+const signUplinks: LinksType[] = [
   { id: "rrs", name: "RRS", link: "/signup/rrs", logo: rrsLogo },
-  { id: "naver", name: "Naver", link: "/", logo: naverLogo },
-  { id: "kakao", name: "Kakao", link: "/", logo: kakaoLogo },
+  { id: "naver", name: "Naver", link: "/naver", logo: naverLogo },
+  { id: "kakao", name: "Kakao", link: "/kakao", logo: kakaoLogo },
 ];
 
 export default function SignUpMain() {
   const navigation = useNavigate();
 
-  const onButtonClickHandler = (id: string) => {
-    if (id === "rrs") {
-      navigation(id);
+  const onButtonClickHandler = (link: LinksType) => {
+    if (link.id === "rrs") {
+      navigation(link.link);
     }
-    window.location.href = `http://localhost:4040/api/v1/auth/sns-sign-in/${id}`;
-};
+    window.location.href = `http://localhost:4040/api/v1/auth/sns-sign-in/${link.id}`;
+  };
 
   return (
     <>
@@ -34,7 +40,7 @@ export default function SignUpMain() {
             <Button
               variant="outlined"
               className="sns-sign-up-link"
-              onClick={() => onButtonClickHandler(link.id)}
+              onClick={() => onButtonClickHandler(link)}
               sx={{
                 backgroundColor: "#fafafa",
                 boxShadow: "none",

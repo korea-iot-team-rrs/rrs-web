@@ -310,7 +310,7 @@ export default function RrsSignUp() {
         console.log(response);
   
         if (response.data.result) {
-          navigate("/");
+          navigate("/main");
         } else {
           setErrors((prev) => ({
             ...prev,
