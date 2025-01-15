@@ -43,17 +43,17 @@ export default function Login() {
   ];
 
   const onLoginButtonClickHandler = (id: string) => {
-    window.location.href = `http://localhost:4040/api/v1/auth/sns-sign-in/${id}`
-  }
+    window.location.href = `http://localhost:4040/api/v1/auth/sns-sign-in/${id}`;
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setCredentials(prev => ({
+    setCredentials((prev) => ({
       ...prev,
       [name]: value,
     }));
     // 에러 메시지 초기화
-    setError(prev => ({
+    setError((prev) => ({
       ...prev,
       [name]: "",
       general: "",
@@ -61,7 +61,7 @@ export default function Login() {
   };
 
   const setErrorMessage = (type: keyof ErrorMessage, message: string) => {
-    setError(prev => ({
+    setError((prev) => ({
       ...prev,
       [type]: message,
     }));
@@ -81,20 +81,20 @@ export default function Login() {
         credentials
       );
 
-      console.log(response)
+      console.log(response);
       if (response.status === 200) {
         const loginData = response.data.data;
-        
+
         setCookie("token", loginData.token, { path: "/" });
         localStorage.setItem("token", loginData.token);
-        
+
         login(loginData);
-        
+
         navigate("/main");
       }
     } catch (err: any) {
       console.error("Login error:", err);
-      
+
       let errorMessage = "서버와 연결할 수 없습니다. 다시 시도해주세요.";
 
       if (err.response?.data?.message) {
@@ -108,7 +108,7 @@ export default function Login() {
         }
       }
 
-      setCredentials(prev => ({
+      setCredentials((prev) => ({
         ...prev,
         password: "",
       }));
@@ -149,11 +149,18 @@ export default function Login() {
           autoComplete="current-password"
         />
 
-        {Object.entries(error).map(([key, message]) => 
-          message && <p key={key} className="error-message">{message}</p>
+        {Object.entries(error).map(
+          ([key, message]) =>
+            message && (
+              <p key={key} className="error-message">
+                {message}
+              </p>
+            )
         )}
 
-        <button type="submit" className="login-btn">로그인</button>
+        <button type="submit" className="login-btn">
+          로그인
+        </button>
       </form>
 
       <div className="login-links">
@@ -179,8 +186,8 @@ export default function Login() {
               transition: "background-color 0.3s ease, border-color 0.3s ease",
               ":hover": {
                 backgroundColor: "#e6f3ff",
-                borderColor: "#b2cdff"
-              }
+                borderColor: "#b2cdff",
+              },
             }}
           >
             <img

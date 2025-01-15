@@ -120,7 +120,7 @@ export default function RrsSignUp() {
     email: "",
     phone: "",
     joinPath: joinPath ? joinPath : "Home",
-    snsId: snsId
+    snsId: snsId,
   });
 
   const [emailDomain, setEmailDomain] = useState("custom");
@@ -296,19 +296,23 @@ export default function RrsSignUp() {
 
   const handleSignUp = async () => {
     const isValid = validateForm();
-  
+
     if (isValid) {
       try {
         const requestBody = { ...userInfo };
-  
-        const response = await axios.post(`${API_BASE_URL}/sign-up`, requestBody, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-  
+
+        const response = await axios.post(
+          `${API_BASE_URL}/sign-up`,
+          requestBody,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
         console.log(response);
-  
+
         if (response.data.result) {
           navigate("/main");
         } else {
@@ -326,7 +330,6 @@ export default function RrsSignUp() {
       }
     }
   };
-  
 
   const validateForm = () => {
     const tempErrors: { [key: string]: string } = {};

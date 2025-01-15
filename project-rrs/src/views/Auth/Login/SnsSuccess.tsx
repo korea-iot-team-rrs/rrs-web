@@ -15,7 +15,6 @@ export default function SnsSuccess() {
 
   useEffect(() => {
     if (accessToken && expiration) {
-
       setCookies("token", accessToken, { path: "/" });
       localStorage.setItem("token", accessToken);
 

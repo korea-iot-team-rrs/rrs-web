@@ -208,7 +208,9 @@ export default function PetDiaryTodo({ selectedDate }: PetDiaryTodoProps) {
       ) : (
         <div className="todo-dog">
           <div className="speech-bubble">
-              <p>로그인을 후 이용하실 수 있는 서비스 입니다.</p>
+            <p>
+              <strong>로그인</strong> 후 이용하실 수 있는 서비스 입니다.
+            </p>
           </div>
           <div>
             <p className="dog-imo">🐶</p>
