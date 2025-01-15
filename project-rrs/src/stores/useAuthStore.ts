@@ -1,5 +1,7 @@
 import { create } from "zustand";
 import { LoginResponseDto, User } from "../types/AuthType";
+import { userInfo } from "os";
+import axios from "axios";
 
 interface AuthState {
   isLoggedIn: boolean;
@@ -9,6 +11,7 @@ interface AuthState {
   logout: () => void;
   setIsLoggedIn: (loggedIn: boolean) => void;
   updateUser: (user: Partial<User>) => void;
+  snsLogin: (token: string) => void;
 }
 
 const getStoredData = () => {
@@ -51,6 +54,39 @@ const useAuthStore = create<AuthState>((set) => {
 
       sessionStorage.setItem("user", JSON.stringify(user));
       sessionStorage.setItem("token", JSON.stringify(token));
+      sessionStorage.setItem("tokenExpiration", JSON.stringify(expirationDate));
+
+      if (expirationTime > 0) {
+        setTimeout(() => {
+          useAuthStore.getState().logout();
+        }, expirationTime);
+      }
+    },
+
+    snsLogin: async(token: string) => {
+      const response = await axios.post<{ data: LoginResponseDto }>(
+        "http://localhost:4040/api/v1/auth/sns-login",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const loginResponse = response.data.data;
+      const expirationTime = loginResponse.exprTime * 1000;
+      const expirationDate = Date.now() + expirationTime;
+
+      const { token: userToken, exprTime, ...user } = loginResponse;
+      set({ 
+        isLoggedIn: true, 
+        token: userToken,
+        user 
+      });
+
+      sessionStorage.setItem("user", JSON.stringify(user));
+      sessionStorage.setItem("token", JSON.stringify(userToken));
       sessionStorage.setItem("tokenExpiration", JSON.stringify(expirationDate));
 
       if (expirationTime > 0) {

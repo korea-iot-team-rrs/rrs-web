@@ -33,7 +33,7 @@ export default function Login() {
     general: "",
   });
 
-  const { login } = useAuthStore();
+  const { login, snsLogin } = useAuthStore();
   const navigate = useNavigate();
   const [cookies, setCookie] = useCookies(["token"]);
 
@@ -43,7 +43,7 @@ export default function Login() {
   ];
 
   const onLoginButtonClickHandler = (id: string) => {
-    window.location.href = `http://localhost:4040/api/v1/auth/sns-sign-in/${id}`;
+    window.location.href = `http://localhost:4040/api/v1/auth/sns-sign-in/${id}`
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,6 +81,7 @@ export default function Login() {
         credentials
       );
 
+      console.log(response)
       if (response.status === 200) {
         const loginData = response.data.data;
         

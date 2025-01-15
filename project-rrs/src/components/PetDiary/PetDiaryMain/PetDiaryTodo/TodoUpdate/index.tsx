@@ -57,7 +57,7 @@ export default function TodoUpdate({
       <header>
         <div>
           <div className="headerMain">
-            <h2>Todo 추가하기</h2>
+            <h2>Todo 수정하기</h2>
             <span>
               {selectedDate && (
                 <>
