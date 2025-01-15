@@ -22,17 +22,25 @@ function formatDate(date: Date): string {
   return `${year}-${month}-${day}`;
 }
 
-function renderCell(date: Date, todos: Todo[], walkingRecords: WalkingRecord[]): React.ReactElement | null {
+function renderCell(
+  date: Date,
+  todos: Todo[],
+  walkingRecords: WalkingRecord[]
+): React.ReactElement | null {
   const dateString = formatDate(date);
   const hasTodo = todos.some((todo) => todo.todoCreateAt === dateString);
-  const hasWalkingRecord = walkingRecords.some((record) => record.walkingRecordCreateAt === dateString);
+  const hasWalkingRecord = walkingRecords.some(
+    (record) => record.walkingRecordCreateAt === dateString
+  );
 
-    return (
-      <div>
-        {hasTodo && <span className="calendar-todo-item">오늘의 할일</span>}
-        {hasWalkingRecord && <span className="calendar-walking-record-item">산책 기록</span>}
-      </div>
-    );
+  return (
+    <div>
+      {hasTodo && <span className="calendar-todo-item">오늘의 할일</span>}
+      {hasWalkingRecord && (
+        <span className="calendar-walking-record-item">산책 기록</span>
+      )}
+    </div>
+  );
 }
 
 export default function PetDiaryCalendar({
@@ -49,31 +57,37 @@ export default function PetDiaryCalendar({
     const token = cookies.token;
     if (token) {
       fetchTodos(token)
-      .then((data) => {
-        setTodos(data);
-      })
-      .catch((err) => console.error("Failed to fetch todos", err));
+        .then((data) => {
+          setTodos(data);
+        })
+        .catch((err) => console.error("Failed to fetch todos", err));
 
       if (pets.length > 0) {
         const petRequests = pets.map((pet) => {
           const walkingRecordCreateAt = formatDate(new Date());
-      return axios.get(`http://localhost:4040/api/v1/walking-record/petId/${pet.petId}/walkingRecordCreateAt/${walkingRecordCreateAt}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-    });
+          return axios.get(
+            `http://localhost:4040/api/v1/walking-record/petId/${pet.petId}/walkingRecordCreateAt/${walkingRecordCreateAt}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
+        });
 
-
-    Promise.all(petRequests)
-      .then((responses) => {
-        const allWalkingRecords = responses.flatMap((response) => response.data.data);
-        setWalkingRecords(allWalkingRecords);
-      })
-      .catch((err) => console.error("Failed to fetch walking records", err));
+        Promise.all(petRequests)
+          .then((responses) => {
+            const allWalkingRecords = responses.flatMap(
+              (response) => response.data.data
+            );
+            setWalkingRecords(allWalkingRecords);
+          })
+          .catch((err) =>
+            console.error("Failed to fetch walking records", err)
+          );
+      }
     }
-  }
   }, [refreshKey, cookies.token, pets]);
 
   const handleDateChange = (date: Date) => {

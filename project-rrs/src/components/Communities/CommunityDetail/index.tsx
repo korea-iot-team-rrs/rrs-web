@@ -168,19 +168,18 @@ export default function CommunityDetail() {
   }
 
   return (
-    <div className="community-detail-container">
+    <div className="communityDetailContainer">
       <div>
         {community ? (
-          <div className="community-content-box">
-            {/* 제목과 첨부파일을 같은 줄에 배치 */}
-            <div className="community-title-row">
-              <h2 className="community-detail-header">
+          <div className="communityDetailContentBox">
+            <div className="communityDetailTitle">
+              <h1 className="communityDetailHeader">
                 {community.communityTitle}
-              </h2>
+              </h1>
               {community.attachments && community.attachments.length > 0 && (
-                <div className="attachments-dropdown">
+                <div className="communityDetailAttachmentsDropdown">
                   <button
-                    className="dropdown-button"
+                    className="communityDetailDropdownButton"
                     onClick={() => setAttachmentsVisible(!attachmentsVisible)}
                   >
                     {attachmentsVisible
@@ -188,16 +187,18 @@ export default function CommunityDetail() {
                       : "첨부 파일 보기 ▼"}
                   </button>
                   {attachmentsVisible && (
-                    <div className="dropdown-content">
+                    <div className="community-attachments-container">
                       {community.attachments.map((attachment, index) => (
-                        <a
-                          key={index}
-                          href={attachment.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {attachment.name}
-                        </a>
+                        <div key={index} className="community-attachment-card">
+                          <a
+                            href={attachment.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="community-attachment-title"
+                          >
+                            {attachment.name}
+                          </a>
+                        </div>
                       ))}
                     </div>
                   )}
@@ -205,36 +206,40 @@ export default function CommunityDetail() {
               )}
             </div>
 
-            {/* 작성일, 좋아요 버튼, 수정/삭제 버튼을 한 줄에 배치 */}
-            <div className="community-detail-meta-row">
-              <p className="community-detail-author">
+            <div className="communityDetailMetaRow">
+              <p className="communityDetailAuthor">
                 작성자: {community.nickname}
               </p>
-              <div className="community-sub-actions">
-                <span className="community-detail-date">
-                  작성일: {community.communityCreatedAt.toLocaleString("ko-KR")}
-                </span>
-                <div className="community-detail-likecount">
-                  <FaHeart color={userLiked ? "red" : "gray"} size={20} />
-                  <span className="like-count-number">{likeCount}</span>
-                  <FaThumbsUp
-                    color={userLiked ? "black" : "gray"}
-                    size={20}
-                    onClick={handleToggleLike}
-                    style={{ cursor: "pointer" }}
-                  />
+              <div className="communityDetailSubActions">
+                <div className="communityDetailSubActionsBox">
+                  <span className="communityDetailDate">
+                    작성일:{" "}
+                    {community.communityCreatedAt.toLocaleString("ko-KR")}
+                  </span>
+                  <div className="communityDetailLikeCount">
+                    <FaHeart color={userLiked ? "red" : "gray"} size={20} />
+                    <span className="communityDetailLikeCountNumber">
+                      {likeCount}
+                    </span>
+                    <FaThumbsUp
+                      color={userLiked ? "black" : "gray"}
+                      size={20}
+                      onClick={handleToggleLike}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </div>
                 </div>
                 {isAuthor && (
-                  <div className="author-actions">
+                  <div className="communityDetailAuthorActions">
                     <button
                       onClick={handleEdit}
-                      className="community-detail-edit-button"
+                      className="communityDetailEditButton"
                     >
                       수정
                     </button>
                     <button
                       onClick={() => setIsModalOpen(true)}
-                      className="community-detail-delete-button"
+                      className="communityDetailDeleteButton"
                     >
                       삭제
                     </button>
@@ -250,7 +255,7 @@ export default function CommunityDetail() {
               style={{ width: "100%", height: "auto" }}
             />
             <hr />
-            <p className="community-detail-content">
+            <p className="communityDetailContent">
               {community.communityContent}
             </p>
             {token && (

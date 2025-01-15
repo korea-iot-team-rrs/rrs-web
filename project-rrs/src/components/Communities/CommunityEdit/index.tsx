@@ -7,12 +7,16 @@ import useAuthStore from "../../../stores/useAuthStore";
 import { FaTrash } from "react-icons/fa";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const MAX_TITLE_LENGTH = 30;
+const MAX_CONTENT_LENGTH = 1000;
 const BASE_FILE_URL = "http://localhost:4040/";
 
 const ErrorMessages = {
   FETCH_FAILED: "게시글 정보를 가져오는 데 실패했습니다.",
   TITLE_TOO_SHORT: "제목은 3자 이상 입력해야 합니다.",
+  TITLE_TOO_LONG: "제목은 최대 30자까지 입력할 수 있습니다.",
   CONTENT_TOO_SHORT: "내용은 10자 이상 입력해야 합니다.",
+  CONTENT_TOO_LONG: "내용은 최대 1000자까지 입력할 수 있습니다.",
   FILE_TOO_LARGE: "파일 크기가 너무 큽니다. 최대 5MB까지 가능합니다.",
   INVALID_FILE_TYPE: "허용되지 않는 파일 형식입니다.",
   UPDATE_FAILED: "게시글 수정 중 오류가 발생했습니다.",
@@ -150,8 +154,16 @@ export default function CommunityEdit() {
       setError(ErrorMessages.TITLE_TOO_SHORT);
       return;
     }
+    if (title.trim().length > MAX_TITLE_LENGTH) {
+      setError(ErrorMessages.TITLE_TOO_LONG);
+      return;
+    }
     if (content.trim().length < 10) {
       setError(ErrorMessages.CONTENT_TOO_SHORT);
+      return;
+    }
+    if (content.trim().length > MAX_CONTENT_LENGTH) {
+      setError(ErrorMessages.CONTENT_TOO_LONG);
       return;
     }
 
@@ -187,12 +199,12 @@ export default function CommunityEdit() {
   };
 
   return (
-    <div className="community-edit-container">
-      <h1 className="community-edit-title">게시글 수정</h1>
-      {error && <p className="error-message">{error}</p>}
-      <form onSubmit={handleSubmit} className="community-edit-form">
-        <div className="form-group">
-          <label htmlFor="title">제목</label>
+    <div className="communityEditContainer">
+      <h1 className="communityEditTitle">게시글 수정</h1>
+      {error && <p className="communityEditErrorMessage">{error}</p>}
+      <form onSubmit={handleSubmit} className="communityEditForm">
+        <div className="communityEditFormGroup">
+          <label htmlFor="title">제목 (최대 30자)</label>
           <input
             type="text"
             id="title"
@@ -200,11 +212,12 @@ export default function CommunityEdit() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="제목을 입력하세요"
+            maxLength={MAX_TITLE_LENGTH}
             required
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="content">내용</label>
+        <div className="communityEditFormGroup">
+          <label htmlFor="content">내용 (최대 1000자)</label>
           <textarea
             id="content"
             name="content"
@@ -212,10 +225,11 @@ export default function CommunityEdit() {
             onChange={(e) => setContent(e.target.value)}
             placeholder="내용을 입력하세요"
             rows={10}
+            maxLength={MAX_CONTENT_LENGTH}
             required
           />
         </div>
-        <div className="form-group">
+        <div className="communityEditFormGroup">
           <label htmlFor="thumbnail">썸네일 이미지</label>
           <input
             type="file"
@@ -229,20 +243,20 @@ export default function CommunityEdit() {
               <img
                 src={thumbnailPreview}
                 alt="썸네일 미리보기"
-                className="thumbnail-preview"
+                className="communityEditThumbnailPreview"
               />
             </div>
           )}
         </div>
-        <div className="form-group">
+        <div className="communityEditFormGroup">
           <label>기존 첨부 파일</label>
-          <ul className="file-list">
+          <ul className="communityEditFileList">
             {existingAttachments.map((attachment, index) => (
-              <li key={index} className="file-item">
+              <li key={index} className="communityEditFileItem">
                 <span>{attachment.name}</span>
                 <button
                   type="button"
-                  className="file-remove-button"
+                  className="communityEditFileRemoveButton"
                   onClick={() => handleRemoveExistingAttachment(index)}
                 >
                   <FaTrash />
@@ -253,14 +267,14 @@ export default function CommunityEdit() {
           {existingAttachments.length > 0 && (
             <button
               type="button"
-              className="file-remove-button"
+              className="communityEditFileRemoveButton"
               onClick={handleRemoveAllExistingAttachments}
             >
               <FaTrash /> 전체 삭제
             </button>
           )}
         </div>
-        <div className="form-group">
+        <div className="communityEditFormGroup">
           <label htmlFor="attachments">새 첨부 파일</label>
           <input
             type="file"
@@ -268,16 +282,16 @@ export default function CommunityEdit() {
             onChange={handleFileChange}
             multiple
             accept="image/*,application/pdf"
-            className="custom-file-input"
+            className="communityEditCustomFileInput"
           />
           {attachments.length > 0 && (
-            <ul className="file-list">
+            <ul className="communityEditFileList">
               {attachments.map((file, index) => (
-                <li key={index} className="file-item">
+                <li key={index} className="communityEditFileItem">
                   <span>{file.name}</span>
                   <button
                     type="button"
-                    className="file-remove-button"
+                    className="communityEditFileRemoveButton"
                     onClick={() =>
                       setAttachments((prev) =>
                         prev.filter((_, i) => i !== index)
@@ -291,14 +305,18 @@ export default function CommunityEdit() {
             </ul>
           )}
         </div>
-        <div className="button-group">
-          <button type="submit" disabled={isSubmitting}>
+        <div className="communityEditButtonGroup">
+          <button
+            type="submit"
+            className="communityEditSubmitButton"
+            disabled={isSubmitting}
+          >
             {isSubmitting ? "수정 중..." : "수정"}
           </button>
           <button
             type="button"
             onClick={handleCancel}
-            className="cancel-button"
+            className="communityEditCancelButton"
           >
             취소
           </button>

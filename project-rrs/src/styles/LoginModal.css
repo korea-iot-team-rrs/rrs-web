@@ -1,20 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap");
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-body {
-  font-family: "Noto Sans", sans-serif;
-}
-
+/* Login Modal Styles */
 .loginModalOverlay {
   position: fixed;
   top: 0;
@@ -41,7 +25,7 @@ body {
   text-align: center;
 }
 
-.closeButton {
+.loginCloseButton {
   position: absolute;
   top: 16px;
   right: 16px;
@@ -58,7 +42,7 @@ body {
   font-weight: 700;
 }
 
-.buttonContainer {
+.loginButtonContainer {
   display: flex;
   justify-content: center;
   gap: 12px;
@@ -74,12 +58,12 @@ body {
   transition: background-color 0.2s ease;
 }
 
-.confirmButton {
+.loginConfirmButton {
   background-color: #3498ff;
   color: #fff;
 }
 
-.cancelButton {
+.loginCancelButton {
   background-color: #f0f0f0;
   color: #444;
 }

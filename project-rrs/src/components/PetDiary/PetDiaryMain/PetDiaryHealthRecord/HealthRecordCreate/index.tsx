@@ -6,8 +6,9 @@ import axios from "axios";
 import { FaFolder } from "react-icons/fa";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import "../../../../../styles/pethealthRecord/pethealthRecordCreate.css";
 
-interface HealthRecordCreateProps {
+interface HealthCreateProps {
   selectedPet: Pet | null;
   selectedDate: string;
   goBack: () => void;
@@ -19,12 +20,12 @@ interface HealthRecordCreateProps {
   }) => void;
 }
 
-const HealthRecordCreate = ({
+const HealthCreate = ({
   selectedPet,
   selectedDate,
   goBack,
   addHealthRecord,
-}: HealthRecordCreateProps) => {
+}: HealthCreateProps) => {
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
   const [attachments, setAttachments] = useState<File[]>([]);
@@ -61,7 +62,9 @@ const HealthRecordCreate = ({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const newFiles = Array.from(e.target.files);
-      const validFiles = newFiles.filter((file) => file.size <= 5 * 1024 * 1024); // 5MB 제한
+      const validFiles = newFiles.filter(
+        (file) => file.size <= 5 * 1024 * 1024
+      ); // 5MB 제한
 
       if (validFiles.length !== newFiles.length) {
         alert("일부 파일이 너무 큽니다. 최대 5MB까지 업로드할 수 있습니다.");
@@ -136,14 +139,15 @@ const HealthRecordCreate = ({
   };
 
   return (
-    <div>
+    <div className="healthCreateContainer">
       <h3>건강 기록 작성</h3>
       <img
         src={selectedPet?.petImageUrl}
         alt={`${selectedPet?.petName}의 사진`}
+        className="healthCreatePetImage"
       />
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form onSubmit={handleSubmit} className="healthCreateForm">
+        <div className="healthCreateDateSection">
           <label htmlFor="createdAt">작성 날짜</label>
           <span id="createdAt">
             {selectedDate && (
@@ -156,7 +160,7 @@ const HealthRecordCreate = ({
           </span>
         </div>
 
-        <div>
+        <div className="healthCreateInputSection">
           <label htmlFor="weight">체중 (kg)</label>
           <input
             type="number"
@@ -165,10 +169,11 @@ const HealthRecordCreate = ({
             value={healthRecord.weight}
             onChange={handleInputChange}
             min="0"
+            className="healthCreateInput"
           />
         </div>
 
-        <div>
+        <div className="healthCreateInputSection">
           <label htmlFor="petAge">나이 (년)</label>
           <input
             type="number"
@@ -177,47 +182,51 @@ const HealthRecordCreate = ({
             value={healthRecord.petAge}
             onChange={handleInputChange}
             min="0"
+            className="healthCreateInput"
           />
         </div>
 
-        <div>
+        <div className="healthCreateInputSection">
           <label htmlFor="abnormalSymptoms">이상 증상</label>
           <textarea
             id="abnormalSymptoms"
             name="abnormalSymptoms"
             value={healthRecord.abnormalSymptoms}
             onChange={handleInputChange}
+            className="healthCreateTextarea"
           />
         </div>
 
-        <div>
+        <div className="healthCreateInputSection">
           <label htmlFor="memo">메모</label>
           <textarea
             id="memo"
             name="memo"
             value={healthRecord.memo}
             onChange={handleInputChange}
+            className="healthCreateTextarea"
           />
         </div>
 
-        <div>
+        <div className="healthCreateFileSection">
           <label htmlFor="attachments">첨부 파일</label>
           <input
             type="file"
             id="attachments"
             multiple
             onChange={handleFileChange}
+            className="healthCreateFileInput"
           />
-          <ul className="file-list">
+          <ul className="healthCreateFileList">
             {attachments.map((file, index) => (
-              <li key={index} className="file-item">
+              <li key={index} className="healthCreateFileItem">
                 <span>
                   <FaFolder />
                 </span>
-                <span className="file-name">{file.name}</span>
+                <span className="healthCreateFileName">{file.name}</span>
                 <IconButton
                   onClick={() => removeFile(index)}
-                  className="delete-btn"
+                  className="healthCreateDeleteButton"
                 >
                   <DeleteIcon color="primary" />
                 </IconButton>
@@ -226,13 +235,21 @@ const HealthRecordCreate = ({
           </ul>
         </div>
 
-        <button type="button" onClick={goBack}>
-          취소
-        </button>
-        <button type="submit">확인</button>
+        <div className="healthCreateButtonSection">
+          <button type="submit" className="healthCreateSubmitButton">
+            확인
+          </button>
+          <button
+            type="button"
+            onClick={goBack}
+            className="healthCreateCancelButton"
+          >
+            취소
+          </button>
+        </div>
       </form>
     </div>
   );
 };
 
-export default HealthRecordCreate;
+export default HealthCreate;

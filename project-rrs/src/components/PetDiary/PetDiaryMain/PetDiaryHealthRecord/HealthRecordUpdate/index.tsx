@@ -8,7 +8,7 @@ import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Pet } from "../../../../../types";
 import { HealthRecordResponse } from "../../../../../types/petHealthType";
-import "../../../../../styles/pethealthRecord/pethealthRecordUpdate.css"
+import "../../../../../styles/pethealthRecord/pethealthRecordUpdate.css";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const MAX_FILE_COUNT = 5;
@@ -31,7 +31,7 @@ interface HealthRecordUpdateProps {
   refreshRecords: () => void;
 }
 
-const HealthRecordUpdate = ({
+const HealthUpdate = ({
   selectedPet,
   healthRecordId,
   goBack,
@@ -168,18 +168,18 @@ const HealthRecordUpdate = ({
   };
 
   if (error) {
-    return <p className="error-message">{error}</p>;
+    return <p className="healthUpdateErrorMessage">{error}</p>;
   }
 
   if (!healthRecord) {
-    return <p>로딩 중...</p>;
+    return <p className="healthUpdateLoadingMessage">로딩 중...</p>;
   }
 
   return (
-    <div className="health-record-update-container">
+    <div className="healthUpdateContainer">
       <h1>건강 기록 수정</h1>
-      <form className="form-box" onSubmit={handleSubmit}>
-        <div className="form-group">
+      <form className="healthUpdateForm" onSubmit={handleSubmit}>
+        <div className="healthUpdateFormGroup">
           <label htmlFor="weight">몸무게 (kg)</label>
           <input
             type="number"
@@ -190,7 +190,7 @@ const HealthRecordUpdate = ({
             placeholder="몸무게를 입력하세요"
           />
         </div>
-        <div className="form-group">
+        <div className="healthUpdateFormGroup">
           <label htmlFor="petAge">나이 (년)</label>
           <input
             type="number"
@@ -201,7 +201,7 @@ const HealthRecordUpdate = ({
             placeholder="나이를 입력하세요"
           />
         </div>
-        <div className="form-group">
+        <div className="healthUpdateFormGroup">
           <label htmlFor="abnormalSymptoms">이상 증상</label>
           <textarea
             id="abnormalSymptoms"
@@ -211,7 +211,7 @@ const HealthRecordUpdate = ({
             placeholder="이상 증상을 설명하세요"
           />
         </div>
-        <div className="form-group">
+        <div className="healthUpdateFormGroup">
           <label htmlFor="memo">메모</label>
           <textarea
             id="memo"
@@ -221,9 +221,9 @@ const HealthRecordUpdate = ({
             placeholder="메모를 입력하세요"
           />
         </div>
-        <div className="form-group">
+        <div className="healthUpdateFileListSection">
           <label htmlFor="attachments">기존 첨부 파일</label>
-          <ul className="file-list">
+          <ul className="healthUpdateFileList">
             {existingAttachments.map((filePath, index) => (
               <li key={index}>
                 <span>{removeUUIDFromFileName(filePath.split("/").pop() || "")}</span>
@@ -239,7 +239,7 @@ const HealthRecordUpdate = ({
             </button>
           )}
         </div>
-        <div className="form-group">
+        <div className="healthUpdateFileListSection">
           <label htmlFor="attachments">새 첨부 파일</label>
           <input
             type="file"
@@ -248,7 +248,7 @@ const HealthRecordUpdate = ({
             multiple
           />
           {attachments.length > 0 && (
-            <ul className="file-list">
+            <ul className="healthUpdateFileList">
               {attachments.map((file, index) => (
                 <li key={index}>
                   <span>{file.name}</span>
@@ -260,11 +260,11 @@ const HealthRecordUpdate = ({
             </ul>
           )}
         </div>
-        <div className="button-group">
-          <button type="submit" disabled={isSubmitting}>
+        <div className="healthUpdateButtonGroup">
+          <button className="healthUpdateButton" type="submit" disabled={isSubmitting}>
             {isSubmitting ? "수정 중..." : "수정하기"}
           </button>
-          <button type="button" onClick={goBack} className="cancel-button">
+          <button type="button" onClick={goBack} className="healthUpdateCancelButton">
             취소
           </button>
         </div>
@@ -273,4 +273,4 @@ const HealthRecordUpdate = ({
   );
 };
 
-export default HealthRecordUpdate;
+export default HealthUpdate;

@@ -170,19 +170,16 @@ export default function RrsSignUp() {
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setUserInfo((prev) => ({ ...prev, email: value }));
-
-    if (emailDomain === "custom") {
-      if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(value)) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          email: "유효한 이메일 주소를 입력하세요.",
-        }));
-      } else {
-        setErrors((prevErrors) => {
-          const { email, ...rest } = prevErrors;
-          return rest;
-        });
-      }
+    if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(value)) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        email: "유효한 이메일 주소를 입력하세요.",
+      }));
+    } else {
+      setErrors((prevErrors) => {
+        const { email, ...rest } = prevErrors;
+        return rest;
+      });
     }
   };
 
@@ -197,7 +194,7 @@ export default function RrsSignUp() {
     } else {
       setUserInfo((prev) => ({
         ...prev,
-        email: prev.email.split("@")[0] + "@" + value,
+        email: prev.email.split("@")[0] + value,
       }));
 
       setErrors((prevErrors) => {
@@ -445,6 +442,7 @@ export default function RrsSignUp() {
           id="email"
           name="email"
           placeholder="example@domain.com"
+          value={userInfo.email}
           onChange={handleEmailChange}
         />
         <select

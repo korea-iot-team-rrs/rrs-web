@@ -1,27 +1,30 @@
-/* HealthRecordDetail 화면 */
-.healthRecordGetContainer {
+/* HealthDetail 화면 스타일 */
+.healthDetailContainer {
   max-width: 800px;
   margin: 20px auto;
   padding: 20px;
   background: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 70vh;
 }
 
-.header {
+.healthDetailHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
 }
 
-.header h2 {
+.healthDetailHeader h2 {
   font-size: 2em;
   color: #333;
   margin: 0;
 }
 
-.goBackButton {
+.healthDetailBackButton {
   padding: 10px 16px;
   background: #ff6b6b;
   color: white;
@@ -32,20 +35,20 @@
   transition: background 0.3s ease;
 }
 
-.goBackButton:hover {
+.healthDetailBackButton:hover {
   background: #e53935;
 }
 
-.topSection {
+.healthDetailTopSection {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-bottom: 20px;
+  margin: 0px 0px 20px 30px;
 }
 
-.petImageContainer {
-  width: 200px;
-  height: 200px;
+.healthDetailPetImageContainer {
+  width: 180px;
+  height: 180px;
   border: 2px solid #ccc;
   border-radius: 12px;
   overflow: hidden;
@@ -55,33 +58,33 @@
   margin-right: 20px;
 }
 
-.petImage {
-  max-width: 100%;
-  max-height: 100%;
+.healthDetailPetImage {
+  max-width: 200%;
+  max-height: 200%;
   object-fit: cover;
 }
 
-.basicInfo {
+.healthDetailBelowDetails {
+  margin-left: 30px;
+}
+
+.healthDetailBasicInfo {
+  margin-left: 25px;
   text-align: left;
 }
 
-.basicInfo p {
+.healthDetailBasicInfo p {
   margin: 10px 0;
   font-size: 1.25em;
   color: #555;
   line-height: 1.5;
 }
 
-.bottomSection {
+.healthDetailBottomSection {
   margin-top: 20px;
 }
 
-.belowImageDetails {
-  text-align: left;
-  margin: 10px 0;
-}
-
-.belowImageDetails p {
+.healthDetailBelowDetails p {
   margin: 10px 0;
   font-size: 1.25em;
   color: #555;
@@ -89,39 +92,49 @@
   white-space: pre-line; /* 줄바꿈 처리 */
 }
 
-.attachmentSection {
+.healthDetailAttachmentSection {
   margin-top: 20px;
 }
 
-.attachmentSection strong {
+.healthDetailAttachmentSection strong {
   display: block;
   margin-bottom: 10px;
   font-size: 1.1em;
 }
 
-.attachmentSection ul {
+.healthDetailAttachmentSection .attachmentListBox {
+  max-height: 200px; /* 리스트 박스의 높이를 제한 */
+  overflow-y: auto; /* 스크롤 표시 */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  background: #f9f9f9;
+}
+
+.healthDetailAttachmentSection ul {
   list-style-type: none;
+  margin: 0;
   padding: 0;
 }
 
-.attachmentSection li {
+.healthDetailAttachmentSection li {
   padding: 5px 0;
   font-size: 0.9em;
   color: #333;
   border-bottom: 1px solid #e0e0e0;
 }
 
-.attachmentSection li:last-child {
+.healthDetailAttachmentSection li:last-child {
   border-bottom: none;
 }
 
-.attachmentLink {
+.healthDetailAttachmentLink {
   color: #007bff;
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
-.attachmentLink:hover {
+.healthDetailAttachmentLink:hover {
   color: #0056b3;
   text-decoration: underline;
 }
