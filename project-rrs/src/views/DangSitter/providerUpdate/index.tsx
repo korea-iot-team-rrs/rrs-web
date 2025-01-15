@@ -193,7 +193,7 @@ const ProviderUdpate = () => {
                   (selectedDate) =>
                     selectedDate.toDateString() === date.toDateString()
                 )
-                  ? "selected" // 이미 선택된 날짜에는 스타일 추가
+                  ? "selected-date" // 이미 선택된 날짜에는 스타일 추가
                   : ""
               }
             />
