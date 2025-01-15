@@ -208,3 +208,45 @@
 .createTodoInputBtn .snackbarCloseBtn {
   background-color: transparent;
 }
+
+.todo-dog {
+  padding-top: 15%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .speech-bubble {
+    background-color: #ffdfdf;
+    height: 100px;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+    font-size: 20px;
+    font-weight: 500;
+    margin: 30px;
+  }
+
+  .speech-bubble::after {
+    content: "";
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 15px solid #ffdfdf;
+    
+  }
+
+  .dog-imo {
+    font-size: 70px;
+    margin-top: 10px;
+  }
+}

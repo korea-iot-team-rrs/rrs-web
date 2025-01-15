@@ -1,8 +1,4 @@
-import {
-  Breadcrumbs,
-  Button,
-  OutlinedInput,
-} from "@mui/material";
+import { Breadcrumbs, Button, OutlinedInput } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { CertificateDto } from "../../../types/AuthType";
 import { sendEmailForId, sendEmailForPw } from "../../../apis/emailApi";

@@ -22,6 +22,7 @@ export default function TodoCreate({ goBack, selectedDate }: TodoUpdateProps) {
     const token = cookies.token;
     console.log(token);
     if (!token) {
+      
       console.error("Token not found");
       return;
     }

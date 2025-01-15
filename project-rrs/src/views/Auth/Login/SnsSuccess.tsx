@@ -1,29 +1,27 @@
-import React, { useEffect } from 'react'
-import { useCookies } from 'react-cookie';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { useCookies } from "react-cookie";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import useAuthStore from "../../../stores/useAuthStore";
 
 export default function SnsSuccess() {
   const [, setCookies] = useCookies(["token"]);
 
   const [queryParam] = useSearchParams();
-  const accessToken = queryParam.get('accessToken');
-  const expiration = queryParam.get('expiration');
+  const accessToken = queryParam.get("accessToken");
+  const expiration = queryParam.get("expiration");
 
+  const { snsLogin } = useAuthStore();
   const navigator = useNavigate();
 
   useEffect(() => {
-      if (accessToken && expiration) {
-        const expires = new Date(Date.now() + Number(expiration));
-        console.log(expires);
-          setCookies("token", accessToken, {
-            path: "/",
-            expires,
-          });;
+    if (accessToken && expiration) {
+      setCookies("token", accessToken, { path: "/" });
+      localStorage.setItem("token", accessToken);
 
-          navigator('/main');
-      }
-      else navigator("/signUp");
+      snsLogin(accessToken);
+
+      navigator("/main");
+    } else navigator("/signUp");
   }, [accessToken, expiration, navigator, setCookies]);
-
   return <></>;
 }

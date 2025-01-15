@@ -14,7 +14,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
   };
 
   const handleCancel = () => {
-    navigate("/login");
+    navigate("/main");
     onClose();
   };
 
