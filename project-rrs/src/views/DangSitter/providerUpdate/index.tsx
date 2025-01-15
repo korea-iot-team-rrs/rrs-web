@@ -3,8 +3,10 @@ import { AntSwitch } from "../../../styles/dangSitter/DangSitterCommon";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
-import { Calendar } from "rsuite";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 import useAuthStore from "../../../stores/useAuthStore";
+import '../../../styles/dangSitter/Provider.css'
 
 const ProviderUdpate = () => {
   const [isActive, setIsActive] = useState(false);
@@ -13,10 +15,8 @@ const ProviderUdpate = () => {
   const [cookies] = useCookies(["token"]);
   const [selectedDates, setSelectedDates] = useState<Date[]>([]);
   const [providerIntroduction, setProviderIntroduction] = useState<string>("");
-  const { user } = useAuthStore();
 
-  console.log(user);
-
+  // Role 조회
   useEffect(() => {
     const token = cookies.token || localStorage.getItem("token");
     if (!token) {
@@ -43,8 +43,10 @@ const ProviderUdpate = () => {
     };
 
     fetchRole();
-  }, [cookies.token, navigate]);
+}, [cookies.token, navigate]);
 
+
+  // Role 수정
   const handleRoleToggle = async () => {
     const token = cookies.token || localStorage.getItem("token");
 
@@ -73,16 +75,7 @@ const ProviderUdpate = () => {
     window.history.back();
   };
 
-  const handleCalendarChange = (date: any) => {
-    const formattedDate = date.toISOString().split("T")[0]; // 날짜 형식을 'YYYY-MM-DD'로 변환
-    setSelectedDates((prevDates) => {
-      if (prevDates.includes(formattedDate)) {
-        return prevDates.filter((d) => d !== formattedDate); // 이미 선택된 날짜면 삭제
-      }
-      return [...prevDates, formattedDate]; // 선택되지 않은 날짜면 추가
-    });
-  };
-
+  // Provider 정보 조회 (근무 일정, 소개)
   useEffect(() => {
     const token = cookies.token || localStorage.getItem("token");
     if (!token) {
@@ -91,7 +84,7 @@ const ProviderUdpate = () => {
       return;
     }
 
-    const fetchAvailableDate = async () => {
+    const fetchProviderInfo = async () => {
       try {
         const response = await axios.get(
           `http://localhost:4040/api/v1/provider/profile`,
@@ -103,25 +96,64 @@ const ProviderUdpate = () => {
           }
         );
 
-        const availableDates = response.data.data.map((dateStr: string) => new Date(dateStr));
+        const availableDates = response.data.availableDate
+        ? response.data.availableDate.map((dateStr: string) => new Date(dateStr))
+        : [];
         setSelectedDates(availableDates);
       } catch (error) {
         console.log("근무 일정 가져오는 중 오류 발생", error);
       }
     };
 
-    fetchAvailableDate();
+    fetchProviderInfo();
   }, [cookies.token, navigate]);
+
+  const handleCalendarChange = (date: Date) => {
+    const isDateSelected = selectedDates.some(
+      (selectedDate) =>
+        selectedDate.toDateString() === date.toDateString()
+    );
+
+    if (isDateSelected) {
+      // 선택된 날짜가 있으면 제거
+      setSelectedDates((prevDates) =>
+        prevDates.filter(
+          (selectedDate) =>
+            selectedDate.toDateString() !== date.toDateString()
+        )
+      );
+    } else {
+      // 선택되지 않은 날짜면 추가
+      setSelectedDates((prevDates) => [...prevDates, date]);
+    }
+  };
 
   const handleSubmit = async () => {
     const token = cookies.token || localStorage.getItem("token");
 
-    try {
-      const data = {
-        availableDates: selectedDates.map((date) => date.toISOString().split("T")[0]), // Date를 'YYYY-MM-DD' 형식의 문자열로 변환
-        providerIntroduction: providerIntroduction,
-      };
+    console.log("선택된 날짜들:", selectedDates);
 
+    // 유효성 검사
+    if (selectedDates.length === 0) {
+      alert("하나의 이상의 근무일을 선택해주세요.");
+      return;
+    } 
+
+    if (!providerIntroduction || providerIntroduction.trim() === "") {
+      alert("소개를 작성해주세요.");
+      return;
+    }
+
+    const data = {
+      availableDate: selectedDates.map((date) => ({
+        availableDate: date.toLocaleDateString("en-CA"), // 서버가 기대하는 형태로 변환
+      })),
+      providerIntroduction: providerIntroduction
+    };
+
+    console.log("전송되는 데이터:", data);
+
+    try {
       const response = await axios.put(
         `http://localhost:4040/api/v1/provider/profile`,
         data,
@@ -154,12 +186,26 @@ const ProviderUdpate = () => {
         <form action="">
           <div>
             <label>근무 일정</label>
-            <Calendar onChange={handleCalendarChange} />
+            <Calendar
+              onClickDay={handleCalendarChange}
+              tileClassName={({ date }) =>
+                selectedDates.some(
+                  (selectedDate) =>
+                    selectedDate.toDateString() === date.toDateString()
+                )
+                  ? "selected" // 이미 선택된 날짜에는 스타일 추가
+                  : ""
+              }
+            />
           </div>
 
           <div>
             <label>소개</label>
-            <input type="text" />
+            <input
+              type="text"
+              value={providerIntroduction}
+              onChange={(e) => setProviderIntroduction(e.target.value)}
+            />
           </div>
 
           <button type="button" onClick={goBack}>

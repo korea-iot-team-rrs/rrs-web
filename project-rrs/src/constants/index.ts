@@ -42,3 +42,6 @@ export const CUSTOMER_SUPPORT_PUT_PATH = (customerSupportId:number) => `/custome
 export const CUSTOMER_SUPPORT_DELETE_PATH  = (customerSupportId:number) => `/customer-support/${customerSupportId}`;
 
 export const DEFAULT_FILE_URL = "http://localhost:4040/file/default/defaultImg.png"
+
+// Provision
+export const PROVISION_PATH = "/provider/provision"

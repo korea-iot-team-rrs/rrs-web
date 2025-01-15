@@ -40,6 +40,8 @@ import PetRoad from "./views/PetRoad";
 import ProviderUpdate from "./views/DangSitter/providerUpdate";
 import AuthRedirectHandler from "./views/Auth/SignUp/AuthRedirectHandler";
 import SnsSuccess from "./views/Auth/Login/SnsSuccess";
+// import ProvisionList from "./views/DangSitter/provisionList";
+import ProvisionDetail from "./views/DangSitter/provisionDetail";
 
 function App() {
   const { isLoading } = useAuthCheck();
@@ -175,7 +177,28 @@ function App() {
               }
             />
 
-          <Route path="/users/dang-sitter/provider" element={<ProviderUpdate />} />
+            <Route
+              path="/dang-sitter/provider"
+              element={
+                <ProtectedRoute>
+                  <ProviderUpdate />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* <Route
+              path="/dang-sitter/reservations"
+              element={<ProvisionList />}
+            /> */}
+
+            <Route
+              path="/dang-sitter/reservations/:reservationId"
+              element={
+                <ProtectedRoute>
+                  <ProvisionDetail />
+                </ProtectedRoute>
+              }
+            />
 
             {/* 고객센터 관련 라우터 */}
             <Route
