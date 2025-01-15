@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { MAIN_URL, PROVISION_PATH } from "../../../constants";
-import {
-  Pet,
-  Provision,
-  ReservationStatus,
-  UserInfo,
-} from "../../../types/provisionType";
+import { MAIN_URL, PROVISION_PATH, FILE_URL } from "../../../constants";
+import { Provision, ReservationStatus } from "../../../types/provisionType";
 import { useCookies } from "react-cookie";
 // import { fetchProvision } from "../../../apis/provisionApi";
 import ReservationUserInfo from "../../../components/DangSitter/ReservationUserInfo";
@@ -18,9 +13,15 @@ export default function ProvisionDetail() {
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
   const PROVISION_API_URL = `${MAIN_URL}${PROVISION_PATH}`;
-  const {reservationId} = useParams();
+  const { reservationId } = useParams();
   const [provision, setProvision] = useState<Provision | null>(null);
-  const [loading, setLoading] = useState<boolean>(true); 
+  const [loading, setLoading] = useState<boolean>(true);
+  const formatBirthDate = (petBirthDate: string) => {
+    const year = petBirthDate.substring(0, 4); 
+    const month = petBirthDate.substring(4, 6); 
+  
+    return `${year}년 ${month}월`;  
+  };
 
   useEffect(() => {
     const token = cookies.token || localStorage.getItem("token");
@@ -32,12 +33,15 @@ export default function ProvisionDetail() {
 
     const fetchProvision = async () => {
       try {
-        const response = await axios.get(`${PROVISION_API_URL}/${reservationId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await axios.get(
+          `${PROVISION_API_URL}/${reservationId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         console.log("Provision: ", response.data.data);
 
@@ -54,97 +58,28 @@ export default function ProvisionDetail() {
   }, [cookies, navigate, reservationId]);
 
   if (loading) {
-    return <p>로딩 중...</p>; // 로딩 중 표시
+    return <p>로딩 중...</p>;
   }
-  
-//   const { id } = useParams<{ id: string }>();
-//   
-//   const [reservationMemo, setReservationMemo] = useState<string>("");
-//   const [provision, setProvision] = useState<Provision>({
-//     reservationId: 0,
-//     providerId: 0,
-//     reservationStartDate: "",
-//     reservationEndDate: "",
-//     reservationStatus: ReservationStatus.PENDING,
-//     reservationMemo: "",
-//     userInfo: {
-//       userId: 0,
-//       nickname: "",
-//       phone: "",
-//       address: "",
-//       profileImageUrl: "",
-//     },
-//     pets: [],
-// });
-  
-//   const [user, setUser] = useState<UserInfo>({
-//     userId: 0,
-//     nickname: "",
-//     phone: "",
-//     address: "",
-//     profileImageUrl: "",
-//   });
 
-//   const [pets, setPets] = useState<Pet[]>([]);
-
-//   useEffect(() => {
-//     const token = cookies.token;
-//     if (!token) return console.error("Token not found");
-
-//     fetchProvisionData(Number(id), token);
-//   }, [cookies.token, id]);
-
-//   const fetchProvisionData = async (reservationId: number, token: string) => {
-//     try {
-//       const response = await fetchProvision(reservationId, token);
-//       console.log("ReservationData!: ", response);
-
-//       setProvision(response);
-
-//       console.log(response.userInfo);
-//       setPets(response.pets);
-
-//       setReservationMemo(response.reservationMemo || "");
-//     } catch (e) {
-//       console.error("Failed to fetch provision", e);
-//     }
-//   };
-
-//   const formatStatus = (status: ReservationStatus) => {
-//     const statusMessages: Record<ReservationStatus, string> = {
-//       [ReservationStatus.PENDING]: "댕시터의 예약 수락을 기다리는 중입니다.",
-//       [ReservationStatus.IN_PROGRESS]: "현재 예약이 진행중입니다.",
-//       [ReservationStatus.REJECTED]: "예약이 성사되지 않았습니다.",
-//       [ReservationStatus.CANCELLED]: "예약이 취소 되었습니다.",
-//       [ReservationStatus.COMPLETED]: "예약이 완료 되었습니다.",
-//     };
-//     return statusMessages[status] || "알 수 없음";
-//   };
+  const formatStatus = (status: ReservationStatus) => {
+    const statusMessages: Record<ReservationStatus, string> = {
+      [ReservationStatus.PENDING]: "댕시터의 예약 수락을 기다리는 중입니다.",
+      [ReservationStatus.IN_PROGRESS]: "현재 예약이 진행중입니다.",
+      [ReservationStatus.REJECTED]: "예약이 성사되지 않았습니다.",
+      [ReservationStatus.CANCELLED]: "예약이 취소 되었습니다.",
+      [ReservationStatus.COMPLETED]: "예약이 완료 되었습니다.",
+    };
+    return statusMessages[status] || "알 수 없음";
+  };
 
   const goBack = () => {
     window.history.back();
-  }
+  };
 
   return (
     <>
-    <div>
-      <div>
-        <h1>사용자 정보</h1>
-        {provision ? (
-          <div>
-<p>User nickName: {provision.nickname}</p>
-          <p>User Phone: {provision.phone}</p>
-          <p>User address: {provision.address}</p>
-          <p>User img: {provision.profileImageUrl}</p>
-          <p>User petname: {provision.petName}</p>
-          </div>
-          
-        ) : (
-          <p>provision 없음</p>
-        )}
-      </div>
-    </div>
-      {/* <div className="reservation-detail-wrapper">
+      <div></div>
+      <div className="reservation-detail-wrapper">
         <div className="reservation-header">
           <div className="reservation-detail-title">
             <span>예약 날짜</span>
@@ -152,14 +87,14 @@ export default function ProvisionDetail() {
           <div>
             <p>시작일</p>
             <Chip
-              label={provision.reservationStartDate}
+              label={provision?.reservationStartDate}
               color="primary"
               variant="outlined"
               sx={{ fontFamily: "Pretendard" }}
             ></Chip>
             <p>종료일</p>
             <Chip
-              label={provision.reservationEndDate}
+              label={provision?.reservationEndDate}
               color="primary"
               variant="outlined"
               sx={{ fontFamily: "Pretendard" }}
@@ -167,61 +102,78 @@ export default function ProvisionDetail() {
           </div>
         </div>
 
-        <div className="reservation-detail-title">
-          <span>예약 현황</span>
-        </div>
-        <div className="reservation-detail-status">
-          <p>{formatStatus(ReservationStatus[provision.reservationStatus])}</p>
-        </div>
-
-        <div className="reservation-detail-title">
-          <span>사용자 정보</span>
-          <p>이름: {user.nickname}</p>
-          <p>전화번호: {user.phone}</p>
-          <p>주소: {user.address}</p>
-          {user.profileImageUrl && (
-            <img src={user.profileImageUrl} alt="Profile" />
-          )}
-        </div>
-
-        <div className="reservation-detail-title">
-          <span>반려동물 정보</span>
-        </div>
-        <div className="pet-info">
-          {pets.map((pet) => (
-            <div key={pet.petId} className="pet">
-              <h3>{pet.petName}</h3>
-              <p>성별: {pet.petGender}</p>
-              <p>생일: {pet.petBirthDate}</p>
-              <p>체중: {pet.petWeight} kg</p>
-              <p>추가 정보: {pet.petAddInfo || "없음"}</p>
-              {pet.petImageUrl && (
-                <img src={pet.petImageUrl} alt={pet.petName} />
-              )}
+        {provision && (
+          <>
+            <div className="reservation-detail-title">
+              <span>예약 현황</span>
             </div>
-          ))}
-        </div>
+            <div className="reservation-detail-status">
+              <p>
+                {formatStatus(ReservationStatus[provision.reservationStatus])}
+              </p>
+            </div>
+          </>
+        )}
 
-        <div className="reservation-detail-bottom">
-          <div className="reservation-detail-title">
-            <span>댕시터에게 전하는 말</span>
-          </div>
-          <textarea
-            id="reservation-memo"
-            className="memo"
-            value={reservationMemo}
-            onChange={(e) => setReservationMemo(e.target.value)}
-            rows={4}
-            cols={50}
-          />
-        </div>
-        <Button 
-          className="reservation-modify-btn" 
-          type="button" 
-          onClick={goBack}>
-            확인
+        {provision && provision.pets && provision.pets.length > 0 ? (
+          <>
+            <div className="reservation-detail-title">
+              <span>사용자 정보</span>
+              <img
+                src={`${FILE_URL}${provision.profileImageUrl}`}
+                alt="프로필 이미지"
+              />
+              <p>닉네임: {provision.nickname}</p>
+              <p>연락처: {provision.phone}</p>
+              <p>주소: {provision.address}</p>
+            </div>
+
+            <div className="reservation-detail-title">
+              <span>반려동물 정보</span>
+            </div>
+
+            <div className="pet-info">
+              {provision.pets.map((pet, index) => (
+                <div key={index} className="pet">
+                  <img
+                src={`${FILE_URL}${pet.petImageUrl}`}
+                alt="강아지지 이미지"
+              />
+                  <p>강아지 이름: {pet.petName}</p>
+                  <p>성별: {Number(pet.petGender) === 0 ? "수컷" : "암컷"}</p>
+                  <p>생년월일일: {formatBirthDate(pet.petBirthDate)}</p>
+                  <p>몸무게: {pet.petWeight}</p>
+                  <p>중성화 여부: {Number(pet.petWeight) === 0 ? "아니오" : "예"}</p>
+                  <p>추가 정보: {pet.petAddInfo === null || " " ? "없음" : pet.petAddInfo}</p>
+                </div>
+              ))}
+            </div>
+          </>
+        ) : (
+          <p>반려동물 정보가 없습니다.</p>
+        )}
+
+        {provision && (
+          <>
+            <div className="reservation-detail-bottom">
+              <div className="reservation-detail-title">
+                <span>댕시터에게 전하는 말</span>
+              </div>
+              <div className="memo">
+                <p>{provision.reservationMemo}</p>
+              </div>
+            </div>
+          </>
+        )}
+
+        <Button
+          className="reservation-modify-btn"
+          type="button"
+          onClick={goBack}
+        >
+          확인
         </Button>
-      </div> */}
+      </div>
     </>
   );
 }

@@ -6,6 +6,7 @@ import { updateReservaionStatus } from "../../../apis/reservationApi";
 import { useRefreshStore } from "../../../stores/refreshStore";
 import "../../../styles/reservation/ReservationItem.css";
 import { Provision } from "../../../types/provisionType";
+import ProvisionList from "../../../views/DangSitter/provisionList";
 
 interface ProvisionItemProps {
   provision: Provision;
@@ -76,38 +77,39 @@ export default function ProvisionItem({
           <div>{provision.reservationEndDate}</div>
           <div>{provision.nickname}</div>
           <div>{formatStatus(provision.reservationStatus)}</div>
-          <div className="reservation-actions">
-            {provision.reservationStatus === "PENDING" && (
-              <>
-                <Button
-                  variant="outlined"
-                  color="warning"
-                  onClick={handleRejected}
-                  size="medium"
-                  sx={{
-                    fontFamily: "Pretendard",
-                    borderRadius: "15px",
-                  }}
-                >
-                  수락
-                </Button>
+        </div>
 
-                <Button
-                  variant="outlined"
-                  color="warning"
-                  onClick={handleRejected}
-                  size="medium"
-                  sx={{
-                    fontFamily: "Pretendard",
-                    borderRadius: "15px",
-                    marginLeft: "10px",
-                  }}
-                >
-                  거절
-                </Button>
-              </>
-            )}
-          </div>
+        <div className="reservation-actions">
+          {provision.reservationStatus === "PENDING" && (
+            <>
+              <Button
+                variant="outlined"
+                color="warning"
+                onClick={handleRejected}
+                size="medium"
+                sx={{
+                  fontFamily: "Pretendard",
+                  borderRadius: "15px",
+                }}
+              >
+                수락
+              </Button>
+
+              <Button
+                variant="outlined"
+                color="warning"
+                onClick={handleRejected}
+                size="medium"
+                sx={{
+                  fontFamily: "Pretendard",
+                  borderRadius: "15px",
+                  marginLeft: "10px",
+                }}
+              >
+                거절
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </>

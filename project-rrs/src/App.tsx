@@ -40,7 +40,7 @@ import PetRoad from "./views/PetRoad";
 import ProviderUpdate from "./views/DangSitter/providerUpdate";
 import AuthRedirectHandler from "./views/Auth/SignUp/AuthRedirectHandler";
 import SnsSuccess from "./views/Auth/Login/SnsSuccess";
-// import ProvisionList from "./views/DangSitter/provisionList";
+import ProvisionList from "./views/DangSitter/provisionList";
 import ProvisionDetail from "./views/DangSitter/provisionDetail";
 
 function App() {
@@ -186,10 +186,10 @@ function App() {
               }
             />
 
-            {/* <Route
+            <Route
               path="/dang-sitter/reservations"
               element={<ProvisionList />}
-            /> */}
+            />
 
             <Route
               path="/dang-sitter/reservations/:reservationId"

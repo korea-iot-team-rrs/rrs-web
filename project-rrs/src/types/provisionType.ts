@@ -37,12 +37,19 @@ export interface Provision {
   phone: string;
   address: string;
   profileImageUrl: string;
-  petId: number
-  petName: string;
-  petImageUrl: string;
-  petGender: string;
-  petBirthDate: string;
-  petWeight: number;
-  petAddInfo?: string;
-  petNeutralityYn: string;
+  pets: Pet[];
+}
+
+export interface ProvisionSummary {
+  reservationId: number;
+  providerId: number; // FK
+  reservationStartDate: string;
+  reservationEndDate: string;
+  reservationStatus: ReservationStatus;
+  userId: number;
+  nickname: string;
+}
+
+export interface ProvisionList {
+  provisionList: ProvisionSummary[];
 }
