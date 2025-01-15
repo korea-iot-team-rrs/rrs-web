@@ -1,32 +1,19 @@
 import axios from "axios";
-import { MAIN_URL, RESERVATION_PATH } from "../constants";
+import {
+  MAIN_URL,
+  RESERVATION_ALL_GET_BY_USER_PATH,
+  RESERVATION_GET_AVAILABLE_PROVIDER,
+  RESERVATION_GET_PATH,
+  RESERVATION_HAS_REVIEW_PATH,
+  RESERVATION_POST_PATH,
+  RESERVATION_PUT_PATH,
+  RESERVATION_PUT_STATUS_PATH,
+} from "../constants";
 import {
   HasReviewResult,
   Reservation,
   ReservationStatus,
 } from "../types/reservationType";
-
-const RESERVATION_API_URL = `${MAIN_URL}${RESERVATION_PATH}`;
-
-export const fetchprovidersByDate = async (
-  data: { startDate: string; endDate: string },
-  token: string
-) => {
-  const response = await axios.post(
-    `${RESERVATION_API_URL}/get-provider`,
-    {
-      startDate: data.startDate,
-      endDate: data.endDate,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    }
-  );
-  return response.data.data;
-};
 
 export const createReservation = async (
   data: {
@@ -37,12 +24,31 @@ export const createReservation = async (
   },
   token: string
 ) => {
-  const response = await axios.post(`${RESERVATION_API_URL}/write`, data, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await axios.post(
+    `${MAIN_URL}${RESERVATION_POST_PATH}`,
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return response.data.data;
+};
+
+export const fetchReservationList = async (
+  token: string
+): Promise<Reservation[]> => {
+  const response = await axios.get(
+    `${MAIN_URL}${RESERVATION_ALL_GET_BY_USER_PATH}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
   return response.data.data;
 };
 
@@ -50,33 +56,28 @@ export const fetchReservation = async (
   reservationId: number,
   token: string
 ): Promise<Reservation> => {
-  const response = await axios.get(`${RESERVATION_API_URL}/${reservationId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
-  return response.data.data;
-};
-
-export const fetchReservationList = async (
-  token: string
-): Promise<Reservation[]> => {
-  const response = await axios.get(`${RESERVATION_API_URL}/mine/user`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
-  return response.data.data;
-};
-
-export const reservationHasReview = async (
-  reservationId: number,
-  token: string
-): Promise<HasReviewResult> => {
   const response = await axios.get(
-    `${RESERVATION_API_URL}/has-review/${reservationId}`,
+    `${MAIN_URL}${RESERVATION_GET_PATH(reservationId)}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return response.data.data;
+};
+
+export const fetchprovidersByDate = async (
+  data: { startDate: string; endDate: string },
+  token: string
+) => {
+  const response = await axios.post(
+    `${MAIN_URL}${RESERVATION_GET_AVAILABLE_PROVIDER}`,
+    {
+      startDate: data.startDate,
+      endDate: data.endDate,
+    },
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -93,7 +94,7 @@ export const updateMemo = async (
   token: string
 ): Promise<void> => {
   const response = await axios.put(
-    `${RESERVATION_API_URL}/${reservationId}`,
+    `${MAIN_URL}${RESERVATION_PUT_PATH(reservationId)}`,
     data,
     {
       headers: {
@@ -113,8 +114,23 @@ export const updateReservaionStatus = async (
   token: string
 ) => {
   const response = await axios.put(
-    `http://localhost:4040/api/v1/reservations/update-reservation-status`,
+    `${MAIN_URL}${RESERVATION_PUT_STATUS_PATH}`,
     data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return response.data.data;
+};
+export const reservationHasReview = async (
+  reservationId: number,
+  token: string
+): Promise<HasReviewResult> => {
+  const response = await axios.get(
+    `${MAIN_URL}${RESERVATION_HAS_REVIEW_PATH(reservationId)}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

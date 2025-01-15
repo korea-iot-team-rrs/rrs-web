@@ -26,8 +26,9 @@ export default function SignUpMain() {
   const onButtonClickHandler = (link: LinksType) => {
     if (link.id === "rrs") {
       navigation(link.link);
+    } else {
+      window.location.href = `http://localhost:4040/api/v1/auth/sns-sign-in/${link.id}`;
     }
-    window.location.href = `http://localhost:4040/api/v1/auth/sns-sign-in/${link.id}`;
   };
 
   return (
