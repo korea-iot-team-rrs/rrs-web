@@ -4,16 +4,17 @@ export interface Pet {
   petImageUrl: string;
   petGender: string;
   petBirthDate: string;
-  petWeight: string;
-  petAddInfo: string;
+  petWeight: number;
+  petAddInfo?: string;
   petNeutralityYn: string;
 }
 
-export interface  User {
+export interface  UserInfo {
   userId: number;
   nickname: string;
   phone: string;
   address: string;
+  profileImageUrl: string;
 }
 
 export enum ReservationStatus {
@@ -29,8 +30,19 @@ export interface Provision {
   providerId: number; // FK
   reservationStartDate: string;
   reservationEndDate: string;
-  pets: Pet;
-  user: User;
   reservationMemo: string;
   reservationStatus: ReservationStatus;
+  userId: number;
+  nickname: string;
+  phone: string;
+  address: string;
+  profileImageUrl: string;
+  petId: number
+  petName: string;
+  petImageUrl: string;
+  petGender: string;
+  petBirthDate: string;
+  petWeight: number;
+  petAddInfo?: string;
+  petNeutralityYn: string;
 }
