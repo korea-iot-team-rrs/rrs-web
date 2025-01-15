@@ -98,7 +98,9 @@ export default function HealthDetail({
           </p>
           <p>
             <strong>날짜:</strong>{" "}
-            {new Date(healthRecord?.createdAt || selectedDate).toLocaleDateString()}
+            {new Date(
+              healthRecord?.createdAt || selectedDate
+            ).toLocaleDateString()}
           </p>
           <p>
             <strong>체중:</strong> {healthRecord?.weight || "-"} kg
@@ -123,26 +125,28 @@ export default function HealthDetail({
       {existingAttachments.length > 0 && (
         <div className="healthDetailAttachmentSection">
           <strong>첨부 파일:</strong>
-          <ul>
-            {existingAttachments.map((filePath, index) => {
-              const fileNameWithUuid = filePath.split("/").pop();
-              const fileName = fileNameWithUuid
-                ? fileNameWithUuid.replace(/^[0-9a-fA-F-]{36}_/, "")
-                : "Unknown File";
-              return (
-                <li key={index}>
-                  <a
-                    href={`${BASE_FILE_URL}${filePath}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="healthDetailAttachmentLink"
-                  >
-                    {fileName}
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
+          <div className="attachmentListBox">
+            <ul>
+              {existingAttachments.map((filePath, index) => {
+                const fileNameWithUuid = filePath.split("/").pop();
+                const fileName = fileNameWithUuid
+                  ? fileNameWithUuid.replace(/^[0-9a-fA-F-]{36}_/, "")
+                  : "Unknown File";
+                return (
+                  <li key={index}>
+                    <a
+                      href={`${BASE_FILE_URL}${filePath}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="healthDetailAttachmentLink"
+                    >
+                      {fileName}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
       )}
     </div>

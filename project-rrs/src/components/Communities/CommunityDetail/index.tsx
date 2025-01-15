@@ -172,7 +172,7 @@ export default function CommunityDetail() {
       <div>
         {community ? (
           <div className="communityDetailContentBox">
-            <div className="communityDetailTitleRow">
+            <div className="communityDetailTitle">
               <h1 className="communityDetailHeader">
                 {community.communityTitle}
               </h1>
@@ -187,16 +187,18 @@ export default function CommunityDetail() {
                       : "첨부 파일 보기 ▼"}
                   </button>
                   {attachmentsVisible && (
-                    <div className="communityDetailDropdownContent">
+                    <div className="community-attachments-container">
                       {community.attachments.map((attachment, index) => (
-                        <a
-                          key={index}
-                          href={attachment.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {attachment.name}
-                        </a>
+                        <div key={index} className="community-attachment-card">
+                          <a
+                            href={attachment.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="community-attachment-title"
+                          >
+                            {attachment.name}
+                          </a>
+                        </div>
                       ))}
                     </div>
                   )}
@@ -209,18 +211,23 @@ export default function CommunityDetail() {
                 작성자: {community.nickname}
               </p>
               <div className="communityDetailSubActions">
-                <span className="communityDetailDate">
-                  작성일: {community.communityCreatedAt.toLocaleString("ko-KR")}
-                </span>
-                <div className="communityDetailLikeCount">
-                  <FaHeart color={userLiked ? "red" : "gray"} size={20} />
-                  <span className="communityDetailLikeCountNumber">{likeCount}</span>
-                  <FaThumbsUp
-                    color={userLiked ? "black" : "gray"}
-                    size={20}
-                    onClick={handleToggleLike}
-                    style={{ cursor: "pointer" }}
-                  />
+                <div className="communityDetailSubActionsBox">
+                  <span className="communityDetailDate">
+                    작성일:{" "}
+                    {community.communityCreatedAt.toLocaleString("ko-KR")}
+                  </span>
+                  <div className="communityDetailLikeCount">
+                    <FaHeart color={userLiked ? "red" : "gray"} size={20} />
+                    <span className="communityDetailLikeCountNumber">
+                      {likeCount}
+                    </span>
+                    <FaThumbsUp
+                      color={userLiked ? "black" : "gray"}
+                      size={20}
+                      onClick={handleToggleLike}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </div>
                 </div>
                 {isAuthor && (
                   <div className="communityDetailAuthorActions">

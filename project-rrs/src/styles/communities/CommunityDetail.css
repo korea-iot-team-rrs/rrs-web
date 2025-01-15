@@ -7,6 +7,11 @@
   margin: 0 auto;
 }
 
+.communityDetailTitle {
+  display: flex;
+  justify-content: space-between;
+}
+
 .communityDetailContentBox {
   width: 800px;
   padding: 20px;
@@ -18,6 +23,7 @@
 .communityDetailHeader {
   font-size: 50px;
   margin-bottom: 10px;
+  width: 600px;
 }
 
 .communityDetailMeta {
@@ -37,8 +43,14 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  width: 750px;
 }
 
+.communityDetailSubActionsBox{
+  display: flex;
+  justify-content: space-between;
+  width: 100;
+}
 .communityDetailAuthorActions {
   display: flex;
   gap: 10px;
@@ -76,6 +88,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  margin-left: 50px;
 }
 
 .communityDetailLikeCountNumber {
@@ -98,53 +111,66 @@
 }
 
 .communityDetailAttachmentsDropdown {
-  flex: 1;
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  margin-top: 20px;
+  width: 150px;
 }
 
 .communityDetailDropdownButton {
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  padding: 8px 12px;
+  background-color: #f8f9fa;
+  border: 1px solid #ced4da;
+  padding: 10px 15px;
   border-radius: 4px;
-  cursor: pointer;
   font-size: 14px;
-  transition: background-color 0.3s;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .communityDetailDropdownButton:hover {
-  background-color: #e0e0e0;
+  background-color: #e9ecef;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .communityDetailDropdownContent {
-  margin-top: 5px;
-  padding-left: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #ddd;
 }
 
-.communityDetailDropdownContent a {
-  display: block;
-  margin-bottom: 5px;
+.communityDetailAttachmentCard {
+  flex: 1 1 calc(33.333% - 16px);
+  max-width: calc(33.333% - 16px);
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 12px;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.communityDetailAttachmentCard:hover {
+  transform: translateY(-4px);
+}
+
+.communityDetailAttachmentTitle {
+  font-size: 14px;
+  font-weight: bold;
   color: #007bff;
   text-decoration: none;
-  transition: color 0.3s;
+  display: block;
+  margin-top: 8px;
 }
 
-.communityDetailDropdownContent a:hover {
+.communityDetailAttachmentTitle:hover {
   color: #0056b3;
-}
-
-.communityDetailDeleteAllButton {
-  margin-top: 10px;
-  background-color: red;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-}
-
-.communityDetailDeleteAllButton:hover {
-  background-color: #e60000;
 }
 
 .communityDetailCommentSection {
@@ -172,7 +198,6 @@
   padding: 6px 12px;
   transition: background-color 0.2s ease;
 }
-
 
 .communityDetailCommentList {
   display: flex;
@@ -249,4 +274,20 @@
 
 .communityDetailAttachmentItem {
   margin-bottom: 10px;
+}
+
+.commemt-create-button {
+  background-color: #007bff;
+  border-radius: 5px;
+  margin: 4px;
+  color: white;
+  width: 50px;
+  height: 30px;
+}
+
+.commemt-create-cancle-button {
+  border-radius: 5px;
+  margin: 4px;
+  width: 50px;
+  height: 30px;
 }

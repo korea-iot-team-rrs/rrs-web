@@ -124,8 +124,8 @@
 
 .community-card-body {
   display: grid;
-  grid-template-rows: 40px 20px 200px 80px 30px; /* 이미지 높이 200px로 조정 */
-  row-gap: 8px; /* 간격을 8px로 좁게 설정 */
+  grid-template-rows: 40px 20px 200px 80px 30px;
+  row-gap: 8px;
   height: 100%;
   padding: 16px;
   box-sizing: border-box;

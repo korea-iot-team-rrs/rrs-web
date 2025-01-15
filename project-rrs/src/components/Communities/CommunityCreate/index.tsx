@@ -5,7 +5,7 @@ import "../../../styles/communities/CommunityCreate.css";
 import useAuthStore from "../../../stores/useAuthStore";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
-const TITLE_MAX_LENGTH = 50;
+const TITLE_MAX_LENGTH = 30;
 const CONTENT_MAX_LENGTH = 1000;
 
 export default function CommunityCreate() {

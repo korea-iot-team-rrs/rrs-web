@@ -88,7 +88,8 @@
 }
 
 .communityEditFileRemoveButton:hover {
-  background-color: rgb(0, 0, 0.5);
+  color: #ffffff;
+  background-color: rgb(242, 12, 0);
 }
 
 .communityEditButtonGroup {
@@ -106,8 +107,11 @@
 }
 
 .communityEditSubmitButton {
+  border-radius: 5px;
   background-color: #007bff;
   color: white;
+  width: 50px;
+  height: 30px;
 }
 
 .communityEditSubmitButton:hover {
@@ -115,9 +119,12 @@
 }
 
 .communityEditCancelButton {
+  border-radius: 5px;
   background-color: #6c757d;
   color: white;
   margin-left: 10px;
+  width: 50px;
+  height: 30px;
 }
 
 .communityEditCancelButton:hover {

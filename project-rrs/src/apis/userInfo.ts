@@ -2,7 +2,6 @@ import axios from "axios";
 import { User } from "../types";
 import { getToken } from "../utils/auth";
 
-// 사용자 정보 조회
 export const fetchUserInfo = async (): Promise<User> => {
   const token = getToken();
 
@@ -80,7 +79,6 @@ export const deleteUserInfo = async (password: string): Promise<void> => {
     });
     console.log("User deleted successfully");
   } catch (error) {
-    // AxiosError 처리
     if (axios.isAxiosError(error)) {
       console.error("Axios error:", error.response?.data || error.message);
       throw new Error(error.response?.data?.message || "Request failed");

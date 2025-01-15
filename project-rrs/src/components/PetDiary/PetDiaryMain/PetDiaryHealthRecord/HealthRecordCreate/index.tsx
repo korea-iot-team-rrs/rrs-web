@@ -6,6 +6,7 @@ import axios from "axios";
 import { FaFolder } from "react-icons/fa";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import "../../../../../styles/pethealthRecord/pethealthRecordCreate.css";
 
 interface HealthCreateProps {
   selectedPet: Pet | null;
@@ -61,7 +62,9 @@ const HealthCreate = ({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const newFiles = Array.from(e.target.files);
-      const validFiles = newFiles.filter((file) => file.size <= 5 * 1024 * 1024); // 5MB 제한
+      const validFiles = newFiles.filter(
+        (file) => file.size <= 5 * 1024 * 1024
+      ); // 5MB 제한
 
       if (validFiles.length !== newFiles.length) {
         alert("일부 파일이 너무 큽니다. 최대 5MB까지 업로드할 수 있습니다.");
@@ -233,15 +236,15 @@ const HealthCreate = ({
         </div>
 
         <div className="healthCreateButtonSection">
+          <button type="submit" className="healthCreateSubmitButton">
+            확인
+          </button>
           <button
             type="button"
             onClick={goBack}
             className="healthCreateCancelButton"
           >
             취소
-          </button>
-          <button type="submit" className="healthCreateSubmitButton">
-            확인
           </button>
         </div>
       </form>
