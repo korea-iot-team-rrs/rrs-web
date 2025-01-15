@@ -27,3 +27,6 @@ export const REVIEW_PATH = '/reviews';
 export const CUSTOMER_SUPPORT_PATH = '/customer-supports'
 
 export const DEFAULT_FILE_URL = "http://localhost:4040/file/default/defaultImg.png"
+
+// Provision
+export const PROVISION_PATH = "/provider/provision"
