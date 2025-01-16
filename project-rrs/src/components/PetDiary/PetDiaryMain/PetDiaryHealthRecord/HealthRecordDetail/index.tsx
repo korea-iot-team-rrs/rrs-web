@@ -3,6 +3,7 @@ import { getHealthRecordById } from "../../../../../apis/petHealthApi";
 import { fetchAttachmentsByHealthRecordId } from "../../../../../apis/healthRecordAttachment";
 import "../../../../../styles/pethealthRecord/pethealthRecordDetail.css";
 import { HealthRecordResponse } from "../../../../../types/petHealthType";
+import { useRefreshStore } from "../../../../../stores/refreshStore"; // zustand 상태 관리 추가
 
 const BASE_FILE_URL = "http://localhost:4040/";
 
@@ -19,11 +20,10 @@ export default function HealthDetail({
   goBack,
   selectedDate,
 }: HealthDetailProps) {
-  const [healthRecord, setHealthRecord] = useState<HealthRecordResponse | null>(
-    null
-  );
+  const [healthRecord, setHealthRecord] = useState<HealthRecordResponse | null>(null);
   const [existingAttachments, setExistingAttachments] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { incrementRefreshKey } = useRefreshStore(); // 상태 갱신 함수 가져오기
 
   useEffect(() => {
     if (!selectedPet || !healthRecordId) return;
@@ -45,6 +45,8 @@ export default function HealthDetail({
           (attachment) => attachment.filePath
         );
         setExistingAttachments(filePaths);
+
+        incrementRefreshKey(); // 상태 갱신 트리거 추가
       } catch (err) {
         console.error("건강 기록을 가져오는 중 오류:", err);
       } finally {
@@ -53,7 +55,7 @@ export default function HealthDetail({
     };
 
     fetchHealthRecord();
-  }, [selectedPet, healthRecordId]);
+  }, [selectedPet, healthRecordId, incrementRefreshKey]); // 상태 갱신 함수도 의존성 배열에 포함
 
   if (!selectedPet) {
     return (
