@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Pet } from "../../../../../types";
 import { IoMdSunny } from "react-icons/io";
 import { IoCloudy, IoRainy } from "react-icons/io5";

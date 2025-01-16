@@ -5,10 +5,10 @@ import { useCookies } from "react-cookie";
 import { updateReservaionStatus } from "../../../apis/reservationApi";
 import { useRefreshStore } from "../../../stores/refreshStore";
 import "../../../styles/reservation/ReservationItem.css";
-import { Provision } from "../../../types/provisionType";
+import { ProvisionSummary } from "../../../types/provisionType";
 
 interface ProvisionItemProps {
-  provision: Provision;
+  provision: ProvisionSummary;
   onClick: (id: number) => void;
   index: number;
 }
@@ -43,7 +43,7 @@ export default function ProvisionItem({
   const handleRejected = async (e: React.MouseEvent) => {
     e.stopPropagation();
     const token = cookies.token;
-    const confirmRejected = window.confirm("정말 거절하시겠습니까?");
+    const confirmRejected = window.confirm("거절 하시겠습니까?");
     if (!confirmRejected) return;
 
     try {
@@ -60,9 +60,24 @@ export default function ProvisionItem({
     }
   };
 
-  useEffect(() => {
-    console.log(provision);
-  }, [provision]);
+  const handleAcceptance = async (e: React.MouseEvent) => {
+    const token = cookies.token;
+    const confirmAcceptance = window.confirm("수락 하시겠습니까?");
+    if (!confirmAcceptance) return;
+
+    try {
+      await updateReservaionStatus(
+        {
+          reservationId: provision.reservationId,
+          reservationStatus: ReservationStatus.IN_PROGRESS,
+        },
+        token
+      );
+      incrementRefreshKey();
+    } catch (error) {
+      console.error("Failed to update provision status:", error);
+    }
+  };
 
   return (
     <>
@@ -76,38 +91,39 @@ export default function ProvisionItem({
           <div>{provision.reservationEndDate}</div>
           <div>{provision.nickname}</div>
           <div>{formatStatus(provision.reservationStatus)}</div>
-          <div className="reservation-actions">
-            {provision.reservationStatus === "PENDING" && (
-              <>
-                <Button
-                  variant="outlined"
-                  color="warning"
-                  onClick={handleRejected}
-                  size="medium"
-                  sx={{
-                    fontFamily: "Pretendard",
-                    borderRadius: "15px",
-                  }}
-                >
-                  수락
-                </Button>
+        </div>
 
-                <Button
-                  variant="outlined"
-                  color="warning"
-                  onClick={handleRejected}
-                  size="medium"
-                  sx={{
-                    fontFamily: "Pretendard",
-                    borderRadius: "15px",
-                    marginLeft: "10px",
-                  }}
-                >
-                  거절
-                </Button>
-              </>
-            )}
-          </div>
+        <div className="reservation-actions">
+          {provision.reservationStatus === "PENDING" && (
+            <>
+              <Button
+                variant="outlined"
+                color="warning"
+                onClick={handleAcceptance}
+                size="medium"
+                sx={{
+                  fontFamily: "Pretendard",
+                  borderRadius: "15px",
+                }}
+              >
+                수락
+              </Button>
+
+              <Button
+                variant="outlined"
+                color="warning"
+                onClick={handleRejected}
+                size="medium"
+                sx={{
+                  fontFamily: "Pretendard",
+                  borderRadius: "15px",
+                  marginLeft: "10px",
+                }}
+              >
+                거절
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </>

@@ -29,7 +29,7 @@
   left: 32px; /* 동그라미가 오른쪽으로 이동 */
 }
 
-.selected {
+.selected-date {
   background-color: #90ee90;
   border-radius: 50%;
 }
