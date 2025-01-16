@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from "react";
 import "../../../../styles/MyPage.css";
-import useAuthStore from "../../../../stores/useAuthStore";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 
 export default function UserInfoUpdate() {
-  const { user } = useAuthStore();
   const navigate = useNavigate();
   const [cookies] = useCookies(["token"]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const [userInfo, setUserInfo] = useState({
-    username: user?.username,
-    name: user?.name,
-    nickname: user?.nickname,
-    address: user?.address,
-    addressDetail: user?.addressDetail,
-    email: user?.email,
-    phone: user?.phone,
-    profileImageUrl: user?.profileImageUrl,
+    username: "",
+    name: "",
+    nickname: "",
+    address: "",
+    addressDetail: "",
+    email: "",
+    phone: "",
+    profileImageUrl: "",
   });
 
   const [originalUserInfo, setOriginalUserInfo] = useState(userInfo);
@@ -65,19 +64,19 @@ export default function UserInfoUpdate() {
         });
 
         if (response.status === 200) {
-          const data = response.data;
-          setUserInfo((prev) => ({
-            ...prev,
-            username: response.data.username,
-            name: response.data.name,
-            nickname: response.data.nickname,
-            address: response.data.address,
-            addressDetail: response.data.addressDetail,
-            email: response.data.email,
-            phone: response.data.phone,
-            profileImageUrl: response.data.profileImageUrl,
-          }));
+          const data = response.data.data;
+          setUserInfo({
+            username: data.username,
+            name: data.name,
+            nickname: data.nickname,
+            address: data.address,
+            addressDetail: data.addressDetail,
+            email: data.email,
+            phone: data.phone,
+            profileImageUrl: data.profileImageUrl,
+          });
           setOriginalUserInfo(data);
+          setLoading(false);
         }
       } catch (error) {
         console.error("Error fetching user info:", error);
@@ -124,23 +123,26 @@ export default function UserInfoUpdate() {
     }
 
     if (userInfo.addressDetail !== originalUserInfo.addressDetail) {
-    if (!userInfo.addressDetail) {
-      alert("상세 주소를 입력해 주세요.");
-      return false;
+      if (!userInfo.addressDetail) {
+        alert("상세 주소를 입력해 주세요.");
+        return false;
+      }
     }
-  }
 
-  if (userInfo.phone !== originalUserInfo.phone) {
-    if (!userInfo.phone) {
-      alert("연락처를 입력해 주세요.");
-      return false;
-    } else if (!phoneRegex.test(userInfo.phone)) {
-      alert("연락처는 11자리 숫자로 입력해 주세요.");
-      return false;
+    if (userInfo.phone !== originalUserInfo.phone) {
+      if (!userInfo.phone) {
+        alert("연락처를 입력해 주세요.");
+        return false;
+      } else if (!phoneRegex.test(userInfo.phone)) {
+        alert("연락처는 11자리 숫자로 입력해 주세요.");
+        return false;
+      }
     }
-  }
 
-    if (userInfo.profileImageUrl && !profileImageUrlRegex.test(userInfo.profileImageUrl)) {
+    if (
+      userInfo.profileImageUrl &&
+      !profileImageUrlRegex.test(userInfo.profileImageUrl)
+    ) {
       alert("프로필 사진은 jpg, jpeg, png 형식만 지원됩니다.");
       return false;
     }
@@ -149,15 +151,18 @@ export default function UserInfoUpdate() {
     if (userInfo.name && userInfo.name !== originalUserInfo.name) {
       formData.append("name", userInfo.name);
     }
-    
+
     if (userInfo.address && userInfo.address !== originalUserInfo.address) {
       formData.append("address", userInfo.address);
     }
-    
-    if (userInfo.addressDetail && userInfo.addressDetail !== originalUserInfo.addressDetail) {
+
+    if (
+      userInfo.addressDetail &&
+      userInfo.addressDetail !== originalUserInfo.addressDetail
+    ) {
       formData.append("addressDetail", userInfo.addressDetail);
     }
-    
+
     if (userInfo.phone && userInfo.phone !== originalUserInfo.phone) {
       formData.append("phone", userInfo.phone);
     }
@@ -194,91 +199,102 @@ export default function UserInfoUpdate() {
 
   return (
     <div>
-      <h2>MyPage</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="element">
-          <label>개인 프로필 사진</label>
-          <input
-            type="file"
-            name="profileImageUrl"
-            accept=".jpg,.png,.jpeg"
-            onChange={handleFileChange}
-          />
-        </div>
+      {loading ? ( // 로딩 상태일 때
+        <p>Loading...</p>
+      ) : (
+        <>
+          <h2>MyPage</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="element">
+              <label>개인 프로필 사진</label>
+              <input
+                type="file"
+                name="profileImageUrl"
+                accept=".jpg,.png,.jpeg"
+                onChange={handleFileChange}
+              />
+            </div>
 
-        <div className="element">
-          <label>아이디</label>
-          <input
-            type="text"
-            name="username"
-            value={userInfo.username}
-            disabled
-          />
-        </div>
+            <div className="element">
+              <label>아이디</label>
+              <input
+                type="text"
+                name="username"
+                value={userInfo.username}
+                disabled
+              />
+            </div>
 
-        <div className="element">
-          <label>이름</label>
-          <input
-            type="text"
-            name="name"
-            value={userInfo.name}
-            onChange={handleInputChange}
-          />
-        </div>
+            <div className="element">
+              <label>이름</label>
+              <input
+                type="text"
+                name="name"
+                value={userInfo.name}
+                onChange={handleInputChange}
+              />
+            </div>
 
-        <div className="element">
-          <label>닉네임</label>
-          <input
-            type="text"
-            name="nickname"
-            value={userInfo.nickname}
-            disabled
-          />
-        </div>
+            <div className="element">
+              <label>닉네임</label>
+              <input
+                type="text"
+                name="nickname"
+                value={userInfo.nickname}
+                disabled
+              />
+            </div>
 
-        <div className="element">
-          <label>주소</label>
-          <input
-            type="text"
-            name="address"
-            value={userInfo.address}
-            onChange={handleInputChange}
-          />
-          <button>주소 검색</button>
-        </div>
+            <div className="element">
+              <label>주소</label>
+              <input
+                type="text"
+                name="address"
+                value={userInfo.address}
+                onChange={handleInputChange}
+              />
+              <button>주소 검색</button>
+            </div>
 
-        <div className="element">
-          <label>상세 주소</label>
-          <input
-            type="text"
-            name="addressDetail"
-            value={userInfo.addressDetail}
-            onChange={handleInputChange}
-          />
-        </div>
+            <div className="element">
+              <label>상세 주소</label>
+              <input
+                type="text"
+                name="addressDetail"
+                value={userInfo.addressDetail}
+                onChange={handleInputChange}
+              />
+            </div>
 
-        <div className="element">
-          <label>이메일</label>
-          <input type="email" name="email" value={userInfo.email} disabled />
-        </div>
+            <div className="element">
+              <label>이메일</label>
+              <input
+                type="email"
+                name="email"
+                value={userInfo.email}
+                disabled
+              />
+            </div>
 
-        <div className="element">
-          <label>연락처</label>
-          <input
-            type="text"
-            name="phone"
-            value={userInfo.phone}
-            onChange={handleInputChange}
-          />
-        </div>
+            <div className="element">
+              <label>연락처</label>
+              <input
+                type="text"
+                name="phone"
+                value={userInfo.phone}
+                onChange={handleInputChange}
+              />
+            </div>
 
-        <button className="ok-button" type="submit">
-          완료
-        </button>
-        <button className="back-button" type="button" onClick={goBack}>
-          취소
-        </button>
-      </form>
+            <button className="ok-button" type="submit">
+              완료
+            </button>
+            <button className="back-button" type="button" onClick={goBack}>
+              취소
+            </button>
+          </form>
+        </>
+      )}
     </div>
   );
 }

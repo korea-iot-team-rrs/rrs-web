@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Pet } from "../../../../../types";
 import axios from "axios";
 import { useCookies } from "react-cookie";

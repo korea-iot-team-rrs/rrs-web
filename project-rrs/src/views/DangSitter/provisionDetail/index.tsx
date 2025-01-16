@@ -3,8 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { MAIN_URL, PROVISION_PATH, FILE_URL } from "../../../constants";
 import { Provision, ReservationStatus } from "../../../types/provisionType";
 import { useCookies } from "react-cookie";
-// import { fetchProvision } from "../../../apis/provisionApi";
-import ReservationUserInfo from "../../../components/DangSitter/ReservationUserInfo";
 import { Button, Chip } from "@mui/material";
 import "../../../styles/reservation/ReservationUserDetail.css";
 import axios from "axios";

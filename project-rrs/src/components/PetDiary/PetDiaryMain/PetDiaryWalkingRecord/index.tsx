@@ -11,7 +11,7 @@ import WalkingRecordGet from "./WalkingRecordGet";
 import WalkingRecordUpdate from "./WalkingRecordUpdate";
 
 export default function PetDiaryWalkingRecord({
-  selectedDate: initialSelectedDate,
+  selectedDate
 }: PetDiaryTodoProps) {
   const { pets, setPets } = usePetStore();
   const [cookies] = useCookies(["token"]);
@@ -22,9 +22,6 @@ export default function PetDiaryWalkingRecord({
   const [selectedPet, setSelectedPet] = useState<Pet | null>(null);
   const [walkingRecords, setWalkingRecords] = useState<any[]>([]);
   const [walkingRecordId, setWalkingRecordId] = useState<number>(0);
-  const [selectedDate, setSelectedDate] = useState<string>(
-    initialSelectedDate || ""
-  );
 
   const handleAddPetClick = () => {
     navigate("/user/pet-create");
@@ -46,7 +43,6 @@ export default function PetDiaryWalkingRecord({
 
   const handleEditWalkingRecordClick = (record: WalkingRecord) => {
     setWalkingRecordId(record.walkingRecordId);
-    setSelectedDate(record.walkingRecordCreateAt);
     setIsEditing(true);
   };
 
@@ -133,7 +129,6 @@ export default function PetDiaryWalkingRecord({
   // 산책기록 조회
   const handleRecordClick = (record: WalkingRecord) => {
     setWalkingRecordId(record.walkingRecordId);
-    setSelectedDate(record.walkingRecordCreateAt);
     setIsFetching(true);
   };
 
@@ -218,7 +213,6 @@ export default function PetDiaryWalkingRecord({
                     selectedPet?.petId === pet.petId ? "selected" : ""
                   }`}
                   onClick={() => {
-                    console.log("selected pet:", pet);
                     setSelectedPet(pet);
                   }}
                 >
