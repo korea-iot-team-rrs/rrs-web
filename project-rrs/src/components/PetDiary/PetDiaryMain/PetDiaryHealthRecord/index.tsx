@@ -13,6 +13,7 @@ import {
   getAllHealthRecords,
   deleteHealthRecord,
 } from "../../../../apis/petHealthApi";
+import { useRefreshStore } from "../../../../stores/refreshStore";
 
 export default function PetDiaryHealthRecord({
   selectedDate: initialSelectedDate,
@@ -20,6 +21,7 @@ export default function PetDiaryHealthRecord({
   const { pets, setPets } = usePetStore();
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
+  const { incrementRefreshKey } = useRefreshStore();
 
   const [isCreating, setIsCreating] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
@@ -47,6 +49,7 @@ export default function PetDiaryHealthRecord({
       setHealthRecords(
         records.filter((record) => record.createdAt.startsWith(selectedDate))
       );
+      incrementRefreshKey();
     } catch (error) {
       console.error("저장된 건강 기록이 없습니다:", error);
     }
@@ -86,6 +89,7 @@ export default function PetDiaryHealthRecord({
         prev.filter((record) => record.healthRecordId !== recordToDelete)
       );
       alert("건강 기록이 삭제되었습니다.");
+      incrementRefreshKey();
     } catch (error) {
       console.error("건강 기록 삭제 실패:", error);
       alert("건강 기록 삭제 중 오류가 발생했습니다.");
@@ -113,6 +117,7 @@ export default function PetDiaryHealthRecord({
 
       const data = await response.json();
       setPets(data.data || []);
+      incrementRefreshKey();
     } catch (error) {
       console.error("반려 동물 정보를 불러오는 중 오류 발생:", error);
       alert("반려 동물 정보를 불러오는 중 오류가 발생했습니다.");
@@ -172,7 +177,7 @@ export default function PetDiaryHealthRecord({
                 <button
                   key={pet.petId}
                   className={`petHealthBox ${
-                    selectedPet?.petId === pet.petId ? "selected" : ""
+                    selectedPet?.petId === pet.petId ? "selectedPet" : ""
                   }`}
                   onClick={() => setSelectedPet(pet)}
                 >
@@ -222,11 +227,11 @@ export default function PetDiaryHealthRecord({
                       onClick={() => handleRecordClick(record)}
                       style={{ cursor: "pointer" }}
                     >
-                      <p className="limitedText">
+                      <p className="petHealthRecordlimitedText">
                         증상: {record.abnormalSymptoms}
                       </p>
                       {record.memo && (
-                        <p className="limitedText">메모: {record.memo}</p>
+                        <p className="petHealthRecordlimitedText">메모: {record.memo}</p>
                       )}
                     </div>
                     <div className="petHealthRecordButtons">
