@@ -8,6 +8,7 @@ import { useRefreshStore } from "../../../stores/refreshStore";
 import { useCookies } from "react-cookie";
 import usePetStore, { WalkingRecord } from "../../../stores/petstore";
 import axios from "axios";
+import { HealthRecord } from "../../../types/petHealthType";
 
 const Styles = () => {
   return (
@@ -25,20 +26,19 @@ function formatDate(date: Date): string {
 function renderCell(
   date: Date,
   todos: Todo[],
-  walkingRecords: WalkingRecord[]
+  walkingRecords: WalkingRecord[],
+  healthRecords: HealthRecord[]
 ): React.ReactElement | null {
   const dateString = formatDate(date);
   const hasTodo = todos.some((todo) => todo.todoCreateAt === dateString);
-  const hasWalkingRecord = walkingRecords.some(
-    (record) => record.walkingRecordCreateAt === dateString
-  );
+  const hasWalkingRecord = walkingRecords.some((record) => record.walkingRecordCreateAt === dateString);
+  const hasHealthRecord = healthRecords.some((healthRecord) => healthRecord.createdAt === dateString);
 
   return (
     <div>
       {hasTodo && <span className="calendar-todo-item">오늘의 할일</span>}
-      {hasWalkingRecord && (
-        <span className="calendar-walking-record-item">산책 기록</span>
-      )}
+      {hasWalkingRecord && <span className="calendar-walking-record-item">산책 기록</span>}
+      {hasHealthRecord && <span className="calendar-health-record-item">건강 기록</span>}
     </div>
   );
 }
@@ -51,11 +51,32 @@ export default function PetDiaryCalendar({
   const [todos, setTodos] = useState<Todo[]>([]);
   const { refreshKey } = useRefreshStore();
   const [walkingRecords, setWalkingRecords] = useState<WalkingRecord[]>([]);
+  const [healthRecords, setHealthRecords] = useState<HealthRecord[]>([]);
   const pets = usePetStore((state) => state.pets || []);
+
+  const fetchHealthRecords = async (token: string): Promise<void> => {
+    try {
+      const healthRecordRequests = pets.map((pet) =>
+        axios.get(
+          `http://localhost:4040/api/v1/users/pet/petHealth/${pet.petId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
+      );
+
+      const responses = await Promise.all(healthRecordRequests);
+      const allHealthRecords = responses.flatMap((response) => response.data.data);
+      setHealthRecords(allHealthRecords);
+    } catch (error) {
+      console.error("Failed to fetch health records", error);
+    }
+  };
 
   useEffect(() => {
     const token = cookies.token;
     if (token) {
+      fetchHealthRecords(token);
       fetchTodos(token)
         .then((data) => {
           setTodos(data);
@@ -75,7 +96,6 @@ export default function PetDiaryCalendar({
             }
           );
         });
-
         Promise.all(petRequests)
           .then((responses) => {
             const allWalkingRecords = responses.flatMap(
@@ -105,7 +125,7 @@ export default function PetDiaryCalendar({
         bordered
         onChange={handleDateChange}
         onSelect={handleDateChange}
-        renderCell={(date) => renderCell(date, todos, walkingRecords)}
+        renderCell={(date) => renderCell(date, todos, walkingRecords, healthRecords)}
       />
     </div>
   );
