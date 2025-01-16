@@ -29,7 +29,7 @@ export default function CustomerSupportWrite() {
     customerSupportContent: "",
     customerSupportCategory: "1",
     files: [],
-    path: "/uploads/inquiry_and_report",
+    path: "/uploads/inquiry-and-report",
   });
 
   const [isInquiry, setIsInquiry] = useState<boolean>(true);
@@ -106,12 +106,12 @@ export default function CustomerSupportWrite() {
         customerSupportContent: createCSReqDto.customerSupportContent,
         customerSupportCategory: createCSReqDto.customerSupportCategory,
         files: createCSReqDto.files,
-        path: "inquiry_and_report",
+        path: "inquiry-and-report",
       };
 
       await createCustomerSupport(createRequestData, token);
       alert("성공적으로 저장되었습니다!");
-      navigate("/inquiry_and_report/list");
+      navigate("/inquiry-and-report/list");
     } catch (error) {
       console.error("Error during submit:", error);
       alert("요청 처리 중 오류가 발생했습니다.");

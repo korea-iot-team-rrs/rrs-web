@@ -66,7 +66,7 @@ export default function CustomerSupportDetail() {
   };
 
   const handleEdit = () => {
-    navigate(`/inquery-and-report/edit/${id}`);
+    navigate(`/inquiry-and-report/edit/${id}`);
   };
 
   const deleteBtnHandler = () => {
@@ -81,7 +81,7 @@ export default function CustomerSupportDetail() {
       deleteCustomerSupport(csId, token)
         .then(() => {
           alert("삭제되었습니다.");
-          navigate("/inquiry_and_report/list");
+          navigate("/inquiry-and-report/list");
         })
         .catch((e) => {
           console.error("Failed to delete customer support:", e);
