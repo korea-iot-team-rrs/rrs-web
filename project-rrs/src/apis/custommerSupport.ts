@@ -5,6 +5,7 @@ import {
   FetchCSList,
   UpdateCS,
 } from "../types/customerSupport";
+import { CUSTOMER_SUPPORT_CREATE_PATH, CUSTOMER_SUPPORT_GET_ALL_PATH, MAIN_URL } from "../constants";
 
 export const createCustomerSupport = async (data: CreateCS, token: string) => {
   const formData = new FormData();
@@ -20,7 +21,7 @@ export const createCustomerSupport = async (data: CreateCS, token: string) => {
   });
 
   const response = await axios.post(
-    `http://localhost:4040/api/v1/customer-supports`,
+    `${MAIN_URL}${CUSTOMER_SUPPORT_CREATE_PATH}`,
     formData,
     {
       headers: {
@@ -37,7 +38,7 @@ export const fetchCustomerSupportList = async (
   token: string
 ): Promise<FetchCSList[]> => {
   const response = await axios.get(
-    `http://localhost:4040/api/v1/customer-supports`,
+    `${MAIN_URL}${CUSTOMER_SUPPORT_GET_ALL_PATH}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
