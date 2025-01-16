@@ -42,7 +42,7 @@
   min-height: 200px;
   justify-content: space-between;
   background-color: #0085ff;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
 .dang-sitter-container01:hover {
@@ -55,7 +55,7 @@
   grid-row: 2 / 3;
   justify-content: space-between;
   background-color: #0085ff;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
 .dang-sitter-container02:hover {
@@ -70,7 +70,7 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
 .dang-sitter-container03:hover {
@@ -87,7 +87,7 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
 .dang-sitter-container04:hover {
@@ -99,4 +99,23 @@
   color: #272727 !important;
   margin: 0px !important;
   padding: 0px !important;
+}
+
+
+.dang-sitter-container01.provider {
+  background-color: rgb(255, 112, 112);
+}
+
+.dang-sitter-container02.provider {
+  background-color: rgb(255, 112, 112);
+}
+
+.dang-sitter-container03.provider {
+  background-image: url("../../assets/images/dang-sitter-back-02.jpg");
+}
+.dang-sitter-container04.provider {
+  background-image: url("../../assets/images/dogIllust06.png");
+  .reservation-title {
+    color: #272727;
+  }
 }
