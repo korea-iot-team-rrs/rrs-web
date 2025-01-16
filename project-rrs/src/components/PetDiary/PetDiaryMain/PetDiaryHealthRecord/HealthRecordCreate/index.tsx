@@ -6,6 +6,7 @@ import axios from "axios";
 import { FaFolder } from "react-icons/fa";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useRefreshStore } from "../../../../../stores/refreshStore"; // zustand 상태 관리 추가
 import "../../../../../styles/pethealthRecord/pethealthRecordCreate.css";
 
 interface HealthCreateProps {
@@ -28,6 +29,7 @@ const HealthCreate = ({
 }: HealthCreateProps) => {
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
+  const { incrementRefreshKey } = useRefreshStore(); // 상태 갱신 함수 가져오기
   const [attachments, setAttachments] = useState<File[]>([]);
   const today = new Date();
   const selectedDateObj = new Date(selectedDate);
@@ -111,7 +113,6 @@ const HealthCreate = ({
     formData.append("memo", healthRecord.memo);
     formData.append("createdAt", healthRecord.createdAt);
 
-    // 첨부 파일 추가
     attachments.forEach((file) => formData.append("attachments", file));
 
     try {
@@ -131,6 +132,7 @@ const HealthCreate = ({
 
       alert("건강 기록이 성공적으로 저장되었습니다.");
       addHealthRecord(response.data.data);
+      incrementRefreshKey(); // 상태 갱신 트리거
       goBack();
     } catch (error) {
       console.error("건강 기록 저장 실패:", error);
