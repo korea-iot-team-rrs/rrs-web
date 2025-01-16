@@ -4,16 +4,22 @@ import { AntSwitch } from "../../../styles/dangSitter/DangSitterCommon";
 import { useNavigate, useParams } from "react-router-dom";
 import "../../../styles/dangSitter/DangSitterMain.css";
 import { TfiArrowTopRight } from "react-icons/tfi";
+import LoginModal from "../../../components/LoginModal";
+import useAuthStore from "../../../stores/useAuthStore";
 export default function DangSitterMain() {
   const navigate = useNavigate();
+  const { isLoggedIn } = useAuthStore();
   const [toggleChecked, setToggleChecked] = useState(false);
-
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const handleCloseModal = () => {
+    setShowLoginModal(false);
+  };
   const toggleHandleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setToggleChecked(event.target.checked);
   };
-
   return (
     <>
+      {showLoginModal && <LoginModal onClose={handleCloseModal} />}
       <div className="dang-sitter-main-wrapper">
         <div className="dang-sitter-title">
           <Typography fontSize={30} fontFamily={"Pretendard"} fontWeight={700}>
@@ -37,11 +43,19 @@ export default function DangSitterMain() {
         </div>
 
         <div
-          className="dang-sitter-container01"
+          className={
+            toggleChecked
+              ? "dang-sitter-container01 provider"
+              : "dang-sitter-container01 user"
+          }
           onClick={() =>
-            navigate(toggleChecked 
-              ? `/dang-sitter/provider`
-              : "/users/dang-sitter/reservations/write")
+            isLoggedIn
+              ? navigate(
+                  toggleChecked
+                    ? `/dang-sitter/provider`
+                    : "/users/dang-sitter/reservations/write"
+                )
+              : setShowLoginModal(true)
           }
         >
           <h2 className="reservation-title">
@@ -50,13 +64,19 @@ export default function DangSitterMain() {
           <TfiArrowTopRight size={40} />
         </div>
         <div
-          className="dang-sitter-container02"
+          className={
+            toggleChecked
+              ? "dang-sitter-container02 provider"
+              : "dang-sitter-container02 user"
+          }
           onClick={() =>
-            navigate(
-              toggleChecked
-                ? "/dang-sitter/reservations"
-                : "/users/dang-sitter/reservations"
-            )
+            isLoggedIn
+              ? navigate(
+                  toggleChecked
+                    ? "/dang-sitter/reservations"
+                    : "/users/dang-sitter/reservations"
+                )
+              : setShowLoginModal(true)
           }
         >
           <h2 className="reservation-title">
@@ -65,7 +85,11 @@ export default function DangSitterMain() {
           <TfiArrowTopRight size={40} />
         </div>
         <div
-          className="dang-sitter-container03"
+          className={
+            toggleChecked
+              ? "dang-sitter-container03 provider"
+              : "dang-sitter-container03 user"
+          }
           onClick={() => navigate(toggleChecked ? "/" : "/")}
         >
           <h2 className="reservation-title">
@@ -73,7 +97,11 @@ export default function DangSitterMain() {
           </h2>
         </div>
         <div
-          className="dang-sitter-container04"
+          className={
+            toggleChecked
+              ? "dang-sitter-container04 provider"
+              : "dang-sitter-container04 user"
+          }
           onClick={() => navigate(toggleChecked ? "/" : "/usage-guide")}
         >
           <h2 className="reservation-title">

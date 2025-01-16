@@ -42,6 +42,7 @@ import AuthRedirectHandler from "./views/Auth/SignUp/AuthRedirectHandler";
 import SnsSuccess from "./views/Auth/Login/SnsSuccess";
 // import ProvisionList from "./views/DangSitter/provisionList";
 import ProvisionDetail from "./views/DangSitter/provisionDetail";
+import CustomerSupportMain from "./views/CustomerSupport/CustomerSupportMain";
 
 function App() {
   const { isLoading } = useAuthCheck();
@@ -155,17 +156,13 @@ function App() {
             <Route
               path="/users/dang-sitter/reservations"
               element={
-                <ProtectedRoute>
                   <ReservationList />
-                </ProtectedRoute>
               }
             />
             <Route
               path="/users/dang-sitter/reservations/write"
               element={
-                <ProtectedRoute>
                   <ReservationForm />
-                </ProtectedRoute>
               }
             />
             <Route
@@ -194,23 +191,25 @@ function App() {
             <Route
               path="/dang-sitter/reservations/:reservationId"
               element={
-                <ProtectedRoute>
                   <ProvisionDetail />
-                </ProtectedRoute>
               }
             />
 
             {/* 고객센터 관련 라우터 */}
             <Route
-              path="/customer-supports"
+              path="/inquiry_and_report"
               element={
-                <ProtectedRoute>
-                  <CustomerSupportList />
-                </ProtectedRoute>
+                  <CustomerSupportMain />
               }
             />
             <Route
-              path="/customer-supports/:id"
+              path="/inquiry_and_report/list"
+              element={
+                  <CustomerSupportList />
+              }
+            />
+            <Route
+              path="/inquiry_and_report/:id"
               element={
                 <ProtectedRoute>
                   <CustomerSupportDetail />
@@ -218,7 +217,7 @@ function App() {
               }
             />
             <Route
-              path="/customer-supports/write"
+              path="/inquiry_and_report/write"
               element={
                 <ProtectedRoute>
                   <CustomerSupportWrite />
@@ -226,7 +225,7 @@ function App() {
               }
             />
             <Route
-              path="/customer-supports/edit/:id"
+              path="/inquiry_and_report/edit/:id"
               element={
                 <ProtectedRoute>
                   <CustomerSupportUpdate />

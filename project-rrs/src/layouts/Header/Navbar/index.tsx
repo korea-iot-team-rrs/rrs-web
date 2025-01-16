@@ -9,7 +9,7 @@ export default function Navbar() {
     "community",
     "pet-road",
     "announcements",
-    "customer-supports",
+    "inquiry_and_report",
   ];
 
   return (
@@ -25,7 +25,7 @@ export default function Navbar() {
               ? "댕소통"
               : link === "pet-road"
               ? "댕로드"
-              : link === "customer-supports"
+              : link === "inquiry_and_report"
               ? "고객센터"
               : link
               ? "공지사항"

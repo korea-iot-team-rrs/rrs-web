@@ -35,11 +35,11 @@ export const REVIEW_DELETE_PATH = (reviewId:number) => `/reviews/${reviewId}`;
 export const REVIEW_GET_LATEST_REVIEW = (providerId:number) => `/reviews/latest-review/${providerId}`;
 
 // CustomerSupport
-export const CUSTOMER_SUPPORT_CREATE_PATH = '/customer-support/write';
-export const CUSTOMER_SUPPORT_GET_ALL_PATH = '/customer-support';
-export const CUSTOMER_SUPPORT_GET_PATH = (customerSupportId:number) => `/customer-support/${customerSupportId}`;
-export const CUSTOMER_SUPPORT_PUT_PATH = (customerSupportId:number) => `/customer-support/${customerSupportId}`;
-export const CUSTOMER_SUPPORT_DELETE_PATH  = (customerSupportId:number) => `/customer-support/${customerSupportId}`;
+export const CUSTOMER_SUPPORT_CREATE_PATH = '/inquiry_and_report/write';
+export const CUSTOMER_SUPPORT_GET_ALL_PATH = '/inquiry_and_report';
+export const CUSTOMER_SUPPORT_GET_PATH = (customerSupportId:number) => `/inquiry_and_report/${customerSupportId}`;
+export const CUSTOMER_SUPPORT_PUT_PATH = (customerSupportId:number) => `/inquiry_and_report/${customerSupportId}`;
+export const CUSTOMER_SUPPORT_DELETE_PATH  = (customerSupportId:number) => `/inquiry_and_report/${customerSupportId}`;
 
 export const DEFAULT_FILE_URL = "http://localhost:4040/file/default/defaultImg.png"
 
