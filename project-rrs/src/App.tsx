@@ -40,8 +40,8 @@ import PetRoad from "./views/PetRoad";
 import ProviderUpdate from "./views/DangSitter/providerUpdate";
 import AuthRedirectHandler from "./views/Auth/SignUp/AuthRedirectHandler";
 import SnsSuccess from "./views/Auth/Login/SnsSuccess";
-// import ProvisionList from "./views/DangSitter/provisionList";
 import ProvisionDetail from "./views/DangSitter/provisionDetail";
+import ProvisionListPage from "./views/DangSitter/provisionListPage";
 
 function App() {
   const { isLoading } = useAuthCheck();
@@ -186,10 +186,10 @@ function App() {
               }
             />
 
-            {/* <Route
+            <Route
               path="/dang-sitter/reservations"
-              element={<ProvisionList />}
-            /> */}
+              element={<ProvisionListPage />}
+            />
 
             <Route
               path="/dang-sitter/reservations/:reservationId"
