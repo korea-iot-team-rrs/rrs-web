@@ -52,7 +52,7 @@ export default function PetCreate() {
 
     // 유효성 검사
     const nameRegex = /^[가-힣]+$/;
-    const petImageUrlRegex = /.*\.(jpg|png|jpeg)$/;
+    const petImageUrlRegex = /.*\.(jpg|png|jpeg)$/i;
 
     if (!pet.petName) {
       alert('반려 동물 이름을 입력해 주세요.')
@@ -69,6 +69,9 @@ export default function PetCreate() {
 
     if (!pet.petBirthDate) {
       alert('반려 동물 생년월일을 입력해 주세요.')
+      return;
+    } else if (pet.petBirthDate.length !== 6) {
+      alert('생년월일은 MMMMYY 6자리로 작성해 주세요.')
       return;
     }
 
@@ -96,18 +99,16 @@ export default function PetCreate() {
       formData.append('petWeight', pet.petWeight.toString());
       formData.append('petAddInfo', pet.petAddInfo);
       formData.append('petNeutralityYn', pet.petNeutralityYn);
-
-      if (!pet.petImageUrl || pet.petImageUrl === "") {
-        formData.append('petImageUrl', "pet-default-profile.jpg"); 
+      if (pet.petImageUrl && pet.petImageUrl instanceof File) {
+        formData.append('petImageUrl', pet.petImageUrl); 
       }
-
+      
       formData.forEach((value, key) => {
         console.log(key, value);
       });
 
       try {
         const token = cookies.token || localStorage.getItem("token");  
-        console.log("token!!!:", token);
         const response = await axios.post(`http://localhost:4040/api/v1/users/pet`, formData, {
           headers: {
             Authorization: `Bearer ${token}`,

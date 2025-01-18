@@ -96,6 +96,8 @@ const ProviderUdpate = () => {
           }
         );
 
+        console.log(response.data);
+
         const availableDates = response.data.availableDate
         ? response.data.availableDate.map((dateStr: string) => new Date(dateStr))
         : [];
