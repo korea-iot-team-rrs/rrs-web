@@ -95,7 +95,7 @@ export default function PasswordUpdate() {
         <div>
           <label htmlFor="newPassword">새 비밀번호</label>
           <input
-            type="text"
+            type="password"
             id="newPassword"
             name="newPassword"
             value={formData.newPassword}
@@ -106,7 +106,7 @@ export default function PasswordUpdate() {
         <div>
           <label htmlFor="confirmPassword">새 비밀번호 확인</label>
           <input
-            type="text"
+            type="password"
             id="confirmPassword"
             name="confirmPassword"
             value={formData.confirmPassword}
