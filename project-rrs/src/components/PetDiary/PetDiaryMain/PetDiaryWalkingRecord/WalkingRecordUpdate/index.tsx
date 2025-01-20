@@ -151,12 +151,12 @@ const WalkingRecordUpdate = ({
     setNewFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   } else {
     setExistingFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
-    setRemovedFiles((prevRemovedFiles) => [...prevRemovedFiles, fileName]); // 삭제된 파일 이름을 추가
+    setRemovedFiles((prevRemovedFiles) => [...prevRemovedFiles, fileName]);
   }
 };
 
 const allFiles = [
-  ...existingFiles.filter((file) => !removedFiles.includes(file.name)), // 삭제된 파일 제외
+  ...existingFiles.filter((file) => !removedFiles.includes(file.name)),
   ...newFiles,
 ];
 
