@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import usePetStore, { Pet } from "../../../stores/petstore";
-import '../../../styles/Pet.css'
+import "../../../styles/myPage/PetList.css";
 import axios from "axios";
-import petDefaultImage from '../../../assets/images/pet-default-profile.jpg'
+import petDefaultImage from "../../../assets/images/pet-default-profile.jpg";
+import { GoPlus } from "react-icons/go";
 
 export default function PetList() {
   const [pets, setPets] = useState<any[]>([]);
@@ -20,15 +21,18 @@ export default function PetList() {
 
     const fetchPets = async () => {
       try {
-        const response = await axios.get("http://localhost:4040/api/v1/users/pet", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await axios.get(
+          "http://localhost:4040/api/v1/users/pet",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         if (response.data && response.data.data) {
-          setPets(response.data.data as Pet[]); 
+          setPets(response.data.data as Pet[]);
         }
       } catch (error) {
         console.error("에러 발생:", error);
@@ -63,20 +67,26 @@ export default function PetList() {
       navigate("/");
       return;
     }
-  
-    const confirmDelete = window.confirm("정말 이 반려동물을 삭제하시겠습니까?");
+
+    const confirmDelete = window.confirm(
+      "정말 이 반려동물을 삭제하시겠습니까?"
+    );
     if (confirmDelete) {
       try {
-        const response = await axios.delete(`http://localhost:4040/api/v1/users/pet/${petId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
-  
+        const response = await axios.delete(
+          `http://localhost:4040/api/v1/users/pet/${petId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
         if (response.status === 204) {
-          // prevPets의 타입을 명시적으로 지정
-          setPets((prevPets: Pet[]) => prevPets.filter((pet) => pet.petId !== petId));
+          setPets((prevPets: Pet[]) =>
+            prevPets.filter((pet) => pet.petId !== petId)
+          );
           alert("반려 동물이 삭제되었습니다.");
         } else {
           alert("반려 동물 삭제 실패");
@@ -87,22 +97,42 @@ export default function PetList() {
       }
     }
   };
-  
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (!target.closest(".toggle-btn") && !target.closest(".dropdown-menu")) {
+        setActiveIndex(null);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [activeIndex]);
+
   return (
     <div className="petListContent">
       {pets.length > 0 &&
         pets.map((pet, index) => (
           <div key={index} className="petListBox">
-            <img 
-              src={pet.petImageUrl ? `http://localhost:4040/${pet.petImageUrl}` : petDefaultImage} 
-              alt={`${pet.petName}의 사진`} 
+            <img
+              src={
+                pet.petImageUrl
+                  ? `http://localhost:4040/${pet.petImageUrl}`
+                  : petDefaultImage
+              }
+              alt={`${pet.petName}의 사진`}
               onError={(e) => {
                 const imgElement = e.target as HTMLImageElement;
                 imgElement.src = petDefaultImage;
-          }}
-        />
+              }}
+            />
             <p>{pet.petName}</p>
-            <button className="toggle-btn" onClick={() => handleToggle(index)}>...</button>
+            <button className="toggle-btn" onClick={() => handleToggle(index)}>
+              ...
+            </button>
 
             {activeIndex === index && (
               <div className="dropdown-menu">
@@ -113,10 +143,10 @@ export default function PetList() {
             )}
           </div>
         ))}
-      
+
       <button className="addPet" onClick={handleAddPetClick}>
         <div className="circle">
-          <p>+</p>
+          <GoPlus className="circle-icon" />
         </div>
         <p>반려 동물 등록</p>
       </button>

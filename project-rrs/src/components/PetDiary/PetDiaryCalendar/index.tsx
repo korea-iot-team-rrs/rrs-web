@@ -83,40 +83,26 @@ export default function PetDiaryCalendar({
         })
         .catch((err) => console.error("Failed to fetch todos", err));
 
-      if (pets.length > 0) {
-        const petRequests = pets.map((pet) => {
-          const walkingRecordCreateAt = formatDate(new Date());
-          return axios.get(
-            `http://localhost:4040/api/v1/walking-record/petId/${pet.petId}/walkingRecordCreateAt/${walkingRecordCreateAt}`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json",
-              },
-            }
-          );
-        });
-        Promise.all(petRequests)
+        axios.get("http://localhost:4040/api/v1/walking-record", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      })
           .then((responses) => {
-            const allWalkingRecords = responses.flatMap(
-              (response) => response.data.data
-            );
-            setWalkingRecords(allWalkingRecords);
+            setWalkingRecords(responses.data.data);
           })
           .catch((err) =>
             console.error("Failed to fetch walking records", err)
           );
-      }
     }
-  }, [refreshKey, cookies.token, pets]);
+  }, [refreshKey, cookies.token]);
 
   const handleDateChange = (date: Date) => {
     const formattedDate = formatDate(date);
     setSelectedDate(formattedDate);
     onDateSelect(formattedDate);
   };
-
-  console.log(walkingRecords);
 
   return (
     <div className="petDiaryCalendar">

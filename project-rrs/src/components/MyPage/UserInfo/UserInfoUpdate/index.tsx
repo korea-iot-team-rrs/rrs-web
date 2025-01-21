@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
-import "../../../../styles/MyPage.css";
+import "../../../../styles/myPage/MyPage.css";
+import "../../../../styles/myPage/UserUpdate.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useCookies } from "react-cookie";
+import userDefaultImage from "../../../../assets/images/dogIllust02.jpeg";
 
 export default function UserInfoUpdate() {
   const navigate = useNavigate();
   const [cookies] = useCookies(["token"]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [profilePreview, setProfilePreview] =
+    useState<string>(userDefaultImage);
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   const [userInfo, setUserInfo] = useState({
     username: "",
@@ -35,11 +40,27 @@ export default function UserInfoUpdate() {
     const file = e.target.files?.[0];
     if (file) {
       setSelectedFile(file);
-      setUserInfo((prevData) => ({
-        ...prevData,
-        profileImageUrl: file.name,
-      }));
+      setProfilePreview(URL.createObjectURL(file));
+      setShowModal(false);
     }
+  };
+
+  const handleDefaultImage = () => {
+    setProfilePreview(userDefaultImage);
+    setSelectedFile(null);
+    setUserInfo((prevData) => ({
+      ...prevData,
+      profileImageUrl: "http://localhost:4040/images/dogIllust02.jpeg",
+    }));
+    setShowModal(false);
+  };
+
+  const handleImageClick = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
   };
 
   const goBack = () => {
@@ -63,6 +84,7 @@ export default function UserInfoUpdate() {
           },
         });
 
+        console.log("Response: ", response.data);
         if (response.status === 200) {
           const data = response.data.data;
           setUserInfo({
@@ -76,6 +98,9 @@ export default function UserInfoUpdate() {
             profileImageUrl: data.profileImageUrl,
           });
           setOriginalUserInfo(data);
+          setProfilePreview(
+            `http://localhost:4040/${data.profileImageUrl}` || userDefaultImage
+          );
           setLoading(false);
         }
       } catch (error) {
@@ -90,13 +115,22 @@ export default function UserInfoUpdate() {
     e.preventDefault();
 
     // 유효성 검사
-    if (
+    const defaultImageUrl = "http://localhost:4040/images/dogIllust02.jpeg";
+
+    const isImageChanged =
+      userInfo.profileImageUrl !== originalUserInfo.profileImageUrl ||
+      (userInfo.profileImageUrl === defaultImageUrl &&
+        originalUserInfo.profileImageUrl !== defaultImageUrl) ||
+      (userInfo.profileImageUrl !== defaultImageUrl &&
+        originalUserInfo.profileImageUrl === defaultImageUrl);
+
+    const isInfoUnchanged =
       userInfo.name === originalUserInfo.name &&
       userInfo.address === originalUserInfo.address &&
       userInfo.addressDetail === originalUserInfo.addressDetail &&
-      userInfo.phone === originalUserInfo.phone &&
-      userInfo.profileImageUrl === originalUserInfo.profileImageUrl
-    ) {
+      userInfo.phone === originalUserInfo.phone;
+
+    if (!isInfoUnchanged && !selectedFile && !isImageChanged) {
       alert("변경된 내용이 없습니다.");
       return;
     }
@@ -139,10 +173,7 @@ export default function UserInfoUpdate() {
       }
     }
 
-    if (
-      userInfo.profileImageUrl &&
-      !profileImageUrlRegex.test(userInfo.profileImageUrl)
-    ) {
+    if (selectedFile && !profileImageUrlRegex.test(selectedFile.name)) {
       alert("프로필 사진은 jpg, jpeg, png 형식만 지원됩니다.");
       return false;
     }
@@ -166,9 +197,28 @@ export default function UserInfoUpdate() {
     if (userInfo.phone && userInfo.phone !== originalUserInfo.phone) {
       formData.append("phone", userInfo.phone);
     }
-    if (selectedFile) {
+
+    formData.append("dto", JSON.stringify(userInfo));
+
+    // if (selectedFile) {
+    //   formData.append("profileImageUrl", selectedFile);
+    // } else {
+    //   formData.append(
+    //     "profileImageUrl",
+    //     "http://localhost:4040/images/dogIllust02.jpeg"
+    //   );
+    // }
+
+    if (profilePreview === userDefaultImage) {
+      formData.append("profileImageUrl", defaultImageUrl);
+    } else if (selectedFile) {
+      // 사용자 지정 이미지를 선택한 경우
       formData.append("profileImageUrl", selectedFile);
     }
+
+    formData.forEach((value, key) => {
+      console.log(key, value);
+    });
 
     try {
       const token = cookies.token || localStorage.getItem("token");
@@ -179,14 +229,20 @@ export default function UserInfoUpdate() {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
+            // "Content-Type": "multipart/form-data",
           },
         }
       );
 
+      console.log("Response: ", response);
+
       if (response.status === 200) {
         alert("유저 정보가 수정되었습니다.");
-        setUserInfo(response.data.data);
+
+        const updateData = response.data.data;
+
+        setUserInfo(updateData);
+        setProfilePreview(updateData.profileImageUrl || userDefaultImage);
         goBack();
       } else if (response.data.message === "Phone already exists.") {
         alert("이미 등록된 전화번호입니다.");
@@ -198,24 +254,55 @@ export default function UserInfoUpdate() {
   };
 
   return (
-    <div>
-      {loading ? ( // 로딩 상태일 때
+    <div className="userContent">
+      {loading ? (
         <p>Loading...</p>
       ) : (
         <>
-          <h2>MyPage</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="element">
+          <h2>회원 정보 수정</h2>
+          <form onSubmit={handleSubmit} className="userUpdateContent">
+            <div className="userUpdateElement">
               <label>개인 프로필 사진</label>
+              <img
+                src={profilePreview || userDefaultImage}
+                alt={
+                  profilePreview === userDefaultImage
+                    ? "기본 프로필 이미지"
+                    : "사용자 프로필 이미지"
+                }
+                onClick={handleImageClick}
+                style={{ cursor: "pointer", width: "150px", height: "150px" }}
+              />
+
+              {showModal && (
+                <div className="modal">
+                  <div>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        document.getElementById("profileInput")?.click()
+                      }
+                    >
+                      앨범에서 사진 선택
+                    </button>
+                    <button type="button" onClick={handleDefaultImage}>
+                      기본 사진 선택
+                    </button>
+                    <button onClick={closeModal}>닫기</button>
+                  </div>
+                </div>
+              )}
               <input
                 type="file"
+                id="profileInput"
                 name="profileImageUrl"
                 accept=".jpg,.png,.jpeg"
                 onChange={handleFileChange}
+                style={{ display: "none" }}
               />
             </div>
 
-            <div className="element">
+            <div className="userUpdateElement">
               <label>아이디</label>
               <input
                 type="text"
@@ -225,7 +312,7 @@ export default function UserInfoUpdate() {
               />
             </div>
 
-            <div className="element">
+            <div className="userUpdateElement">
               <label>이름</label>
               <input
                 type="text"
@@ -235,7 +322,7 @@ export default function UserInfoUpdate() {
               />
             </div>
 
-            <div className="element">
+            <div className="userUpdateElement">
               <label>닉네임</label>
               <input
                 type="text"
@@ -245,18 +332,19 @@ export default function UserInfoUpdate() {
               />
             </div>
 
-            <div className="element">
+            <div className="userUpdateElement">
               <label>주소</label>
               <input
                 type="text"
                 name="address"
                 value={userInfo.address}
                 onChange={handleInputChange}
+                className="address"
               />
-              <button>주소 검색</button>
+              <button className="address-search">주소 검색</button>
             </div>
 
-            <div className="element">
+            <div className="userUpdateElement">
               <label>상세 주소</label>
               <input
                 type="text"
@@ -266,7 +354,7 @@ export default function UserInfoUpdate() {
               />
             </div>
 
-            <div className="element">
+            <div className="userUpdateElement">
               <label>이메일</label>
               <input
                 type="email"
@@ -276,7 +364,7 @@ export default function UserInfoUpdate() {
               />
             </div>
 
-            <div className="element">
+            <div className="userUpdateElement">
               <label>연락처</label>
               <input
                 type="text"
@@ -286,12 +374,14 @@ export default function UserInfoUpdate() {
               />
             </div>
 
-            <button className="ok-button" type="submit">
-              완료
-            </button>
-            <button className="back-button" type="button" onClick={goBack}>
-              취소
-            </button>
+            <div className="button-group">
+              <button className="ok-button" type="submit">
+                완료
+              </button>
+              <button className="cancle-button" type="button" onClick={goBack}>
+                취소
+              </button>
+            </div>
           </form>
         </>
       )}
