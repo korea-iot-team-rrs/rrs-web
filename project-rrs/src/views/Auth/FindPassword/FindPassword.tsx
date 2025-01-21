@@ -70,6 +70,7 @@ export default function FindPassword() {
               <div>
                 <p>재설정 할 비밀번호</p>
                 <OutlinedInput
+                  type="password"
                   name="password"
                   placeholder="변경할 비밀번호를 입력해주세요."
                   onChange={passwordInputHandler}
@@ -80,6 +81,7 @@ export default function FindPassword() {
               <div>
                 <p>설정한 비밀번호 재확인</p>
                 <OutlinedInput
+                  type="password"
                   name="passwordConfirm"
                   placeholder="입력하신 비밀번호를 재입력해주세요."
                   onChange={passwordConfirmInputHandler}

@@ -6,6 +6,7 @@ import "../../../styles/customerSupport/CustomerSupportWrite.css";
 import { createCustomerSupport } from "../../../apis/custommerSupport";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import {
   Avatar,
   Button,
@@ -22,6 +23,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 export default function CustomerSupportWrite() {
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
+  const location = useLocation();
+  const isInquiryFromList = location.state?.isInquiry ?? true;
+  const [isInquiry, setIsInquiry] = useState<boolean>(isInquiryFromList);
   const MAX_FILE_SIZE = 5 * 1024 * 1024;
   const MAX_TOTAL_SIZE = 20 * 1024 * 1024;
   const [createCSReqDto, setCreateCSRequestDto] = useState<CreateCS>({
@@ -29,10 +33,8 @@ export default function CustomerSupportWrite() {
     customerSupportContent: "",
     customerSupportCategory: "1",
     files: [],
-    path: "/uploads/inquiry_and_report",
+    path: "/uploads/inquiry-and-report",
   });
-
-  const [isInquiry, setIsInquiry] = useState<boolean>(true);
 
   const csBtnClickHandler = (category: string, isInquiry: boolean) => {
     setIsInquiry(isInquiry);
@@ -106,12 +108,12 @@ export default function CustomerSupportWrite() {
         customerSupportContent: createCSReqDto.customerSupportContent,
         customerSupportCategory: createCSReqDto.customerSupportCategory,
         files: createCSReqDto.files,
-        path: "inquiry_and_report",
+        path: "inquiry-and-report",
       };
 
       await createCustomerSupport(createRequestData, token);
       alert("성공적으로 저장되었습니다!");
-      navigate("/inquiry_and_report/list");
+      navigate("/inquiry-and-report/list");
     } catch (error) {
       console.error("Error during submit:", error);
       alert("요청 처리 중 오류가 발생했습니다.");

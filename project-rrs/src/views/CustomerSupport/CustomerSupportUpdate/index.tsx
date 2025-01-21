@@ -144,7 +144,7 @@ export default function CustomerSupportUpdate() {
     updateCustomerSupport(Number(id), formData, token)
       .then(() => {
         alert("수정이 완료되었습니다.");
-        navigate(`/inquiry_and_report/${id}`);
+        navigate(`/inquiry-and-report/${id}`);
       })
       .catch((error) => {
         console.error("Failed to edit customer support:", error);

@@ -89,7 +89,7 @@ export default function ReservationUserDetail() {
     try {
       await updateMemo(reservation.reservationId, { reservationMemo }, token);
       alert("수정이 완료되었습니다.");
-      navigate("users/dang-sitter/reservations");
+      navigate("/users/dang-sitter/reservations");
     } catch (e) {
       console.error("Failed to update reservation memo", e);
       alert("예약 대기중일때만 메모 수정이 가능합니다.");

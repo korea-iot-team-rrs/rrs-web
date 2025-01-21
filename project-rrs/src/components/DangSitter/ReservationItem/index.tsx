@@ -87,8 +87,7 @@ export default function ReservationItem({
           <div>{reservation.providerInfo.providerNickname}</div>
           <div>{formatStatus(reservation.reservationStatus)}</div>
           <div className="reservation-actions">
-            {(reservation.reservationStatus === "PENDING" ||
-              reservation.reservationStatus === "IN_PROGRESS") && (
+            {reservation.reservationStatus === "PENDING"  && (
               <Button
                 variant="outlined"
                 color="warning"
