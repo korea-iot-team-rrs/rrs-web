@@ -141,6 +141,27 @@ export const getHealthRecordById = async (
   }
 };
 
+export const fetchAllHealthRecordsByUserId = async (token: string): Promise<HealthRecordResponse[]> => {
+  try {
+    const response = await axios.get("http://localhost:4040/api/v1/users/pet/petHealth/user/all-records", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.data && response.data.result) {
+      console.log(response.data)
+      return response.data.data;
+    } else {
+      console.error("Failed to fetch health records: ", response.data.message);
+      return [];
+    }
+  } catch (error) {
+    console.error("Error fetching health records: ", error);
+    throw error;
+  }
+};
+
 // Health Record 전체 목록 조회
 export const getAllHealthRecords = async (
   petId: number

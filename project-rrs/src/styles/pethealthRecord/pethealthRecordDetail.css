@@ -8,7 +8,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
   overflow-x: hidden;
-  max-height: 70vh;
+  max-height: 60vh;
 }
 
 .healthDetailHeader {
@@ -89,7 +89,7 @@
   font-size: 1.25em;
   color: #555;
   line-height: 1.5;
-  white-space: pre-line; /* 줄바꿈 처리 */
+  white-space: pre-line;
 }
 
 .healthDetailAttachmentSection {

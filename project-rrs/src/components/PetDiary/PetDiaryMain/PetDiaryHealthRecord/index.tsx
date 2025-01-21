@@ -88,7 +88,6 @@ export default function PetDiaryHealthRecord({
       setHealthRecords((prev) =>
         prev.filter((record) => record.healthRecordId !== recordToDelete)
       );
-      alert("건강 기록이 삭제되었습니다.");
       incrementRefreshKey();
     } catch (error) {
       console.error("건강 기록 삭제 실패:", error);
@@ -166,7 +165,10 @@ export default function PetDiaryHealthRecord({
         <HealthRecordUpdate
           selectedPet={selectedPet}
           healthRecordId={healthRecordId}
-          goBack={goBack}
+          goBack={() => {
+            goBack();
+            refreshRecords();
+          }}
           refreshRecords={refreshRecords}
         />
       ) : (
@@ -189,8 +191,11 @@ export default function PetDiaryHealthRecord({
               ))
             ) : (
               <div>
-                <p>등록된 반려 동물이 없습니다.</p>
-                <button onClick={() => navigate("/user/pet-create")}>
+                <p className="no-pets">등록된 반려 동물이 없습니다.</p>
+                <button
+                  className="add-new-pet"
+                  onClick={() => navigate("/user/pet-create")}
+                >
                   반려 동물 등록
                 </button>
               </div>
@@ -231,7 +236,9 @@ export default function PetDiaryHealthRecord({
                         증상: {record.abnormalSymptoms}
                       </p>
                       {record.memo && (
-                        <p className="petHealthRecordlimitedText">메모: {record.memo}</p>
+                        <p className="petHealthRecordlimitedText">
+                          메모: {record.memo}
+                        </p>
                       )}
                     </div>
                     <div className="petHealthRecordButtons">
@@ -261,7 +268,9 @@ export default function PetDiaryHealthRecord({
               )
             ) : (
               <div className="petHealthChoicePet">
-                <p>반려 동물을 선택해 주세요.</p>
+                <p className="petHealthChoicePetText">
+                  반려 동물을 선택해 주세요.
+                </p>
               </div>
             )}
           </div>

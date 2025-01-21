@@ -63,7 +63,6 @@ export default function CommunityDetail() {
 
   const [likeCount, setLikeCount] = useState<number>(0);
   const [userLiked, setUserLiked] = useState<boolean>(false);
-  const [attachmentsVisible, setAttachmentsVisible] = useState<boolean>(false);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -143,7 +142,6 @@ export default function CommunityDetail() {
 
     try {
       await deleteCommunity(community.communityId);
-      alert("커뮤니티 게시글이 삭제되었습니다.");
       navigate("/community");
     } catch (e) {
       console.error("커뮤니티 삭제 실패:", e);
@@ -176,34 +174,6 @@ export default function CommunityDetail() {
               <h1 className="communityDetailHeader">
                 {community.communityTitle}
               </h1>
-              {community.attachments && community.attachments.length > 0 && (
-                <div className="communityDetailAttachmentsDropdown">
-                  <button
-                    className="communityDetailDropdownButton"
-                    onClick={() => setAttachmentsVisible(!attachmentsVisible)}
-                  >
-                    {attachmentsVisible
-                      ? "첨부 파일 숨기기 ▲"
-                      : "첨부 파일 보기 ▼"}
-                  </button>
-                  {attachmentsVisible && (
-                    <div className="community-attachments-container">
-                      {community.attachments.map((attachment, index) => (
-                        <div key={index} className="community-attachment-card">
-                          <a
-                            href={attachment.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="community-attachment-title"
-                          >
-                            {attachment.name}
-                          </a>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              )}
             </div>
 
             <div className="communityDetailMetaRow">
@@ -213,8 +183,7 @@ export default function CommunityDetail() {
               <div className="communityDetailSubActions">
                 <div className="communityDetailSubActionsBox">
                   <span className="communityDetailDate">
-                    작성일:{" "}
-                    {community.communityCreatedAt.toLocaleString("ko-KR")}
+                    작성일: {community.communityCreatedAt.toLocaleString("ko-KR")}
                   </span>
                   <div className="communityDetailLikeCount">
                     <FaHeart color={userLiked ? "red" : "gray"} size={20} />
@@ -255,9 +224,34 @@ export default function CommunityDetail() {
               style={{ width: "100%", height: "auto" }}
             />
             <hr />
-            <p className="communityDetailContent">
-              {community.communityContent}
-            </p>
+
+            <p
+              className="communityDetailContent"
+              style={{ whiteSpace: "pre-wrap" }}
+              dangerouslySetInnerHTML={{
+                __html: community.communityContent.replace(/\n/g, "<br />"),
+              }}
+            ></p>
+
+            {community.attachments && community.attachments.length > 0 && (
+              <div className="communityDetailAttachmentsDropdown">
+                <p>첨부 파일:</p>
+                <ul className="communityDetailAttachmentsList">
+                  {community.attachments.map((attachment, index) => (
+                    <li key={index} className="communityDetailAttachmentItem">
+                      <a
+                        href={attachment.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {attachment.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
             {token && (
               <CommentsSection
                 communityId={community.communityId}
