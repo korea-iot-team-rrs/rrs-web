@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../../../../styles/MyPage.css";
+import "../../../../styles/myPage/MyPage.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useCookies } from "react-cookie";
