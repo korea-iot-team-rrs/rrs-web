@@ -40,7 +40,7 @@ export default function CustomerSupportList() {
   const endIndex = startIndex + itemsPerPage;
 
   const csAddBtnHandler = () => {
-    navigate("/inquiry-and-report/write");
+    navigate("/inquiry-and-report/write", { state: { isInquiry } });
   };
 
   const csBtnClickHandler = (isInquiry: boolean) => {

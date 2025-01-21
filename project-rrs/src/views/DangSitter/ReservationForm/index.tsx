@@ -108,7 +108,7 @@ export default function ReservationForm() {
         .then((response) => {
           console.log("API Response:", response);
           alert("요청에 성공하였습니다.");
-          navigate(`/users/dang-sitter/reservations/${response.reservationId}`);
+          navigate(`/users/dang-sitter/reservations`);
         })
         .catch((e) => {
           console.error("요청에 실패하였습니다.", e);

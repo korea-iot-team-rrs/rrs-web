@@ -142,7 +142,7 @@ export default function CustomerSupportDetail() {
       </div>
       <div className="cs-detail-body">
         <div className="cs-detail-title">{cs.customerSupportTitle}</div>
-        <div className="cs-detail-content">{cs.customerSupportContent}</div>
+        <pre className="cs-detail-content">{cs.customerSupportContent}</pre>
         <div className="cs-detail-attachment">
           <div>
             <p>
@@ -183,38 +183,50 @@ export default function CustomerSupportDetail() {
           )}
         </div>
         <div className="cs-detail-btn">
-          {cs.customerSupportStatus !== "1" ? (
-            <Button
-            variant="outlined"
-            onClick={handleEdit}
-            sx={{
-              fontFamily: "Pretendard",
-            }}
-            >
-              수정하기
-            </Button>
-          ) : (
-            <Button
-              variant="outlined"
-              disabled
-              color="error"
-              sx={{
-                fontFamily: "Pretendard",
-              }}
-            >
-              수정 불가
-            </Button>
-          )}
           <Button
+            color="inherit"
             variant="outlined"
-            onClick={deleteBtnHandler}
-            color="warning"
+            onClick={() => navigate(-1)}
             sx={{
               fontFamily: "Pretendard",
             }}
           >
-            삭제하기
+            돌아가기
           </Button>
+          <div>
+            {cs.customerSupportStatus !== "1" ? (
+              <Button
+                variant="outlined"
+                onClick={handleEdit}
+                sx={{
+                  fontFamily: "Pretendard",
+                }}
+              >
+                수정하기
+              </Button>
+            ) : (
+              <Button
+                variant="outlined"
+                disabled
+                color="error"
+                sx={{
+                  fontFamily: "Pretendard",
+                }}
+              >
+                수정 불가
+              </Button>
+            )}
+            <Button
+              variant="outlined"
+              onClick={deleteBtnHandler}
+              color="warning"
+              sx={{
+                fontFamily: "Pretendard",
+              }}
+            >
+              삭제하기
+            </Button>
+          </div>
         </div>
       </div>
     </div>

@@ -6,6 +6,7 @@ import "../../../styles/customerSupport/CustomerSupportWrite.css";
 import { createCustomerSupport } from "../../../apis/custommerSupport";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import {
   Avatar,
   Button,
@@ -22,6 +23,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 export default function CustomerSupportWrite() {
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
+  const location = useLocation();
+  const isInquiryFromList = location.state?.isInquiry ?? true;
+  const [isInquiry, setIsInquiry] = useState<boolean>(isInquiryFromList);
   const MAX_FILE_SIZE = 5 * 1024 * 1024;
   const MAX_TOTAL_SIZE = 20 * 1024 * 1024;
   const [createCSReqDto, setCreateCSRequestDto] = useState<CreateCS>({
@@ -31,8 +35,6 @@ export default function CustomerSupportWrite() {
     files: [],
     path: "/uploads/inquiry-and-report",
   });
-
-  const [isInquiry, setIsInquiry] = useState<boolean>(true);
 
   const csBtnClickHandler = (category: string, isInquiry: boolean) => {
     setIsInquiry(isInquiry);
