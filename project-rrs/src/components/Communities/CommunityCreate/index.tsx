@@ -203,7 +203,7 @@ export default function CommunityCreate() {
 
         {error && <p className="error-message">{error}</p>}
 
-        <button type="submit" disabled={isSubmitting}>
+        <button className="communityCreateSubmitButton" type="submit" disabled={isSubmitting}>
           {isSubmitting ? "등록 중..." : "등록"}
         </button>
       </form>

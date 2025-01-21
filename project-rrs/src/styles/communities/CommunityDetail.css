@@ -13,11 +13,20 @@
 }
 
 .communityDetailContentBox {
+  font-size: 20px;
   width: 800px;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background: #fff;
   border-radius: 20px;
+}
+
+.communityDetailContent {
+  margin-bottom: 8px;
+  line-height: 1;
+  color: #444;
+  word-wrap: break-word;
+  white-space: pre-wrap;
 }
 
 .communityDetailHeader {
@@ -34,7 +43,7 @@
 }
 
 .communityDetailAuthor {
-  font-size: 16px;
+  font-size: 20px;
   color: #555;
   font-weight: bold;
 }
@@ -49,8 +58,9 @@
 .communityDetailSubActionsBox{
   display: flex;
   justify-content: space-between;
-  width: 100;
+
 }
+
 .communityDetailAuthorActions {
   display: flex;
   gap: 10px;
@@ -62,7 +72,7 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 18px;
   transition: background-color 0.3s;
 }
 
@@ -88,11 +98,10 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-left: 50px;
 }
 
 .communityDetailLikeCountNumber {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: bold;
 }
 
@@ -105,77 +114,53 @@
 }
 
 .communityDetailDate {
-  font-size: 14px;
-  width: 200px;
+  font-size: 18px;
+  width: 280px;
   color: #777;
 }
 
 .communityDetailAttachmentsDropdown {
-  display: flex;
-  flex-direction: column;
+  display: block;
   margin-top: 20px;
-  width: 150px;
+}
+
+.communityDetailAttachmentsList {
+  list-style: none;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  max-width: 100%;
+}
+
+.communityDetailAttachmentItem {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+  color: #007bff;
+}
+
+.communityDetailAttachmentItem:last-child {
+  border-bottom: none;
+}
+
+.communityDetailAttachmentItem a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.communityDetailAttachmentItem a:hover {
+  text-decoration: underline;
+  color: #0056b3;
 }
 
 .communityDetailDropdownButton {
-  background-color: #f8f9fa;
-  border: 1px solid #ced4da;
-  padding: 10px 15px;
-  border-radius: 4px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.communityDetailDropdownButton:hover {
-  background-color: #e9ecef;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.communityDetailDropdownContent {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  margin-top: 10px;
-  padding: 10px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-}
-
-.communityDetailAttachmentCard {
-  flex: 1 1 calc(33.333% - 16px);
-  max-width: calc(33.333% - 16px);
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 12px;
-  text-align: center;
-  transition: transform 0.2s ease;
-}
-
-.communityDetailAttachmentCard:hover {
-  transform: translateY(-4px);
-}
-
-.communityDetailAttachmentTitle {
-  font-size: 14px;
-  font-weight: bold;
-  color: #007bff;
-  text-decoration: none;
-  display: block;
-  margin-top: 8px;
-}
-
-.communityDetailAttachmentTitle:hover {
-  color: #0056b3;
+  display: none;
 }
 
 .communityDetailCommentSection {
   line-height: 1.8;
-  font-size: 15px;
+  font-size: 18px;
   margin-top: 30px;
   padding: 20px;
   border-radius: 20px;
@@ -194,7 +179,7 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 0.85rem;
+  font-size: 1rem;
   padding: 6px 12px;
   transition: background-color 0.2s ease;
 }
@@ -263,31 +248,50 @@
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
 }
 
-.communityDetailAttachmentsController {
-  margin-top: 20px;
-}
-
-.communityDetailAttachmentsList {
-  list-style: none;
-  padding: 0;
-}
-
-.communityDetailAttachmentItem {
-  margin-bottom: 10px;
-}
-
 .commemt-create-button {
   background-color: #007bff;
-  border-radius: 5px;
+  border-radius: 10px;
   margin: 4px;
   color: white;
-  width: 50px;
-  height: 30px;
+  width: 60px;
+  height: 40px;
+  font-size: 14px;
 }
 
 .commemt-create-cancle-button {
-  border-radius: 5px;
+  border-radius: 10px;
   margin: 4px;
+  width: 60px;
+  height: 40px;
+}
+
+.communityDetailCommentActions button {
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.communityDetailCommentEditButton {
+  text-align: center;
+  background-color: #007bff;
+  color: white;
+  height: 35px;
   width: 50px;
-  height: 30px;
+}
+
+.communityDetailCommentEditButton:hover {
+  background-color: #0056b3;
+}
+
+.communityDetailCommentDeleteButton {
+  text-align: center;
+  background-color: #ff4d4d;
+  color: white;
+  height: 35px;
+  width: 50px;
+}
+
+.communityDetailCommentDeleteButton:hover {
+  background-color: #e60000;
 }

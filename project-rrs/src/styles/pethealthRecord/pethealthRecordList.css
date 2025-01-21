@@ -181,3 +181,39 @@
   text-overflow: ellipsis;
   white-space: normal;
 }
+
+.petHealthChoicePet {
+  font-size: 18px;
+}
+
+.no-pets {
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #818181;
+}
+
+.add-new-pet {
+  background: #3da1ff;
+  color: #fff;
+  width: 110px;
+  height: 30px;
+  border-radius: 20px;
+}
+
+.add-new-pet:hover {
+  background-color: #2194ff;
+}
+
+.petHealthChoicePetText {
+  text-align: center;
+  font-weight: bold;
+  color: #818181;
+}
+
+.petHealthNoContent {
+  font-size: 18px;
+  text-align: center;
+  font-weight: bold;
+  color: #818181;
+}
