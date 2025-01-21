@@ -50,7 +50,7 @@ export default function UserInfoUpdate() {
     setSelectedFile(null);
     setUserInfo((prevData) => ({
       ...prevData,
-      profileImageUrl: "http://localhost:4040/images/dogIllust02.jpeg",
+      profileImageUrl: "http://localhost:4040/assets/images/dogIllust02.jpeg",
     }));
     setShowModal(false);
   };
@@ -84,7 +84,7 @@ export default function UserInfoUpdate() {
           },
         });
 
-        console.log("Response: ", response.data);
+        console.log("GetResponse: ", response.data);
         if (response.status === 200) {
           const data = response.data.data;
           setUserInfo({
@@ -97,10 +97,17 @@ export default function UserInfoUpdate() {
             phone: data.phone,
             profileImageUrl: data.profileImageUrl,
           });
-          setOriginalUserInfo(data);
-          setProfilePreview(
-            `http://localhost:4040/${data.profileImageUrl}` || userDefaultImage
-          );
+
+          const isDefaultImage =
+            data.profileImageUrl &&
+            data.profileImageUrl.includes("dogIllust02.jpeg");
+
+          // 기본 이미지가 아닌 경우 사용자 지정 이미지 경로 설정
+          const imageUrl = isDefaultImage
+            ? userDefaultImage // 기본 이미지
+            : `http://localhost:4040/${data.profileImageUrl}`; // 사용자 지정 이미지
+
+          setProfilePreview(imageUrl);
           setLoading(false);
         }
       } catch (error) {
@@ -115,7 +122,10 @@ export default function UserInfoUpdate() {
     e.preventDefault();
 
     // 유효성 검사
-    const defaultImageUrl = "http://localhost:4040/images/dogIllust02.jpeg";
+    const defaultImageUrl =
+      "http://localhost:4040/assets/images/dogIllust02.jpeg";
+    const profileImageUrl = selectedFile ? selectedFile : null;
+    const profileUrl = userInfo.profileImageUrl || defaultImageUrl;
 
     const isImageChanged =
       userInfo.profileImageUrl !== originalUserInfo.profileImageUrl ||
@@ -198,23 +208,11 @@ export default function UserInfoUpdate() {
       formData.append("phone", userInfo.phone);
     }
 
-    formData.append("dto", JSON.stringify(userInfo));
-
-    // if (selectedFile) {
-    //   formData.append("profileImageUrl", selectedFile);
-    // } else {
-    //   formData.append(
-    //     "profileImageUrl",
-    //     "http://localhost:4040/images/dogIllust02.jpeg"
-    //   );
-    // }
-
-    if (profilePreview === userDefaultImage) {
-      formData.append("profileImageUrl", defaultImageUrl);
-    } else if (selectedFile) {
-      // 사용자 지정 이미지를 선택한 경우
-      formData.append("profileImageUrl", selectedFile);
+    if (profileImageUrl) {
+      formData.append("profileImageUrl", profileImageUrl);
     }
+
+    formData.append("profileUrl", profileUrl);
 
     formData.forEach((value, key) => {
       console.log(key, value);
@@ -229,7 +227,7 @@ export default function UserInfoUpdate() {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            // "Content-Type": "multipart/form-data",
+            "Content-Type": "multipart/form-data",
           },
         }
       );
@@ -240,9 +238,8 @@ export default function UserInfoUpdate() {
         alert("유저 정보가 수정되었습니다.");
 
         const updateData = response.data.data;
-
         setUserInfo(updateData);
-        setProfilePreview(updateData.profileImageUrl || userDefaultImage);
+        setProfilePreview(updateData.profileImageUrl);
         goBack();
       } else if (response.data.message === "Phone already exists.") {
         alert("이미 등록된 전화번호입니다.");
@@ -264,14 +261,18 @@ export default function UserInfoUpdate() {
             <div className="userUpdateElement">
               <label>개인 프로필 사진</label>
               <img
-                src={profilePreview || userDefaultImage}
-                alt={
-                  profilePreview === userDefaultImage
-                    ? "기본 프로필 이미지"
-                    : "사용자 프로필 이미지"
+                src={
+                  selectedFile
+                    ? URL.createObjectURL(selectedFile)
+                    : userDefaultImage
                 }
+                alt="프로필 이미지"
                 onClick={handleImageClick}
                 style={{ cursor: "pointer", width: "150px", height: "150px" }}
+                onError={(e) => {
+                  const imgElement = e.target as HTMLImageElement;
+                  imgElement.src = userDefaultImage;
+                }}
               />
 
               {showModal && (
