@@ -32,61 +32,9 @@
   color: #1c82e0;
 }
 
-/* 마이페이지 컨텐츠 화면 */
-.myPageContent {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start; /* 내용들은 위에서부터 정렬 */
-  width: 40%;
-  height: 100%;
-  margin: 100px;
-  margin-left: 250px;
-  border-radius: 30px;
-  border: 1px solid #ccc;
-}
-
 .myPageContent h2 {
   text-align: center;
   margin: 25px 0 60px 0;
-}
-
-/* 회원 수정 화면 */
-.myPageContent .element button {
-  background-color: #2194FF;
-  border-radius: 15px;
-  height: 30px;
-  color: #fff;
-  cursor: pointer;
-  width: 100px;
-  text-align: center;
-}
-
-.myPageContent .ok-button {
-  background-color: #2194FF;
-  border-radius: 15px;
-  height: 30px;
-  color: #fff;
-  cursor: pointer;
-  width: 100px;
-  text-align: center;
-
-  position: absolute;
-  right: 520px;
-  bottom: 20px;
-}
-
-.myPageContent .back-button {
-  background-color: #646464;
-  border-radius: 15px;
-  height: 30px;
-  color: #fff;
-  cursor: pointer;
-  width: 100px;
-  text-align: center;
-
-  position: absolute;
-  right: 400px; 
-  bottom: 20px;
 }
 
 .myPage input {
@@ -99,36 +47,4 @@
 
 .myPage input:disabled {
   background-color: #ccc;
-}
-
-/* 회원 탈퇴 화면 */
-.deleteUser {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.deleteUser button {
-  background-color: #2194FF;
-  border-radius: 15px;
-  height: 30px;
-  color: #fff;
-  cursor: pointer;
-  width: 50px;
-  margin-top: 25px;
-}
-
-.deleteUser span {
-  display: flex;
-  align-items: center;
-}
-
-.deleteUser .warningText {
-  color: red;
-  font-weight: 600;
-}
-
-.deleteUser span p {
-  margin: 0;
-  display: inline;
 }

@@ -1,4 +1,4 @@
-.userContent {
+.petContent {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -9,7 +9,7 @@
   border: 1px solid #ccc;
 }
 
-.userInfoContent {
+.petInfoContent {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,14 +18,14 @@
   gap: 20px;
 }
 
-.userInfoContent img {
+.petInfoContent img {
   border-radius: 20px;
   width: 150px;
   height: 150px;
   margin-left: 0;
 }
 
-.userInfoElement {
+.petInfoElement {
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -33,7 +33,7 @@
   flex-wrap: wrap;
 }
 
-.userInfoElement label {
+.petInfoElement label {
   font-weight: bold;
   text-align: right;
   color: #1c82e0;
@@ -42,7 +42,7 @@
   margin-right: 50px;
 }
 
-.userInfoElement p {
+.petInfoElement p {
   text-align: left;
   margin: 0;
   width: auto; 
@@ -50,7 +50,7 @@
   font-size: 18px;
 }
 
-.userInfoContent button {
+.petInfoContent button {
   background-color: #2194FF;
   border-radius: 15px;
   height: 30px;
@@ -58,6 +58,6 @@
   color: #fff;
   cursor: pointer;
   text-align: center;
-  margin: 80px 50px 40px 0; /* 상단 여백을 제거 */
+  margin: 80px 50px 40px 0;
   align-self: flex-end;
 }

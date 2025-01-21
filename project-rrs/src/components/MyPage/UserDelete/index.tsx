@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { deleteUserInfo } from "../../../apis/userInfo";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import useAuthStore from "../../../stores/useAuthStore";
+import '../../../styles/myPage/DeleteUser.css';
 
 export default function UserDelete() {
   const [password, setPassword] = useState<string>("");
@@ -65,20 +65,21 @@ export default function UserDelete() {
   };
 
   return (
-    <div>
+    <div className="userContent">
       <h2>회원 탈퇴</h2>
-
       <form className="deleteUser" onSubmit={handleUserDelete}>
-        <span>
-          <span className="warningText"> 탈퇴 시 복구가 불가 </span>
-          <p>합니다.</p>
-        </span>
-        <input 
-          type="password" 
-          placeholder="비밀번호를 입력해 주세요."
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <div className="delete-container">
+          <span>
+            <span className="warningText"> 탈퇴 시 복구가 불가 </span>
+            <p>합니다.</p>
+          </span>
+          <input 
+            type="password" 
+            placeholder="비밀번호를 입력해 주세요."
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
 
         <button type="submit">확인</button>
       </form>

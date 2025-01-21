@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import '../../../styles/myPage/PasswordUpdate.css'
 
 export default function PasswordUpdate() {
   const [cookies] = useCookies(["token"]);
@@ -90,9 +91,10 @@ export default function PasswordUpdate() {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div>
+    <div className="userContent">
+      <h2>비밀번호 수정</h2>
+      <form onSubmit={handleSubmit} className="passwordUpdateContent">
+        <div className="passwordElement">
           <label htmlFor="newPassword">새 비밀번호</label>
           <input
             type="password"
@@ -103,7 +105,7 @@ export default function PasswordUpdate() {
           />
         </div>
 
-        <div>
+        <div className="passwordElement">
           <label htmlFor="confirmPassword">새 비밀번호 확인</label>
           <input
             type="password"
@@ -114,10 +116,10 @@ export default function PasswordUpdate() {
           />
         </div>
 
-        <button type="submit">확인</button>
-        <button type="button" onClick={goBack}>
-          취소
-        </button>
+        <div className="button-group">
+          <button type="submit" className="ok-button">확인</button>
+          <button type="button" onClick={goBack} className="cancle-button">취소</button>
+        </div>
       </form>
     </div>
   );

@@ -1,9 +1,12 @@
-/* 펫 리스트 화면 */
 .petListContent {
-  display: flex;
-  width: 100%;
-  gap: 30px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-gap: 50px 10px; 
+  justify-content: flex-start;
+  width: 1000px;
+  height: auto;
+  margin: 100px;
+  margin-left: 250px;
+  grid-template-columns: repeat(4, 1fr);
 }
 
 .petListBox {
@@ -27,7 +30,7 @@
   padding: 1px 5px;
   cursor: pointer;
   color: #7a7979;
-  writing-mode: vertical-rl; /* 세로로 텍스트 표시 */
+  writing-mode: vertical-rl;
   text-align: center;
   background-color: transparent;
   font-weight: 800;
@@ -41,7 +44,7 @@
   border: 1px solid #ccc;
   border-radius: 50%;
   object-fit: cover; 
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 .petListBox p {
@@ -65,8 +68,8 @@
 }
 
 .addPet .circle {
-  width: 60%;  
-  height: 60%; 
+  width: 100px;  
+  height: 100px; 
   position: relative;
   border-radius: 50%;
   object-fit: cover;
@@ -74,10 +77,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 25px;
+  margin-top: 15px;
 }
 
-.addPet .circle p {
+.addPet .circle-icon {
   color: #fff;
   font-size: 80px;
   font-weight: 100;
@@ -122,36 +125,3 @@
 .dropdown-menu button:hover {
   background-color: #ddd;
 }
-
-/* 펫 상세 조회 */
-.petInfo {
-  display: flex;
-  flex-direction: column;
-}
-
-.petInfo .element {
-  display: flex;
-  gap: 30px;  /* 항목 가로 간격*/
-  margin-bottom: 20px;
-  align-items: center;
-}
-
-.petInfo label {
-  color: #1c82e0;
-  font-weight: 600;
-  width: 150px;
-  text-align: right;
-}
-
-.petInfo button {
-  background-color: #2194FF;
-  border-radius: 15px;
-  height: 30px;
-  color: #fff;
-  cursor: pointer;
-  width: 100px;
-  text-align: center;
-}
-
-
-

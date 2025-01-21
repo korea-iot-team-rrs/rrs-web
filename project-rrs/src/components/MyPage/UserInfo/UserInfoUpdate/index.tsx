@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../../../styles/myPage/MyPage.css";
+import "../../../../styles/myPage/UserUpdate.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useCookies } from "react-cookie";
@@ -210,7 +211,8 @@ export default function UserInfoUpdate() {
 
     if (profilePreview === userDefaultImage) {
       formData.append("profileImageUrl", defaultImageUrl);
-    } else if (selectedFile) { // 사용자 지정 이미지를 선택한 경우
+    } else if (selectedFile) {
+      // 사용자 지정 이미지를 선택한 경우
       formData.append("profileImageUrl", selectedFile);
     }
 
@@ -252,14 +254,14 @@ export default function UserInfoUpdate() {
   };
 
   return (
-    <div>
+    <div className="userContent">
       {loading ? (
         <p>Loading...</p>
       ) : (
         <>
-          <h2>MyPage</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="element">
+          <h2>회원 정보 수정</h2>
+          <form onSubmit={handleSubmit} className="userUpdateContent">
+            <div className="userUpdateElement">
               <label>개인 프로필 사진</label>
               <img
                 src={profilePreview || userDefaultImage}
@@ -300,7 +302,7 @@ export default function UserInfoUpdate() {
               />
             </div>
 
-            <div className="element">
+            <div className="userUpdateElement">
               <label>아이디</label>
               <input
                 type="text"
@@ -310,7 +312,7 @@ export default function UserInfoUpdate() {
               />
             </div>
 
-            <div className="element">
+            <div className="userUpdateElement">
               <label>이름</label>
               <input
                 type="text"
@@ -320,7 +322,7 @@ export default function UserInfoUpdate() {
               />
             </div>
 
-            <div className="element">
+            <div className="userUpdateElement">
               <label>닉네임</label>
               <input
                 type="text"
@@ -330,18 +332,19 @@ export default function UserInfoUpdate() {
               />
             </div>
 
-            <div className="element">
+            <div className="userUpdateElement">
               <label>주소</label>
               <input
                 type="text"
                 name="address"
                 value={userInfo.address}
                 onChange={handleInputChange}
+                className="address"
               />
-              <button>주소 검색</button>
+              <button className="address-search">주소 검색</button>
             </div>
 
-            <div className="element">
+            <div className="userUpdateElement">
               <label>상세 주소</label>
               <input
                 type="text"
@@ -351,7 +354,7 @@ export default function UserInfoUpdate() {
               />
             </div>
 
-            <div className="element">
+            <div className="userUpdateElement">
               <label>이메일</label>
               <input
                 type="email"
@@ -361,7 +364,7 @@ export default function UserInfoUpdate() {
               />
             </div>
 
-            <div className="element">
+            <div className="userUpdateElement">
               <label>연락처</label>
               <input
                 type="text"
@@ -371,12 +374,14 @@ export default function UserInfoUpdate() {
               />
             </div>
 
-            <button className="ok-button" type="submit">
-              완료
-            </button>
-            <button className="back-button" type="button" onClick={goBack}>
-              취소
-            </button>
+            <div className="button-group">
+              <button className="ok-button" type="submit">
+                완료
+              </button>
+              <button className="cancle-button" type="button" onClick={goBack}>
+                취소
+              </button>
+            </div>
           </form>
         </>
       )}

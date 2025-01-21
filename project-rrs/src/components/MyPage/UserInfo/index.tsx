@@ -49,11 +49,11 @@ export default function UserInfo() {
   }
 
   return (
-    <div>
-      <h2>MyPage</h2>
+    <div className="userContent">
+      <h2>회원 정보</h2>
       <div className="userInfoContent">
         <div className="userInfoElement">
-          <label className="userInfolabel">개인 프로필 사진</label>
+          <label>개인 프로필 사진</label>
           <img className="userInfoText"
             src={userInfo.profileImageUrl ? `${FILE_URL}${userInfo.profileImageUrl}` : userDefaultImage} 
             alt={`${userInfo.profileImageUrl}의 사진`}
@@ -65,37 +65,37 @@ export default function UserInfo() {
         </div>
 
         <div className='userInfoElement'>
-          <label className="userInfolabel">아이디</label>
+          <label>아이디</label>
           <p>{userInfo.username}</p>
         </div>
 
         <div className='userInfoElement'>
-          <label className="userInfolabel">이름</label>
+          <label>이름</label>
           <p>{userInfo.name}</p>
         </div>
 
         <div className='userInfoElement'>
-          <label className="userInfolabel">닉네임</label>
+          <label>닉네임</label>
           <p>{userInfo.nickname}</p>
         </div>
 
         <div className='userInfoElement'>
-          <label className="userInfolabel">주소</label>
+          <label>주소</label>
           <p>{userInfo.address}</p>
         </div>
 
         <div className='userInfoElement'>
-          <label className="userInfolabel">상세 주소</label>
+          <label>상세 주소</label>
           <p>{userInfo.addressDetail}</p>
         </div>
 
         <div className='userInfoElement'>
-          <label className="userInfolabel">이메일</label>
+          <label>이메일</label>
           <p>{userInfo.email}</p>
         </div>
 
         <div className='userInfoElement'>
-          <label className="userInfolabel">연락처</label>
+          <label>연락처</label>
           <p>{userInfo.phone}</p>
         </div>
 
