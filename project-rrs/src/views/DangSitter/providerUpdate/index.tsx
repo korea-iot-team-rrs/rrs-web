@@ -96,10 +96,16 @@ const ProviderUdpate = () => {
           }
         );
 
-        const availableDates = response.data.availableDate
-        ? response.data.availableDate.map((dateStr: string) => new Date(dateStr))
-        : [];
-        setSelectedDates(availableDates);
+        console.log("Response:", response.data.data);
+
+        const providerIntro = response.data.data.providerIntroduction || "";
+      setProviderIntroduction(providerIntro);
+      const availableDates = response.data.data.availableDate
+      ? response.data.data.availableDate.map((dateObj: any) =>
+          new Date(dateObj.availableDate)
+        )
+      : [];
+    setSelectedDates(availableDates);
       } catch (error) {
         console.log("근무 일정 가져오는 중 오류 발생", error);
       }
@@ -109,6 +115,13 @@ const ProviderUdpate = () => {
   }, [cookies.token, navigate]);
 
   const handleCalendarChange = (date: Date) => {
+    const today = new Date();
+
+    if (date < today) {
+      alert("과거 날짜는 선택할 수 없습니다.");
+      return; // 과거 날짜 선택을 막음
+    }
+
     const isDateSelected = selectedDates.some(
       (selectedDate) =>
         selectedDate.toDateString() === date.toDateString()
@@ -131,8 +144,6 @@ const ProviderUdpate = () => {
   const handleSubmit = async () => {
     const token = cookies.token || localStorage.getItem("token");
 
-    console.log("선택된 날짜들:", selectedDates);
-
     // 유효성 검사
     if (selectedDates.length === 0) {
       alert("하나의 이상의 근무일을 선택해주세요.");
@@ -145,11 +156,10 @@ const ProviderUdpate = () => {
     }
 
     const data = {
-      availableDate: selectedDates.map((date) => ({
-        availableDate: date.toLocaleDateString("en-CA"), // 서버가 기대하는 형태로 변환
-      })),
+      availableDate: selectedDates.map((date) => date.toLocaleDateString("en-CA")),
       providerIntroduction: providerIntroduction
     };
+
 
     console.log("전송되는 데이터:", data);
 
