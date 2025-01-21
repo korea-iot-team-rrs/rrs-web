@@ -3,6 +3,7 @@ import { UserSignUp } from "../../../types/AuthType";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../../styles/Signup.css";
+import SignUpModal from "../../../components/SignUpModal";
 
 const API_BASE_URL = "http://localhost:4040/api/v1/auth";
 
@@ -293,11 +294,11 @@ export default function RrsSignUp() {
 
   const handleSignUp = async () => {
     const isValid = validateForm();
-
+  
     if (isValid) {
       try {
         const requestBody = { ...userInfo };
-
+  
         const response = await axios.post(
           `${API_BASE_URL}/sign-up`,
           requestBody,
@@ -307,11 +308,11 @@ export default function RrsSignUp() {
             },
           }
         );
-
+  
         console.log(response);
-
+  
         if (response.data.result) {
-          navigate("/login");
+          setShowModal(true); // 모달 표시
         } else {
           setErrors((prev) => ({
             ...prev,
@@ -327,6 +328,8 @@ export default function RrsSignUp() {
       }
     }
   };
+
+  const [showModal, setShowModal] = useState(false);
 
   const validateForm = () => {
     const tempErrors: { [key: string]: string } = {};
@@ -546,6 +549,9 @@ export default function RrsSignUp() {
         </button>
         <p style={{ color: "red" }}>{errors.form}</p>
       </form>
+      {showModal && (
+      <SignUpModal onClose={() => { setShowModal(false); navigate("/login"); }} />
+    )}
     </div>
   );
 }

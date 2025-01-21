@@ -8,6 +8,7 @@ import {
 } from "../../../apis/communityCommentApi";
 import { FaChevronDown, FaChevronUp, FaEdit } from "react-icons/fa";
 import { CommunityComment } from "../../../types/commentType";
+import "../../../styles/communities/CommunityDetail.css"
 
 interface CommentsProps {
   communityId: number;
@@ -253,7 +254,7 @@ const CommunityDetailCommentsSection: React.FC<CommentsProps> = ({
                     />
                     <div className="communityDetailCommentActions">
                       <button
-                        className="communityDetailCommentViewButton"
+                        className="communityDetailCommentEditButton"
                         onClick={() =>
                           handleCommunityDetailEditSubmit(comment.commentId)
                         }
@@ -262,7 +263,7 @@ const CommunityDetailCommentsSection: React.FC<CommentsProps> = ({
                         완료
                       </button>
                       <button
-                        className="communityDetailCommentViewButton"
+                        className="communityDetailCommentDeleteButton"
                         onClick={() =>
                           handleCommunityDetailEditCancel(comment.commentId)
                         }
@@ -288,7 +289,7 @@ const CommunityDetailCommentsSection: React.FC<CommentsProps> = ({
                       comment.nickname && (
                       <div className="communityDetailCommentActions">
                         <button
-                          className="communityDetailCommentViewButton"
+                          className="communityDetailCommentEditButton"
                           onClick={() =>
                             handleCommunityDetailEditClick(
                               comment.commentId,
@@ -300,7 +301,7 @@ const CommunityDetailCommentsSection: React.FC<CommentsProps> = ({
                           수정
                         </button>
                         <button
-                          className="communityDetailCommentViewButton"
+                          className="communityDetailCommentDeleteButton"
                           onClick={() =>
                             handleCommunityDetailDeleteComment(
                               comment.commentId
