@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Pet } from "../../../../../types";
 import { IoMdSunny } from "react-icons/io";
 import { IoCloudy, IoRainy } from "react-icons/io5";
@@ -11,6 +11,7 @@ import axios from "axios";
 import { FaFolder } from "react-icons/fa";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useRefreshStore } from "../../../../../stores/refreshStore";
 
 interface WalkingRecordCreateProps {
   selectedPet: Pet | null;
@@ -36,6 +37,7 @@ const WalkingRecordCreate = ({
   const selectedDateObj = new Date(selectedDate);
   const [hours, setHours] = useState<number>(0);
   const [minutes, setMinutes] = useState<number>(0);
+  const { incrementRefreshKey } = useRefreshStore();
   const [walkingRecord, setWalkingRecord] = useState({
     walkingRecordWeatherState: "SUNNY",
     walkingRecordDistance: "",
@@ -61,6 +63,13 @@ const WalkingRecordCreate = ({
       return;
     }
   }, [cookies, navigate]);
+
+  useEffect(() => {
+    setWalkingRecord((prevRecord) => ({
+      ...prevRecord,
+      walkingRecordCreateAt: selectedDate,
+    }));
+  }, [selectedDate]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -193,9 +202,9 @@ const WalkingRecordCreate = ({
           },
         }
       );
-      console.log("산책기록 저장:", response.data.data);
       alert("산책기록이 저장되었습니다.");
       addWalkingRecord(response.data.data);
+      incrementRefreshKey();
       goBack();
     } catch (error) {
       console.error("산책기록 저장 실패:", error);

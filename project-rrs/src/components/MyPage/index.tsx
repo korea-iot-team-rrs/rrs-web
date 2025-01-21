@@ -3,11 +3,12 @@ import { NavLink, Route, Routes } from 'react-router-dom'
 import UserInfo from './UserInfo'
 import PetList from './PetList'
 import UserDelete from './UserDelete'
-import '../../styles/MyPage.css'
+import '../../styles/myPage/MyPage.css'
 import PetCreate from './PetList/PetCreate'
 import PetInfo from './PetList/PetInfo'
 import PetUpdate from './PetList/PetUpdate'
 import UserInfoUpdate from './UserInfo/UserInfoUpdate'
+import PasswordUpdate from './passwordUpdate'
 
 export default function MyPage() {
   return (
@@ -22,6 +23,7 @@ export default function MyPage() {
         <Routes>
           <Route path='info' element={<UserInfo />} />
           <Route path='info-update' element={<UserInfoUpdate />} />
+          <Route path='password-update' element={<PasswordUpdate />} />
           <Route path='petList' element={<PetList />} />
           <Route path='pet/:petId' element={<PetInfo />} />
           <Route path='pet-update/:petId' element={<PetUpdate />} />

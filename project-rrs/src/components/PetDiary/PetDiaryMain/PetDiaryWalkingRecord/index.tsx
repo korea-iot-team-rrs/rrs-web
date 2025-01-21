@@ -9,6 +9,7 @@ import WalkingRecordCreate from "./WalkingRecordCreate";
 import axios from "axios";
 import WalkingRecordGet from "./WalkingRecordGet";
 import WalkingRecordUpdate from "./WalkingRecordUpdate";
+import { useRefreshStore } from "../../../../stores/refreshStore";
 
 export default function PetDiaryWalkingRecord({
   selectedDate
@@ -22,6 +23,7 @@ export default function PetDiaryWalkingRecord({
   const [selectedPet, setSelectedPet] = useState<Pet | null>(null);
   const [walkingRecords, setWalkingRecords] = useState<any[]>([]);
   const [walkingRecordId, setWalkingRecordId] = useState<number>(0);
+  const { incrementRefreshKey } = useRefreshStore();
 
   const handleAddPetClick = () => {
     navigate("/user/pet-create");
@@ -164,6 +166,7 @@ export default function PetDiaryWalkingRecord({
             (record) => record.walkingRecordId !== walkingRecordId
           )
         );
+        incrementRefreshKey();
         alert("산책 기록이 삭제되었습니다.");
       } else {
         alert("산책 기록 삭제 실패");
