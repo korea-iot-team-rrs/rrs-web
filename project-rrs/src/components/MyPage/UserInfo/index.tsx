@@ -3,7 +3,7 @@ import { User } from "../../../types";
 import { fetchUserInfo, updateUserInfo } from "../../../apis/userInfo";
 import { useNavigate } from "react-router-dom";
 import { FILE_URL } from "../../../constants";
-import userDefaultImage from '../../../assets/images/dogIllust02.jpeg'
+import userDefaultImage from '../../../assets/images/dogIllust02.jpeg' 
 
 export default function UserInfo() {
   const [userInfo, setUserInfo] = useState<User | null>(null);

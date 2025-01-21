@@ -47,6 +47,10 @@ export default function UserInfoUpdate() {
   const handleDefaultImage = () => {
     setProfilePreview(userDefaultImage);
     setSelectedFile(null);
+    setUserInfo((prevData) => ({
+      ...prevData,
+      profileImageUrl: "http://localhost:4040/images/dogIllust02.jpeg",
+    }));
     setShowModal(false);
   };
 
@@ -93,7 +97,9 @@ export default function UserInfoUpdate() {
             profileImageUrl: data.profileImageUrl,
           });
           setOriginalUserInfo(data);
-          setProfilePreview(`http://localhost:4040/${data.profileImageUrl}` || userDefaultImage);
+          setProfilePreview(
+            `http://localhost:4040/${data.profileImageUrl}` || userDefaultImage
+          );
           setLoading(false);
         }
       } catch (error) {
@@ -108,14 +114,22 @@ export default function UserInfoUpdate() {
     e.preventDefault();
 
     // 유효성 검사
-    if (
+    const defaultImageUrl = "http://localhost:4040/images/dogIllust02.jpeg";
+
+    const isImageChanged =
+      userInfo.profileImageUrl !== originalUserInfo.profileImageUrl ||
+      (userInfo.profileImageUrl === defaultImageUrl &&
+        originalUserInfo.profileImageUrl !== defaultImageUrl) ||
+      (userInfo.profileImageUrl !== defaultImageUrl &&
+        originalUserInfo.profileImageUrl === defaultImageUrl);
+
+    const isInfoUnchanged =
       userInfo.name === originalUserInfo.name &&
       userInfo.address === originalUserInfo.address &&
       userInfo.addressDetail === originalUserInfo.addressDetail &&
-      userInfo.phone === originalUserInfo.phone &&
-      !selectedFile &&
-      userInfo.profileImageUrl === originalUserInfo.profileImageUrl
-    ) {
+      userInfo.phone === originalUserInfo.phone;
+
+    if (!isInfoUnchanged && !selectedFile && !isImageChanged) {
       alert("변경된 내용이 없습니다.");
       return;
     }
@@ -183,13 +197,21 @@ export default function UserInfoUpdate() {
       formData.append("phone", userInfo.phone);
     }
 
-    if (selectedFile) {
+    formData.append("dto", JSON.stringify(userInfo));
+
+    // if (selectedFile) {
+    //   formData.append("profileImageUrl", selectedFile);
+    // } else {
+    //   formData.append(
+    //     "profileImageUrl",
+    //     "http://localhost:4040/images/dogIllust02.jpeg"
+    //   );
+    // }
+
+    if (profilePreview === userDefaultImage) {
+      formData.append("profileImageUrl", defaultImageUrl);
+    } else if (selectedFile) { // 사용자 지정 이미지를 선택한 경우
       formData.append("profileImageUrl", selectedFile);
-
-      console.log("FormData추가 파일: ", formData.get("profileImageUrl"));
-
-    } else {
-      formData.append('profileImageUrl', "http://localhost:4040/images/dogIllust02.jpeg")
     }
 
     formData.forEach((value, key) => {
@@ -205,7 +227,7 @@ export default function UserInfoUpdate() {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
+            // "Content-Type": "multipart/form-data",
           },
         }
       );
@@ -241,7 +263,11 @@ export default function UserInfoUpdate() {
               <label>개인 프로필 사진</label>
               <img
                 src={profilePreview || userDefaultImage}
-                alt={profilePreview === userDefaultImage ? "기본 프로필 이미지" : "사용자 프로필 이미지"}
+                alt={
+                  profilePreview === userDefaultImage
+                    ? "기본 프로필 이미지"
+                    : "사용자 프로필 이미지"
+                }
                 onClick={handleImageClick}
                 style={{ cursor: "pointer", width: "150px", height: "150px" }}
               />
