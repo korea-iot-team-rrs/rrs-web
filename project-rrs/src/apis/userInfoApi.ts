@@ -1,6 +1,7 @@
 import axios from "axios";
 import { User } from "../types/entityType";
 import { getToken } from "../utils/auth";
+import { MAIN_URL, UPDATE_PASSWORD } from "../constants";
 
 export const fetchUserInfo = async (): Promise<User> => {
   const token = getToken();
@@ -116,7 +117,7 @@ export const updateUserPassword = async (
   token: string
 ) => {
   const response = await axios.put(
-    `http://localhost:4040/api/v1/users/update-password`,
+    `${MAIN_URL}${UPDATE_PASSWORD}`,
     data,
     {
       headers: {

@@ -107,14 +107,14 @@ export const updateMemo = async (
 };
 
 export const updateReservaionStatus = async (
+  reservationId: number,
   data: {
-    reservationId: number;
     reservationStatus: ReservationStatus;
   },
   token: string
 ) => {
   const response = await axios.put(
-    `${MAIN_URL}${RESERVATION_PUT_STATUS_PATH}`,
+    `${MAIN_URL}${RESERVATION_PUT_STATUS_PATH(reservationId)}`,
     data,
     {
       headers: {

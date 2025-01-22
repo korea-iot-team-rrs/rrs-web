@@ -1,8 +1,13 @@
 import axios from "axios";
 import { Todo } from "../types/todoType";
-import { MAIN_URL } from "../constants";
-
-export const TODO_API_URL = `${MAIN_URL}/todos`;
+import {
+  MAIN_URL,
+  TODO_POST_PATH,
+  TODO_GET_ALL_PATH,
+  TODO_GET_BY_DATE_PATH,
+  TODO_PUT_PATH,
+  TODO_DELETE_PATH,
+} from "../constants";
 
 export const createTodo = async (
   todoPreparationContent: string,
@@ -10,7 +15,7 @@ export const createTodo = async (
   token: string
 ) => {
   const response = await axios.post<{ data: Todo }>(
-    `http://localhost:4040/api/v1/todos/write`,
+    `${MAIN_URL}${TODO_POST_PATH}`,
     {
       todoPreparationContent,
       todoCreateAt,
@@ -25,18 +30,9 @@ export const createTodo = async (
   return response.data.data;
 };
 
-export const updateTodo = async (
-  todoId: number,
-  data: Partial<{
-    todoPreparationContent: string;
-    todoCreateAt: string;
-    todoStatus: string;
-  }>,
-  token: string
-) => {
-  const response = await axios.put<{ data: Todo }>(
-    `http://localhost:4040/api/v1/todos/${todoId}`,
-    data,
+export const fetchTodos = async (token: string): Promise<Todo[]> => {
+  const response = await axios.get<{ data: Todo[] }>(
+    `${MAIN_URL}${TODO_GET_ALL_PATH}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -47,22 +43,12 @@ export const updateTodo = async (
   return response.data.data;
 };
 
-export const fetchTodos = async (token: string): Promise<Todo[]> => {
-  const response = await axios.get<{ data: Todo[] }>(TODO_API_URL, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
-  return response.data.data;
-};
-
 export const fetchTodosByDay = async (
   day: string,
   token: string
 ): Promise<Todo[]> => {
   const response = await axios.get<{ data: Todo[] }>(
-    `http://localhost:4040/api/v1/todos/day`,
+    `${MAIN_URL}${TODO_GET_BY_DATE_PATH}`,
     {
       params: { day },
       headers: {
@@ -80,9 +66,31 @@ export const fetchTodosByDay = async (
   return todos;
 };
 
+export const updateTodo = async (
+  todoId: number,
+  data: Partial<{
+    todoPreparationContent: string;
+    todoCreateAt: string;
+    todoStatus: string;
+  }>,
+  token: string
+) => {
+  const response = await axios.put<{ data: Todo }>(
+    `${MAIN_URL}${TODO_PUT_PATH(todoId)}`,
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return response.data.data;
+};
+
 export const deleteTodo = async (todoId: number, token: string) => {
   const response = await axios.delete(
-    `http://localhost:4040/api/v1/todos/${todoId}`,
+    `${MAIN_URL}${TODO_DELETE_PATH(todoId)}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

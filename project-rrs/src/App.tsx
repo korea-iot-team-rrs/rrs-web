@@ -26,13 +26,6 @@ import CommunityListView from "./views/community-vIew/community-list-view";
 import CommunityDetailView from "./views/community-vIew/community-detail-view";
 import CommunityCreateView from "./views/community-vIew/community-create-view";
 import CommunityEditView from "./views/community-vIew/community-edit-view";
-import DangSitterMain from "./views/dangsitter/dangsitter-main";
-import ReservationList from "./views/dangsitter/reservaion-list";
-import ReservationForm from "./views/dangsitter/reservation-form";
-import ReservationUserDetail from "./views/dangsitter/reservaion-user-detail";
-import ProvisionListPage from "./views/dangsitter/provision-list-page";
-import ProvisionDetail from "./views/dangsitter/provision-detail";
-import ProviderUpdate from "./views/dangsitter/provider-update";
 import CustomerSupportMain from "./views/customer-support/customer-support-main";
 import CustomerSupportList from "./views/customer-support/customer-support-list";
 import CustomerSupportDetail from "./views/customer-support/customer-support-detail";
@@ -40,6 +33,13 @@ import CustomerSupportWrite from "./views/customer-support/customer-support-writ
 import CustomerSupportUpdate from "./views/customer-support/customer-support-update";
 import PetRoad from "./views/pet-road";
 import Footer from "./layouts/footer";
+import DangSitterMain from "./views/dangsitter/dangsitter-main";
+import ReservationList from "./views/dangsitter/reservaion-list";
+import ReservationForm from "./views/dangsitter/reservation-form";
+import ReservationUserDetail from "./views/dangsitter/reservaion-user-detail";
+import ProviderUpdate from "./views/dangsitter/provider-update";
+import ProvisionListPage from "./views/dangsitter/provision-list-page";
+import ProvisionDetail from "./views/dangsitter/provision-detail";
 
 function App() {
   const { isLoading } = useAuthCheck();

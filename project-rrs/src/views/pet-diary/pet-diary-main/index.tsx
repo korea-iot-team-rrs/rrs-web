@@ -7,11 +7,7 @@ export default function PetDiaryMain() {
   const [selectedDate, setSelectedDate] = useState<string>(
     new Date().toISOString().split("T")[0]
   );
-
-  useEffect(() => {
-    console.log("Selected date in PetDiaryView:", selectedDate);
-  }, [selectedDate]);
-
+  
   return (
     <div className="pet_diary_container">
       <PetDiaryCalendar onDateSelect={setSelectedDate} />
