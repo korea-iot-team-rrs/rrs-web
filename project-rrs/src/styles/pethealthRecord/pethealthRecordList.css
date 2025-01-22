@@ -3,16 +3,14 @@
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
-  height: 120px;
   justify-content: flex-start;
-  margin-bottom: 20px;
 }
 
 .petHealthBox {
   max-width: 100px;
   max-height: 130px;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #dfdfdf;
   position: relative;
   border-radius: 10px;
   overflow: hidden;
@@ -24,23 +22,27 @@
   background-color: transparent;
   cursor: pointer;
   gap: 5px;
+  font-family: 'Pretendard';
+  font-weight: 600;
+  transition: background-color 0.3s ease;
 }
 
 .petHealthBox:hover {
-  background-color: #2194ff;
-  color: white;
+  background-color: #f0f0f0;
 }
 
 .petHealthBox.selectedPet {
-  background-color: #3da1ff;
-  color: white;
+  font-weight: 700;
+  background-color: #e3f2ff !important;
+  color: #2a87de;
+  box-shadow: inset 0 0 0 4px rgb(212, 234, 255);
+  transition: background-color color box-shadow 0.3s ease;
 }
 
 .petHealthCircleBox {
   border-radius: 50%;
   width: 80px;
   height: 80px;
-  border: 1px solid #ccc;
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -64,7 +66,7 @@
 .petHealthMidElement span {
   color: #6d6d6d;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .petHealthMidElement button {
@@ -207,8 +209,10 @@
 
 .petHealthChoicePetText {
   text-align: center;
-  font-weight: bold;
   color: #818181;
+  font-family: 'Pretendard';
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .petHealthNoContent {
