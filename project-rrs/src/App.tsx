@@ -5,23 +5,25 @@ import Main from "./views/Main";
 import Header from "./layouts/Header";
 
 import PetDiaryMain from "./views/PetDiary/PetDiaryMain";
-import AnnouncementListView from "./views/AnnouncementView/AnnouncementListView";
-import AnnouncementView from "./views/AnnouncementView/AnnouncementDetailView";
-import UsageGuideDetailView from "./views/AnnouncementView/UsageGuideDetailView";
-import EventDetailView from "./views/AnnouncementView/EventDetailView";
-import UsageGuideListView from "./views/AnnouncementView/UsageGuideListView";
-import EventListView from "./views/AnnouncementView/EventListView";
-import CommunityListView from "./views/CommunityVIew/CommunityListView";
-import CommunityDetailView from "./views/CommunityVIew/CommunityDetailView";
 
-import CommunityCreateView from "./views/CommunityVIew/CommunityCreateView";
+import ProvisionListPage from "./views/DangSitter/provisionListPage";
+import AnnouncementListView from "./views/announcement-view/announcement-list-view";
+import AnnouncementView from "./views/announcement-view";
+import UsageGuideListView from "./views/announcement-view/usage-guide-list-view";
+import UsageGuideDetailView from "./views/announcement-view/usage-guide-detail-view";
+import EventListView from "./views/announcement-view/event-list-view";
+import EventDetailView from "./views/announcement-view/event-detail-view";
+import CommunityListView from "./views/community-vIew/CommunityListView";
+import CommunityDetailView from "./views/community-vIew/community-detail-view";
+import CommunityCreateView from "./views/community-vIew/community-create-view";
+import CommunityEditView from "./views/community-vIew/CommunityEditView";
+
 import MyPageView from "./views/MyPage/User";
 
 import ReservationList from "./views/DangSitter/ReservaionList";
 import ReservationForm from "./views/DangSitter/ReservationForm";
 import ReservationUserDetail from "./views/DangSitter/ReservaionUserDetail";
 
-import CommunityEditView from "./views/CommunityVIew/CommunityEditView";
 import SignUpMain from "./views/Auth/SignUp/SignUpMain";
 import RrsSignUp from "./views/Auth/SignUp/RrsSignUp";
 import FindId from "./views/Auth/FindId";
@@ -42,7 +44,6 @@ import AuthRedirectHandler from "./views/Auth/SignUp/AuthRedirectHandler";
 import SnsSuccess from "./views/Auth/Login/SnsSuccess";
 import ProvisionDetail from "./views/DangSitter/provisionDetail";
 import CustomerSupportMain from "./views/CustomerSupport/CustomerSupportMain";
-import ProvisionListPage from "./views/DangSitter/provisionListPage";
 
 function App() {
   const { isLoading } = useAuthCheck();
@@ -59,14 +60,7 @@ function App() {
           <Routes>
             <Route path="/main" element={<Main />} />
             {/* 인증 관련 라우트  */}
-            <Route
-              path="/login"
-              element={
-
-                  <Login />
-
-              }
-            />
+            <Route path="/login" element={<Login />} />
             <Route
               path="/sns-success"
               element={
@@ -155,15 +149,11 @@ function App() {
             <Route path="/dang-sitter" element={<DangSitterMain />} />
             <Route
               path="/users/dang-sitter/reservations"
-              element={
-                  <ReservationList />
-              }
+              element={<ReservationList />}
             />
             <Route
               path="/users/dang-sitter/reservations/write"
-              element={
-                  <ReservationForm />
-              }
+              element={<ReservationForm />}
             />
             <Route
               path="/users/dang-sitter/reservations/:id"
@@ -190,23 +180,17 @@ function App() {
 
             <Route
               path="/dang-sitter/reservations/:reservationId"
-              element={
-                  <ProvisionDetail />
-              }
+              element={<ProvisionDetail />}
             />
 
             {/* 고객센터 관련 라우터 */}
             <Route
               path="/inquiry-and-report"
-              element={
-                  <CustomerSupportMain />
-              }
+              element={<CustomerSupportMain />}
             />
             <Route
               path="/inquiry-and-report/list"
-              element={
-                  <CustomerSupportList />
-              }
+              element={<CustomerSupportList />}
             />
             <Route
               path="/inquiry-and-report/:id"

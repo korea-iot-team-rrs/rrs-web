@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Calendar, Badge } from "rsuite";
+import { Calendar } from "rsuite";
 import "../../../styles/PetdiaryCalendar.css";
 import { PetDiaryCalendarProps } from "../../../types/petDiaryType";
 import { Todo } from "../../../types/todoType";
 import { fetchTodos } from "../../../apis/todoApi";
 import { useRefreshStore } from "../../../stores/refreshStore";
 import { useCookies } from "react-cookie";
-import usePetStore, { WalkingRecord } from "../../../stores/petstore";
+import { WalkingRecord } from "../../../stores/petstore";
 import axios from "axios";
 import { HealthRecord } from "../../../types/petHealthType";
 import { fetchAllHealthRecordsByUserId } from "../../../apis/petHealthApi";
-import { data } from "react-router-dom";
 
 const Styles = () => {
   return (

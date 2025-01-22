@@ -2,11 +2,11 @@ import { Button } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../../../stores/useAuthStore";
-import LoginModal from "../../../components/LoginModal";
+import LoginModal from "../../../components/login-modal";
 import "../../../styles/customerSupport/CustomerSupportMain.css";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import CallIcon from "@mui/icons-material/Call";
-import csBottomImg from '../../../assets/images/cs-bottom-img.jpg';
+import csBottomImg from "../../../assets/images/cs-bottom-img.jpg";
 
 export default function CustomerSupportMain() {
   const navigate = useNavigate();
