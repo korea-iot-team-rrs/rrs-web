@@ -34,7 +34,6 @@ export default function TodoMain({ selectedDate }: PetDiaryTodoProps) {
 
     try {
       const todos = await fetchTodosByDay(selectedDate, token);
-      console.log("날짜111",todos)
       setTodos(todos);
     } catch (error) {
       console.error("Failed to fetch todo data", error);
