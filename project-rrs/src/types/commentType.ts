@@ -1,5 +1,5 @@
 export interface CommunityComment {
-  userId:number;
+  userId: number;
   commentId: number;
   communityId: number;
   nickname: string;

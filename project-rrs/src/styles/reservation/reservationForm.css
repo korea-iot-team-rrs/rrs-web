@@ -1,0 +1,163 @@
+.reservationFormContainer {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+
+  > * {
+    font-family: "Pretendard", Arial, sans-serif;
+    width: 1000px;
+  }
+
+  .notice {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .notice-title {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .notice-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  .reservation-date-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding-top: 30px;
+
+    div:nth-child(1) {
+      display: flex;
+      flex-direction: column;
+
+      span:first-child {
+        font-size: 24px;
+        font-weight: bold;
+      }
+    }
+
+    div:nth-child(2) {
+      display: flex;
+      gap: 40px;
+    }
+
+    .date-title {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      span:nth-child(1) {
+        font-size: 24px;
+        font-weight: bold;
+      }
+    }
+
+    input[type="text"],
+    textarea,
+    input[type="file"] {
+      border: none;
+    }
+
+    .reservation-date-picker-main {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      gap: 50px;
+
+      .find-my-dang-sitter-btn {
+        font-size: 20px;
+        font-weight: bold;
+        width: 30%;
+        height: 60px;
+        background-color: #ffffff;
+        color: #52abff;
+
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.04);
+      }
+
+      .find-my-dang-sitter-btn:hover {
+        background-color: #dff4ff;
+        transition: background-color 0.5s ease-in-out;
+      }
+    }
+  }
+
+  .cant-not-find-sitter > p {
+    font-size: 20px;
+    color: #757575;
+  }
+
+  .founded-dang-sitter {
+    display: flex;
+    flex-direction: column;
+
+    .founded-dang-sitter-title {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .dangSitter-box-btn {
+      background-color: transparent;
+    }
+
+    .dangSitter-box-btn.selected .dangSitterContainer {
+      background-color: #d6f0ff;
+    }
+  }
+}
+
+.reservation-userInfo-reservation-memo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+
+  .reservation-memo-title {
+    display: flex;
+    width: 100%;
+
+    span {
+      font-size: 24px;
+      font-weight: bold;
+    }
+  }
+
+  .memo {
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    color: #333;
+    resize: vertical;
+    outline: none;
+  }
+
+  .memo:focus {
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(146, 215, 255, 0.5);
+  }
+
+  .reservation-submit-btn {
+    padding: 10px;
+    font-family: "Pretendard";
+    font-size: 24px;
+    color: #ffff;
+    background-color: #307cff;
+    border-radius: 15px;
+    width: 30%;
+    min-height: 40px;
+    margin: 30px 0;
+  }
+}

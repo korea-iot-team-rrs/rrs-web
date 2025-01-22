@@ -1,0 +1,35 @@
+.toggle-switch {
+  width: 60px;
+  height: 30px;
+  background-color: lightgray;
+  border-radius: 30px;
+  position: relative; /* 동그라미의 위치를 위해 relative */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-switch.active {
+  background-color: green;
+}
+
+/* 슬라이더 안의 동그라미 */
+.toggle-circle {
+  width: 26px;
+  height: 26px;
+  background-color: white;
+  border-radius: 50%; /* 동그라미 모양 */
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: left 0.3s ease; /* 동그라미 이동 애니메이션 */
+}
+
+/* 활성화 상태일 때 동그라미의 위치 */
+.toggle-switch.active .toggle-circle {
+  left: 32px; /* 동그라미가 오른쪽으로 이동 */
+}
+
+.selected-date {
+  background-color: #90ee90;
+  border-radius: 50%;
+}

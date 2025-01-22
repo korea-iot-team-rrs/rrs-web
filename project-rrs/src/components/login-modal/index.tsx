@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../../styles/LoginModal.css";
+import "../../styles/auth/find-user-info/loginModal.css";
 
 interface LoginModalProps {
   onClose: () => void;

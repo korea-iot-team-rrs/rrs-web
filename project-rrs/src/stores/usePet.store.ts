@@ -16,12 +16,12 @@ export interface Pet {
 
 export interface WalkingRecord {
   walkingRecordId: number;
-  walkingRecordDistance: number; 
-  walkingRecordWalkingTime: number; 
+  walkingRecordDistance: number;
+  walkingRecordWalkingTime: number;
   walkingRecordCreateAt: string;
   walkingRecordWeatherState: WalkingRecordWeatherState;
   walkingRecordMemo: string;
-  files: File[]
+  files: File[];
 }
 
 export interface CreateWalkingRecord {
@@ -54,7 +54,7 @@ export interface HealthRecord {
 
 interface PetStore {
   pets: Pet[];
-  setPets: (pets: Pet[]) => void;  
+  setPets: (pets: Pet[]) => void;
   addWalkingRecord: (petId: number, record: WalkingRecord) => void;
   addHealthRecord: (petId: number, record: HealthRecord) => void;
 }
@@ -62,18 +62,24 @@ interface PetStore {
 const usePetStore = create<PetStore>((set) => ({
   pets: [] as Pet[],
   setPets: (pets: Pet[]) => set({ pets }),
-  addWalkingRecord: (petId, record) => set((state) => {
-    const updatedPets = state.pets.map((pet) =>
-      pet.petId === petId ? { ...pet, walkingRecords: [...pet.walkingRecords, record] } : pet
-    );
-    return { pets: updatedPets };
-  }),
-  addHealthRecord: (petId, record) => set((state) => {
-    const updatedPets = state.pets.map((pet) =>
-      pet.petId === petId ? { ...pet, healthRecords: [...pet.healthRecords, record] } : pet
-    );
-    return { pets: updatedPets };
-  }),
+  addWalkingRecord: (petId, record) =>
+    set((state) => {
+      const updatedPets = state.pets.map((pet) =>
+        pet.petId === petId
+          ? { ...pet, walkingRecords: [...pet.walkingRecords, record] }
+          : pet
+      );
+      return { pets: updatedPets };
+    }),
+  addHealthRecord: (petId, record) =>
+    set((state) => {
+      const updatedPets = state.pets.map((pet) =>
+        pet.petId === petId
+          ? { ...pet, healthRecords: [...pet.healthRecords, record] }
+          : pet
+      );
+      return { pets: updatedPets };
+    }),
 }));
 
 export default usePetStore;

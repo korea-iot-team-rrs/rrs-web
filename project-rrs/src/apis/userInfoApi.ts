@@ -1,5 +1,5 @@
 import axios from "axios";
-import { User } from "../types";
+import { User } from "../types/entityType";
 import { getToken } from "../utils/auth";
 
 export const fetchUserInfo = async (): Promise<User> => {

@@ -1,0 +1,63 @@
+.petContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 70vh;
+  margin: 100px;
+  margin-left: 250px;
+  border-radius: 30px;
+  border: 1px solid #ccc;
+}
+
+.petInfoContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+}
+
+.petInfoContent img {
+  border-radius: 20px;
+  width: 150px;
+  height: 150px;
+  margin-left: 0;
+}
+
+.petInfoElement {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 60%;
+  flex-wrap: wrap;
+}
+
+.petInfoElement label {
+  font-weight: bold;
+  text-align: right;
+  color: #1c82e0;
+  min-width: 150px;
+  font-size: 18px;
+  margin-right: 50px;
+}
+
+.petInfoElement p {
+  text-align: left;
+  margin: 0;
+  width: auto;
+  min-width: 100px;
+  font-size: 18px;
+}
+
+.petInfoContent button {
+  background-color: #2194ff;
+  border-radius: 15px;
+  height: 30px;
+  width: 100px;
+  color: #fff;
+  cursor: pointer;
+  text-align: center;
+  margin: 80px 50px 40px 0;
+  align-self: flex-end;
+}

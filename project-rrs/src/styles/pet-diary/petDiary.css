@@ -1,0 +1,10 @@
+.pet_diary_container {
+  display: flex;
+  padding: 0% 5%;
+  gap: 50px;
+  margin: 0 5%;
+}
+
+.pet_diary_container > * {
+  flex: 1;
+}

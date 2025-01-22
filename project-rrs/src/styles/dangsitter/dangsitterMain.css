@@ -1,0 +1,120 @@
+.dang-sitter-main-wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3개의 동일한 컬럼 */
+  grid-template-rows: auto auto auto; /* 자동 행 높이 */
+  gap: 15px;
+  padding: 20px 8%;
+
+  h2 {
+    font-size: 24px;
+    margin-top: -10px;
+    color: #ffffff;
+  }
+}
+
+.dang-sitter-main-wrapper > div {
+  display: flex;
+  font-weight: 300;
+  color: #eeeeee;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 20px;
+  font-family: "Pretendard", Arial, sans-serif;
+}
+
+.dang-sitter-toggle {
+  color: #272727 !important;
+  grid-column: 3 / 4;
+  grid-row: 1 / 2;
+  width: 100%;
+  align-items: end;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: flex-end;
+  background-color: transparent;
+  border: none;
+}
+
+.dang-sitter-container01 {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+  min-height: 200px;
+  justify-content: space-between;
+  background-color: #0085ff;
+  transition: background-color 0.3s ease;
+}
+
+.dang-sitter-container01:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.dang-sitter-container02 {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  justify-content: space-between;
+  background-color: #0085ff;
+  transition: background-color 0.3s ease;
+}
+
+.dang-sitter-container02:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.dang-sitter-container03 {
+  grid-column: 3 / 4;
+  grid-row: 2 / 4;
+  background-image: url("../../assets/images/dang-sitter-back.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: background-color 0.3s ease;
+}
+
+.dang-sitter-container03:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.dang-sitter-container04 {
+  grid-column: 1 / 3;
+  grid-row: 3 / 4;
+  min-height: 300px;
+  background-color: #d9d9d9;
+  background-image: url("../../assets/images/dogIllust05.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: background-color 0.3s ease;
+}
+
+.dang-sitter-container04:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.dang-sitter-title {
+  color: #272727 !important;
+  margin: 0px !important;
+  padding: 0px !important;
+}
+
+.dang-sitter-container01.provider {
+  background-color: rgb(255, 112, 112);
+}
+
+.dang-sitter-container02.provider {
+  background-color: rgb(255, 112, 112);
+}
+
+.dang-sitter-container03.provider {
+  background-image: url("../../assets/images/dang-sitter-back-02.jpg");
+}
+.dang-sitter-container04.provider {
+  background-image: url("../../assets/images/dogIllust06.png");
+  .reservation-title {
+    color: #272727;
+  }
+}

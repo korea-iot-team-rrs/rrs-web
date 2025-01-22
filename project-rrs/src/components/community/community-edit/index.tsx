@@ -1,9 +1,9 @@
-import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
+import { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getCommunityById, updateCommunity } from "../../../apis/communityApi";
 import { communityAttachmentApi } from "../../../apis/communityAttachmentApi";
-import "../../../styles/communities/CommunityEdit.css";
-import useAuthStore from "../../../stores/useAuthStore";
+import "../../../styles/community/communityEdit.css";
+import useAuthStore from "../../../stores/useAuth.store";
 import { FaTrash } from "react-icons/fa";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;

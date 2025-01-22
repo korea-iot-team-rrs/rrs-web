@@ -1,0 +1,251 @@
+.petDiaryTodoContainer > * {
+  font-family: "Pretendard", Arial, sans-serif;
+}
+
+.petDiaryTodoContainer header {
+  margin-bottom: 20px;
+}
+
+.petDiaryTodoContainer header > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.petDiaryTodoContainer .headerMain {
+  display: flex;
+  align-items: center;
+}
+
+.petDiaryTodoContainer .headerMain h2 {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.petDiaryTodoContainer .headerMain span {
+  font-size: 14px;
+  color: #6d6d6d;
+}
+
+.petDiaryTodoContainer .headerBtn {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.petDiaryTodoContainer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.petDiaryTodoContainer li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: #ffffff;
+  border: 1px solid #e3e3e3;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(190, 190, 190, 0.041);
+}
+
+.petDiaryTodoContainer li:hover {
+  background: #f4f4f4;
+}
+
+.petDiaryTodoContainer li span {
+  font-size: 16px;
+  color: #333;
+}
+
+.petDiaryTodoContainer .rightBtns {
+  min-width: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.petDiaryTodoContainer .deleteAndModify {
+  display: flex;
+  gap: 5px;
+}
+
+.petDiaryTodoContainer .deleteAndModify button {
+  background-color: rgba(245, 245, 245, 0.76);
+  color: #333;
+  border: none;
+  padding: 5px 10px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.petDiaryTodoContainer .deleteAndModify button:nth-child(2) {
+  color: #ff4545;
+}
+
+.petDiaryTodoContainer .deleteAndModify button:hover {
+  background: #bdbdbd;
+}
+
+.petDiaryTodoContainer .noContents {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
+  font-size: 16px;
+  color: #818181;
+}
+
+.petDiaryTodoContainer .noContents p {
+  margin: 0;
+}
+
+.petDiaryTodoContainer header .MuiButtonBase-root {
+  background: #3da1ff;
+  color: #fff;
+  border-radius: 20px;
+  font-weight: bold;
+  padding: 5px 15px;
+}
+
+.petDiaryTodoContainer header .MuiButtonBase-root:hover {
+  background: #2196f3;
+}
+
+/* Create / Update */
+.css-19kzrtu {
+  display: flex;
+  flex-direction: column;
+}
+
+.createTodoBox {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 20px;
+  height: 150px;
+  background-color: #ffffff;
+  border: #dcdcdc 2px solid;
+}
+
+.createTodoBox input {
+  border: none;
+  background-color: transparent;
+  padding: 5px 10px;
+  height: 70%;
+  font-size: 24px;
+}
+
+.createTodoBox input:focus {
+  outline: none;
+  border: none;
+}
+
+.createTodoInputBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.createTodoInputBtn button {
+  width: 20%;
+  background-color: #2194ff;
+  color: #fff;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* 스크롤바 */
+
+.petDiaryTodoContainer ul {
+  max-height: 500px;
+  overflow-y: auto;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  margin: 10px 0;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.03);
+}
+
+.petDiaryTodoContainer ul::-webkit-scrollbar {
+  width: 8px;
+}
+.petDiaryTodoContainer ul::-webkit-scrollbar-thumb {
+  background: #cacaca;
+  border-radius: 10px;
+}
+
+.petDiaryTodoContainer ul::-webkit-scrollbar-thumb:hover {
+  background: #929292;
+}
+
+.petDiaryTodoContainer ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  margin: 5px 0;
+  border-bottom: 1px solid #eee;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.petDiaryTodoContainer ul li:hover {
+  background-color: #f0f7ff !important;
+  transition: background-color 0.3s;
+}
+
+.createTodoInputBtn .snackbarCloseBtn {
+  background-color: transparent;
+}
+
+.todo-dog {
+  padding-top: 15%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .speech-bubble {
+    background-color: #ffdfdf;
+    height: 100px;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+    font-size: 20px;
+    font-weight: 500;
+    margin: 30px;
+  }
+
+  .speech-bubble::after {
+    content: "";
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 15px solid #ffdfdf;
+  }
+
+  .dog-imo {
+    font-size: 70px;
+    margin-top: 10px;
+  }
+}

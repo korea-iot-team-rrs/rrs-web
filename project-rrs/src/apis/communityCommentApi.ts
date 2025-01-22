@@ -67,10 +67,10 @@ export const deleteCommentFromCommunity = async (
 ) => {
   const token = getToken();
   const response = await axios.delete(
-    `${COMMUNITY_COMMENT_API_URL}/${communityId}/${commentId}`, // 댓글 ID 추가
+    `${COMMUNITY_COMMENT_API_URL}/${communityId}/${commentId}`,
     {
       headers: {
-        Authorization: `Bearer ${token}`, // "Bearer"로 수정
+        Authorization: `Bearer ${token}`,
       },
     }
   );

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
-import useAuthStore from "../../../stores/useAuthStore";
+import useAuthStore from "../../../stores/useAuth.store";
 import "../../../styles/myPage/DeleteUser.css";
 
 export default function UserDelete() {

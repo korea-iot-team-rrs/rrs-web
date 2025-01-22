@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import useAuthStore from "./useAuthStore";
+import useAuthStore from "./useAuth.store";
 
 export function useAuthCheck() {
   const location = useLocation();

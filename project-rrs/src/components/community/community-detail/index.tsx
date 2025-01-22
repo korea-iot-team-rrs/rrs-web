@@ -2,18 +2,18 @@ import { useEffect, useState } from "react";
 import CommentsSection from "../community-comment";
 import { useNavigate, useParams } from "react-router-dom";
 import { getToken } from "../../../utils/auth";
-import { fetchUserInfo } from "../../../apis/userInfo";
+import { fetchUserInfo } from "../../../apis/userInfoApi";
 import { deleteCommunity, getCommunityById } from "../../../apis/communityApi";
 import {
   CommunityLikeResponseDto,
   ToggleLikeData,
-} from "../../../types/toggleLikeType$";
+} from "../../../types/toggleLikeType";
 import {
   getUsersWhoLikedCommunity,
   toggleLike,
-} from "../../../apis/toggleKikeApi$";
+} from "../../../apis/toggleLikeApi";
 import { FaHeart, FaThumbsUp } from "react-icons/fa";
-import "../../../styles/communities/CommunityDetail.css";
+import "../../../styles/community/communityDetail.css";
 import DefaultImage from "../../../assets/images/dogIllust02.jpeg";
 import DeleteModal from "../../delete-modal";
 

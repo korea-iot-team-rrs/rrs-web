@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-import "../../../styles/Announcement.css";
+import "../../../styles/announcement/announcement.css";
 import { MAIN_URL } from "../../../constants";
 
 interface AnnouncementData {

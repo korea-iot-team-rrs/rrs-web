@@ -1,0 +1,26 @@
+.find-id-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  font-family: "Pretnedard";
+  height: 60vh;
+  gap: 10px;
+
+  div:first-child {
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  div:nth-child(2) {
+    display: flex;
+    background-color: #f0f0f0;
+    width: 25%;
+    min-height: 80px;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 20px;
+    font-weight: 400;
+  }
+}
