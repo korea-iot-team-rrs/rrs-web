@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import CommentsSection from "../community-comment$";
+import CommentsSection from "../community-comment";
 import { useNavigate, useParams } from "react-router-dom";
 import { getToken } from "../../../utils/auth";
 import { fetchUserInfo } from "../../../apis/userInfo";
@@ -11,7 +11,7 @@ import {
 import {
   getUsersWhoLikedCommunity,
   toggleLike,
-} from "../../../apis/toggleKikeApi$.ts";
+} from "../../../apis/toggleKikeApi$";
 import { FaHeart, FaThumbsUp } from "react-icons/fa";
 import "../../../styles/communities/CommunityDetail.css";
 import DefaultImage from "../../../assets/images/dogIllust02.jpeg";

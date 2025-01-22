@@ -1,6 +1,8 @@
 import "./App.css";
 import { CircularProgress } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
+import { useAuthCheck } from "./stores/useAuthCheck.store";
+
 
 function App() {
   const { isLoading } = useAuthCheck();
