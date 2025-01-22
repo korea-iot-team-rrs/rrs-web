@@ -4,7 +4,7 @@ import {
   FetchCS,
   FetchCSList,
   UpdateCS,
-} from "../types/customerSupport";
+} from "../types/customerSupportType";
 import { CUSTOMER_SUPPORT_CREATE_PATH, CUSTOMER_SUPPORT_DELETE_PATH, CUSTOMER_SUPPORT_GET_ALL_PATH, CUSTOMER_SUPPORT_GET_PATH, CUSTOMER_SUPPORT_PUT_PATH, MAIN_URL } from "../constants";
 
 export const createCustomerSupport = async (data: CreateCS, token: string) => {

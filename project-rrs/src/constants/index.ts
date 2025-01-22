@@ -6,8 +6,9 @@ export const USER_PATH = '/users';
 //auth
 export const LOGIN = '/auth/login';
 export const SIGN_UP = '/auth/sign-up';
-export const SEND_EMAIL = '/auth/send-email';
+export const SEND_EMAIL = '/auth/recovery-email';
 export const FIND_ID_BY_TOKEN = (token: string) => `/auth/find-id/${token}`;
+export const UPDATE_PASSWORD = `/users/me/password`;
 
 // Todo
 export const TODO_POST_PATH = '/todos';

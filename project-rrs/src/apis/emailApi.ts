@@ -1,5 +1,4 @@
 import axios from "axios";
-import { CertificateDto } from "../types/AuthType.ts";
 
 export const sendEmailForId = async (email: string) => {
   const response = await axios.post(
