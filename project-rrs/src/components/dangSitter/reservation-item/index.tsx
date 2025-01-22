@@ -52,8 +52,8 @@ export default function ReservationItem({
 
     try {
       await updateReservaionStatus(
+        reservation.reservationId,
         {
-          reservationId: reservation.reservationId,
           reservationStatus: ReservationStatus.CANCELLED,
         },
         token
