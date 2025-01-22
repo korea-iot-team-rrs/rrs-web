@@ -1,13 +1,13 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import Header from "./layouts/header$";
-import MainContainer from "./views/main$";
-import Login from "./views/auth$/login$";
-import SignUpMain from "./views/auth$/SignUp/SignUpMain";
-import CommunityCreateView from "./views/CommunityVIew/CommunityCreateView";
-import DangSitterMain from "./views/dangsitter$/dangsitter-main$";
-import Footer from "./layouts/Footer";
+import Header from "./layouts/header";
+import MainContainer from "./views/main";
+import Login from "./views/auth/login";
+import SignUpMain from "./views/auth/sign-up/SignUpMain";
+import CommunityCreateView from "./views/community-vIew/community-create-view"
+import DangSitterMain from "./views/dangsitter/dangsitter-main";
+import Footer from "./layouts/footer";
 import ProtectedRoute from "./types/routerType";
-import { useAuthCheck } from "./stores/useAuthCheck";
+import { useAuthCheck } from "./stores/useAuthCheck.store";
 
 function App() {
   const { isLoading } = useAuthCheck();

@@ -2,8 +2,8 @@ import axios from "axios";
 import {
   ToggleLikeData,
   CommunityLikeResponseDto,
-} from "../types/toggleLikeType$.js"; // 적절한 타입 파일 경로로 수정하세요
-import { MAIN_URL, USER_PATH } from "../constants";
+} from "../types/toggleLikeType";
+import { MAIN_URL, USER_PATH } from "../constants/index";
 import { getToken } from "../utils/auth";
 
 const COMMUNITY_LIKE_API_URL = `${MAIN_URL}${USER_PATH}/community`;

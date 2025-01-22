@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../pagination";
-import "../../../styles/Announcement.css";
+import "../../../styles/announcement/announcement.css";
 import { MAIN_URL } from "../../../constants";
 
 interface UsageGuideData {

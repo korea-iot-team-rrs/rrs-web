@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchUserInfo } from "../../../apis/userInfo";
+import { fetchUserInfo } from "../../../apis/userInfoApi";
 import {
   createComment,
   deleteCommentFromCommunity,
@@ -8,7 +8,7 @@ import {
 } from "../../../apis/communityCommentApi";
 import { FaChevronDown, FaChevronUp, FaEdit } from "react-icons/fa";
 import { CommunityComment } from "../../../types/commentType";
-import "../../../styles/communities/CommunityDetail.css";
+import "../../../styles/community/communityDetail.css";
 
 interface CommentsProps {
   communityId: number;

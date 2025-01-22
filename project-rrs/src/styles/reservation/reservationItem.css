@@ -1,52 +1,51 @@
-  .reservation-item:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
-  }
+.reservation-item:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
+}
 
-  .reservation-info:hover {
-    background-color: #f7fdff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+.reservation-info:hover {
+  background-color: #f7fdff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.reservation-info {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr); /* 6열 레이아웃 */
+  align-items: center;
+  border-radius: 8px;
+  background-color: #fcfcfc;
+  transition: box-shadow 0.3s ease;
+  min-height: 70px;
+}
+
+.reservation-info div {
+  font-size: 14px;
+  text-align: center;
+}
+
+.reservation-actions {
+  grid-column: span 1;
+  text-align: right;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.reservation-actions button {
+  margin-left: 8px;
+}
+
+@media (max-width: 768px) {
+  .reservation-item {
+    grid-template-columns: 1fr; /* 모바일에서 단일 열 */
+    text-align: center;
   }
 
   .reservation-info {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr); /* 6열 레이아웃 */
-    align-items: center;
-    border-radius: 8px;
-    background-color: #fcfcfc;
-    transition: box-shadow 0.3s ease;
-    min-height: 70px;
+    grid-template-columns: 1fr;
   }
-  
-  .reservation-info div {
-    font-size: 14px;
-    text-align: center;
-  }
-  
+
   .reservation-actions {
-    grid-column: span 1;
-    text-align: right;
-    display: flex;
     justify-content: center;
-    align-items: center;
   }
-  
-  .reservation-actions button {
-    margin-left: 8px;
-  }
-  
-  @media (max-width: 768px) {
-    .reservation-item {
-      grid-template-columns: 1fr; /* 모바일에서 단일 열 */
-      text-align: center;
-    }
-  
-    .reservation-info {
-      grid-template-columns: 1fr;
-    }
-  
-    .reservation-actions {
-      justify-content: center;
-    }
-  }
-  
+}

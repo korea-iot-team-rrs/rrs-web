@@ -1,6 +1,14 @@
 import axios from "axios";
 import { Review } from "../types/reviewType";
-import { MAIN_URL, REVIEW_DELETE_PATH, REVIEW_GET_BY_PROVIDER_PATH, REVIEW_GET_BY_RESERVATION_PATH, REVIEW_GET_LATEST_REVIEW, REVIEW_POST_PATH, REVIEW_PUT_PATH } from "../constants";
+import {
+  MAIN_URL,
+  REVIEW_DELETE_PATH,
+  REVIEW_GET_BY_PROVIDER_PATH,
+  REVIEW_GET_BY_RESERVATION_PATH,
+  REVIEW_GET_LATEST_REVIEW,
+  REVIEW_POST_PATH,
+  REVIEW_PUT_PATH,
+} from "../constants";
 
 export const createReview = async (
   data: {
@@ -10,16 +18,12 @@ export const createReview = async (
   },
   token: string
 ) => {
-  const response = await axios.post(
-    `${MAIN_URL}${REVIEW_POST_PATH}`,
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    }
-  );
+  const response = await axios.post(`${MAIN_URL}${REVIEW_POST_PATH}`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
   return response.data.data;
 };
 

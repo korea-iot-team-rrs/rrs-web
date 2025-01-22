@@ -3,9 +3,8 @@ import {
   HealthRecord,
   HealthRecordResponse,
   DeleteResponse,
-} from "../types/petHealthType";
+} from "../types/healthType";
 import { getToken } from "../utils/auth";
-import { get } from "http";
 
 const BASE_URL = "http://localhost:4040/api/v1";
 const HEALTH_RECORD_API_URL = `${BASE_URL}/users/pet/petHealth`;
@@ -31,7 +30,6 @@ const createFormData = (
   return formData;
 };
 
-// API 요청 공통 설정
 const getAuthHeaders = () => {
   const token = getToken();
   if (!token) throw new Error("인증 토큰이 없습니다. 로그인을 먼저 해주세요.");
@@ -40,7 +38,6 @@ const getAuthHeaders = () => {
   };
 };
 
-// Health Record 생성
 export const createHealthRecord = async (
   petId: number,
   data: Partial<HealthRecord> & { files?: File[] }
@@ -120,7 +117,6 @@ export const updateHealthRecord = async (
   }
 };
 
-// 특정 Health Record 조회
 export const getHealthRecordById = async (
   petId: number,
   healthRecordId: number
@@ -141,16 +137,21 @@ export const getHealthRecordById = async (
   }
 };
 
-export const fetchAllHealthRecordsByUserId = async (token: string): Promise<HealthRecordResponse[]> => {
+export const fetchAllHealthRecordsByUserId = async (
+  token: string
+): Promise<HealthRecordResponse[]> => {
   try {
-    const response = await axios.get("http://localhost:4040/api/v1/users/pet/petHealth/user/all-records", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get(
+      "http://localhost:4040/api/v1/users/pet/petHealth/user/all-records",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     if (response.data && response.data.result) {
-      console.log(response.data)
+      console.log(response.data);
       return response.data.data;
     } else {
       console.error("Failed to fetch health records: ", response.data.message);
@@ -162,7 +163,6 @@ export const fetchAllHealthRecordsByUserId = async (token: string): Promise<Heal
   }
 };
 
-// Health Record 전체 목록 조회
 export const getAllHealthRecords = async (
   petId: number
 ): Promise<HealthRecordResponse[]> => {
@@ -183,7 +183,6 @@ export const getAllHealthRecords = async (
   }
 };
 
-// Health Record 삭제
 export const deleteHealthRecord = async (
   petId: number,
   healthRecordId: number

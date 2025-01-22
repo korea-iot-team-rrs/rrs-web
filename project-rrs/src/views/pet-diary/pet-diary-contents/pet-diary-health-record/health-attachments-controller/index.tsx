@@ -1,7 +1,7 @@
 import {
   fetchAttachmentsByHealthRecordId,
   healthRecordAttachmentApi,
-} from "../../../../../apis/healthRecordAttachment";
+} from "../../../../../apis/healthRecordAttachmentApi";
 
 const removeUUIDFromFileName = (fileName: string): string => {
   return fileName.replace(/^[a-f0-9-]{36}_/, "");

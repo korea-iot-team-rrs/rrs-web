@@ -5,7 +5,7 @@ import usePetStore, {
 } from "../../../../stores/usePet.store";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import "../../../../styles/PetWalkingRecord.css";
+import "../../../../styles/pet-diary/walkingRecord.css";
 import { PetDiaryTodoProps } from "../../../../types/petDiaryType";
 import { FaPlusCircle } from "react-icons/fa";
 import WalkingRecordCreate from "./walking-record-create";

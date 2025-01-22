@@ -1,4 +1,4 @@
-import CommunityCreate from "../../../components/Communities/community-create";
+import CommunityCreate from "../../../components/community/community-create";
 
 export default function CommunityCreateView() {
   return <CommunityCreate />;

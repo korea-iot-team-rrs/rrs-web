@@ -13,7 +13,7 @@ export interface HealthRecordAttachmentData {
 
 // 건강 기록 첨부파일 인터페이스
 export interface HealthRecordAttachment {
-  replace:string;
+  replace: string;
   attachmentId: number; // 첨부파일 ID
   filePath: string; // 파일 경로
   fileName: string; // 파일 이름
