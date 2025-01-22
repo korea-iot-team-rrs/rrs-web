@@ -66,7 +66,7 @@ export default function CustomerSupportDetail() {
   };
 
   const handleEdit = () => {
-    navigate(`/inquery-and-report/edit/${id}`);
+    navigate(`/inquiry-and-report/edit/${id}`);
   };
 
   const deleteBtnHandler = () => {
@@ -81,7 +81,7 @@ export default function CustomerSupportDetail() {
       deleteCustomerSupport(csId, token)
         .then(() => {
           alert("삭제되었습니다.");
-          navigate("/inquiry_and_report/list");
+          navigate("/inquiry-and-report/list");
         })
         .catch((e) => {
           console.error("Failed to delete customer support:", e);
@@ -142,7 +142,7 @@ export default function CustomerSupportDetail() {
       </div>
       <div className="cs-detail-body">
         <div className="cs-detail-title">{cs.customerSupportTitle}</div>
-        <div className="cs-detail-content">{cs.customerSupportContent}</div>
+        <pre className="cs-detail-content">{cs.customerSupportContent}</pre>
         <div className="cs-detail-attachment">
           <div>
             <p>
@@ -183,38 +183,50 @@ export default function CustomerSupportDetail() {
           )}
         </div>
         <div className="cs-detail-btn">
-          {cs.customerSupportStatus !== "1" ? (
-            <Button
-            variant="outlined"
-            onClick={handleEdit}
-            sx={{
-              fontFamily: "Pretendard",
-            }}
-            >
-              수정하기
-            </Button>
-          ) : (
-            <Button
-              variant="outlined"
-              disabled
-              color="error"
-              sx={{
-                fontFamily: "Pretendard",
-              }}
-            >
-              수정 불가
-            </Button>
-          )}
           <Button
+            color="inherit"
             variant="outlined"
-            onClick={deleteBtnHandler}
-            color="warning"
+            onClick={() => navigate(-1)}
             sx={{
               fontFamily: "Pretendard",
             }}
           >
-            삭제하기
+            돌아가기
           </Button>
+          <div>
+            {cs.customerSupportStatus !== "1" ? (
+              <Button
+                variant="outlined"
+                onClick={handleEdit}
+                sx={{
+                  fontFamily: "Pretendard",
+                }}
+              >
+                수정하기
+              </Button>
+            ) : (
+              <Button
+                variant="outlined"
+                disabled
+                color="error"
+                sx={{
+                  fontFamily: "Pretendard",
+                }}
+              >
+                수정 불가
+              </Button>
+            )}
+            <Button
+              variant="outlined"
+              onClick={deleteBtnHandler}
+              color="warning"
+              sx={{
+                fontFamily: "Pretendard",
+              }}
+            >
+              삭제하기
+            </Button>
+          </div>
         </div>
       </div>
     </div>

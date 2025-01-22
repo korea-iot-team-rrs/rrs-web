@@ -19,7 +19,7 @@ export default function CustomerSupportMain() {
     if (!isLoggedIn) {
       setShowLoginModal(true);
     } else {
-      navigate("/inquiry_and_report/list");
+      navigate("/inquiry-and-report/list");
     }
   };
   return (

@@ -5,7 +5,7 @@ import {
   FetchCSList,
   UpdateCS,
 } from "../types/customerSupport";
-import { CUSTOMER_SUPPORT_CREATE_PATH, CUSTOMER_SUPPORT_GET_ALL_PATH, MAIN_URL } from "../constants";
+import { CUSTOMER_SUPPORT_CREATE_PATH, CUSTOMER_SUPPORT_DELETE_PATH, CUSTOMER_SUPPORT_GET_ALL_PATH, CUSTOMER_SUPPORT_GET_PATH, CUSTOMER_SUPPORT_PUT_PATH, MAIN_URL } from "../constants";
 
 export const createCustomerSupport = async (data: CreateCS, token: string) => {
   const formData = new FormData();
@@ -54,7 +54,7 @@ export const fetchOneCustomerSupport = async (
   token: string
 ): Promise<FetchCS> => {
   const response = await axios.get(
-    `http://localhost:4040/api/v1/customer-supports/${customerSupportId}`,
+    `${MAIN_URL}${CUSTOMER_SUPPORT_GET_PATH(customerSupportId)}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -80,7 +80,7 @@ export const updateCustomerSupport = async (
   }
 
   const response = await axios.put(
-    `http://localhost:4040/api/v1/customer-supports/${customerSupportId}`,
+    `${MAIN_URL}${CUSTOMER_SUPPORT_PUT_PATH(customerSupportId)}`,
     formData,
     {
       headers: {
@@ -97,7 +97,7 @@ export const deleteCustomerSupport = async (
   token: string
 ) => {
   const response = await axios.delete(
-    `http://localhost:4040/api/v1/customer-supports/${customerSupportId}`,
+    `${MAIN_URL}${CUSTOMER_SUPPORT_DELETE_PATH(customerSupportId)}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

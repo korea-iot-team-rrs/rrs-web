@@ -197,19 +197,19 @@ function App() {
 
             {/* 고객센터 관련 라우터 */}
             <Route
-              path="/inquiry_and_report"
+              path="/inquiry-and-report"
               element={
                   <CustomerSupportMain />
               }
             />
             <Route
-              path="/inquiry_and_report/list"
+              path="/inquiry-and-report/list"
               element={
                   <CustomerSupportList />
               }
             />
             <Route
-              path="/inquiry_and_report/:id"
+              path="/inquiry-and-report/:id"
               element={
                 <ProtectedRoute>
                   <CustomerSupportDetail />
@@ -217,7 +217,7 @@ function App() {
               }
             />
             <Route
-              path="/inquiry_and_report/write"
+              path="/inquiry-and-report/write"
               element={
                 <ProtectedRoute>
                   <CustomerSupportWrite />
@@ -225,7 +225,7 @@ function App() {
               }
             />
             <Route
-              path="/inquiry_and_report/edit/:id"
+              path="/inquiry-and-report/edit/:id"
               element={
                 <ProtectedRoute>
                   <CustomerSupportUpdate />
