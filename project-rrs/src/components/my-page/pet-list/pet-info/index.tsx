@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Pet } from "../../../../stores/usePet.store";
 import petDefaultImage from "../../../../assets/images/pet-default-profile.jpg";
-import "../../../../styles/myPage/Pet.css";
+import "../../../../styles/my-page/pet.css";
 
 export default function PetInfo() {
   const { petId } = useParams();

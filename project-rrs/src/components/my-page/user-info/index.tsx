@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { User } from "../../../types";
-import { fetchUserInfo } from "../../../apis/userInfo";
+import { User } from "../../../types/entityType";
+import { fetchUserInfo } from "../../../apis/userInfoApi";
 import { useNavigate } from "react-router-dom";
 import { FILE_URL } from "../../../constants";
 import userDefaultImage from "../../../assets/images/dogIllust02.jpeg";
-import "../../../styles/myPage/UserInfo.css";
+import "../../../styles/my-page/userInfo.css";
 
 export default function UserInfo() {
   const [userInfo, setUserInfo] = useState<User | null>(null);
