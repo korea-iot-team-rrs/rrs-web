@@ -4,7 +4,7 @@ import { MAIN_URL, PROVISION_PATH, FILE_URL } from "../../../constants";
 import { Provision, ReservationStatus } from "../../../types/provisionType";
 import { useCookies } from "react-cookie";
 import { Button, Chip } from "@mui/material";
-import "../../../styles/reservation/ReservationUserDetail.css";
+import "../../../styles/reservation/reservationUserDetail.css";
 import axios from "axios";
 
 export default function ProvisionDetail() {

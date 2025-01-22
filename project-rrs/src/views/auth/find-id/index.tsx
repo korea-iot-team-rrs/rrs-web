@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FetchIdByToken } from "../../../apis/emailApi";
 import { Button, Link } from "@mui/material";
-import "../../../styles/findUserInfo/FindId.css";
+import "../../../styles/auth/find-user-info/findId.css";
 export default function FindId() {
   const { token } = useParams<{ token: string }>();
   const [username, setUsername] = useState<string>("");

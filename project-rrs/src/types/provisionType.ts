@@ -1,5 +1,5 @@
 export interface Pet {
-  petId: number
+  petId: number;
   petName: string;
   petImageUrl: string;
   petGender: string;
@@ -9,7 +9,7 @@ export interface Pet {
   petNeutralityYn: string;
 }
 
-export interface  UserInfo {
+export interface UserInfo {
   userId: number;
   nickname: string;
   phone: string;
@@ -22,7 +22,7 @@ export enum ReservationStatus {
   IN_PROGRESS = "IN_PROGRESS",
   REJECTED = "REJECTED",
   CANCELLED = "CANCELLED",
-  COMPLETED = "COMPLETED"
+  COMPLETED = "COMPLETED",
 }
 
 export interface Provision {

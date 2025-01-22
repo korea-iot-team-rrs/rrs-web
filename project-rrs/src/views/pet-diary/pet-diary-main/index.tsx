@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../../styles/PetDiary.css";
-import PetDiaryCalendar from "../pet-diary-calendar$";
-import PetDiaryContents from "../pet-diary-contents$";
+import PetDiaryCalendar from "../pet-diary-calendar";
+import PetDiaryContents from "../pet-diary-contents";
 
 export default function PetDiaryMain() {
   const [selectedDate, setSelectedDate] = useState<string>(

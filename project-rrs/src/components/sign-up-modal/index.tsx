@@ -1,5 +1,5 @@
 import React from "react";
-import "../../styles/SignUpModal.css";
+import "../../styles/auth/signUpModal.css";
 
 interface SignUpCompleteModalProps {
   onClose: () => void;

@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import "../../../../styles/myPage/PetCreate.css";
+import "../../../../styles/my-page/petCreate.css";
 import petDefaultImage from "../../../../assets/images/pet-default-profile.jpg";
 
 export default function PetCreate() {

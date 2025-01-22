@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import "../../../styles/myPage/PasswordUpdate.css";
+import "../../../styles/my-page/passwordUpdate.css";
 
 export default function PasswordUpdate() {
   const [cookies] = useCookies(["token"]);

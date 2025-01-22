@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Pet } from "../../../../../stores/petstore";
+import { Pet } from "../../../../../stores/usePet.store";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { IoMdSunny } from "react-icons/io";

@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { Button, Pagination } from "@mui/material";
-import { useRefreshStore } from "../../../stores/refreshStore";
-import { MAIN_URL, PROVISION_PATH, FILE_URL } from "../../../constants";
+import { useRefreshStore } from "../../../stores/refresh.store";
+import { MAIN_URL, PROVISION_PATH } from "../../../constants";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
-import "../../../styles/reservation/ReservationList.css";
+import "../../../styles/reservation/reservationList.css";
 import { ProvisionList, ProvisionSummary } from "../../../types/provisionType";
 import axios from "axios";
-import ProvisionItem from "../../../components/dangSitter$/provision-Item";
+import ProvisionItem from "../../../components/dangsitter$/provision-item$";
 
 export default function ProvisionListPage() {
   const navigate = useNavigate();

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { AntSwitch } from "../../../styles/dangSitter/DangSitterCommon";
+import { AntSwitch } from "../../../styles/dangsitter/dangsitterCommon";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import "../../../styles/dangSitter/Provider.css";
+import "../../../styles/dangsitter/provider.css";
 
 const ProviderUdpate = () => {
   const [isActive, setIsActive] = useState(false);

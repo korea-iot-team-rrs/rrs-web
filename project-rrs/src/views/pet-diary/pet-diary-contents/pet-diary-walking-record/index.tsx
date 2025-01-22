@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
-import usePetStore, { Pet, WalkingRecord } from "../../../../stores/petstore";
+import usePetStore, {
+  Pet,
+  WalkingRecord,
+} from "../../../../stores/usePet.store";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import "../../../../styles/PetWalkingRecord.css";
 import { PetDiaryTodoProps } from "../../../../types/petDiaryType";
 import { FaPlusCircle } from "react-icons/fa";
-import WalkingRecordCreate from "./walking-record-create$";
+import WalkingRecordCreate from "./walking-record-create";
 import axios from "axios";
-import WalkingRecordGet from "./walking-record-get$";
-import WalkingRecordUpdate from "./walking-record-update$";
-import { useRefreshStore } from "../../../../stores/refreshStore";
+import WalkingRecordGet from "./walking-record-get";
+import WalkingRecordUpdate from "./walking-record-update";
+import { useRefreshStore } from "../../../../stores/refresh.store";
 
 export default function PetDiaryWalkingRecord({
   selectedDate,
