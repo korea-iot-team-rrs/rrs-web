@@ -22,7 +22,7 @@
   background-color: transparent;
   cursor: pointer;
   gap: 5px;
-  font-family: 'Pretendard';
+  font-family: "Pretendard";
   font-weight: 600;
   transition: background-color 0.3s ease;
 }
@@ -210,7 +210,7 @@
 .petHealthChoicePetText {
   text-align: center;
   color: #818181;
-  font-family: 'Pretendard';
+  font-family: "Pretendard";
   font-size: 16px;
   font-weight: 500;
 }

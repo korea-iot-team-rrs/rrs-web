@@ -1,7 +1,7 @@
-export const MAIN_URL = 'http://localhost:4040/api/v1';
-export const FILE_URL = "http://localhost:4040/"
+export const MAIN_URL = "http://localhost:4040/api/v1";
+export const FILE_URL = "http://localhost:4040/";
 
-export const USER_PATH = '/users';
+export const USER_PATH = "/users";
 
 //auth
 export const LOGIN = '/auth/login';
@@ -42,7 +42,8 @@ export const CUSTOMER_SUPPORT_GET_PATH = (customerSupportId:number) => `/custome
 export const CUSTOMER_SUPPORT_PUT_PATH = (customerSupportId:number) => `/customer-supports/${customerSupportId}/me`;
 export const CUSTOMER_SUPPORT_DELETE_PATH  = (customerSupportId:number) => `/customer-supports/${customerSupportId}/me`;
 
-export const DEFAULT_FILE_URL = "http://localhost:4040/file/default/defaultImg.png"
+export const DEFAULT_FILE_URL =
+  "http://localhost:4040/file/default/defaultImg.png";
 
 // Provision
-export const PROVISION_PATH = "/provider/provision"
+export const PROVISION_PATH = "/provider/provision";

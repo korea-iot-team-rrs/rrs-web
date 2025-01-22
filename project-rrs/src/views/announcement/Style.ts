@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
 export const container = css`
   display: flex;
@@ -14,7 +14,7 @@ export const listBox = css`
   padding: 25px;
   border-radius: 30px;
   background-color: white;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   height: auto;
   overflow-y: auto;
 `;
@@ -33,13 +33,14 @@ export const contentArea = css`
   background-color: white;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
 export const tableStyle = css`
   width: 100%;
   border-collapse: collapse;
-  th, td {
+  th,
+  td {
     text-align: center;
     padding: 8px;
     border-bottom: 1px solid #eee;
@@ -59,7 +60,7 @@ export const pageButton = css`
   margin: 0 5px;
   padding: 5px 10px;
   border: none;
-  background-color: #007BFF;
+  background-color: #007bff;
   color: white;
   border-radius: 5px;
   cursor: pointer;

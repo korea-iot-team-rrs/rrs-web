@@ -3,12 +3,12 @@ import { getHealthRecordById, updateHealthRecord } from "../../../../../apis/pet
 import {
   fetchAttachmentsByHealthRecordId,
   healthRecordAttachmentApi,
-} from "../../../../../apis/healthRecordAttachment";
+} from "../../../../../apis/healthRecordAttachmentApi";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Pet } from "../../../../../types";
-import { HealthRecordResponse } from "../../../../../types/petHealthType";
-import { useRefreshStore } from "../../../../../stores/refreshStore";
+import { Pet } from "../../../../../types/entityType";
+import { HealthRecordResponse } from "../../../../../types/healthType";
+import { useRefreshStore } from "../../../../../stores/refresh.store";
 import "../../../../../styles/health-record/pethealthRecordUpdate.css";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;

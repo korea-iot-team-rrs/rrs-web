@@ -1,4 +1,5 @@
 import React from "react";
+
 import "../../styles//etc/deleteModal.css";
 
 interface DeleteModalProps {

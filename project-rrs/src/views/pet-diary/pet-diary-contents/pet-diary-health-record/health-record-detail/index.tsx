@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { getHealthRecordById } from "../../../../../apis/petHealthApi";
-import { fetchAttachmentsByHealthRecordId } from "../../../../../apis/healthRecordAttachment";
+import { fetchAttachmentsByHealthRecordId } from "../../../../../apis/healthRecordAttachmentApi";
 import "../../../../../styles/health-record/pethealthRecordDetail.css";
-import { HealthRecordResponse } from "../../../../../types/petHealthType";
-import { useRefreshStore } from "../../../../../stores/refreshStore"; // zustand 상태 관리 추가
+import { HealthRecordResponse } from "../../../../../types/healthType";
+import { useRefreshStore } from "../../../../../stores/refresh.store";
 
 const BASE_FILE_URL = "http://localhost:4040/";
 

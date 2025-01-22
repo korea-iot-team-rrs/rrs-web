@@ -1,5 +1,5 @@
 import axios from "axios";
-import { HealthRecordApiResponse } from "../types/healthRecordIntefaces";
+import { HealthRecordApiResponse } from "../types/healthRecordType";
 import { getToken } from "../utils/auth";
 
 const API_BASE_URL = "http://localhost:4040/api/v1/health-attachments";

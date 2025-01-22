@@ -14,7 +14,7 @@
 }
 
 .navbar ul {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   color: #222;
   font-size: 16px; /* 폰트 크기 수정 */
   list-style: none;
@@ -26,10 +26,10 @@
   flex-wrap: wrap;
 }
 
-.navbar ul:nth-child(1){
+.navbar ul:nth-child(1) {
   padding-left: 13%;
 }
-.navbar ul:nth-child(3){
+.navbar ul:nth-child(3) {
   padding-right: 13%;
 }
 
@@ -38,7 +38,7 @@
 }
 
 .navbar li:hover {
-  color: #2194FF;
+  color: #2194ff;
 }
 
 /* Navbar Links */
@@ -57,7 +57,7 @@
 
 .navbar .navbar-links li:hover,
 .navbar .navbar-links li.active {
-  color: #2194FF;
+  color: #2194ff;
 }
 
 /* 중앙에서 확장되는 네모 박스 */
@@ -70,7 +70,7 @@
   transform-origin: center; /* 확장이 중앙에서 시작 */
   width: 100%; /* 링크의 전체 너비 설정 */
   height: 5px;
-  background-color: #2194FF;
+  background-color: #2194ff;
   transition: transform 0.3s ease-in-out; /* 애니메이션 효과 */
 }
 

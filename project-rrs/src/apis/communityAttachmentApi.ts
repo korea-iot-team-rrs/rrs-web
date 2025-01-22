@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CommunityApiResponse } from "../types/communityInterfaces";
+import { CommunityApiResponse } from "../types/communityType";
 import { getToken } from "../utils/auth";
 
 const API_BASE_URL = "http://localhost:4040/api/v1/community-attachments";

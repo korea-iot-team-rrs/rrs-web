@@ -1,7 +1,5 @@
-import React from 'react'
+import React from "react";
 
 export default function PetRoad() {
-  return (
-    <div>index</div>
-  )
+  return <div>index</div>;
 }

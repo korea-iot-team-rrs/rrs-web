@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
-import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
+import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 
 interface PaginationProp {
   pageList: number[];
@@ -24,7 +24,7 @@ const paginationBoxStyle = css`
 const buttonStyle = css`
   width: 40px;
   height: 40px;
-  
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -39,7 +39,7 @@ const buttonStyle = css`
   }
 
   &:focus {
-    outline: 2px solid #1a73e8
+    outline: 2px solid #1a73e8;
   }
 `;
 
@@ -49,14 +49,14 @@ const pageListStyle = css`
 `;
 
 const pageStyle = (isActive: boolean) => css`
-  color: ${isActive ? '#1a73e8' : '#6b7280'};
+  color: ${isActive ? "#1a73e8" : "#6b7280"};
   font-size: 14px;
-  font-weight: ${isActive ? '700' : '400'};
-  cursor: ${isActive ? 'default' : 'pointer'};
+  font-weight: ${isActive ? "700" : "400"};
+  cursor: ${isActive ? "default" : "pointer"};
   transition: color 0.3s;
 
   &:hover {
-    color: ${!isActive && '#374151'};
+    color: ${!isActive && "#374151"};
   }
 `;
 
@@ -65,21 +65,16 @@ export default function Pagination({
   currentPage,
   handlePageClick,
   handlePreSectionClick,
-  handleNextSectionClick
+  handleNextSectionClick,
 }: PaginationProp) {
   return (
     <div css={paginationBoxStyle}>
-
-      <button 
-        css={buttonStyle}
-        onClick={handlePreSectionClick}
-      >
+      <button css={buttonStyle} onClick={handlePreSectionClick}>
         <AiOutlineLeft size={24} />
       </button>
 
       <div css={pageListStyle}>
-
-        {pageList.map(page => (
+        {pageList.map((page) => (
           <div
             key={page}
             css={pageStyle(page === currentPage)}
@@ -90,12 +85,9 @@ export default function Pagination({
         ))}
       </div>
 
-      <button 
-        css={buttonStyle}
-        onClick={handleNextSectionClick}
-      >
+      <button css={buttonStyle} onClick={handleNextSectionClick}>
         <AiOutlineRight size={24} />
       </button>
     </div>
-  )
+  );
 }

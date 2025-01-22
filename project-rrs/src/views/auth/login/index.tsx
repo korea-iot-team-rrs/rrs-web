@@ -10,6 +10,7 @@ import kakaoLogo from "../../../assets/logo/kakaotalk_logo.png";
 import useAuthStore from "../../../stores/useAuth.store";
 import "../../../styles/auth/login.css";
 
+
 interface Credentials {
   username: string;
   password: string;

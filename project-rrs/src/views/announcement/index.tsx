@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Pagination from "./Pagination";
@@ -12,7 +11,7 @@ import {
   headerStyle,
   numberColumn,
   titleColumn,
-  dateColumn
+  dateColumn,
 } from "./Style"; // 스타일 파일 경로 확인
 
 interface AnnouncementData {
@@ -23,7 +22,9 @@ interface AnnouncementData {
 }
 
 export default function Announcement() {
-  const [announcementData, setAnnouncementData] = useState<AnnouncementData[]>([]);
+  const [announcementData, setAnnouncementData] = useState<AnnouncementData[]>(
+    []
+  );
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [currentMenu, setCurrentMenu] = useState<string>("공지사항");
@@ -35,19 +36,21 @@ export default function Announcement() {
           `http://localhost:4040/api/v1/announcements?category=${menu}&page=${page}&size=10`
         );
         const data = response.data.data;
-        setAnnouncementData(data.map((item: any) => ({
-          id: item.announcementId,
-          title: item.announcementTitle,
-          content: item.announcementContent,
-          date: new Date(item.announcementCreatedAt).toLocaleString("ko-KR", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false,
-          }),
-        })));
+        setAnnouncementData(
+          data.map((item: any) => ({
+            id: item.announcementId,
+            title: item.announcementTitle,
+            content: item.announcementContent,
+            date: new Date(item.announcementCreatedAt).toLocaleString("ko-KR", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            }),
+          }))
+        );
         setTotalPages(data.totalPages);
         setCurrentPage(data.page || 1);
       } catch (e) {
@@ -86,7 +89,9 @@ export default function Announcement() {
     <div css={container}>
       <ul css={listBox}>
         {["공지사항", "사용방법", "이벤트"].map((menu, index) => (
-          <li key={index} css={listItem} onClick={() => handleMenuClick(menu)}>{menu}</li>
+          <li key={index} css={listItem} onClick={() => handleMenuClick(menu)}>
+            {menu}
+          </li>
         ))}
       </ul>
       <div css={contentArea}>

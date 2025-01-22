@@ -1,5 +1,5 @@
 import React from 'react'
-import CommunityUpdate from '../../../components/Communities/community-edit'
+import CommunityUpdate from '../../../components/community/community-edit'
 
 export default function CommunityEditView() {
   return (

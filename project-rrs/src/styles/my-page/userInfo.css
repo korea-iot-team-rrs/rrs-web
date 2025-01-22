@@ -45,13 +45,13 @@
 .userInfoElement p {
   text-align: left;
   margin: 0;
-  width: auto; 
+  width: auto;
   min-width: 100px;
   font-size: 18px;
 }
 
 .userInfoContent button {
-  background-color: #2194FF;
+  background-color: #2194ff;
   border-radius: 15px;
   height: 30px;
   width: 100px;

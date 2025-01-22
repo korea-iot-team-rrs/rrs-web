@@ -55,10 +55,9 @@
   width: 750px;
 }
 
-.communityDetailSubActionsBox{
+.communityDetailSubActionsBox {
   display: flex;
   justify-content: space-between;
-
 }
 
 .communityDetailAuthorActions {

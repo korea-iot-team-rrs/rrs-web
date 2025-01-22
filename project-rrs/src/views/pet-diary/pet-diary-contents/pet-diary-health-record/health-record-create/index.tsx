@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Pet } from "../../../../../types";
+import { Pet } from "../../../../../types/entityType";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaFolder } from "react-icons/fa";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useRefreshStore } from "../../../../../stores/refreshStore"; // zustand 상태 관리 추가
+import { useRefreshStore } from "../../../../../stores/refresh.store";
 import "../../../../../styles/health-record/pethealthRecordCreate.css";
 
 interface HealthCreateProps {

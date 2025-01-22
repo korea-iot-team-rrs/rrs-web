@@ -5,7 +5,6 @@
   flex-direction: row;
 }
 
-
 .list-box {
   font-size: large;
   font-weight: bolder;
@@ -140,7 +139,6 @@
 .list-box li.active::after {
   transform: scaleX(1);
 }
-
 
 .detail-content-title {
   margin-bottom: 10px;
