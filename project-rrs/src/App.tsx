@@ -17,7 +17,7 @@ function App() {
         <Header />
         <div className="content">
           <Routes>
-            <Route path="/main" element={<MainContainer />} />
+            <Route path="/main" element={<Main />} />
             {/* 인증 관련 라우트  */}
             <Route path="/login" element={<Login />} />
             <Route
