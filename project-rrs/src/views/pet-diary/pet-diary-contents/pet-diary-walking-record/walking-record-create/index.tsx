@@ -4,7 +4,7 @@ import { IoMdSunny } from "react-icons/io";
 import { IoCloudy, IoRainy } from "react-icons/io5";
 import { TbSnowman } from "react-icons/tb";
 import Select, { components } from "react-select";
-import "../../../../../styles/PetWalkingRecord.css";
+import "../../../../../styles/pet-diary/walkingRecord.css";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";

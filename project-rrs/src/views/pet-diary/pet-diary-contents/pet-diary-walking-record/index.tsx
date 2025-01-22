@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
-import usePetStore, { Pet, WalkingRecord } from "../../../../stores/usePet.store";
+import usePetStore, {
+  Pet,
+  WalkingRecord,
+} from "../../../../stores/usePet.store";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import "../../../../styles/PetWalkingRecord.css";

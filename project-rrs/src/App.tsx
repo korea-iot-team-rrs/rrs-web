@@ -1,5 +1,5 @@
 import "./App.css";
-import React from "react";
+import React from 'react';
 import { CircularProgress } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import { useAuthCheck } from "./stores/useAuthCheck.store";

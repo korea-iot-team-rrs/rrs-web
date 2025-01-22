@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../../../../styles/myPage/MyPage.css";
-import "../../../../styles/myPage/UserUpdate.css";
+import "../../../../styles/my-page/myPage.css";
+import "../../../../styles/my-page/userUpdate.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useCookies } from "react-cookie";

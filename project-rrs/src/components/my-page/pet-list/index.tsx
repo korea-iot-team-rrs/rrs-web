@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import usePetStore, { Pet } from "../../../stores/usePet.store";
-import "../../../styles/myPage/PetList.css";
+import "../../../styles/my-page/petList.css";
 import axios from "axios";
 import petDefaultImage from "../../../assets/images/pet-default-profile.jpg";
 import { GoPlus } from "react-icons/go";

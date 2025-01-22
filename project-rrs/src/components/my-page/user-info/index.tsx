@@ -4,7 +4,7 @@ import { fetchUserInfo } from "../../../apis/userInfoApi";
 import { useNavigate } from "react-router-dom";
 import { FILE_URL } from "../../../constants";
 import userDefaultImage from "../../../assets/images/dogIllust02.jpeg";
-import "../../../styles/myPage/UserInfo.css";
+import "../../../styles/my-page/userInfo.css";
 
 export default function UserInfo() {
   const [userInfo, setUserInfo] = useState<User | null>(null);
