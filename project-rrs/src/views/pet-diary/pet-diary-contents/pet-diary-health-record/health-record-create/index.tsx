@@ -120,7 +120,7 @@ const HealthCreate = ({
       const petId = selectedPet?.petId;
 
       const response = await axios.post(
-        `http://localhost:4040/api/v1/users/pet/petHealth/${petId}`,
+        `http://localhost:4040/api/v1/health-records/${petId}`,
         formData,
         {
           headers: {
@@ -132,7 +132,7 @@ const HealthCreate = ({
 
       alert("건강 기록이 성공적으로 저장되었습니다.");
       addHealthRecord(response.data.data);
-      incrementRefreshKey(); // 상태 갱신 트리거
+      incrementRefreshKey();
       goBack();
     } catch (error) {
       console.error("건강 기록 저장 실패:", error);

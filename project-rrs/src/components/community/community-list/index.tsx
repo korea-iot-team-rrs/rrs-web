@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCommunity } from "../../../apis/communityApi";
-import Pagination from "../pagination";
 import "../../../styles/community/community.css";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { IoSearch } from "react-icons/io5";
 import LoginModal from "../../login-modal";
 import DefaultImage from "../../../assets/images/dogIllust02.jpeg";
 import useAuthStore from "../../../stores/useAuth.store";
+import CommunityPagination from "../communityPagination";
 
 interface CommunityData {
   id: number;
@@ -206,7 +206,7 @@ export default function CommunityList() {
       </div>
 
       <div className="community-pagination-container">
-        <Pagination
+        <CommunityPagination
           pageList={Array.from({ length: totalPages }, (_, i) => i + 1)}
           currentPage={currentPage}
           handlePageClick={handlePageClick}

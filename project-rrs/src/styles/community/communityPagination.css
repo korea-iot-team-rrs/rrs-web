@@ -1,0 +1,55 @@
+/* communityPagination.css */
+
+.community-pagination-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 24px;
+}
+
+.community-pagination-button {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.community-pagination-button:hover {
+  background-color: #e2e8f0;
+}
+
+.community-pagination-button:focus {
+  outline: 2px solid #1a73e8;
+}
+
+.community-pagination-list {
+  display: flex;
+  gap: 16px;
+}
+
+.community-pagination-item {
+  font-size: 14px;
+  transition: color 0.3s;
+}
+
+.community-pagination-active {
+  color: #1a73e8;
+  font-weight: 700;
+  cursor: default;
+}
+
+.community-pagination-inactive {
+  color: #6b7280;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.community-pagination-inactive:hover {
+  color: #374151;
+}
