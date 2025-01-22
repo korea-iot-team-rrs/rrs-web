@@ -1,48 +1,6 @@
 import "./App.css";
-import Footer from "./layouts/Footer";
-import { Route, Routes } from "react-router-dom";
-import Main from "./views/Main";
-import Header from "./layouts/Header";
-
-import PetDiaryMain from "./views/PetDiary/PetDiaryMain";
-import AnnouncementListView from "./views/AnnouncementView/AnnouncementListView";
-import AnnouncementView from "./views/AnnouncementView/AnnouncementDetailView";
-import UsageGuideDetailView from "./views/AnnouncementView/UsageGuideDetailView";
-import EventDetailView from "./views/AnnouncementView/EventDetailView";
-import UsageGuideListView from "./views/AnnouncementView/UsageGuideListView";
-import EventListView from "./views/AnnouncementView/EventListView";
-import CommunityListView from "./views/CommunityVIew/CommunityListView";
-import CommunityDetailView from "./views/CommunityVIew/CommunityDetailView";
-
-import CommunityCreateView from "./views/CommunityVIew/CommunityCreateView";
-import MyPageView from "./views/MyPage/User";
-
-import ReservationList from "./views/DangSitter/ReservaionList";
-import ReservationForm from "./views/DangSitter/ReservationForm";
-import ReservationUserDetail from "./views/DangSitter/ReservaionUserDetail";
-
-import CommunityEditView from "./views/CommunityVIew/CommunityEditView";
-import SignUpMain from "./views/Auth/SignUp/SignUpMain";
-import RrsSignUp from "./views/Auth/SignUp/RrsSignUp";
-import FindId from "./views/Auth/FindId";
-import FindPassword from "./views/Auth/FindPassword/FindPassword";
-import FinduserInfo from "./views/Auth/FindUserInfo";
-import Login from "./views/Auth/Login";
-import CustomerSupportList from "./views/CustomerSupport/CustomerSupportList";
-import DangSitterMain from "./views/DangSitter/DangSitterMain";
-import CustomerSupportDetail from "./views/CustomerSupport/CustomerSupportDetail";
-import CustomerSupportWrite from "./views/CustomerSupport/CustomerSupportWrite";
-import CustomerSupportUpdate from "./views/CustomerSupport/CustomerSupportUpdate";
-import { useAuthCheck } from "./stores/useAuthCheck";
-import ProtectedRoute from "./types/routerType";
 import { CircularProgress } from "@mui/material";
-import PetRoad from "./views/PetRoad";
-import ProviderUpdate from "./views/DangSitter/providerUpdate";
-import AuthRedirectHandler from "./views/Auth/SignUp/AuthRedirectHandler";
-import SnsSuccess from "./views/Auth/Login/SnsSuccess";
-import ProvisionDetail from "./views/DangSitter/provisionDetail";
-import CustomerSupportMain from "./views/CustomerSupport/CustomerSupportMain";
-import ProvisionListPage from "./views/DangSitter/provisionListPage";
+import { Route, Routes } from "react-router-dom";
 
 function App() {
   const { isLoading } = useAuthCheck();
