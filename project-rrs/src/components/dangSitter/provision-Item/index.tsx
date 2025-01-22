@@ -3,9 +3,9 @@ import { Button } from "@mui/material";
 import { ReservationStatus } from "../../../types/reservationType";
 import { useCookies } from "react-cookie";
 import { updateReservaionStatus } from "../../../apis/reservationApi";
-import { useRefreshStore } from "../../../stores/refreshStore";
-import "../../../styles/reservation/ReservationItem.css";
+import { useRefreshStore } from "../../../stores/refresh.store";
 import { ProvisionSummary } from "../../../types/provisionType";
+import "../../../styles/reservation/reservationItem.css";
 
 interface ProvisionItemProps {
   provision: ProvisionSummary;

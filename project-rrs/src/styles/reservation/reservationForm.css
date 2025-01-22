@@ -7,7 +7,7 @@
   gap: 50px;
 
   > * {
-    font-family: 'Pretendard', Arial, sans-serif;
+    font-family: "Pretendard", Arial, sans-serif;
     width: 1000px;
   }
 
@@ -59,8 +59,10 @@
         font-weight: bold;
       }
     }
-    
-    input[type="text"], textarea, input[type="file"] {
+
+    input[type="text"],
+    textarea,
+    input[type="file"] {
       border: none;
     }
 
@@ -149,7 +151,7 @@
 
   .reservation-submit-btn {
     padding: 10px;
-    font-family: 'Pretendard';
+    font-family: "Pretendard";
     font-size: 24px;
     color: #ffff;
     background-color: #307cff;
@@ -158,6 +160,4 @@
     min-height: 40px;
     margin: 30px 0;
   }
-
 }
-

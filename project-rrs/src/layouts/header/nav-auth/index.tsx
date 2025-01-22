@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { LoginResponseDto } from "../../../types/AuthType.ts";
+import { LoginResponseDto } from "../../../types/authType";
 import { FILE_URL } from "../../../constants";
-import "../../../styles/Header.css";
-import useAuthStore from "../../../stores/useAuthStore";
+import useAuthStore from "../../../stores/useAuth.store";
 import DefaultImage from "../../../assets/images/dogIllust02.jpeg";
+import "../../../styles/layout/header.css";
 
 export default function NavAuth() {
   const { isLoggedIn, login, logout, user } = useAuthStore();

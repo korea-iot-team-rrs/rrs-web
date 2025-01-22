@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { LoginResponseDto, User } from "../types/AuthType.ts";
+import { LoginResponseDto, User } from "../types/authType";
 import { userInfo } from "os";
 import axios from "axios";
 
@@ -63,7 +63,7 @@ const useAuthStore = create<AuthState>((set) => {
       }
     },
 
-    snsLogin: async(token: string) => {
+    snsLogin: async (token: string) => {
       const response = await axios.post<{ data: LoginResponseDto }>(
         "http://localhost:4040/api/v1/auth/sns-login",
         {},
@@ -79,10 +79,10 @@ const useAuthStore = create<AuthState>((set) => {
       const expirationDate = Date.now() + expirationTime;
 
       const { token: userToken, exprTime, ...user } = loginResponse;
-      set({ 
-        isLoggedIn: true, 
+      set({
+        isLoggedIn: true,
         token: userToken,
-        user 
+        user,
       });
 
       sessionStorage.setItem("user", JSON.stringify(user));

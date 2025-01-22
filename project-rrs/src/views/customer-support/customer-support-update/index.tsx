@@ -4,8 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   fetchOneCustomerSupport,
   updateCustomerSupport,
-} from "../../../apis/custommerSupport";
-import { FetchCS, UpdateCS } from "../../../types/customerSupport";
+} from "../../../apis/custommerSupportApi";
+import { FetchCS, UpdateCS } from "../../../types/customerSupportType";
 import {
   Avatar,
   IconButton,
@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import FolderIcon from "@mui/icons-material/Folder";
 import DeleteIcon from "@mui/icons-material/Delete";
-import "../../../styles/customerSupport/CustomerSupportUpdate.css";
+import "../../../styles/customer-support/customerSupportUpdate.css";
 
 export default function CustomerSupportUpdate() {
   const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB

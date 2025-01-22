@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, Modal, Rating, TextField } from "@mui/material";
 import { useCookies } from "react-cookie";
 import {
   createReview,
@@ -7,7 +6,8 @@ import {
   fetchReviewByReservationId,
   updateReviewByReservationId,
 } from "../../../apis/reviewAPi";
-import { useRefreshStore } from "../../../stores/refreshStore";
+import { useRefreshStore } from "../../../stores/refresh.store";
+import { Box, Button, Modal, Rating, TextField } from "@mui/material";
 import "../../../styles/review/reviewDetailModal.css";
 
 interface ReviewModalProps {

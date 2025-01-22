@@ -2,7 +2,43 @@ import "./App.css";
 import { CircularProgress } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import { useAuthCheck } from "./stores/useAuthCheck.store";
-
+import Main from "./views/main";
+import Header from "./layouts/header";
+import Login from "./views/auth/login";
+import ProtectedRoute from "./types/routerType";
+import SnsSuccess from "./views/auth/login/SnsSuccess";
+import SignUpMain from "./views/auth/sign-up/SignUpMain";
+import RrsSignUp from "./views/auth/sign-up/RrsSignUp";
+import AuthRedirectHandler from "./views/auth/sign-up/AuthRedirectHandler";
+import FindId from "./views/auth/find-id";
+import FindPassword from "./views/auth/find-password";
+import FinduserInfo from "./views/auth/find-user-Info";
+import MyPageView from "./views/my-page";
+import AnnouncementListView from "./views/announcement-view/announcement-list-view";
+import AnnouncementView from "./views/announcement-view";
+import UsageGuideListView from "./views/announcement-view/usage-guide-list-view";
+import UsageGuideDetailView from "./views/announcement-view/usage-guide-detail-view";
+import EventListView from "./views/announcement-view/event-list-view";
+import EventDetailView from "./views/announcement-view/event-detail-view";
+import PetDiaryMain from "./views/pet-diary/pet-diary-main";
+import CommunityListView from "./views/community-vIew/community-list-view";
+import CommunityDetailView from "./views/community-vIew/community-detail-view";
+import CommunityCreateView from "./views/community-vIew/community-create-view";
+import CommunityEditView from "./views/community-vIew/community-edit-view";
+import DangSitterMain from "./views/dangsitter/dangsitter-main";
+import ReservationList from "./views/dangsitter/reservaion-list";
+import ReservationForm from "./views/dangsitter/reservation-form";
+import ReservationUserDetail from "./views/dangsitter/reservaion-user-detail";
+import ProvisionListPage from "./views/dangsitter/provision-list-page";
+import ProvisionDetail from "./views/dangsitter/provision-detail";
+import ProviderUpdate from "./views/dangsitter/provider-update";
+import CustomerSupportMain from "./views/customer-support/customer-support-main";
+import CustomerSupportList from "./views/customer-support/customer-support-list";
+import CustomerSupportDetail from "./views/customer-support/customer-support-detail";
+import CustomerSupportWrite from "./views/customer-support/customer-support-write";
+import CustomerSupportUpdate from "./views/customer-support/customer-support-update";
+import PetRoad from "./views/pet-road";
+import Footer from "./layouts/footer";
 
 function App() {
   const { isLoading } = useAuthCheck();
@@ -142,7 +178,6 @@ function App() {
               element={<ProvisionDetail />}
             />
 
-            {/* 고객센터 관련 라우터 */}
             <Route
               path="/inquiry-and-report"
               element={<CustomerSupportMain />}

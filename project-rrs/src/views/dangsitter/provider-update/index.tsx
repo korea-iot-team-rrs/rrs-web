@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { AntSwitch } from "../../../styles/dangSitter/DangSitterCommon";
+import { AntSwitch } from "../../../styles/dangsitter/dangSitterCommon";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
@@ -7,7 +7,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "../../../styles/dangSitter/Provider.css";
 
-const ProviderUdpate = () => {
+const ProviderUpdate = () => {
   const [isActive, setIsActive] = useState(false);
   const [role, setRole] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -241,4 +241,4 @@ const ProviderUdpate = () => {
   );
 };
 
-export default ProviderUdpate;
+export default ProviderUpdate;

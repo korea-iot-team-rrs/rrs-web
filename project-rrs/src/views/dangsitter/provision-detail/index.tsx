@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useCookies } from "react-cookie";
 import { useNavigate, useParams } from "react-router-dom";
 import { MAIN_URL, PROVISION_PATH, FILE_URL } from "../../../constants";
 import { Provision, ReservationStatus } from "../../../types/provisionType";
-import { useCookies } from "react-cookie";
 import { Button, Chip } from "@mui/material";
-import "../../../styles/reservation/ReservationUserDetail.css";
-import axios from "axios";
+import "../../../styles/reservation/reservationUserDetail.css";
 
 export default function ProvisionDetail() {
   const [cookies] = useCookies(["token"]);

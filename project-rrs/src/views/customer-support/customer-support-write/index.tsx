@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import ReportIcon from "@mui/icons-material/Report";
-import { CreateCS } from "../../../types/customerSupport";
-import "../../../styles/customerSupport/CustomerSupportWrite.css";
-import { createCustomerSupport } from "../../../apis/custommerSupport";
+import { CreateCS } from "../../../types/customerSupportType";
+import { createCustomerSupport } from "../../../apis/custommerSupportApi";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -19,6 +18,7 @@ import {
 } from "@mui/material";
 import FolderIcon from "@mui/icons-material/Folder";
 import DeleteIcon from "@mui/icons-material/Delete";
+import "../../../styles/customer-support/customerSupportWrite.css";
 
 export default function CustomerSupportWrite() {
   const [cookies] = useCookies(["token"]);
