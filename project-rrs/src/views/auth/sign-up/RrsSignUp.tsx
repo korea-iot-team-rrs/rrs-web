@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { UserSignUp } from "../../../types/AuthType.ts";
+import { UserSignUp } from "../../../types/authType";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import "../../../styles/Signup.css";
+import "../../../styles/auth/signUp.css";
 import SignUpModal from "../../../components/sign-up-modal";
 
 const API_BASE_URL = "http://localhost:4040/api/v1/auth";

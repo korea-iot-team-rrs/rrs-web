@@ -6,6 +6,7 @@ import { updateReservaionStatus } from "../../../apis/reservationApi";
 import { useRefreshStore } from "../../../stores/refresh.store";
 import "../../../styles/reservation/reservationItem.css";
 import { ProvisionSummary } from "../../../types/provisionType";
+import "../../../styles/reservation/reservationItem.css";
 
 interface ProvisionItemProps {
   provision: ProvisionSummary;

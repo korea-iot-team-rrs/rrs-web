@@ -3,9 +3,9 @@ import { useCookies } from "react-cookie";
 import {
   deleteCustomerSupport,
   fetchOneCustomerSupport,
-} from "../../../apis/custommerSupport";
+} from "../../../apis/custommerSupportApi";
 import { useNavigate, useParams } from "react-router-dom";
-import { FetchCS } from "../../../types/customerSupport";
+import { FetchCS } from "../../../types/customerSupportType";
 import {
   Avatar,
   Button,
@@ -16,7 +16,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import FolderIcon from "@mui/icons-material/Folder";
-import "../../../styles/customerSupport/CustomerSupportDetail.css";
+import "../../../styles/customer-support/customerSupportDetail.css";
 
 export default function CustomerSupportDetail() {
   const [cookies] = useCookies(["token"]);

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Calendar } from "rsuite";
-import "../../../styles/PetdiaryCalendar.css";
 import { PetDiaryCalendarProps } from "../../../types/petDiaryType";
 import { Todo } from "../../../types/todoType";
 import { fetchTodos } from "../../../apis/todoApi";
@@ -8,8 +7,9 @@ import { useRefreshStore } from "../../../stores/refresh.store";
 import { useCookies } from "react-cookie";
 import { WalkingRecord } from "../../../stores/usePet.store";
 import axios from "axios";
-import { HealthRecord } from "../../../types/petHealthType";
+import { HealthRecord } from "../../../types/healthType";
 import { fetchAllHealthRecordsByUserId } from "../../../apis/petHealthApi";
+import "../../../styles/pet-diary/petdiaryCalendar.css";
 
 const Styles = () => {
   return (

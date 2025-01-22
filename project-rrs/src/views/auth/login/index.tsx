@@ -7,8 +7,8 @@ import { LoginResponseDto } from "../../../types/authType";
 import logo from "../../../assets/images/logo.png";
 import naverLogo from "../../../assets/logo/naver-icon-file.png";
 import kakaoLogo from "../../../assets/logo/kakaotalk_logo.png";
-import "../../../styles/auth/login.css";
 import useAuthStore from "../../../stores/useAuth.store";
+import "../../../styles/auth/login.css";
 
 interface Credentials {
   username: string;

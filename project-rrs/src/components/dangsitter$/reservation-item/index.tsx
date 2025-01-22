@@ -3,9 +3,9 @@ import { Button } from "@mui/material";
 import { Reservation, ReservationStatus } from "../../../types/reservationType";
 import { useCookies } from "react-cookie";
 import { updateReservaionStatus } from "../../../apis/reservationApi";
-import { useRefreshStore } from "../../../stores/refreshStore";
-import ReviewModal from "../ReviewModal";
-import "../../../styles/reservation/ReservationItem.css";
+import { useRefreshStore } from "../../../stores/refresh.store";
+import ReviewModal from "../review-modal";
+import "../../../styles/reservation/reservationItem.css";
 
 interface ReservationItemProps {
   reservation: Reservation;
@@ -87,7 +87,7 @@ export default function ReservationItem({
           <div>{reservation.providerInfo.providerNickname}</div>
           <div>{formatStatus(reservation.reservationStatus)}</div>
           <div className="reservation-actions">
-            {reservation.reservationStatus === "PENDING"  && (
+            {reservation.reservationStatus === "PENDING" && (
               <Button
                 variant="outlined"
                 color="warning"

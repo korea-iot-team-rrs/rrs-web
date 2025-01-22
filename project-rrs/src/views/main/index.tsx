@@ -1,12 +1,6 @@
 import React from "react";
-import "../../styles/MainContainer.css";
 import dogImgsrc from "../../assets/images/mainPageDog.png";
-import dogPowImgsrc from "../../assets/images/dog_pow.jpg";
-import dogIllust01 from "../../assets/images/dogIllust01.jpg";
-import dogIllust02 from "../../assets/images/dogIllust02.jpeg";
 import dogIllust03 from "../../assets/images/dogIllust03.jpg";
-import dogIllust04 from "../../assets/images/dogIllust04.jpg";
-import dog01 from "../../assets/images/dog01.jpg";
 import dog02 from "../../assets/images/dog02.jpg";
 import dog03 from "../../assets/images/dog03.jpg";
 import dog04 from "../../assets/images/dog04.jpg";
@@ -15,8 +9,9 @@ import dogVedioSrc from "../../assets/media.d.ts/mainPage_highFive.mp4";
 import { LuDog } from "react-icons/lu";
 import { FaMapMarkedAlt } from "react-icons/fa";
 import { CiMemoPad } from "react-icons/ci";
+import "../../styles/layout/main.css";
 
-export default function MainContainer() {
+export default function Main() {
   return (
     <>
       <div className="page-wrapper">
@@ -26,7 +21,6 @@ export default function MainContainer() {
             <div className="container-large page-padding">
               <div className="spacer-xl-start spacer-xl-end">
                 <div className="w-layout-grid bento-grid">
-                  {/* Intro Section */}
                   <div
                     id="w-node-adfb12b0-add9-49c1-a4d6-ec1c299aff63-bbc9965d"
                     className="bento-grid-item is-intro"

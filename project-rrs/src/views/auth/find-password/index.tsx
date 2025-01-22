@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { User } from "../../../types";
+import { User } from "../../../types/entityType";
 import {
   fetchUserInfoForCertification,
   updateUserPassword,
-} from "../../../apis/userInfo";
+} from "../../../apis/userInfoApi";
 import { Button, OutlinedInput } from "@mui/material";
-import "../../../styles/findUserInfo/FindPassword.css";
+import "../../../styles/auth/find-user-info/findPassword.css";
 
 export default function FindPassword() {
   const { token } = useParams<{ token: string }>();

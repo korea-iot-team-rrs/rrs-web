@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import useAuthStore from "../../../stores/useAuthStore";
+import useAuthStore from "../../../stores/useAuth.store";
 
 export default function SnsSuccess() {
   const [, setCookies] = useCookies(["token"]);

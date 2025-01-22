@@ -7,7 +7,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "../../../styles/dangsitter/provider.css";
 
-const ProviderUdpate = () => {
+const ProviderUpdate = () => {
   const [isActive, setIsActive] = useState(false);
   const [role, setRole] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -241,4 +241,4 @@ const ProviderUdpate = () => {
   );
 };
 
-export default ProviderUdpate;
+export default ProviderUpdate;

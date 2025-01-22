@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
-import "../../../styles/PetDiary.css";
 import PetDiaryCalendar from "../pet-diary-calendar";
 import PetDiaryContents from "../pet-diary-contents";
+import "../../../styles/pet-diary/petDiary.css";
 
 export default function PetDiaryMain() {
   const [selectedDate, setSelectedDate] = useState<string>(
     new Date().toISOString().split("T")[0]
   );
 
-  // selectedDate가 업데이트될 때마다 콘솔에 출력
   useEffect(() => {
     console.log("Selected date in PetDiaryView:", selectedDate);
   }, [selectedDate]);
