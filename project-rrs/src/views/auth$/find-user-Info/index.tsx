@@ -1,7 +1,7 @@
 import { Breadcrumbs, Button, OutlinedInput } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { CertificateDto } from "../../../types/AuthType.ts";
-import { sendEmailForId, sendEmailForPw } from "../../../apis/emailApi";
+import { sendEmailForId, sendEmailForPw } from "../../../apis/emailApi.js";
 import { useLocation } from "react-router-dom";
 import "../../../styles/findUserInfo/FinduserInfo.css";
 import idImg from "../../../assets/images/findIdImg.jpg";

@@ -3,13 +3,13 @@ import React from "react";
 import { NavLink, Route, Routes } from "react-router-dom";
 import UserInfo from "./user-info$";
 import PetList from "./pet-list$";
-import UserDelete from "./user-delete$";
+import UserDelete from "./user-delete";
 import "../../styles/myPage/MyPage.css";
-import PetCreate from "./pet-list$/pet-create$";
-import PetInfo from "./pet-list$/pet-info$";
-import PetUpdate from "./pet-list$/pet-update$";
-import UserInfoUpdate from "./user-info$/user-info-update$";
-import PasswordUpdate from "./password-update$";
+import PetCreate from "./pet-list$/pet-create";
+import PetInfo from "./pet-list$/pet-info";
+import PetUpdate from "./pet-list$/pet-update";
+import UserInfoUpdate from "./user-info$/user-info-update";
+import PasswordUpdate from "./password-update";
 
 export default function MyPage() {
   return (

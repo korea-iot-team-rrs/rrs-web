@@ -4,7 +4,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import DangSitterBox from "../../../components/dangSitter$/DangSitterBox";
 import { Box, Button, Checkbox, FormControlLabel } from "@mui/material";
-import { Notice } from "../../../constants/notice$";
+import { Notice } from "../../../constants/notice";
 import "../../../styles/reservation/ReservationForm.css";
 import dayjs, { Dayjs } from "dayjs";
 import { DangSitter, Pet, User } from "../../../types/reservationType";

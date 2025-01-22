@@ -5,10 +5,10 @@ import { useCookies } from "react-cookie";
 import "../../../../styles/PetWalkingRecord.css";
 import { PetDiaryTodoProps } from "../../../../types/petDiaryType";
 import { FaPlusCircle } from "react-icons/fa";
-import WalkingRecordCreate from "./walking-record-create$";
+import WalkingRecordCreate from "./walking-record-create";
 import axios from "axios";
-import WalkingRecordGet from "./walking-record-get$";
-import WalkingRecordUpdate from "./walking-record-update$";
+import WalkingRecordGet from "./walking-record-get";
+import WalkingRecordUpdate from "./walking-record-update";
 import { useRefreshStore } from "../../../../stores/refreshStore";
 
 export default function PetDiaryWalkingRecord({

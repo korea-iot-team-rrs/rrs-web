@@ -1,10 +1,10 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import Header from "./layouts/header$";
-import MainContainer from "./views/main$";
+import MainContainer from "./views/main";
 import Login from "./views/auth$/login$";
 import SignUpMain from "./views/auth$/SignUp/SignUpMain";
 import CommunityCreateView from "./views/CommunityVIew/CommunityCreateView";
-import DangSitterMain from "./views/dangsitter$/dangsitter-main$";
+import DangSitterMain from "./views/dangsitter$/dangsitter-main";
 import Footer from "./layouts/Footer";
 import ProtectedRoute from "./types/routerType";
 import { useAuthCheck } from "./stores/useAuthCheck";
