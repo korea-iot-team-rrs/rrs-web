@@ -4,7 +4,7 @@ import { AntSwitch } from "../../../styles/dangSitter/DangSitterCommon";
 import { useNavigate, useParams } from "react-router-dom";
 import "../../../styles/dangSitter/DangSitterMain.css";
 import { TfiArrowTopRight } from "react-icons/tfi";
-import LoginModal from "../../../components/LoginModal";
+import LoginModal from "../../../components/login-modal";
 import useAuthStore from "../../../stores/useAuthStore";
 export default function DangSitterMain() {
   const navigate = useNavigate();

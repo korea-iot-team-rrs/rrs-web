@@ -1,4 +1,3 @@
-// DeleteModal.tsx
 import React from "react";
 import "../../styles/DeleteModal.css";
 
@@ -22,10 +21,16 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ onClose, onConfirm }) => {
         <h2 className="deleteModalTitle">정말 삭제하시겠습니까?</h2>
 
         <div className="deleteButtonContainer">
-          <button onClick={onConfirm} className="deleteModalButton deleteConfirmButton">
+          <button
+            onClick={onConfirm}
+            className="deleteModalButton deleteConfirmButton"
+          >
             확인
           </button>
-          <button onClick={onClose} className="deleteModalButton deleteCancelButton">
+          <button
+            onClick={onClose}
+            className="deleteModalButton deleteCancelButton"
+          >
             취소
           </button>
         </div>

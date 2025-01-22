@@ -31,3 +31,4 @@ export interface CommunityLikes {
   communityId: number;
   userId: number;
 }
+

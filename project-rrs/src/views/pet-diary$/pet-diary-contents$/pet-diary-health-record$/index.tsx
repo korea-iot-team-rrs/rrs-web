@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import usePetStore, { Pet } from "../../../../stores/petstore";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import "../../../../styles/pethealthRecord/pethealthRecordList.css";
+import "../../../../styles/health-record/pethealthRecordList.css";
 import { PetDiaryTodoProps } from "../../../../types/petDiaryType";
 import { FaPlusCircle } from "react-icons/fa";
-import HealthRecordCreate from "./HealthRecordCreate";
-import HealthRecordGet from "./HealthRecordDetail";
-import HealthRecordUpdate from "./HealthRecordUpdate";
-import DeleteModal from "../../../../components/DeleteModal";
+import HealthRecordCreate from "./health-record-create";
+import HealthRecordGet from "./halth-record-detail";
+import HealthRecordUpdate from "./health-record-update";
+import DeleteModal from "../../../../components/delete-modal";
 import {
   getAllHealthRecords,
   deleteHealthRecord,

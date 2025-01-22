@@ -1,6 +1,8 @@
 import "./App.css";
 import { CircularProgress } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
+import { useAuthCheck } from "./stores/useAuthCheck.store";
+
 
 function App() {
   const { isLoading } = useAuthCheck();
@@ -17,14 +19,7 @@ function App() {
           <Routes>
             <Route path="/main" element={<Main />} />
             {/* 인증 관련 라우트  */}
-            <Route
-              path="/login"
-              element={
-
-                  <Login />
-
-              }
-            />
+            <Route path="/login" element={<Login />} />
             <Route
               path="/sns-success"
               element={
@@ -113,15 +108,11 @@ function App() {
             <Route path="/dang-sitter" element={<DangSitterMain />} />
             <Route
               path="/users/dang-sitter/reservations"
-              element={
-                  <ReservationList />
-              }
+              element={<ReservationList />}
             />
             <Route
               path="/users/dang-sitter/reservations/write"
-              element={
-                  <ReservationForm />
-              }
+              element={<ReservationForm />}
             />
             <Route
               path="/users/dang-sitter/reservations/:id"
@@ -148,23 +139,17 @@ function App() {
 
             <Route
               path="/dang-sitter/reservations/:reservationId"
-              element={
-                  <ProvisionDetail />
-              }
+              element={<ProvisionDetail />}
             />
 
             {/* 고객센터 관련 라우터 */}
             <Route
               path="/inquiry-and-report"
-              element={
-                  <CustomerSupportMain />
-              }
+              element={<CustomerSupportMain />}
             />
             <Route
               path="/inquiry-and-report/list"
-              element={
-                  <CustomerSupportList />
-              }
+              element={<CustomerSupportList />}
             />
             <Route
               path="/inquiry-and-report/:id"
