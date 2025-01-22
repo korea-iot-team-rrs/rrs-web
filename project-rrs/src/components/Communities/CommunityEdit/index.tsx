@@ -200,7 +200,7 @@ export default function CommunityEdit() {
 
   return (
     <div className="communityEditContainer">
-      <h1 className="communityEditTitle">게시글 수정</h1>
+      <h1 className="communityEditTitle">댕소통 수정</h1>
       {error && <p className="communityEditErrorMessage">{error}</p>}
       <form onSubmit={handleSubmit} className="communityEditForm">
         <div className="communityEditFormGroup">
