@@ -19,7 +19,6 @@ const MAX_COMMENTS_IN_WINDOW = 3;
 const TIME_WINDOW = 60000;
 const MAX_TOTAL_COMMENTS = 10;
 
-// 비속어어 필터하는 배열
 const BAD_WORDS = ["개새끼", "씨발", "병신", "꺼져"];
 
 const CommunityDetailCommentsSection: React.FC<CommentsProps> = ({
