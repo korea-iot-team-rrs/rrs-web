@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Pet } from "../../../../../types";
+import { Pet } from "../../../../../types/entityType";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { IoMdSunny } from "react-icons/io";

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Pet } from "../types";
+import { Pet } from "../types/entityType";
 
 export const fetchPets = async (token: string): Promise<Pet[]> => {
   const response = await axios.get(`http://localhost:4040/api/v1/users/pet`, {
