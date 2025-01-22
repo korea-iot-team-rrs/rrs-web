@@ -1,0 +1,120 @@
+/* HealthUpdate 화면 */
+.healthUpdateContainer {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  height: 550px;
+  overflow-y: auto;
+}
+
+.healthUpdateContainer h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8em;
+  color: #333;
+}
+
+.healthUpdateInput,
+.healthUpdateTextarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1em;
+}
+
+.healthUpdateInput {
+  height: 40px;
+}
+
+.healthUpdateTextarea {
+  resize: none;
+  min-height: 140px;
+}
+
+.healthUpdateInput + label,
+.healthUpdateTextarea + label {
+  margin-top: 15px;
+}
+
+.healthUpdateFileListSection {
+  margin-top: 20px;
+}
+
+.healthUpdateFileList {
+  list-style-type: none;
+  padding: 0;
+}
+
+.healthUpdateFileList li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.healthUpdateFileList li span {
+  flex: 1;
+  font-size: 0.9em;
+}
+
+.healthUpdateIconButton {
+  cursor: pointer;
+  color: #d32f2f;
+  font-size: 1.2em;
+}
+
+.healthUpdateFileInput {
+  display: block;
+  margin-top: 10px;
+}
+
+.healthUpdateButtonGroup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.healthUpdateButton {
+  background: #007bff;
+  color: white;
+  border-radius: 5px;
+  width: 80px;
+  height: 30px;
+}
+
+.healthUpdateCancelButton {
+  background: #f44336;
+  color: white;
+  border-radius: 5px;
+  width: 50px;
+  height: 30px;
+}
+
+.healthUpdateButton:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.healthUpdateButton:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.healthUpdateLoadingMessage,
+.healthUpdateErrorMessage {
+  font-size: 14px;
+  text-align: center;
+}
+
+.healthUpdateLoadingMessage {
+  color: #2194FF;
+}
+
+.healthUpdateErrorMessage {
+  color: red;
+}
