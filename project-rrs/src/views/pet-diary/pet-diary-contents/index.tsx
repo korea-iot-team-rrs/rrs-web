@@ -1,10 +1,6 @@
 import React from "react";
 import { AppBar, Tabs, Tab, Box } from "@mui/material";
-<<<<<<< HEAD
-import PetDiaryTodo from "./pet-diary-todo/todo-main";
-=======
 import TodoMain from "./pet-diary-todo/todo-main";
->>>>>>> develop
 import PetDiaryHealthRecord from "./pet-diary-health-record";
 import PetDiaryWalkingRecord from "./pet-diary-walking-record";
 import { PetDiaryMainProps } from "../../../types/petDiaryType";

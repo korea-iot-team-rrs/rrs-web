@@ -14,10 +14,7 @@ import TodoCreate from "../todo-create";
 import TodoUpdate from "../todo-update";
 import { useRefreshStore } from "../../../../../stores/refresh.store";
 import useAuthStore from "../../../../../stores/useAuth.store";
-<<<<<<< HEAD
-=======
 import "../../../../../styles/pet-diary/petDiaryTodo.css";
->>>>>>> develop
 
 export default function TodoMain({ selectedDate }: PetDiaryTodoProps) {
   const [todos, setTodos] = useState<Todo[]>([]);

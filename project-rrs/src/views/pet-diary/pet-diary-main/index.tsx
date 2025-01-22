@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from "react";
-<<<<<<< HEAD
-import "../../../styles/PetDiary.css";
-import PetDiaryCalendar from "../pet-diary-calendar";
-import PetDiaryContents from "../pet-diary-contents";
-=======
 import PetDiaryCalendar from "../pet-diary-calendar";
 import PetDiaryContents from "../pet-diary-contents";
 import "../../../styles/pet-diary/petDiary.css";
->>>>>>> develop
 
 export default function PetDiaryMain() {
   const [selectedDate, setSelectedDate] = useState<string>(

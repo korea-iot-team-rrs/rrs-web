@@ -1,5 +1,5 @@
 import "./App.css";
-import React from 'react';
+import React from "react";
 import { CircularProgress } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import { useAuthCheck } from "./stores/useAuthCheck.store";
@@ -40,10 +40,6 @@ import CustomerSupportWrite from "./views/customer-support/customer-support-writ
 import CustomerSupportUpdate from "./views/customer-support/customer-support-update";
 import PetRoad from "./views/pet-road";
 import Footer from "./layouts/footer";
-<<<<<<< HEAD
-
-=======
->>>>>>> develop
 
 function App() {
   const { isLoading } = useAuthCheck();

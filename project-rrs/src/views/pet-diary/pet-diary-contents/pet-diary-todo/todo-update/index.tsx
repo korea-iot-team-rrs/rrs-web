@@ -5,10 +5,7 @@ import { updateTodo } from "../../../../../apis/todoApi";
 import { useCookies } from "react-cookie";
 import { Todo } from "../../../../../types/todoType";
 import { useRefreshStore } from "../../../../../stores/refresh.store";
-<<<<<<< HEAD
-=======
 import "../../../../../styles/pet-diary/petDiaryTodo.css";
->>>>>>> develop
 
 interface TodoUpdateProps {
   selectedDate: string;

@@ -2,10 +2,6 @@ import React, { useState } from "react";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import ReportIcon from "@mui/icons-material/Report";
 import { CreateCS } from "../../../types/customerSupportType";
-<<<<<<< HEAD
-import "../../../styles/customerSupport/CustomerSupportWrite.css";
-=======
->>>>>>> develop
 import { createCustomerSupport } from "../../../apis/custommerSupportApi";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";

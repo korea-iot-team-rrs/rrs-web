@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-=======
 import { WalkingRecord } from "../stores/usePet.store";
 
->>>>>>> develop
 //entity들
 export interface ResponseDto<D> {
   result: boolean;
