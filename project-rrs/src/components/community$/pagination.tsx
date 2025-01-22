@@ -10,7 +10,7 @@ interface PaginationProps {
   handleNextSectionClick: () => void;
 }
 
-const paginationBoxStyle = css`
+const communitypaginationBoxStyle = css`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -18,7 +18,7 @@ const paginationBoxStyle = css`
   gap: 24px;
 `;
 
-const buttonStyle = css`
+const communitybuttonStyle = css`
   width: 40px;
   height: 40px;
   display: flex;
@@ -38,7 +38,7 @@ const buttonStyle = css`
   }
 `;
 
-const pageListStyle = css`
+const communitypageListStyle = css`
   display: flex;
   gap: 16px;
 `;
@@ -63,16 +63,16 @@ export default function Pagination({
   handleNextSectionClick,
 }: PaginationProps) {
   return (
-    <div css={paginationBoxStyle}>
+    <div css={communitypaginationBoxStyle}>
       <button
-        css={buttonStyle}
+        css={communitybuttonStyle}
         onClick={handlePreSectionClick}
         disabled={currentPage === 1}
       >
         <AiOutlineLeft size={24} />
       </button>
 
-      <div css={pageListStyle}>
+      <div css={communitypageListStyle}>
         {pageList.map((page) => (
           <div
             key={page}
@@ -85,7 +85,7 @@ export default function Pagination({
       </div>
 
       <button
-        css={buttonStyle}
+        css={communitybuttonStyle}
         onClick={handleNextSectionClick}
         disabled={currentPage === pageList.length}
       >
