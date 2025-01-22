@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import CommentsSection from "../community-comment";
+import CommentsSection from "../community-comment$";
 import { useNavigate, useParams } from "react-router-dom";
 import { getToken } from "../../../utils/auth";
 import { fetchUserInfo } from "../../../apis/userInfo";
