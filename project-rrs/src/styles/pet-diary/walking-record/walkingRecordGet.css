@@ -1,0 +1,81 @@
+.walkingRecord-title {
+  margin-bottom: 20px;
+}
+
+.walkingRecord-element {
+  display: flex;
+}
+
+.walkingRecord-element-photo {
+  display: block;
+  margin-bottom: 40px;
+}
+
+.walkingRecord-element label {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.walkingRecord-element-photo label {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.walkingRecord-imgs {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.walkingRecord-imgs img {
+  width: 150px;
+  height: 150px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.walkingRecord-photo {
+  display: flex;
+  flex-direction: column;
+}
+
+.thumbnail {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.thumbnail:hover {
+  transform: scale(1.1);
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-content {
+  max-width: 90%;
+  max-height: 90%;
+}
+
+.modal-content img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.modal-content img:hover {
+  cursor: pointer;
+}

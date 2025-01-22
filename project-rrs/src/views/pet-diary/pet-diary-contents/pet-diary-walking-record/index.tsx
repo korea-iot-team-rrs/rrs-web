@@ -5,7 +5,7 @@ import usePetStore, {
 } from "../../../../stores/usePet.store";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import "../../../../styles/pet-diary/walkingRecord.css";
+import "../../../../styles/pet-diary/walking-record/walkingRecordList.css";
 import { PetDiaryTodoProps } from "../../../../types/petDiaryType";
 import { FaPlusCircle } from "react-icons/fa";
 import WalkingRecordCreate from "./walking-record-create";
@@ -13,6 +13,7 @@ import axios from "axios";
 import WalkingRecordGet from "./walking-record-get";
 import WalkingRecordUpdate from "./walking-record-update";
 import { useRefreshStore } from "../../../../stores/refresh.store";
+import petDefaultImage from "../../../../assets/images/pet-default-profile.jpg";
 
 export default function PetDiaryWalkingRecord({
   selectedDate,
@@ -223,7 +224,18 @@ export default function PetDiaryWalkingRecord({
                   }}
                 >
                   <div className="petCircleBox">
-                    <img src={pet.petImageUrl} alt={`${pet.petName}의 사진`} />
+                    <img
+                      src={
+                        pet.petImageUrl
+                          ? `http://localhost:4040/${pet.petImageUrl}`
+                          : petDefaultImage
+                      }
+                      alt={`${pet.petName}의 사진`}
+                      onError={(e) => {
+                        const imgElement = e.target as HTMLImageElement;
+                        imgElement.src = petDefaultImage;
+                      }}
+                    />
                   </div>
                   <p>{pet.petName}</p>
                 </button>

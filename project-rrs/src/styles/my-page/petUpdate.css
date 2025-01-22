@@ -1,4 +1,15 @@
-.petCreateContent {
+.petContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100vh;
+  margin: 100px;
+  margin-left: 250px;
+  border-radius: 30px;
+  border: 1px solid #ccc;
+}
+
+.petUpdateContent {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -7,7 +18,7 @@
   gap: 20px;
 }
 
-.petCreateContent img {
+.petUpdateContent img {
   border-radius: 20px;
   width: 150px;
   height: 150px;
@@ -15,16 +26,15 @@
   object-fit: cover;
 }
 
-.petCreateElement {
+.petUpdateElement {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 100%;
-  flex-wrap: nowrap;
-  margin-bottom: 20px;
+  width: 70%;
+  flex-wrap: wrap;
 }
 
-.petCreateElement label {
+.petUpdateElement label {
   font-weight: bold;
   text-align: right;
   color: #1c82e0;

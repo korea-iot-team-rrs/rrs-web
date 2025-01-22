@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Pet } from "../../../../../stores/usePet.store";
+import { FaFolder } from "react-icons/fa";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { IoMdSunny } from "react-icons/io";
@@ -9,6 +10,8 @@ import { TbSnowman } from "react-icons/tb";
 import { IconButton } from "@mui/material";
 import Select, { components } from "react-select";
 import DeleteIcon from "@mui/icons-material/Delete";
+import "../../../../../styles/pet-diary/health-record/healthRecordCreate.css";
+import "../../../../../styles/pet-diary/walking-record/walkingRecordCreate.css";
 
 interface WalkingRecordUpdateProps {
   selectedPet: Pet | null;
@@ -289,18 +292,17 @@ const WalkingRecordUpdate = ({
   };
 
   return (
-    <div>
-      <h2>산책 기록 수정</h2>
+    <div className="healthCreateContainer">
+      <h3 className="walkingRecord-title">산책 기록 수정</h3>
       {walkingRecord ? (
-        <form onSubmit={handleSubmit}>
-          <div className="petCircleBox">
-            <img
-              src={selectedPet?.petImageUrl}
-              alt={`${selectedPet?.petName}의 사진`}
-            />
-          </div>
+        <form onSubmit={handleSubmit} className="healthCreateForm">
+          <img
+            src={selectedPet?.petImageUrl}
+            alt={`${selectedPet?.petName}의 사진`}
+            className="healthCreatePetImage"
+          />
 
-          <div>
+          <div className="healthCreateDateSection">
             <label htmlFor="create-date">작성 날짜</label>
             <span id="create-date">
               {selectedDate && (
@@ -313,7 +315,7 @@ const WalkingRecordUpdate = ({
             </span>
           </div>
 
-          <div>
+          <div className="weather-container">
             <label htmlFor="weather">날씨</label>
             <Select
               id="weather"
@@ -328,71 +330,79 @@ const WalkingRecordUpdate = ({
             />
           </div>
 
-          <div>
+          <div className="healthCreateInputSection">
             <label htmlFor="walking-time">산책 시간</label>
-            <input
-              type="number"
-              id="walking-time"
-              value={hours}
-              onChange={(e) => setHours(Number(e.target.value))}
-              min="0"
-            />{" "}
-            시간
-            <input
-              type="number"
-              id="walking-time"
-              value={minutes}
-              onChange={(e) => setMinutes(Number(e.target.value))}
-              min="0"
-            />{" "}
-            분
+            <div className="walking-time-inputs">
+              <input
+                type="number"
+                id="walking-time"
+                value={hours}
+                className="healthCreateInput"
+                onChange={(e) => setHours(Number(e.target.value))}
+                min="0"
+              />{" "}
+              <p>시간</p>
+              <input
+                type="number"
+                id="walking-time"
+                value={minutes}
+                className="healthCreateInput"
+                onChange={(e) => setMinutes(Number(e.target.value))}
+                min="0"
+              />{" "}
+              <p>분</p>
+            </div>
           </div>
 
-          <div>
-            <label htmlFor="walking-distance">산책 거리</label>
+          <div className="healthCreateInputSection">
+            <label htmlFor="walking-distance">산책 거리 (m)</label>
             <input
               type="number"
+              className="healthCreateInput"
               id="walking-distance"
               name="walkingRecordDistance"
               value={walkingRecord.walkingRecordDistance}
               onChange={handleInputChange}
               min="0"
             />{" "}
-            m
           </div>
 
-          <div>
+          <div className="healthCreateInputSection">
             <label htmlFor="memo">메모</label>
             <textarea
               id="memo"
               name="walkingRecordMemo"
+              className="healthCreateTextarea"
               value={walkingRecord.walkingRecordMemo}
               onChange={handleInputChange}
             />
           </div>
 
-          <div>
+          <div className="healthCreateFileSection">
             <label htmlFor="files">사진</label>
             <input
               type="file"
               id="files"
               multiple
               onChange={handleFileChange}
+              className="healthCreateFileInput"
             />
             {existingFiles.length > 0 ? (
-              <ul className="file-list">
+              <ul className="healthCreateFileList">
                 {existingFiles.map((file, index) => {
                   return (
-                    <li key={index}>
+                    <li key={index} className="healthCreateFileItem">
                       <a
                         href={file.url}
                         target="_blank"
                         rel="noopener noreferrer"
+                        className="healthCreateFileName"
                       >
+                        <FaFolder />
                         {file.name}
                       </a>
                       <IconButton onClick={() => removeFile(index, false)}>
-                        <DeleteIcon />
+                        <DeleteIcon color="primary" />
                       </IconButton>
                     </li>
                   );
@@ -401,22 +411,34 @@ const WalkingRecordUpdate = ({
             ) : (
               <p></p>
             )}
-            <ul>
+            <ul className="healthCreateFileList">
               {newFiles.map((file, index) => (
-                <li key={index}>
+                <li key={index} className="healthCreateFileItem">
+                  <FaFolder />
                   {file.name}
-                  <IconButton onClick={() => removeFile(index, true)}>
-                    <DeleteIcon />
+                  <IconButton
+                    onClick={() => removeFile(index, true)}
+                    className="healthCreateDeleteButton"
+                  >
+                    <DeleteIcon color="primary" />
                   </IconButton>
                 </li>
               ))}
             </ul>
           </div>
 
-          <button type="submit">저장</button>
-          <button type="button" onClick={goBack}>
-            취소
-          </button>
+          <div className="healthCreateButtonSection">
+            <button type="submit" className="healthCreateSubmitButton">
+              저장
+            </button>
+            <button
+              type="button"
+              onClick={goBack}
+              className="healthCreateCancelButton"
+            >
+              취소
+            </button>
+          </div>
         </form>
       ) : (
         <p>산책 기록을 불러오는 중...</p>

@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  width: 70vh;
+  width: 100vh;
   margin: 100px;
   margin-left: 250px;
   border-radius: 30px;
@@ -23,6 +23,7 @@
   width: 150px;
   height: 150px;
   margin-left: 0;
+  object-fit: cover;
 }
 
 .userInfoElement {
