@@ -8,8 +8,8 @@ import { Box, Button, Modal, Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { IoCloseCircle } from "react-icons/io5";
-import { boxStyle } from "../../../styles/dangsitter/dangSitterCommon";
 import "../../../styles/dangsitter/dangsitterModal.css";
+import { boxStyle } from "../../../styles/dangsitter/dangsitterCommon";
 
 interface DangSitterModalProps {
   open: boolean;

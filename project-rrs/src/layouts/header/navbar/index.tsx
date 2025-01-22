@@ -1,6 +1,6 @@
 import React from "react";
-import "../../../styles/Header.css";
 import { NavLink } from "react-router-dom";
+import "../../../styles/layout/header.css";
 
 export default function Navbar() {
   const links = [
