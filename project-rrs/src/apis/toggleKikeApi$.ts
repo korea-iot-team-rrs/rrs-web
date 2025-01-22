@@ -2,7 +2,7 @@ import axios from "axios";
 import {
   ToggleLikeData,
   CommunityLikeResponseDto,
-} from "../types/ToggleLikeType"; // 적절한 타입 파일 경로로 수정하세요
+} from "../types/toggleLikeType$.js"; // 적절한 타입 파일 경로로 수정하세요
 import { MAIN_URL, USER_PATH } from "../constants";
 import { getToken } from "../utils/auth";
 

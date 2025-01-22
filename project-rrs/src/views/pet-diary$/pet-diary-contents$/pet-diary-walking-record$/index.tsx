@@ -5,14 +5,14 @@ import { useCookies } from "react-cookie";
 import "../../../../styles/PetWalkingRecord.css";
 import { PetDiaryTodoProps } from "../../../../types/petDiaryType";
 import { FaPlusCircle } from "react-icons/fa";
-import WalkingRecordCreate from "./WalkingRecordCreate";
+import WalkingRecordCreate from "./walking-record-create$";
 import axios from "axios";
-import WalkingRecordGet from "./WalkingRecordGet";
-import WalkingRecordUpdate from "./WalkingRecordUpdate";
+import WalkingRecordGet from "./walking-record-get$";
+import WalkingRecordUpdate from "./walking-record-update$";
 import { useRefreshStore } from "../../../../stores/refreshStore";
 
 export default function PetDiaryWalkingRecord({
-  selectedDate
+  selectedDate,
 }: PetDiaryTodoProps) {
   const { pets, setPets } = usePetStore();
   const [cookies] = useCookies(["token"]);
@@ -119,10 +119,10 @@ export default function PetDiaryWalkingRecord({
   };
 
   const updateWalkingRecord = (updateRecord: any) => {
-    setWalkingRecords((prevRecords) => 
-      prevRecords.map(record => 
-        record.walkingRecordId === updateRecord.walkingRecordId 
-          ? { ...record, ...updateRecord } 
+    setWalkingRecords((prevRecords) =>
+      prevRecords.map((record) =>
+        record.walkingRecordId === updateRecord.walkingRecordId
+          ? { ...record, ...updateRecord }
           : record
       )
     );
@@ -264,7 +264,9 @@ export default function PetDiaryWalkingRecord({
                       alt={`${selectedPet.petName}의 사진`}
                     />
                     <div className="walking-info">
-                      <p className="distance">{record.walkingRecordDistance} m</p>
+                      <p className="distance">
+                        {record.walkingRecordDistance} m
+                      </p>
                       <p className="time">
                         {Math.floor(record.walkingRecordWalkingTime / 60)}시간{" "}
                         {record.walkingRecordWalkingTime % 60}분

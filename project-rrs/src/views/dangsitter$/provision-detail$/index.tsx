@@ -15,10 +15,10 @@ export default function ProvisionDetail() {
   const [provision, setProvision] = useState<Provision | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const formatBirthDate = (petBirthDate: string) => {
-    const year = petBirthDate.substring(0, 4); 
-    const month = petBirthDate.substring(4, 6); 
-  
-    return `${year}년 ${month}월`;  
+    const year = petBirthDate.substring(0, 4);
+    const month = petBirthDate.substring(4, 6);
+
+    return `${year}년 ${month}월`;
   };
 
   useEffect(() => {
@@ -134,15 +134,20 @@ export default function ProvisionDetail() {
               {provision.pets.map((pet, index) => (
                 <div key={index} className="pet">
                   <img
-                src={`${FILE_URL}${pet.petImageUrl}`}
-                alt="강아지지 이미지"
-              />
+                    src={`${FILE_URL}${pet.petImageUrl}`}
+                    alt="강아지지 이미지"
+                  />
                   <p>강아지 이름: {pet.petName}</p>
                   <p>성별: {Number(pet.petGender) === 0 ? "수컷" : "암컷"}</p>
                   <p>생년월일일: {formatBirthDate(pet.petBirthDate)}</p>
                   <p>몸무게: {pet.petWeight}</p>
-                  <p>중성화 여부: {Number(pet.petWeight) === 0 ? "아니오" : "예"}</p>
-                  <p>추가 정보: {pet.petAddInfo === null || " " ? "없음" : pet.petAddInfo}</p>
+                  <p>
+                    중성화 여부: {Number(pet.petWeight) === 0 ? "아니오" : "예"}
+                  </p>
+                  <p>
+                    추가 정보:{" "}
+                    {pet.petAddInfo === null || " " ? "없음" : pet.petAddInfo}
+                  </p>
                 </div>
               ))}
             </div>

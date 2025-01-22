@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { LoginResponseDto, User } from "../types/AuthType";
+import { LoginResponseDto, User } from "../types/AuthType.ts";
 import { userInfo } from "os";
 import axios from "axios";
 

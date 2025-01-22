@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { LoginResponseDto } from "../../../types/AuthType";
+import { LoginResponseDto } from "../../../types/AuthType.ts";
 import { FILE_URL } from "../../../constants";
 import "../../../styles/Header.css";
 import useAuthStore from "../../../stores/useAuthStore";
@@ -9,13 +9,13 @@ import DefaultImage from "../../../assets/images/dogIllust02.jpeg";
 
 export default function NavAuth() {
   const { isLoggedIn, login, logout, user } = useAuthStore();
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const [cookies, removeCookie] = useCookies(["token"]);
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = cookies.token || localStorage.getItem("token");
     const savedUser = localStorage.getItem("user");
-    
+
     if (token && savedUser) {
       try {
         const parsedUser = JSON.parse(savedUser);

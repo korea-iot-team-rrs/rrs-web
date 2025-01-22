@@ -5,8 +5,7 @@ import { useCookies } from "react-cookie";
 import axios from "axios";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import useAuthStore from "../../../stores/useAuthStore";
-import '../../../styles/dangSitter/Provider.css'
+import "../../../styles/dangSitter/Provider.css";
 
 const ProviderUdpate = () => {
   const [isActive, setIsActive] = useState(false);
@@ -43,8 +42,7 @@ const ProviderUdpate = () => {
     };
 
     fetchRole();
-}, [cookies.token, navigate]);
-
+  }, [cookies.token, navigate]);
 
   // Role 수정
   const handleRoleToggle = async () => {
@@ -99,13 +97,13 @@ const ProviderUdpate = () => {
         console.log("Response:", response.data.data);
 
         const providerIntro = response.data.data.providerIntroduction || "";
-      setProviderIntroduction(providerIntro);
-      const availableDates = response.data.data.availableDate
-      ? response.data.data.availableDate.map((dateObj: any) =>
-          new Date(dateObj.availableDate)
-        )
-      : [];
-    setSelectedDates(availableDates);
+        setProviderIntroduction(providerIntro);
+        const availableDates = response.data.data.availableDate
+          ? response.data.data.availableDate.map(
+              (dateObj: any) => new Date(dateObj.availableDate)
+            )
+          : [];
+        setSelectedDates(availableDates);
       } catch (error) {
         console.log("근무 일정 가져오는 중 오류 발생", error);
       }
@@ -119,24 +117,20 @@ const ProviderUdpate = () => {
 
     if (date < today) {
       alert("과거 날짜는 선택할 수 없습니다.");
-      return; // 과거 날짜 선택을 막음
+      return;
     }
 
     const isDateSelected = selectedDates.some(
-      (selectedDate) =>
-        selectedDate.toDateString() === date.toDateString()
+      (selectedDate) => selectedDate.toDateString() === date.toDateString()
     );
 
     if (isDateSelected) {
-      // 선택된 날짜가 있으면 제거
       setSelectedDates((prevDates) =>
         prevDates.filter(
-          (selectedDate) =>
-            selectedDate.toDateString() !== date.toDateString()
+          (selectedDate) => selectedDate.toDateString() !== date.toDateString()
         )
       );
     } else {
-      // 선택되지 않은 날짜면 추가
       setSelectedDates((prevDates) => [...prevDates, date]);
     }
   };
@@ -148,7 +142,7 @@ const ProviderUdpate = () => {
     if (selectedDates.length === 0) {
       alert("하나의 이상의 근무일을 선택해주세요.");
       return;
-    } 
+    }
 
     if (!providerIntroduction || providerIntroduction.trim() === "") {
       alert("소개를 작성해주세요.");
@@ -156,10 +150,11 @@ const ProviderUdpate = () => {
     }
 
     const data = {
-      availableDate: selectedDates.map((date) => date.toLocaleDateString("en-CA")),
-      providerIntroduction: providerIntroduction
+      availableDate: selectedDates.map((date) =>
+        date.toLocaleDateString("en-CA")
+      ),
+      providerIntroduction: providerIntroduction,
     };
-
 
     console.log("전송되는 데이터:", data);
 
@@ -203,7 +198,7 @@ const ProviderUdpate = () => {
                   (selectedDate) =>
                     selectedDate.toDateString() === date.toDateString()
                 )
-                  ? "selected-date" // 이미 선택된 날짜에는 스타일 추가
+                  ? "selected-date"
                   : ""
               }
             />
