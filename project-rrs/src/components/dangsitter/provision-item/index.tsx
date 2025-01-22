@@ -49,8 +49,8 @@ export default function ProvisionItem({
 
     try {
       await updateReservaionStatus(
+        provision.reservationId,
         {
-          reservationId: provision.reservationId,
           reservationStatus: ReservationStatus.REJECTED,
         },
         token
@@ -68,8 +68,8 @@ export default function ProvisionItem({
 
     try {
       await updateReservaionStatus(
+        provision.reservationId,
         {
-          reservationId: provision.reservationId,
           reservationStatus: ReservationStatus.IN_PROGRESS,
         },
         token

@@ -8,13 +8,13 @@ import {
 } from "../../../types/reservationType";
 import { useCookies } from "react-cookie";
 import { fetchReservation, updateMemo } from "../../../apis/reservationApi";
-import DangSitterBox from "../../../components/dangSitter/dangsitter-box";
-import ReservationUserInfo from "../../../components/dangSitter/reservation-user-info";
 import { fetchUserInfo } from "../../../apis/userInfoApi";
 import { fetchPets } from "../../../apis/petApi";
 import { Button, Chip } from "@mui/material";
 
 import "../../../styles/reservation/reservationUserDetail.css";
+import DangSitterBox from "../../../components/dangsitter/dangsitter-box";
+import ReservationUserInfo from "../../../components/dangsitter/reservation-user-info";
 
 export default function ReservationUserDetail() {
   const { id } = useParams<{ id: string }>();

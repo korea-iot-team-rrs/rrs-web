@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import DangSitterBox from "../../../components/dangSitter/dangsitter-box";
 import { Box, Button, Checkbox, FormControlLabel } from "@mui/material";
 import { Notice } from "../../../constants/notice";
 import dayjs, { Dayjs } from "dayjs";
@@ -16,8 +15,9 @@ import { FaSearch } from "react-icons/fa";
 import { fetchUserInfo } from "../../../apis/userInfoApi";
 import { fetchPets } from "../../../apis/petApi";
 import { useNavigate } from "react-router-dom";
-import ReservationUserInfo from "../../../components/dangSitter/reservation-user-info";
 import "../../../styles/reservation/reservationForm.css";
+import ReservationUserInfo from "../../../components/dangsitter/reservation-user-info";
+import DangSitterBox from "../../../components/dangsitter/dangsitter-box";
 
 export default function ReservationForm() {
   const [cookies] = useCookies(["token"]);

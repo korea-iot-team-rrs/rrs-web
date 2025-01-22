@@ -10,7 +10,7 @@ import dayjs, { Dayjs } from "dayjs";
 import "../../../styles/reservation/reservationList.css";
 import { ProvisionList, ProvisionSummary } from "../../../types/provisionType";
 import axios from "axios";
-import ProvisionItem from "../../../components/dangsitter$/provision-item$";
+import ProvisionItem from "../../../components/dangsitter/provision-item";
 
 export default function ProvisionListPage() {
   const navigate = useNavigate();
