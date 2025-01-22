@@ -48,7 +48,7 @@ export const fetchTodosByDay = async (
   token: string
 ): Promise<Todo[]> => {
   const response = await axios.get<{ data: Todo[] }>(
-    `${TODO_GET_BY_DATE_PATH(day)}`,
+    `${MAIN_URL}${TODO_GET_BY_DATE_PATH}`,
     {
       params: { day },
       headers: {
