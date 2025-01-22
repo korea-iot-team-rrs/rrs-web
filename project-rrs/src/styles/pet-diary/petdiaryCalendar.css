@@ -78,7 +78,6 @@
   .rs-calendar-table-cell-day {
     padding: 5px;
   }
-  
 }
 
 .rs-calendar-panel
@@ -102,7 +101,7 @@
   width: 100%;
 }
 
-.calendar-todo-item{
+.calendar-todo-item {
   display: flex;
   font-size: 10px;
   width: 100%;
@@ -113,7 +112,7 @@
   box-sizing: border-box;
 }
 
-.calendar-health-record-item{
+.calendar-health-record-item {
   display: flex;
   font-size: 10px;
   width: 100%;
@@ -125,7 +124,7 @@
   margin-top: 5px;
 }
 
-.calendar-walking-record-item{
+.calendar-walking-record-item {
   display: flex;
   font-size: 10px;
   width: 100%;
@@ -152,7 +151,9 @@
   background-color: #fbeaff;
 }
 
-.rs-calendar-panel:not(.rs-calendar-compact) .rs-calendar-table-row:not(.rs-calendar-table-header-row) .rs-calendar-table-cell-content {
+.rs-calendar-panel:not(.rs-calendar-compact)
+  .rs-calendar-table-row:not(.rs-calendar-table-header-row)
+  .rs-calendar-table-cell-content {
   display: flex;
   padding: 5px;
   width: 100%;
@@ -162,14 +163,3 @@
   justify-content: space-between;
   margin-bottom: 0px;
 }
-
-
-/* .calendar-todo-item span:nth-child(2) {
-  color: #FF961B;
-  background-color: #fff0de;
-}
-
-.calendar-todo-item span:nth-child(3) {
-  color: #9A67FF;
-  background-color: #eae0ff;
-} */

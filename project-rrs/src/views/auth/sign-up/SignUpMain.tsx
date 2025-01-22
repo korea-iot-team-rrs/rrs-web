@@ -4,8 +4,8 @@ import { Button, Link } from "@mui/material";
 import rrsLogo from "../../../assets/rrs_main_assets/rrs_logo_sq_01.png";
 import naverLogo from "../../../assets/logo/naver-icon-file.png";
 import kakaoLogo from "../../../assets/logo/kakaotalk_logo.png";
-import "../../../styles/auth/SignUpList.css";
 import logo from "../../../assets/rrs_main_assets/rrs_main_logo.png";
+import "../../../styles/auth/SignUpList.css";
 import { useNavigate } from "react-router-dom";
 
 interface LinksType {

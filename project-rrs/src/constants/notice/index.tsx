@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../styles/notice.css';
+import '../../styles/etc/notice.css';
 
 export const Notice = () => {
   return (

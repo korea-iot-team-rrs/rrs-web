@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { FaArrowCircleRight } from "react-icons/fa";
-import "../../../styles/dangSitter/DangSitterBox.css";
 import { Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
-import DangSitterModal from "../DangSitterModal";
+import DangSitterModal from "../dangsitter-modal";
 import { DangSitter } from "../../../types/reservationType";
 import { useCookies } from "react-cookie";
 import { fetchOneProviderInfo } from "../../../apis/providerApi";
 import { FILE_URL } from "../../../constants";
+import "../../../styles/dangsitter/dangsitterBox.css";
 
 interface DangSitterProps {
   providerId: number;

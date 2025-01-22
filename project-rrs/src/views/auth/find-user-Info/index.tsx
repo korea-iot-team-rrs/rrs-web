@@ -1,11 +1,11 @@
 import { Breadcrumbs, Button, OutlinedInput } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { CertificateDto } from "../../../types/AuthType.ts";
+import { CertificateDto } from "../../../types/authType";
 import { sendEmailForId, sendEmailForPw } from "../../../apis/emailApi";
 import { useLocation } from "react-router-dom";
-import "../../../styles/findUserInfo/FinduserInfo.css";
 import idImg from "../../../assets/images/findIdImg.jpg";
 import pwImg from "../../../assets/images/findPwImg.jpg";
+import "../../../styles/auth/find-user-info/findUserInfo.css";
 
 export default function FinduserInfo() {
   const location = useLocation();

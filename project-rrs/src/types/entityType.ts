@@ -1,4 +1,4 @@
-import { WalkingRecord } from "../stores/petstore";
+import { WalkingRecord } from "../stores/usePet.store";
 
 //entity들
 export interface ResponseDto<D> {

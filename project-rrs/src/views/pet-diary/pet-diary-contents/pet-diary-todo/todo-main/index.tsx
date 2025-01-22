@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "../../../../../styles/PetDiaryTodo.css";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import { FaPlusCircle } from "react-icons/fa";
@@ -11,10 +10,11 @@ import {
 } from "../../../../../apis/todoApi";
 import { PetDiaryTodoProps } from "../../../../../types/petDiaryType";
 import { Todo } from "../../../../../types/todoType";
-import TodoCreate from "../TodoCreate";
-import TodoUpdate from "../TodoUpdate";
-import { useRefreshStore } from "../../../../../stores/refreshStore";
-import useAuthStore from "../../../../../stores/useAuthStore";
+import TodoCreate from "../todo-create";
+import TodoUpdate from "../todo-update";
+import { useRefreshStore } from "../../../../../stores/refresh.store";
+import useAuthStore from "../../../../../stores/useAuth.store";
+import "../../../../../styles/pet-diary/petDiaryTodo.css";
 
 export default function TodoMain({ selectedDate }: PetDiaryTodoProps) {
   const [todos, setTodos] = useState<Todo[]>([]);

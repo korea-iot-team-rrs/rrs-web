@@ -1,6 +1,6 @@
 import React from "react";
 import { Pet, User } from "../../../types/reservationType";
-import "../../../styles/dangSitter/DangSitterUserInfo.css";
+import "../../../styles/dangSitter/dangsitterUserInfo.css";
 
 interface ReservationUserInfoProps {
   pets: Pet[];

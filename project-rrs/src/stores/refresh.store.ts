@@ -7,5 +7,6 @@ interface RefreshStore {
 
 export const useRefreshStore = create<RefreshStore>((set) => ({
   refreshKey: 0,
-  incrementRefreshKey: () => set((state) => ({ refreshKey: state.refreshKey + 1 })),
+  incrementRefreshKey: () =>
+    set((state) => ({ refreshKey: state.refreshKey + 1 })),
 }));

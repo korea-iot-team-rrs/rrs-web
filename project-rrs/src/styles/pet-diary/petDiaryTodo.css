@@ -1,5 +1,5 @@
-.petDiaryTodoContainer > *{
-  font-family: 'Pretendard', Arial, sans-serif;
+.petDiaryTodoContainer > * {
+  font-family: "Pretendard", Arial, sans-serif;
 }
 
 .petDiaryTodoContainer header {
@@ -8,7 +8,7 @@
 
 .petDiaryTodoContainer header > div {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center;
   width: 100%;
 }
@@ -159,7 +159,7 @@
 
 .createTodoInputBtn button {
   width: 20%;
-  background-color: #2194FF;
+  background-color: #2194ff;
   color: #fff;
   border-radius: 20px;
   font-size: 14px;
@@ -242,7 +242,6 @@
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
     border-top: 15px solid #ffdfdf;
-    
   }
 
   .dog-imo {

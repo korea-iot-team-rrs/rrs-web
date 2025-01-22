@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { Button, Link } from "@mui/material";
-import { LoginResponseDto } from "../../../types/AuthType.ts";
+import { LoginResponseDto } from "../../../types/authType";
 import logo from "../../../assets/images/logo.png";
 import naverLogo from "../../../assets/logo/naver-icon-file.png";
 import kakaoLogo from "../../../assets/logo/kakaotalk_logo.png";
-import "../../../styles/Login.css";
-import useAuthStore from "../../../stores/useAuthStore";
+import useAuthStore from "../../../stores/useAuth.store";
+import "../../../styles/auth/login.css";
 
 interface Credentials {
   username: string;

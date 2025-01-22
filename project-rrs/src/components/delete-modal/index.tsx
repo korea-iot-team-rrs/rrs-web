@@ -1,5 +1,5 @@
 import React from "react";
-import "../../styles/DeleteModal.css";
+import "../../styles//etc/deleteModal.css";
 
 interface DeleteModalProps {
   onClose: () => void;

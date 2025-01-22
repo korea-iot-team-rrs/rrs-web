@@ -1,8 +1,8 @@
 import React from "react";
 import { AppBar, Tabs, Tab, Box } from "@mui/material";
-import PetDiaryTodo from "./PetDiaryTodo/TodoMain";
-import PetDiaryHealthRecord from "./PetDiaryHealthRecord";
-import PetDiaryWalkingRecord from "./pet-diary-walking-record$";
+import TodoMain from "./pet-diary-todo/todo-main";
+import PetDiaryHealthRecord from "./pet-diary-health-record";
+import PetDiaryWalkingRecord from "./pet-diary-walking-record";
 import { PetDiaryMainProps } from "../../../types/petDiaryType";
 import { RiTodoLine } from "react-icons/ri";
 import { PiDogFill } from "react-icons/pi";
@@ -111,13 +111,13 @@ export default function PetDiaryContents({ selectedDate }: PetDiaryMainProps) {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <PetDiaryTodo selectedDate={selectedDate} />
+        <TodoMain selectedDate={selectedDate} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <PetDiaryWalkingRecord selectedDate={selectedDate}/>
+        <PetDiaryWalkingRecord selectedDate={selectedDate} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <PetDiaryHealthRecord selectedDate={selectedDate}/>
+        <PetDiaryHealthRecord selectedDate={selectedDate} />
       </TabPanel>
     </Box>
   );

@@ -8,13 +8,13 @@ import {
 } from "../../../types/reservationType";
 import { useCookies } from "react-cookie";
 import { fetchReservation, updateMemo } from "../../../apis/reservationApi";
-import DangSitterBox from "../../../components/dangSitter$/DangSitterBox";
-import ReservationUserInfo from "../../../components/dangSitter$/ReservationUserInfo";
-import { fetchUserInfo } from "../../../apis/userInfo";
+import DangSitterBox from "../../../components/dangSitter/dangsitter-box";
+import ReservationUserInfo from "../../../components/dangSitter/reservation-user-info";
+import { fetchUserInfo } from "../../../apis/userInfoApi";
 import { fetchPets } from "../../../apis/petApi";
 import { Button, Chip } from "@mui/material";
 
-import "../../../styles/reservation/ReservationUserDetail.css";
+import "../../../styles/reservation/reservationUserDetail.css";
 
 export default function ReservationUserDetail() {
   const { id } = useParams<{ id: string }>();
@@ -50,7 +50,7 @@ export default function ReservationUserDetail() {
   useEffect(() => {
     const token = cookies.token;
     if (!token) return console.error("Token not found");
-    
+
     fetchReservationData(Number(id), token);
     fetchUserData(token);
     fetchPetsData(token);

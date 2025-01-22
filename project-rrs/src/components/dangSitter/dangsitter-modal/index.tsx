@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, IconButton, Modal, Rating } from "@mui/material";
-import StarIcon from "@mui/icons-material/Star";
-import "../../../styles/dangSitter/PetSitterModal.css";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import ReviewListModal from "../ReviewListModal";
-import { IoCloseCircle } from "react-icons/io5";
-import { boxStyle } from "../../../styles/dangSitter/DangSitterCommon";
-import { DangSitter } from "../../../types/reservationType";
-import { Review } from "../../../types/reviewType";
-import { fetchLatestReview } from "../../../apis/reviewAPi";
 import { useCookies } from "react-cookie";
+import { fetchLatestReview } from "../../../apis/reviewAPi";
+import { Review } from "../../../types/reviewType";
+import { DangSitter } from "../../../types/reservationType";
+import ReviewListModal from "../review-list-modal";
+import { Box, Button, Modal, Rating } from "@mui/material";
+import StarIcon from "@mui/icons-material/Star";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { IoCloseCircle } from "react-icons/io5";
+import { boxStyle } from "../../../styles/dangsitter/dangSitterCommon";
+import "../../../styles/dangsitter/dangsitterModal.css";
 
 interface DangSitterModalProps {
   open: boolean;

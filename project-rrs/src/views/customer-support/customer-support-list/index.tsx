@@ -1,22 +1,23 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { FetchCSList } from "../../../types/customerSupport";
+import { FetchCSList } from "../../../types/customerSupportType";
 import { Fab, Pagination } from "@mui/material";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import { fetchCustomerSupportList } from "../../../apis/custommerSupport";
+import { fetchCustomerSupportList } from "../../../apis/custommerSupportApi";
+import { useDateStore } from "../../../stores/useDayTransfer.store";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import ReportIcon from "@mui/icons-material/Report";
-import { useDateStore } from "../../../stores/daytransfer";
-import "../../../styles/customerSupport/CustomerSupportList.css";
+import "../../../styles/customer-support/customerSupportList.css";
 
 export default function CustomerSupportList() {
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
-  const [csList, setCsList] = useState<FetchCSList[]>([]);
-  const [isInquiry, setIsInquiry] = useState<boolean>(true);
   const { formatDateBySlash } = useDateStore();
 
+  const [csList, setCsList] = useState<FetchCSList[]>([]);
+  const [isInquiry, setIsInquiry] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState(1);
+
   const itemsPerPage = 10;
 
   const filteredCS = useMemo(() => {
@@ -33,7 +34,6 @@ export default function CustomerSupportList() {
           new Date(a.customerSupportCreateAt).getTime()
       );
   }, [csList, isInquiry]);
-
 
   const totalPages = Math.ceil(filteredCS.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -115,10 +115,18 @@ export default function CustomerSupportList() {
         </div>
         <div className="cs-list-body">
           <div className="cs-list-body-title">
-            <div><p>목차</p></div>
-            <div><p>제목</p></div>
-            <div><p>날짜</p></div>
-            <div><p>상태</p></div>
+            <div>
+              <p>목차</p>
+            </div>
+            <div>
+              <p>제목</p>
+            </div>
+            <div>
+              <p>날짜</p>
+            </div>
+            <div>
+              <p>상태</p>
+            </div>
           </div>
           <ul>
             {filteredCS.slice(startIndex, endIndex).map((value, index) => (
