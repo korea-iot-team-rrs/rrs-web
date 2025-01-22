@@ -1,6 +1,6 @@
 import React from "react";
 import { AppBar, Tabs, Tab, Box } from "@mui/material";
-import PetDiaryTodo from "./PetDiaryTodo";
+import PetDiaryTodo from "./PetDiaryTodo/TodoMain";
 import PetDiaryHealthRecord from "./PetDiaryHealthRecord";
 import PetDiaryWalkingRecord from "./PetDiaryWalkingRecord";
 import { PetDiaryMainProps } from "../../../types/petDiaryType";
@@ -36,7 +36,7 @@ function a11yProps(index: number) {
     "aria-controls": `full-width-tabpanel-${index}`,
   };
 }
-export default function PetDiaryMain({ selectedDate }: PetDiaryMainProps) {
+export default function PetDiaryContents({ selectedDate }: PetDiaryMainProps) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {

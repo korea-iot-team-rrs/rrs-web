@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import Main from "./views/Main";
 import Header from "./layouts/Header";
 
-import PetDiaryView from "./views/PetDiaryView/PetDiaryView";
+import PetDiaryMain from "./views/PetDiary/PetDiaryMain";
 import AnnouncementListView from "./views/AnnouncementView/AnnouncementListView";
 import AnnouncementView from "./views/AnnouncementView/AnnouncementDetailView";
 import UsageGuideDetailView from "./views/AnnouncementView/UsageGuideDetailView";
@@ -141,7 +141,7 @@ function App() {
             <Route path="/events" element={<EventListView />} />
             <Route path="/events/:id" element={<EventDetailView />} />
 
-            <Route path="/pet-diary" element={<PetDiaryView />} />
+            <Route path="/pet-diary" element={<PetDiaryMain />} />
 
             <Route path="/community" element={<CommunityListView />} />
             <Route path="/community/:id" element={<CommunityDetailView />} />
