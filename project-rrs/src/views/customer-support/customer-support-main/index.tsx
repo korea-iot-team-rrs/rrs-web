@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../../../stores/useAuth.store";
 import LoginModal from "../../../components/login-modal";
-import "../../../styles/customerSupport/CustomerSupportMain.css";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import CallIcon from "@mui/icons-material/Call";
 import csBottomImg from "../../../assets/images/cs-bottom-img.jpg";
+import "../../../styles/customer-support/customerSupportMain.css";
 
 export default function CustomerSupportMain() {
   const navigate = useNavigate();

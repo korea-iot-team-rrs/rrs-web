@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import React from "react";
 import "../../styles/notice.css";
+=======
+import React from 'react';
+import '../../styles/etc/notice.css';
+>>>>>>> develop
 
 export const Notice = () => {
   return (

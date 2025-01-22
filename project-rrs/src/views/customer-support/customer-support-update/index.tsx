@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import FolderIcon from "@mui/icons-material/Folder";
 import DeleteIcon from "@mui/icons-material/Delete";
-import "../../../styles/customerSupport/CustomerSupportUpdate.css";
+import "../../../styles/customer-support/customerSupportUpdate.css";
 
 export default function CustomerSupportUpdate() {
   const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB

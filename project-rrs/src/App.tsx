@@ -40,7 +40,10 @@ import CustomerSupportWrite from "./views/customer-support/customer-support-writ
 import CustomerSupportUpdate from "./views/customer-support/customer-support-update";
 import PetRoad from "./views/pet-road";
 import Footer from "./layouts/footer";
+<<<<<<< HEAD
 
+=======
+>>>>>>> develop
 
 function App() {
   const { isLoading } = useAuthCheck();
@@ -180,7 +183,6 @@ function App() {
               element={<ProvisionDetail />}
             />
 
-            {/* 고객센터 관련 라우터 */}
             <Route
               path="/inquiry-and-report"
               element={<CustomerSupportMain />}

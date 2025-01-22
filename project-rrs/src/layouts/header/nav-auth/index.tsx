@@ -3,9 +3,13 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { LoginResponseDto } from "../../../types/authType";
 import { FILE_URL } from "../../../constants";
+<<<<<<< HEAD
 import "../../../styles/Header.css";
+=======
+>>>>>>> develop
 import useAuthStore from "../../../stores/useAuth.store";
 import DefaultImage from "../../../assets/images/dogIllust02.jpeg";
+import "../../../styles/layout/header.css";
 
 export default function NavAuth() {
   const { isLoggedIn, login, logout, user } = useAuthStore();

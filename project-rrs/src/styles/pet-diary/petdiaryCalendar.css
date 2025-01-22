@@ -162,6 +162,7 @@
   flex-direction: column;
   justify-content: space-between;
   margin-bottom: 0px;
+<<<<<<< HEAD
 }
 
 /* .calendar-todo-item span:nth-child(2) {
@@ -173,3 +174,6 @@
   color: #9A67FF;
   background-color: #eae0ff;
 } */
+=======
+}
+>>>>>>> develop

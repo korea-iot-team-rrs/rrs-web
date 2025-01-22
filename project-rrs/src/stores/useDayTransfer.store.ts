@@ -6,7 +6,6 @@ type DateStore = {
 };
 
 export const useDateStore = create<DateStore>(() => ({
-  // 날짜를 한국 형식으로 포맷팅
   formatDateToKR: (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleString("ko-KR", {
@@ -18,7 +17,6 @@ export const useDateStore = create<DateStore>(() => ({
     });
   },
 
-  // 날짜를 YYYY-MM-DD 형식으로 포맷팅
   formatDateBySlash: (date: Date) => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");

@@ -6,7 +6,7 @@ import {
   updateUserPassword,
 } from "../../../apis/userInfoApi";
 import { Button, OutlinedInput } from "@mui/material";
-import "../../../styles/findUserInfo/FindPassword.css";
+import "../../../styles/auth/find-user-info/findPassword.css";
 
 export default function FindPassword() {
   const { token } = useParams<{ token: string }>();

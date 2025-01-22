@@ -16,7 +16,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import FolderIcon from "@mui/icons-material/Folder";
-import "../../../styles/customerSupport/CustomerSupportDetail.css";
+import "../../../styles/customer-support/customerSupportDetail.css";
 
 export default function CustomerSupportDetail() {
   const [cookies] = useCookies(["token"]);

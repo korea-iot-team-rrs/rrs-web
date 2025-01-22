@@ -1,11 +1,14 @@
 import { Button } from "@mui/material";
 import React, { useState } from "react";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
-import "../../../../../styles/PetDiaryTodo.css";
 import { updateTodo } from "../../../../../apis/todoApi";
 import { useCookies } from "react-cookie";
 import { Todo } from "../../../../../types/todoType";
 import { useRefreshStore } from "../../../../../stores/refresh.store";
+<<<<<<< HEAD
+=======
+import "../../../../../styles/pet-diary/petDiaryTodo.css";
+>>>>>>> develop
 
 interface TodoUpdateProps {
   selectedDate: string;

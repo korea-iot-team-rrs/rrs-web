@@ -1,6 +1,5 @@
 import { styled } from "@mui/material/styles";
-import shadows from "@mui/material/styles/shadows";
-import Switch, { SwitchProps } from "@mui/material/Switch";
+import Switch from "@mui/material/Switch";
 
 export const boxStyle = {
   position: "absolute",
@@ -52,7 +51,7 @@ export const AntSwitch = styled(Switch)(({ theme }) => ({
     }),
   },
   "& .MuiSwitch-track": {
-    borderRadius: 24 / 2, // track의 둥근 정도 조정
+    borderRadius: 24 / 2,
     opacity: 1,
     backgroundColor: "rgb(28, 219, 79)",
     boxSizing: "border-box",

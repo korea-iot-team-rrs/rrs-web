@@ -1,6 +1,10 @@
 import React from "react";
 import { AppBar, Tabs, Tab, Box } from "@mui/material";
+<<<<<<< HEAD
 import PetDiaryTodo from "./pet-diary-todo/todo-main";
+=======
+import TodoMain from "./pet-diary-todo/todo-main";
+>>>>>>> develop
 import PetDiaryHealthRecord from "./pet-diary-health-record";
 import PetDiaryWalkingRecord from "./pet-diary-walking-record";
 import { PetDiaryMainProps } from "../../../types/petDiaryType";
@@ -111,13 +115,13 @@ export default function PetDiaryContents({ selectedDate }: PetDiaryMainProps) {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <PetDiaryTodo selectedDate={selectedDate} />
+        <TodoMain selectedDate={selectedDate} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <PetDiaryWalkingRecord selectedDate={selectedDate}/>
+        <PetDiaryWalkingRecord selectedDate={selectedDate} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <PetDiaryHealthRecord selectedDate={selectedDate}/>
+        <PetDiaryHealthRecord selectedDate={selectedDate} />
       </TabPanel>
     </Box>
   );

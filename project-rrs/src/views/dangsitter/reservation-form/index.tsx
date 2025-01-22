@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import DangSitterBox from "../../../components/dangSitter$/DangSitterBox";
+import DangSitterBox from "../../../components/dangSitter/dangsitter-box";
 import { Box, Button, Checkbox, FormControlLabel } from "@mui/material";
-import { Notice } from "../../../constants/notice$";
-import "../../../styles/reservation/ReservationForm.css";
+import { Notice } from "../../../constants/notice";
 import dayjs, { Dayjs } from "dayjs";
 import { DangSitter, Pet, User } from "../../../types/reservationType";
 import { useCookies } from "react-cookie";
@@ -14,10 +13,11 @@ import {
   fetchprovidersByDate,
 } from "../../../apis/reservationApi";
 import { FaSearch } from "react-icons/fa";
-import { fetchUserInfo } from "../../../apis/userInfo";
+import { fetchUserInfo } from "../../../apis/userInfoApi";
 import { fetchPets } from "../../../apis/petApi";
 import { useNavigate } from "react-router-dom";
-import ReservationUserInfo from "../../../components/dangSitter$/ReservationUserInfo";
+import ReservationUserInfo from "../../../components/dangSitter/reservation-user-info";
+import "../../../styles/reservation/reservationForm.css";
 
 export default function ReservationForm() {
   const [cookies] = useCookies(["token"]);

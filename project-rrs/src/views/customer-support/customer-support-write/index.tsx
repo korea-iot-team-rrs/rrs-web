@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import ReportIcon from "@mui/icons-material/Report";
 import { CreateCS } from "../../../types/customerSupportType";
+<<<<<<< HEAD
 import "../../../styles/customerSupport/CustomerSupportWrite.css";
+=======
+>>>>>>> develop
 import { createCustomerSupport } from "../../../apis/custommerSupportApi";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +22,7 @@ import {
 } from "@mui/material";
 import FolderIcon from "@mui/icons-material/Folder";
 import DeleteIcon from "@mui/icons-material/Delete";
+import "../../../styles/customer-support/customerSupportWrite.css";
 
 export default function CustomerSupportWrite() {
   const [cookies] = useCookies(["token"]);

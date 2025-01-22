@@ -7,12 +7,12 @@ import {
 import { Reservation } from "../../../types/reservationType";
 import { useCookies } from "react-cookie";
 import { Button, Pagination } from "@mui/material";
-import ReservationItem from "../../../components/dangSitter$/ReservationItem";
-import { useRefreshStore } from "../../../stores/refreshStore";
+import ReservationItem from "../../../components/dangSitter/reservation-item";
+import { useRefreshStore } from "../../../stores/refresh.store";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
-import "../../../styles/reservation/ReservationList.css";
+import "../../../styles/reservation/reservationList.css";
 
 export default function ReservationList() {
   const navigate = useNavigate();

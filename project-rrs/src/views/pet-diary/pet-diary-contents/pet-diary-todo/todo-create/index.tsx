@@ -1,10 +1,11 @@
 import { Button } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
-import "../../../../../styles/PetDiaryTodo.css";
 import { useCookies } from "react-cookie";
 import { useRefreshStore } from "../../../../../stores/refresh.store";
 import { createTodo } from "../../../../../apis/todoApi";
+import "../../../../../styles/pet-diary/petDiaryTodo.css";
+
 interface TodoUpdateProps {
   goBack: () => void;
   selectedDate: string;
@@ -22,7 +23,6 @@ export default function TodoCreate({ goBack, selectedDate }: TodoUpdateProps) {
     const token = cookies.token;
     console.log(token);
     if (!token) {
-      
       console.error("Token not found");
       return;
     }

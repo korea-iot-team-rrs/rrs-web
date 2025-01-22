@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Stack, Typography } from "@mui/material";
-import { AntSwitch } from "../../../styles/dangSitter/DangSitterCommon";
-import { useNavigate, useParams } from "react-router-dom";
-import "../../../styles/dangSitter/DangSitterMain.css";
+import { useNavigate } from "react-router-dom";
 import { TfiArrowTopRight } from "react-icons/tfi";
 import LoginModal from "../../../components/login-modal";
-import useAuthStore from "../../../stores/useAuthStore";
+import useAuthStore from "../../../stores/useAuth.store";
+import "../../../styles/dangSitter/dangSitterMain.css";
+import { AntSwitch } from "../../../styles/dangsitter/dangsitterCommon";
+
 export default function DangSitterMain() {
   const navigate = useNavigate();
   const { isLoggedIn } = useAuthStore();
