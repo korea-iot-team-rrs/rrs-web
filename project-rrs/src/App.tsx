@@ -1,10 +1,10 @@
 import "./App.css";
 import Footer from "./layouts/Footer";
 import { Route, Routes } from "react-router-dom";
-import Main from "./views/Main";
-import Header from "./layouts/Header";
+import Main from "./views/main$";
+import Header from "./layouts/header$";
 
-import PetDiaryMain from "./views/PetDiary/PetDiaryMain";
+import PetDiaryMain from "./views/pet-diary$/pet-diary-main$";
 import AnnouncementListView from "./views/AnnouncementView/AnnouncementListView";
 import AnnouncementView from "./views/AnnouncementView/AnnouncementDetailView";
 import UsageGuideDetailView from "./views/AnnouncementView/UsageGuideDetailView";
@@ -15,34 +15,34 @@ import CommunityListView from "./views/CommunityVIew/CommunityListView";
 import CommunityDetailView from "./views/CommunityVIew/CommunityDetailView";
 
 import CommunityCreateView from "./views/CommunityVIew/CommunityCreateView";
-import MyPageView from "./views/MyPage/User";
+import MyPageView from "./views/my-page$";
 
-import ReservationList from "./views/DangSitter/ReservaionList";
-import ReservationForm from "./views/DangSitter/ReservationForm";
-import ReservationUserDetail from "./views/DangSitter/ReservaionUserDetail";
+import ReservationList from "./views/dangsitter$/ReservaionList";
+import ReservationForm from "./views/dangsitter$/ReservationForm";
+import ReservationUserDetail from "./views/dangsitter$/ReservaionUserDetail";
 
 import CommunityEditView from "./views/CommunityVIew/CommunityEditView";
-import SignUpMain from "./views/Auth/SignUp/SignUpMain";
-import RrsSignUp from "./views/Auth/SignUp/RrsSignUp";
-import FindId from "./views/Auth/FindId";
-import FindPassword from "./views/Auth/FindPassword/FindPassword";
-import FinduserInfo from "./views/Auth/FindUserInfo";
-import Login from "./views/Auth/Login";
+import SignUpMain from "./views/auth$/SignUp/SignUpMain";
+import RrsSignUp from "./views/auth$/SignUp/RrsSignUp";
+import FindId from "./views/auth$/FindId";
+import FindPassword from "./views/auth$/FindPassword/FindPassword";
+import FinduserInfo from "./views/auth$/FindUserInfo";
+import Login from "./views/auth$/login$";
 import CustomerSupportList from "./views/CustomerSupport/CustomerSupportList";
-import DangSitterMain from "./views/DangSitter/DangSitterMain";
+import DangSitterMain from "./views/dangsitter$/dangsitter-main$";
 import CustomerSupportDetail from "./views/CustomerSupport/CustomerSupportDetail";
 import CustomerSupportWrite from "./views/CustomerSupport/CustomerSupportWrite";
 import CustomerSupportUpdate from "./views/CustomerSupport/CustomerSupportUpdate";
 import { useAuthCheck } from "./stores/useAuthCheck";
 import ProtectedRoute from "./types/routerType";
 import { CircularProgress } from "@mui/material";
-import PetRoad from "./views/PetRoad";
-import ProviderUpdate from "./views/DangSitter/providerUpdate";
-import AuthRedirectHandler from "./views/Auth/SignUp/AuthRedirectHandler";
-import SnsSuccess from "./views/Auth/Login/SnsSuccess";
-import ProvisionDetail from "./views/DangSitter/provisionDetail";
+import PetRoad from "./views/pet-road$";
+import ProviderUpdate from "./views/dangsitter$/provider-update$";
+import AuthRedirectHandler from "./views/auth$/SignUp/AuthRedirectHandler";
+import SnsSuccess from "./views/auth$/login$/SnsSuccess";
+import ProvisionDetail from "./views/dangsitter$/provision-detail$";
 import CustomerSupportMain from "./views/CustomerSupport/CustomerSupportMain";
-import ProvisionListPage from "./views/DangSitter/provisionListPage";
+import ProvisionListPage from "./views/dangsitter$/provision-list-page$";
 
 function App() {
   const { isLoading } = useAuthCheck();

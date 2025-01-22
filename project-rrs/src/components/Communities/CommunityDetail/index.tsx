@@ -7,11 +7,11 @@ import { deleteCommunity, getCommunityById } from "../../../apis/communityApi";
 import {
   CommunityLikeResponseDto,
   ToggleLikeData,
-} from "../../../types/ToggleLikeType";
+} from "../../../types/toggleLikeType$";
 import {
   getUsersWhoLikedCommunity,
   toggleLike,
-} from "../../../apis/ToggleKikeApi";
+} from "../../../apis/toggleKikeApi$.ts";
 import { FaHeart, FaThumbsUp } from "react-icons/fa";
 import "../../../styles/communities/CommunityDetail.css";
 import DefaultImage from "../../../assets/images/dogIllust02.jpeg";
