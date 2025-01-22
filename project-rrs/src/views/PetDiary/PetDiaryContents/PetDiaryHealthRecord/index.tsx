@@ -8,7 +8,7 @@ import { FaPlusCircle } from "react-icons/fa";
 import HealthRecordCreate from "./HealthRecordCreate";
 import HealthRecordGet from "./HealthRecordDetail";
 import HealthRecordUpdate from "./HealthRecordUpdate";
-import DeleteModal from "../../../DeleteModal";
+import DeleteModal from "../../../../components/DeleteModal";
 import {
   getAllHealthRecords,
   deleteHealthRecord,
