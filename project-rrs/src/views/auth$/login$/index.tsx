@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { Button, Link } from "@mui/material";
-import { LoginResponseDto } from "../../../types/AuthType";
+import { LoginResponseDto } from "../../../types/AuthType.ts";
 import logo from "../../../assets/images/logo.png";
 import naverLogo from "../../../assets/logo/naver-icon-file.png";
 import kakaoLogo from "../../../assets/logo/kakaotalk_logo.png";

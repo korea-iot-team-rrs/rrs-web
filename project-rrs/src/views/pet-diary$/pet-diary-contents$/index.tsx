@@ -2,7 +2,7 @@ import React from "react";
 import { AppBar, Tabs, Tab, Box } from "@mui/material";
 import PetDiaryTodo from "./PetDiaryTodo/TodoMain";
 import PetDiaryHealthRecord from "./PetDiaryHealthRecord";
-import PetDiaryWalkingRecord from "./PetDiaryWalkingRecord";
+import PetDiaryWalkingRecord from "./pet-diary-walking-record$";
 import { PetDiaryMainProps } from "../../../types/petDiaryType";
 import { RiTodoLine } from "react-icons/ri";
 import { PiDogFill } from "react-icons/pi";

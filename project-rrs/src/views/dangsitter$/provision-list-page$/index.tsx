@@ -10,13 +10,17 @@ import dayjs, { Dayjs } from "dayjs";
 import "../../../styles/reservation/ReservationList.css";
 import { ProvisionList, ProvisionSummary } from "../../../types/provisionType";
 import axios from "axios";
-import ProvisionItem from "../../../components/DangSitter/provisionItem";
+import ProvisionItem from "../../../components/dangSitter$/provision-Item";
 
 export default function ProvisionListPage() {
   const navigate = useNavigate();
   const [cookies] = useCookies(["token"]);
-  const [provisions, setProvisions] = useState<ProvisionList>({provisionList: []});
-  const [filteredProvisions, setFilteredProvisions] = useState<ProvisionSummary[]>([]);
+  const [provisions] = useState<ProvisionList>({
+    provisionList: [],
+  });
+  const [filteredProvisions, setFilteredProvisions] = useState<
+    ProvisionSummary[]
+  >([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;

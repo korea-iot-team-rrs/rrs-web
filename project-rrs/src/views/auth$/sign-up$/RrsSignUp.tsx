@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { UserSignUp } from "../../../types/AuthType";
+import { UserSignUp } from "../../../types/AuthType.ts";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../../styles/Signup.css";
