@@ -7,11 +7,13 @@ import { FILE_URL } from "../../../constants";
 import useAuthStore from "../../../stores/useAuth.store";
 import DefaultImage from "../../../assets/images/dogIllust02.jpeg";
 import "../../../styles/layout/header.css";
+import { useRefreshStore } from "../../../stores/refresh.store";
 
 export default function NavAuth() {
   const { isLoggedIn, login, logout, user } = useAuthStore();
   const [cookies, removeCookie] = useCookies(["token"]);
   const navigate = useNavigate();
+  const { refreshKey } = useRefreshStore();
 
   useEffect(() => {
     const token = cookies.token || localStorage.getItem("token");
@@ -45,7 +47,7 @@ export default function NavAuth() {
         handleLogout();
       }
     }
-  }, [cookies.token, login, removeCookie, logout, navigate]);
+  }, [cookies.token, login, removeCookie, logout, navigate, refreshKey]);
 
   const handleLogout = () => {
     removeCookie("token", { path: "/" });
