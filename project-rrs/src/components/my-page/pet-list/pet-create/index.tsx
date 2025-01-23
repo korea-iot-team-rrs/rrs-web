@@ -2,8 +2,9 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import "../../../../styles/my-page/petCreate.css";
 import petDefaultImage from "../../../../assets/images/pet-default-profile.jpg";
+import "../../../../styles/my-page/petCreate.css";
+import "../../../../styles/my-page/profileModal.css";
 
 export default function PetCreate() {
   const [cookies] = useCookies(["token"]);
@@ -18,23 +19,27 @@ export default function PetCreate() {
     petNeutralityYn: "",
   });
   const [imagePreview, setImagePreview] = useState(petDefaultImage);
+  const [showOptions, setShowOptions] = useState(false);
 
   useEffect(() => {
     const token = cookies.token || localStorage.getItem("token");
     console.log("token:", token);
     if (!token) {
       alert("로그인 정보가 없습니다.");
-      navigate("/");
+      navigate("/login");
       return;
     }
   }, [cookies, navigate]);
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const previewUrl = URL.createObjectURL(file); // 선택한 파일의 URL을 생성
-      setImagePreview(previewUrl); // 미리보기 이미지를 설정
+  const handleImageClick = () => {
+    setShowOptions(true);
+  };
+
+  const handleOptionSelect = (option: string) => {
+    if (option === "default") {
+      setImagePreview(petDefaultImage);
     }
+    setShowOptions(false);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,9 +59,9 @@ export default function PetCreate() {
         petImageUrl: file,
       });
 
-      // 미리보기 이미지를 변경하는 함수 호출
-      const previewUrl = URL.createObjectURL(file); // 파일을 URL로 변환
-      setImagePreview(previewUrl); // 미리보기 이미지 상태 업데이트
+      const previewUrl = URL.createObjectURL(file);
+      setImagePreview(previewUrl);
+      setShowOptions(false);
     }
   };
 
@@ -138,7 +143,7 @@ export default function PetCreate() {
     try {
       const token = cookies.token || localStorage.getItem("token");
       const response = await axios.post(
-        `http://localhost:4040/api/v1/users/pet`,
+        `http://localhost:4040/api/v1/pets`,
         formData,
         {
           headers: {
@@ -163,15 +168,35 @@ export default function PetCreate() {
         <form onSubmit={handleSubmit}>
           <div className="petCreateElement">
             <label htmlFor="petImageUrl">강아지 프로필 사진</label>
-            <img src={imagePreview} alt="강아지 사진" />
+            <div onClick={handleImageClick} style={{ cursor: "pointer" }}>
+              <img src={imagePreview} alt="강아지 사진" />
+            </div>
             <input
               type="file"
               id="petImageUrl"
               onChange={handleFileChange}
-              width="150"
-              height="150"
+              style={{ display: "none" }}
             />
           </div>
+
+          {showOptions && (
+            <div className="profile-modal">
+              <div className="profile-modal-content">
+                <button
+                  type="button"
+                  onClick={() =>
+                    document.getElementById("petImageUrl")?.click()
+                  }
+                >
+                  앨범에서 사진 선택
+                </button>
+                <button onClick={() => handleOptionSelect("default")}>
+                  기본 사진 선택
+                </button>
+                <button onClick={() => setShowOptions(false)}>취소</button>
+              </div>
+            </div>
+          )}
 
           <div className="petCreateElement">
             <label htmlFor="petName">강아지 이름</label>
@@ -227,6 +252,7 @@ export default function PetCreate() {
               value={pet.petWeight ?? ""}
               onChange={handleInputChange}
             />
+            <p>Kg</p>
           </div>
 
           <div className="petCreateElement">

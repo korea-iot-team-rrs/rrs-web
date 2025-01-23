@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Pet } from "../../../../stores/usePet.store";
 import petDefaultImage from "../../../../assets/images/pet-default-profile.jpg";
-import "../../../../styles/my-page/pet.css";
+import "../../../../styles/my-page/petInfo.css"
 
 export default function PetInfo() {
   const { petId } = useParams();
@@ -14,14 +14,14 @@ export default function PetInfo() {
     const token = localStorage.getItem("token");
     if (!token) {
       alert("로그인 정보가 없습니다.");
-      navigate("/");
+      navigate("/login");
       return;
     }
 
     const fetchPets = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4040/api/v1/users/pet/${petId}`,
+          `http://localhost:4040/api/v1/pets/${petId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

@@ -5,7 +5,7 @@ import usePetStore, {
 } from "../../../../stores/usePet.store";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import "../../../../styles/pet-diary/walkingRecord.css";
+import "../../../../styles/pet-diary/walking-record/walkingRecordList.css";
 import { PetDiaryTodoProps } from "../../../../types/petDiaryType";
 import { FaPlusCircle } from "react-icons/fa";
 import WalkingRecordCreate from "./walking-record-create";
@@ -13,6 +13,7 @@ import axios from "axios";
 import WalkingRecordGet from "./walking-record-get";
 import WalkingRecordUpdate from "./walking-record-update";
 import { useRefreshStore } from "../../../../stores/refresh.store";
+import petDefaultImage from "../../../../assets/images/pet-default-profile.jpg";
 
 export default function PetDiaryWalkingRecord({
   selectedDate,
@@ -55,13 +56,13 @@ export default function PetDiaryWalkingRecord({
     const token = cookies.token || localStorage.getItem("token");
     if (!token) {
       alert("로그인 정보가 없습니다.");
-      navigate("/");
+      navigate("/login");
       return;
     }
 
     const fetchPets = async () => {
       try {
-        const response = await fetch("http://localhost:4040/api/v1/users/pet", {
+        const response = await fetch("http://localhost:4040/api/v1/pets", {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -89,10 +90,10 @@ export default function PetDiaryWalkingRecord({
         try {
           const token = cookies.token || localStorage.getItem("token");
           const petId = selectedPet?.petId;
-          const walkingRecordCreateAt = selectedDate;
+          const date = selectedDate;
 
           const response = await fetch(
-            `http://localhost:4040/api/v1/walking-record/petId/${petId}/walkingRecordCreateAt/${walkingRecordCreateAt}`,
+            `http://localhost:4040/api/v1/walking-records/${petId}?date=${date}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -102,14 +103,14 @@ export default function PetDiaryWalkingRecord({
           );
 
           if (!response.ok) {
-            throw new Error("산책 기록을 불러오지 못했습니다.");
+            throw new Error("산책 기록 목록을 불러오지 못했습니다.");
           }
 
           const data = await response.json();
           setWalkingRecords(data.data || []);
         } catch (error) {
           console.log("에러:", error);
-          alert("산책 기록을 불러오는 중 오류 발생");
+          alert("산책 기록 목록을 불러오는 중 오류 발생");
         }
       };
 
@@ -154,7 +155,7 @@ export default function PetDiaryWalkingRecord({
 
     try {
       const response = await axios.delete(
-        `http://localhost:4040/api/v1/walking-record/petId/${petId}/walkingRecordId/${walkingRecordId}`,
+        `http://localhost:4040/api/v1/walking-records/${petId}/${walkingRecordId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -223,7 +224,18 @@ export default function PetDiaryWalkingRecord({
                   }}
                 >
                   <div className="petCircleBox">
-                    <img src={pet.petImageUrl} alt={`${pet.petName}의 사진`} />
+                    <img
+                      src={
+                        pet.petImageUrl
+                          ? `http://localhost:4040/${pet.petImageUrl}`
+                          : petDefaultImage
+                      }
+                      alt={`${pet.petName}의 사진`}
+                      onError={(e) => {
+                        const imgElement = e.target as HTMLImageElement;
+                        imgElement.src = petDefaultImage;
+                      }}
+                    />
                   </div>
                   <p>{pet.petName}</p>
                 </button>

@@ -1,7 +1,6 @@
 /* MyPage 전체 스타일 */
 .myPage {
   display: flex;
-  /* background-color: pink; */
 }
 
 /* MyPage Navigate 스타일 */
@@ -34,7 +33,7 @@
 
 .myPageContent h2 {
   text-align: center;
-  margin: 25px 0 60px 0;
+  margin: 35px 0 60px 0;
 }
 
 .myPage input {

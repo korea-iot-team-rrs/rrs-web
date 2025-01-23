@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "@mui/material";
 import { ReservationStatus } from "../../../types/reservationType";
 import { useCookies } from "react-cookie";
@@ -41,36 +41,29 @@ export default function ProvisionItem({
     }
   };
 
-  const handleRejected = async (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleStatusChange = async (status: ReservationStatus) => {
     const token = cookies.token;
-    const confirmRejected = window.confirm("거절 하시겠습니까?");
-    if (!confirmRejected) return;
-
-    try {
-      await updateReservationStatus(
-        {
-          reservationId: provision.reservationId,
-          reservationStatus: ReservationStatus.REJECTED,
-        },
-        token
-      );
-      incrementRefreshKey();
-    } catch (error) {
-      console.error("Failed to update provision status:", error);
+    let confirmationMessage = "";
+    let newStatus: ReservationStatus = ReservationStatus.PENDING; // 초기값을 PENDING으로 설정
+  
+    if (status === ReservationStatus.IN_PROGRESS) {
+      confirmationMessage = "수락 하시겠습니까?";
+      newStatus = ReservationStatus.IN_PROGRESS;
+    } else if (status === ReservationStatus.REJECTED) {
+      confirmationMessage = "거절 하시겠습니까?";
+      newStatus = ReservationStatus.REJECTED;
     }
-  };
-
-  const handleAcceptance = async (e: React.MouseEvent) => {
-    const token = cookies.token;
-    const confirmAcceptance = window.confirm("수락 하시겠습니까?");
-    if (!confirmAcceptance) return;
-
+  
+    const isConfirmed = window.confirm(confirmationMessage);
+    if (!isConfirmed) return;
+  
+    console.log("Changing status to:", newStatus); 
+    
     try {
       await updateReservationStatus(
         {
           reservationId: provision.reservationId,
-          reservationStatus: ReservationStatus.IN_PROGRESS,
+          reservationStatus: newStatus, // newStatus가 PENDING에서 올바르게 변경됨
         },
         token
       );
@@ -100,7 +93,7 @@ export default function ProvisionItem({
               <Button
                 variant="outlined"
                 color="warning"
-                onClick={handleAcceptance}
+                onClick={() => handleStatusChange(ReservationStatus.IN_PROGRESS)} 
                 size="medium"
                 sx={{
                   fontFamily: "Pretendard",
@@ -113,7 +106,7 @@ export default function ProvisionItem({
               <Button
                 variant="outlined"
                 color="warning"
-                onClick={handleRejected}
+                onClick={() => handleStatusChange(ReservationStatus.REJECTED)} 
                 size="medium"
                 sx={{
                   fontFamily: "Pretendard",

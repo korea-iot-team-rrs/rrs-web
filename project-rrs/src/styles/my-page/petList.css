@@ -45,6 +45,7 @@
   border-radius: 50%;
   object-fit: cover;
   margin-top: 15px;
+  object-fit: cover;
 }
 
 .petListBox p {
