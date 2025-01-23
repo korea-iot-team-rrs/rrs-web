@@ -97,12 +97,9 @@ export default function UserInfoUpdate() {
               const fileUrl = URL.createObjectURL(userData.profileImageUrl);
               setProfilePreview(fileUrl);
             } else {
-              const imageUrl = `http://localhost:4040/${userData.profileImageUrl}`;
-              setProfilePreview(imageUrl);
-            }
-          } else {
             setProfilePreview(userDefaultImage);
           }
+        }
           setLoading(false); 
         }
       } catch (error) {
@@ -228,18 +225,15 @@ export default function UserInfoUpdate() {
           },
         }
       );
-
-      console.log("Response: ", response);
-
       if (response.status === 200) {
         alert("유저 정보가 수정되었습니다.");
-
         const updateData = response.data.data;
         setUserInfo(updateData);
         setProfilePreview(updateData.profileImageUrl);
         goBack();
       } else if (response.data.message === "Phone already exists.") {
         alert("이미 등록된 전화번호입니다.");
+        console.log("ResponseMessage: ", response.data.message);
       }
     } catch (error) {
       console.error("Error updating user info", error);

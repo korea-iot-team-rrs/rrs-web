@@ -90,10 +90,10 @@ export default function PetDiaryWalkingRecord({
         try {
           const token = cookies.token || localStorage.getItem("token");
           const petId = selectedPet?.petId;
-          const walkingRecordCreateAt = selectedDate;
+          const date = selectedDate;
 
           const response = await fetch(
-            `http://localhost:4040/api/v1/walking-record/petId/${petId}/walkingRecordCreateAt/${walkingRecordCreateAt}`,
+            `http://localhost:4040/api/v1/walking-records/${petId}?date=${date}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -103,14 +103,14 @@ export default function PetDiaryWalkingRecord({
           );
 
           if (!response.ok) {
-            throw new Error("산책 기록을 불러오지 못했습니다.");
+            throw new Error("산책 기록 목록을 불러오지 못했습니다.");
           }
 
           const data = await response.json();
           setWalkingRecords(data.data || []);
         } catch (error) {
           console.log("에러:", error);
-          alert("산책 기록을 불러오는 중 오류 발생");
+          alert("산책 기록 목록을 불러오는 중 오류 발생");
         }
       };
 

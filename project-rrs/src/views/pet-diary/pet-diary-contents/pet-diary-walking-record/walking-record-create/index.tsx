@@ -207,6 +207,7 @@ const WalkingRecordCreate = ({
       addWalkingRecord(response.data.data);
       incrementRefreshKey();
       goBack();
+      console.log(petId);
     } catch (error) {
       console.error("산책기록 저장 실패:", error);
       alert("산책기록 저장 실패");

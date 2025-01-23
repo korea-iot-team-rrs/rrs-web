@@ -252,6 +252,7 @@ export default function PetCreate() {
               value={pet.petWeight ?? ""}
               onChange={handleInputChange}
             />
+            <p>Kg</p>
           </div>
 
           <div className="petCreateElement">

@@ -224,13 +224,11 @@ const WalkingRecordUpdate = ({
       formData.append("files", fileObj.file, fileObj.name);
     });
 
-    // URL로 존재하는 파일을 File 객체로 변환 후 FormData에 추가
     const addExistingFilesToFormData = async () => {
       const fetchPromises = existingFiles
-        .filter((fileObj) => !removedFiles.includes(fileObj.name)) // 삭제된 파일 제외
+        .filter((fileObj) => !removedFiles.includes(fileObj.name)) 
         .map((fileObj) => {
           if (!("file" in fileObj)) {
-            // 파일이 URL로만 존재하는 경우
             return fetch(fileObj.url)
               .then((response) => response.blob())
               .then((blob) => {
