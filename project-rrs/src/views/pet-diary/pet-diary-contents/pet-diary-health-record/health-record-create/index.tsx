@@ -29,7 +29,7 @@ const HealthCreate = ({
 }: HealthCreateProps) => {
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
-  const { incrementRefreshKey } = useRefreshStore(); // 상태 갱신 함수 가져오기
+  const { incrementRefreshKey } = useRefreshStore();
   const [attachments, setAttachments] = useState<File[]>([]);
   const today = new Date();
   const selectedDateObj = new Date(selectedDate);
@@ -66,7 +66,7 @@ const HealthCreate = ({
       const newFiles = Array.from(e.target.files);
       const validFiles = newFiles.filter(
         (file) => file.size <= 5 * 1024 * 1024
-      ); // 5MB 제한
+      );
 
       if (validFiles.length !== newFiles.length) {
         alert("일부 파일이 너무 큽니다. 최대 5MB까지 업로드할 수 있습니다.");

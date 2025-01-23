@@ -3,7 +3,7 @@ import { CommunityComment } from "../types/commentType";
 import { MAIN_URL, USER_PATH } from "../constants";
 import { getToken } from "../utils/auth";
 
-const COMMUNITY_COMMENT_API_URL = `${MAIN_URL}${USER_PATH}/community/comment`;
+const COMMUNITY_COMMENT_API_URL = `${MAIN_URL}/community/comment`;
 
 export const createComment = async (
   communityId: number,
