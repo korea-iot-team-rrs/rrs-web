@@ -59,13 +59,10 @@ export default function ReservationList() {
 
         const reviewStatuses = await Promise.all(
           sortedReservations.map(async (reservation) => {
-            const hasReview = await reservationHasReview(
-              reservation.reservationId,
-              token
-            );
+            const hasReview = await reservationHasReview(reservation.reservationId, token);
             return {
               id: reservation.reservationId,
-              status: hasReview.reviewStatus,
+              status: hasReview.reviewStatus
             };
           })
         );

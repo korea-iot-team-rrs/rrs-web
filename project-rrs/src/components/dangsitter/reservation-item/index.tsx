@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "@mui/material";
 import { Reservation, ReservationStatus } from "../../../types/reservationType";
 import { useCookies } from "react-cookie";
-import { updateReservaionStatus } from "../../../apis/reservationApi";
+import { updateReservationStatus } from "../../../apis/reservationApi";
 import { useRefreshStore } from "../../../stores/refresh.store";
 import ReviewModal from "../review-modal";
 import "../../../styles/reservation/reservationItem.css";
@@ -51,10 +51,14 @@ export default function ReservationItem({
     if (!confirmCancel) return;
 
     try {
-      await updateReservaionStatus(
-        reservation.reservationId,
-        {
-          reservationStatus: ReservationStatus.CANCELLED,
+      console.log('Sending data:', {
+        reservationStatus: ReservationStatus.CANCELLED
+      });
+
+      await updateReservationStatus(
+        { 
+          reservationId: reservation.reservationId,
+          reservationStatus: ReservationStatus.CANCELLED 
         },
         token
       );

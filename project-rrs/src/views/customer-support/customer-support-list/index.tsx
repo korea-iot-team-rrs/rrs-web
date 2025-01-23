@@ -40,7 +40,7 @@ export default function CustomerSupportList() {
   const endIndex = startIndex + itemsPerPage;
 
   const csAddBtnHandler = () => {
-    navigate("/inquiry-and-report/write", { state: { isInquiry } });
+    navigate("/customer-support/write", { state: { isInquiry } });
   };
 
   const csBtnClickHandler = (isInquiry: boolean) => {
@@ -133,7 +133,7 @@ export default function CustomerSupportList() {
               <li
                 key={index}
                 onClick={() =>
-                  navigate(`/inquiry-and-report/${value.customerSupportId}`)
+                  navigate(`/customer-support/${value.customerSupportId}`)
                 }
               >
                 <p>{index + 1}</p>

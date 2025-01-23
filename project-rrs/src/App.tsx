@@ -26,11 +26,6 @@ import CommunityListView from "./views/community-vIew/community-list-view";
 import CommunityDetailView from "./views/community-vIew/community-detail-view";
 import CommunityCreateView from "./views/community-vIew/community-create-view";
 import CommunityEditView from "./views/community-vIew/community-edit-view";
-import CustomerSupportMain from "./views/customer-support/customer-support-main";
-import CustomerSupportList from "./views/customer-support/customer-support-list";
-import CustomerSupportDetail from "./views/customer-support/customer-support-detail";
-import CustomerSupportWrite from "./views/customer-support/customer-support-write";
-import CustomerSupportUpdate from "./views/customer-support/customer-support-update";
 import PetRoad from "./views/pet-road";
 import Footer from "./layouts/footer";
 import DangSitterMain from "./views/dangsitter/dangsitter-main";
@@ -40,6 +35,11 @@ import ReservationUserDetail from "./views/dangsitter/reservaion-user-detail";
 import ProviderUpdate from "./views/dangsitter/provider-update";
 import ProvisionListPage from "./views/dangsitter/provision-list-page";
 import ProvisionDetail from "./views/dangsitter/provision-detail";
+import CustomerSupportMain from "./views/customer-support/customer-support-main";
+import CustomerSupportList from "./views/customer-support/customer-support-list";
+import CustomerSupportDetail from "./views/customer-support/customer-support-detail";
+import CustomerSupportWrite from "./views/customer-support/customer-support-write";
+import CustomerSupportUpdate from "./views/customer-support/customer-support-update";
 
 function App() {
   const { isLoading } = useAuthCheck();
@@ -180,15 +180,15 @@ function App() {
             />
 
             <Route
-              path="/inquiry-and-report"
+              path="/customer-support"
               element={<CustomerSupportMain />}
             />
             <Route
-              path="/inquiry-and-report/list"
+              path="/customer-support/list"
               element={<CustomerSupportList />}
             />
             <Route
-              path="/inquiry-and-report/:id"
+              path="/customer-support/:id"
               element={
                 <ProtectedRoute>
                   <CustomerSupportDetail />
@@ -196,7 +196,7 @@ function App() {
               }
             />
             <Route
-              path="/inquiry-and-report/write"
+              path="/customer-support/write"
               element={
                 <ProtectedRoute>
                   <CustomerSupportWrite />
@@ -204,7 +204,7 @@ function App() {
               }
             />
             <Route
-              path="/inquiry-and-report/edit/:id"
+              path="/customer-support/edit/:id"
               element={
                 <ProtectedRoute>
                   <CustomerSupportUpdate />

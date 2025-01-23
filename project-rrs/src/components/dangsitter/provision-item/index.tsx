@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@mui/material";
 import { ReservationStatus } from "../../../types/reservationType";
 import { useCookies } from "react-cookie";
-import { updateReservaionStatus } from "../../../apis/reservationApi";
+import { updateReservationStatus } from "../../../apis/reservationApi";
 import { useRefreshStore } from "../../../stores/refresh.store";
 import "../../../styles/reservation/reservationItem.css";
 import { ProvisionSummary } from "../../../types/provisionType";
@@ -48,9 +48,9 @@ export default function ProvisionItem({
     if (!confirmRejected) return;
 
     try {
-      await updateReservaionStatus(
-        provision.reservationId,
+      await updateReservationStatus(
         {
+          reservationId: provision.reservationId,
           reservationStatus: ReservationStatus.REJECTED,
         },
         token
@@ -67,9 +67,9 @@ export default function ProvisionItem({
     if (!confirmAcceptance) return;
 
     try {
-      await updateReservaionStatus(
-        provision.reservationId,
+      await updateReservationStatus(
         {
+          reservationId: provision.reservationId,
           reservationStatus: ReservationStatus.IN_PROGRESS,
         },
         token
