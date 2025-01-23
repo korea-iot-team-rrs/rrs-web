@@ -106,7 +106,7 @@ export default function CustomerSupportWrite() {
       const createRequestData = {
         customerSupportTitle: createCSReqDto.customerSupportTitle,
         customerSupportContent: createCSReqDto.customerSupportContent,
-        customerSupportCategory: createCSReqDto.customerSupportCategory,
+        customerSupportCategory: isInquiry? '1' : '0',
         files: createCSReqDto.files,
         path: "customer-support",
       };
