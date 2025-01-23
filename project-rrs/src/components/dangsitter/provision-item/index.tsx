@@ -7,6 +7,7 @@ import { useRefreshStore } from "../../../stores/refresh.store";
 import "../../../styles/reservation/reservationItem.css";
 import { ProvisionSummary } from "../../../types/provisionType";
 import "../../../styles/reservation/reservationItem.css";
+import "../../../styles/provision/provisionItem.css";
 
 interface ProvisionItemProps {
   provision: ProvisionSummary;
@@ -44,26 +45,29 @@ export default function ProvisionItem({
   const handleStatusChange = async (status: ReservationStatus) => {
     const token = cookies.token;
     let confirmationMessage = "";
-    let newStatus: ReservationStatus = ReservationStatus.PENDING; // 초기값을 PENDING으로 설정
-  
+    let newStatus: ReservationStatus = ReservationStatus.PENDING;
+
     if (status === ReservationStatus.IN_PROGRESS) {
       confirmationMessage = "수락 하시겠습니까?";
       newStatus = ReservationStatus.IN_PROGRESS;
     } else if (status === ReservationStatus.REJECTED) {
       confirmationMessage = "거절 하시겠습니까?";
       newStatus = ReservationStatus.REJECTED;
+    } else if (status === ReservationStatus.COMPLETED) {
+      confirmationMessage = "완료 하시겠습니까?";
+      newStatus = ReservationStatus.COMPLETED;
     }
-  
+
     const isConfirmed = window.confirm(confirmationMessage);
     if (!isConfirmed) return;
-  
-    console.log("Changing status to:", newStatus); 
-    
+
+    console.log("Changing status to:", newStatus);
+
     try {
       await updateReservationStatus(
         {
           reservationId: provision.reservationId,
-          reservationStatus: newStatus, // newStatus가 PENDING에서 올바르게 변경됨
+          reservationStatus: newStatus,
         },
         token
       );
@@ -73,11 +77,17 @@ export default function ProvisionItem({
     }
   };
 
+  const isCompletionAllowed = () => {
+    const endDate = new Date(provision.reservationEndDate);
+    const currentDate = new Date();
+    return currentDate > endDate;
+  };
+
   return (
     <>
-      <div className="reservation-item">
+      <div className="provision-item">
         <div
-          className="reservation-info"
+          className="provision-info"
           onClick={() => onClick(provision.reservationId)}
         >
           <div>{index}</div>
@@ -87,13 +97,15 @@ export default function ProvisionItem({
           <div>{formatStatus(provision.reservationStatus)}</div>
         </div>
 
-        <div className="reservation-actions">
+        <div className="provision-actions">
           {provision.reservationStatus === "PENDING" && (
             <>
               <Button
                 variant="outlined"
                 color="warning"
-                onClick={() => handleStatusChange(ReservationStatus.IN_PROGRESS)} 
+                onClick={() =>
+                  handleStatusChange(ReservationStatus.IN_PROGRESS)
+                }
                 size="medium"
                 sx={{
                   fontFamily: "Pretendard",
@@ -106,7 +118,7 @@ export default function ProvisionItem({
               <Button
                 variant="outlined"
                 color="warning"
-                onClick={() => handleStatusChange(ReservationStatus.REJECTED)} 
+                onClick={() => handleStatusChange(ReservationStatus.REJECTED)}
                 size="medium"
                 sx={{
                   fontFamily: "Pretendard",
@@ -118,6 +130,23 @@ export default function ProvisionItem({
               </Button>
             </>
           )}
+
+          {provision.reservationStatus === "IN_PROGRESS" &&
+            isCompletionAllowed() && (
+              <Button
+                variant="outlined"
+                color="success"
+                onClick={() => handleStatusChange(ReservationStatus.COMPLETED)}
+                size="medium"
+                sx={{
+                  fontFamily: "Pretendard",
+                  borderRadius: "15px",
+                  marginLeft: "10px",
+                }}
+              >
+                완료
+              </Button>
+            )}
         </div>
       </div>
     </>

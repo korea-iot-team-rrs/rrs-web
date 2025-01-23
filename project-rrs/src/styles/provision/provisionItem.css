@@ -1,0 +1,36 @@
+.provision-item {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr) auto; 
+  align-items: center;
+  border-radius: 8px;
+  background-color: #fcfcfc;
+  transition: box-shadow 0.3s ease;
+  min-height: 70px;
+}
+
+.provision-item:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
+}
+
+.provision-info {
+  display: contents; 
+}
+
+.provision-info div {
+  font-size: 14px;
+  text-align: center;
+}
+
+.provision-actions {
+  grid-column: span 1;
+  text-align: right;
+  display: flex;
+  justify-content: flex-end; 
+  align-items: center;
+  gap: 8px; 
+  margin-right: 50px;
+}
+
+.provision-actions button {
+  margin-left: 8px;
+}

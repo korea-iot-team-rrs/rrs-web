@@ -15,7 +15,7 @@ import ProvisionItem from "../../../components/dangsitter/provision-item";
 export default function ProvisionListPage() {
   const navigate = useNavigate();
   const [cookies] = useCookies(["token"]);
-  const [provisions] = useState<ProvisionList>({
+  const [provisions, setProvisions] = useState<ProvisionList>({
     provisionList: [],
   });
   const [filteredProvisions, setFilteredProvisions] = useState<
@@ -29,6 +29,7 @@ export default function ProvisionListPage() {
   const [endDate, setEndDate] = useState<Dayjs | null>(null);
   const PROVISIONLIST_API_URL = `${MAIN_URL}${PROVISION_PATH}`;
   const totalPages = Math.ceil(filteredProvisions.length / itemsPerPage);
+  const [isActive, setIsActive] = useState(false);
 
   const currentReservations = filteredProvisions.slice(
     (currentPage - 1) * itemsPerPage,
@@ -42,6 +43,27 @@ export default function ProvisionListPage() {
       navigate("/login");
       return;
     }
+
+    const fetchUserRoles = async () => {
+      try {
+        const response = await axios.get(`${MAIN_URL}/providers/role/me`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        const isActive = response.data.data.isActive;
+        setIsActive(isActive);
+
+        if (!isActive) {
+          alert("댕시터 권한이 없습니다.");
+          navigate("/dang-sitter");
+        }
+      } catch (error) {
+        console.error("에러 발생:", error);
+        alert("사용자 역할을 불러오는 중 오류가 발생했습니다.");
+      }
+    };
 
     const fetchProvisionList = async () => {
       setLoading(true);
@@ -62,8 +84,7 @@ export default function ProvisionListPage() {
             new Date(a.reservationStartDate).getTime()
         );
 
-        console.log("Provision: ", response.data.data);
-
+        setProvisions({ provisionList: sortedProvisions });
         setFilteredProvisions(sortedProvisions);
       } catch (error) {
         console.error("에러 발생:", error);
@@ -73,6 +94,7 @@ export default function ProvisionListPage() {
       }
     };
 
+    fetchUserRoles();
     fetchProvisionList();
   }, [cookies, navigate, refreshKey]);
 
@@ -87,8 +109,8 @@ export default function ProvisionListPage() {
       return;
     }
 
-    const filtered = provisions.provisionList.filter((provisions) => {
-      const start = dayjs(provisions.reservationStartDate);
+    const filtered = provisions.provisionList.filter((provision) => {
+      const start = dayjs(provision.reservationStartDate, "YYYY-MM-DD");
       return (
         (start.isAfter(startDate, "day") || start.isSame(startDate, "day")) &&
         (start.isBefore(endDate, "day") || start.isSame(endDate, "day"))
