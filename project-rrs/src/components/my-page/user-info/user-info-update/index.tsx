@@ -6,9 +6,11 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import userDefaultImage from "../../../../assets/images/dogIllust02.jpeg";
 import "../../../../styles/my-page/profileModal.css";
+import { useRefreshStore } from "../../../../stores/refresh.store";
 
 export default function UserInfoUpdate() {
   const navigate = useNavigate();
+  const {incrementRefreshKey} = useRefreshStore();
   const [cookies] = useCookies(["token"]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [profilePreview, setProfilePreview] = useState(userDefaultImage);
@@ -230,6 +232,7 @@ export default function UserInfoUpdate() {
         const updateData = response.data.data;
         setUserInfo(updateData);
         setProfilePreview(updateData.profileImageUrl);
+        incrementRefreshKey();
         goBack();
       } else if (response.data.message === "Phone already exists.") {
         alert("이미 등록된 전화번호입니다.");

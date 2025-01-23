@@ -91,7 +91,7 @@ export default function DangSitterMain() {
               ? "dang-sitter-container03 provider"
               : "dang-sitter-container03 user"
           }
-          onClick={() => navigate(toggleChecked ? "/" : "/")}
+          onClick={() => navigate(toggleChecked ? "/usage-guide" : "/usage-guide")}
         >
           <h2 className="reservation-title">
             {toggleChecked ? "댕시터란?" : "댕시터란?"}
@@ -103,7 +103,7 @@ export default function DangSitterMain() {
               ? "dang-sitter-container04 provider"
               : "dang-sitter-container04 user"
           }
-          onClick={() => navigate(toggleChecked ? "/" : "/usage-guide")}
+          onClick={() => navigate(toggleChecked ? "/usage-guide" : "/usage-guide")}
         >
           <h2 className="reservation-title">
             {toggleChecked ? "댕시터 제공자 가이드" : "댕시터 이용자 가이드"}

@@ -1,0 +1,1 @@
+export const NAVER_MAP_API = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=`;
