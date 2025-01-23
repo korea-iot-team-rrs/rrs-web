@@ -1,9 +1,9 @@
 import axios from "axios";
 import { CommunityData } from "../types/communityType";
-import { MAIN_URL, USER_PATH } from "../constants";
+import { MAIN_URL } from "../constants";
 import { getToken } from "../utils/auth";
 
-const COMMUNITY_API_URL = `${MAIN_URL}${USER_PATH}/community`;
+const COMMUNITY_API_URL = `${MAIN_URL}/community`;
 
 export const createCommunity = async (
   communityTitle: string,
@@ -140,6 +140,7 @@ export const getCommunity = async (): Promise<CommunityData[]> => {
   const response = await axios.get<{ data: CommunityData[] }>(
     COMMUNITY_API_URL
   );
+  console.log(response);
   return response.data.data;
 };
 

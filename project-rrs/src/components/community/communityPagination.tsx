@@ -1,41 +1,40 @@
 import React from "react";
-import "../../styles/announcement/paginationAnnouncement.css";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import "../../styles/community/communityPagination.css";
 
-interface PaginationProp {
+interface PaginationProps {
   pageList: number[];
   currentPage: number;
-
   handlePageClick: (page: number) => void;
-
   handlePreSectionClick: () => void;
   handleNextSectionClick: () => void;
 }
 
-export default function Pagination({
+export default function CommunityPagination({
   pageList,
   currentPage,
   handlePageClick,
   handlePreSectionClick,
   handleNextSectionClick,
-}: PaginationProp) {
+}: PaginationProps) {
   return (
-    <div className="pagination-announcement-box">
+    <div className="community-pagination-box">
       <button
-        className="pagination-announcement-button"
+        className="community-pagination-button"
         onClick={handlePreSectionClick}
+        disabled={currentPage === 1}
       >
         <AiOutlineLeft size={24} />
       </button>
 
-      <div className="pagination-announcement-list">
+      <div className="community-pagination-list">
         {pageList.map((page) => (
           <div
             key={page}
-            className={`pagination-announcement-item ${
+            className={`community-pagination-item ${
               page === currentPage
-                ? "pagination-announcement-active"
-                : "pagination-announcement-inactive"
+                ? "community-pagination-active"
+                : "community-pagination-inactive"
             }`}
             onClick={() => page !== currentPage && handlePageClick(page)}
           >
@@ -45,8 +44,9 @@ export default function Pagination({
       </div>
 
       <button
-        className="pagination-announcement-button"
+        className="community-pagination-button"
         onClick={handleNextSectionClick}
+        disabled={currentPage === pageList.length}
       >
         <AiOutlineRight size={24} />
       </button>

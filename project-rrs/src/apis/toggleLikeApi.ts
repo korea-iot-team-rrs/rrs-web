@@ -3,10 +3,10 @@ import {
   ToggleLikeData,
   CommunityLikeResponseDto,
 } from "../types/toggleLikeType";
-import { MAIN_URL, USER_PATH } from "../constants/index";
+import { MAIN_URL } from "../constants/index";
 import { getToken } from "../utils/auth";
 
-const COMMUNITY_LIKE_API_URL = `${MAIN_URL}${USER_PATH}/community`;
+const COMMUNITY_LIKE_API_URL = `${MAIN_URL}/community`;
 
 export const toggleLike = async (communityId: number) => {
   const token = getToken();

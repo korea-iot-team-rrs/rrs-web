@@ -24,7 +24,7 @@ export default function UsageGuideList() {
 
   const fetchPosts = async () => {
     try {
-      const response = await axios.get(`${MAIN_URL}/usageGuide`);
+      const response = await axios.get(`${MAIN_URL}/usage-guide`);
       const data = response.data.data;
       const sortedData = data
         .map((item: any) => ({
