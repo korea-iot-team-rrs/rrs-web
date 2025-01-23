@@ -7,7 +7,7 @@ import {
 import { getToken } from "../utils/auth";
 
 const BASE_URL = "http://localhost:4040/api/v1";
-const HEALTH_RECORD_API_URL = `${BASE_URL}/users/pet/petHealth`;
+const HEALTH_RECORD_API_URL = `${BASE_URL}/health-records`;
 
 // FormData 생성 함수
 const createFormData = (
@@ -142,7 +142,7 @@ export const fetchAllHealthRecordsByUserId = async (
 ): Promise<HealthRecordResponse[]> => {
   try {
     const response = await axios.get(
-      "http://localhost:4040/api/v1/users/pet/petHealth/user/all-records",
+      `${BASE_URL}/health-records/all-records`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

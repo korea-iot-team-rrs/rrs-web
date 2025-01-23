@@ -38,7 +38,7 @@ function UsageGuideDetailPage() {
     const fetchGuide = async () => {
       try {
         const response = await axios.get<{ data: APIUsageGuideData }>(
-          `${MAIN_URL}/usageGuide/${id}`
+          `${MAIN_URL}/usage-guide/${id}`
         );
         const data = response.data.data;
         if (data) {

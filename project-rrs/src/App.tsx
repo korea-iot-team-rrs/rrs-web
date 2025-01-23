@@ -16,7 +16,6 @@ import FindPassword from "./views/auth/find-password";
 import FinduserInfo from "./views/auth/find-user-Info";
 import MyPageView from "./views/my-page";
 import AnnouncementListView from "./views/announcement-view/announcement-list-view";
-import AnnouncementView from "./views/announcement-view";
 import UsageGuideListView from "./views/announcement-view/usage-guide-list-view";
 import UsageGuideDetailView from "./views/announcement-view/usage-guide-detail-view";
 import EventListView from "./views/announcement-view/event-list-view";
@@ -40,6 +39,7 @@ import CustomerSupportList from "./views/customer-support/customer-support-list"
 import CustomerSupportDetail from "./views/customer-support/customer-support-detail";
 import CustomerSupportWrite from "./views/customer-support/customer-support-write";
 import CustomerSupportUpdate from "./views/customer-support/customer-support-update";
+import AnnouncementDetailView from "./views/announcement-view/announcement-detail-view";
 
 function App() {
   const { isLoading } = useAuthCheck();
@@ -125,7 +125,7 @@ function App() {
             />
 
             <Route path="/announcements" element={<AnnouncementListView />} />
-            <Route path="/announcements/:id" element={<AnnouncementView />} />
+            <Route path="/announcements/:id" element={<AnnouncementDetailView />} />
             <Route path="/usage-guide" element={<UsageGuideListView />} />
             <Route path="/usage-guide/:id" element={<UsageGuideDetailView />} />
             <Route path="/events" element={<EventListView />} />
