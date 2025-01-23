@@ -31,8 +31,6 @@ export const fetchAttachmentsByHealthRecordId = async (
     });
 
     if (response.data.result) {
-      console.log("Attachments fetched successfully:", response.data.data);
-
       return response.data.data.map((attachment) => ({
         attachmentId: attachment.attachmentId,
         filePath: attachment.healthRecordAttachmentFile,
