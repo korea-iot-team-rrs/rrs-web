@@ -1,8 +1,9 @@
 import axios from "axios";
+import { FIND_ID_BY_TOKEN, MAIN_URL, SEND_EMAIL } from "../constants";
 
 export const sendEmailForId = async (email: string) => {
   const response = await axios.post(
-    `http://localhost:4040/api/v1/auth/send-email`,
+    `${MAIN_URL}${SEND_EMAIL}`,
     {
       email,
     }
@@ -12,7 +13,7 @@ export const sendEmailForId = async (email: string) => {
 
 export const sendEmailForPw = async (email: string, username: string) => {
   const response = await axios.post(
-    `http://localhost:4040/api/v1/auth/send-email`,
+    `${MAIN_URL}${SEND_EMAIL}`,
     {
       email,
       username,
@@ -23,7 +24,7 @@ export const sendEmailForPw = async (email: string, username: string) => {
 
 export const FetchIdByToken = async (token: string) => {
   const response = await axios.get(
-    `http://localhost:4040/api/v1/auth/find-id/${token}`
+    `${MAIN_URL}${FIND_ID_BY_TOKEN(token)}`
   );
   return response.data.data;
 };

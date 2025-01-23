@@ -19,8 +19,13 @@ export default function PetRoad() {
   const [map, setMap] = useState<any>(null);
 
   useEffect(() => {
-    console.log("API Key:", apiKey);
-    console.log("API URL:", `${NAVER_MAP_API}${apiKey}`);
+    setLatLng({
+      lat: 35.1524181,
+      lng: 129.0596052
+    })
+  },[]) 
+
+  useEffect(() => {
     if (!latLng) return;
 
     const loadMap = () => {
@@ -40,7 +45,16 @@ export default function PetRoad() {
         try {
           const newMap = new window.naver.maps.Map("map", {
             center: new window.naver.maps.LatLng(latLng.lat, latLng.lng),
-            zoom: 16,
+            zoom: 25,
+            scaleControl: false,
+            logoControl: false,
+            mapDataControl: false,
+            zoomControl: true,
+            minZoom: 6,
+            zoomControlOptions: {
+                position: naver.maps.Position.TOP_RIGHT
+            },
+
           });
 
           new window.naver.maps.Marker({
@@ -69,11 +83,11 @@ export default function PetRoad() {
   }, [latLng, apiKey]);
 
   return (
-    <>
+    <div style={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "80vh"}}>
       <div
         id="map"
-        style={{ width: "100%", height: "100%", borderRadius: "5px" }}
+        style={{ width: "1000px", height: "700px", borderRadius: "5px" , backgroundColor: "red"}}
       />
-    </>
+    </div>
   );
 }
