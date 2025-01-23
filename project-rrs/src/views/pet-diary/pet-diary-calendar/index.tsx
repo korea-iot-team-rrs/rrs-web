@@ -31,13 +31,13 @@ function renderCell(
   healthRecords: HealthRecord[]
 ): React.ReactElement | null {
   const dateString = formatDate(date);
-  const hasTodo = todos.some((todo) => todo.todoCreateAt === dateString);
-  const hasWalkingRecord = walkingRecords.some(
+  const hasTodo = todos?.some((todo) => todo.todoCreateAt === dateString) || false;
+  const hasWalkingRecord = walkingRecords?.some(
     (record) => record.walkingRecordCreateAt === dateString
-  );
-  const hasHealthRecord = healthRecords.some(
+  ) || false;
+  const hasHealthRecord = healthRecords?.some(
     (healthRecord) => healthRecord.createdAt === dateString
-  );
+  ) || false;
 
   return (
     <div>
