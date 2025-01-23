@@ -25,7 +25,6 @@ import CommunityListView from "./views/community-vIew/community-list-view";
 import CommunityDetailView from "./views/community-vIew/community-detail-view";
 import CommunityCreateView from "./views/community-vIew/community-create-view";
 import CommunityEditView from "./views/community-vIew/community-edit-view";
-import PetRoad from "./views/pet-road";
 import Footer from "./layouts/footer";
 import DangSitterMain from "./views/dangsitter/dangsitter-main";
 import ReservationList from "./views/dangsitter/reservaion-list";
@@ -40,6 +39,7 @@ import CustomerSupportDetail from "./views/customer-support/customer-support-det
 import CustomerSupportWrite from "./views/customer-support/customer-support-write";
 import CustomerSupportUpdate from "./views/customer-support/customer-support-update";
 import AnnouncementDetailView from "./views/announcement-view/announcement-detail-view";
+import PetRoad from "./views/pet-road";
 
 function App() {
   const { isLoading } = useAuthCheck();
@@ -55,6 +55,7 @@ function App() {
         <div className="content">
           <Routes>
             <Route path="/main" element={<Main />} />
+            
             {/* 인증 관련 라우트  */}
             <Route path="/login" element={<Login />} />
             <Route

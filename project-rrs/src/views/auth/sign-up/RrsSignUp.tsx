@@ -299,6 +299,7 @@ export default function RrsSignUp() {
       try {
         const requestBody = { ...userInfo };
   
+        console.log("qwe" + requestBody.address + requestBody.snsId)
         const response = await axios.post(
           `${API_BASE_URL}/sign-up`,
           requestBody,
