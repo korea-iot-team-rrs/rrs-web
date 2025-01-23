@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -10,6 +9,12 @@
       name="description"
       content="Web site created using create-react-app"
     />
+    <title>카카오 주소 검색</title>
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=82ad16551a4f3d227a8f800f9702c656&libraries=services"></script>
+    <script
+      type="text/javascript"
+      src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=%REACT_APP_NAVER_API%&submodules=geocoder"
+    ></script>
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -26,8 +31,6 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
-    <title>카카오 주소 검색</title>
-    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=82ad16551a4f3d227a8f800f9702c656&libraries=services"></script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
