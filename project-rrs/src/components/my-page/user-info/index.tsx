@@ -42,32 +42,7 @@ export default function UserInfo() {
     };
 
     fetchPets();
-  }, [navigate, petId]);
-  
-  // useEffect(() => {
-  //   const getUserInfo = async () => {
-  //     try {
-  //       const user = await fetchUserInfo();
-
-  //       if (user) {
-  //         setUserInfo(user);
-  //       } else {
-  //         if (!hasAlerted) {
-  //           setHasAlerted(true);
-  //           navigate("/login", { replace: true });
-  //         }
-  //       }
-  //     } catch (error) {
-  //       console.error("Failed to fetch user info:", error);
-  //       if (!hasAlerted) {
-  //         setHasAlerted(true);
-  //         navigate("/login", { replace: true });
-  //       }
-  //     }
-  //   };
-
-  //   getUserInfo();
-  // }, [hasAlerted, navigate]);
+  }, [navigate, hasAlerted]);
 
   const handleEditClick = () => {
     navigate("/user/info-update");

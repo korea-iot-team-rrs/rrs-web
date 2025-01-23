@@ -20,7 +20,7 @@ const ProviderUpdate = () => {
     const token = cookies.token || localStorage.getItem("token");
     if (!token) {
       alert("로그인 정보가 없습니다.");
-      navigate("/");
+      navigate("/login");
       return;
     }
 
@@ -78,7 +78,7 @@ const ProviderUpdate = () => {
     const token = cookies.token || localStorage.getItem("token");
     if (!token) {
       alert("로그인 정보가 없습니다.");
-      navigate("/");
+      navigate("/login");
       return;
     }
 
@@ -160,7 +160,7 @@ const ProviderUpdate = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:4040/api/v1/provider/providers/me`,
+        `http://localhost:4040/api/v1/providers/me`,
         data,
         {
           headers: {

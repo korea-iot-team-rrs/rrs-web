@@ -73,7 +73,7 @@ export default function UserInfoUpdate() {
         const token = cookies.token || localStorage.getItem("token");
         if (!token) {
           alert("로그인 정보가 없습니다.");
-          navigate("/");
+          navigate("/login");
           return;
         }
 
@@ -219,7 +219,7 @@ export default function UserInfoUpdate() {
       const token = cookies.token || localStorage.getItem("token");
 
       const response = await axios.put(
-        "http://localhost:4040/api/v1/users",
+        "http://localhost:4040/api/v1/users/me",
         formData,
         {
           headers: {

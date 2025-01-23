@@ -93,7 +93,7 @@ const WalkingRecordUpdate = ({
           const token = cookies.token || localStorage.getItem("token");
           if (!token) {
             alert("로그인 정보가 없습니다.");
-            navigate("/");
+            navigate("/login");
             return;
           }
 
