@@ -74,7 +74,7 @@ export default function PetDiaryCalendar({
         setHealthRecords(data);
       });
       axios
-        .get("http://localhost:4040/api/v1/walking-record", {
+        .get("http://localhost:4040/api/v1/walking-records", {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",

@@ -59,8 +59,8 @@ export default function PetCreate() {
         petImageUrl: file,
       });
 
-      const previewUrl = URL.createObjectURL(file); // 파일을 URL로 변환
-      setImagePreview(previewUrl); // 미리보기 이미지 상태 업데이트
+      const previewUrl = URL.createObjectURL(file);
+      setImagePreview(previewUrl);
       setShowOptions(false);
     }
   };
@@ -143,7 +143,7 @@ export default function PetCreate() {
     try {
       const token = cookies.token || localStorage.getItem("token");
       const response = await axios.post(
-        `http://localhost:4040/api/v1/users/pet`,
+        `http://localhost:4040/api/v1/pets`,
         formData,
         {
           headers: {

@@ -155,7 +155,7 @@ export default function PetDiaryWalkingRecord({
 
     try {
       const response = await axios.delete(
-        `http://localhost:4040/api/v1/walking-record/petId/${petId}/walkingRecordId/${walkingRecordId}`,
+        `http://localhost:4040/api/v1/walking-records/${petId}/${walkingRecordId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

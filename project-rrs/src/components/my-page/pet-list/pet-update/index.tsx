@@ -27,7 +27,7 @@ export default function PetUpdate() {
     const fetchPet = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4040/api/v1/users/pet/${petId}`,
+          `http://localhost:4040/api/v1/pets/${petId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -175,7 +175,7 @@ export default function PetUpdate() {
 
     try {
       const response = await axios.put(
-        `http://localhost:4040/api/v1/users/pet/${petId}`,
+        `http://localhost:4040/api/v1/pets/${petId}`,
         formData,
         {
           headers: {

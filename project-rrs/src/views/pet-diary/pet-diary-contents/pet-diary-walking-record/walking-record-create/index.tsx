@@ -194,7 +194,7 @@ const WalkingRecordCreate = ({
       const petId = selectedPet?.petId;
 
       const response = await axios.post(
-        `http://localhost:4040/api/v1/walking-record/petId/${petId}`,
+        `http://localhost:4040/api/v1/walking-records/${petId}`,
         formData,
         {
           headers: {

@@ -5,39 +5,69 @@ import { useNavigate } from "react-router-dom";
 import { FILE_URL } from "../../../constants";
 import userDefaultImage from "../../../assets/images/dogIllust02.jpeg";
 import "../../../styles/my-page/userInfo.css";
+import axios from "axios";
 
 export default function UserInfo() {
   const [userInfo, setUserInfo] = useState<User | null>(null);
   const [hasAlerted, setHasAlerted] = useState(false);
-
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getUserInfo = async () => {
-      try {
-        const user = await fetchUserInfo();
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("로그인 정보가 없습니다.");
+      navigate("/login");
+      return;
+    }
 
-        if (user) {
-          setUserInfo(user);
-        } else {
-          if (!hasAlerted) {
-            setHasAlerted(true);
-            alert("로그인 후 이용 가능합니다.");
-            navigate("/");
+    const fetchPets = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:4040/api/v1/users/me`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
           }
+        );
+
+        if (response.data && response.data.data) {
+          setUserInfo(response.data.data);
         }
       } catch (error) {
-        console.error("Failed to fetch user info:", error);
-        if (!hasAlerted) {
-          setHasAlerted(true);
-          alert("로그인 후 이용 가능합니다.");
-          navigate("/");
-        }
+        console.error("에러 발생:", error);
+        alert("회원 정보를 불러오는 중 오류가 발생했습니다.");
       }
     };
 
-    getUserInfo();
-  }, [hasAlerted, navigate]);
+    fetchPets();
+  }, [navigate, petId]);
+  
+  // useEffect(() => {
+  //   const getUserInfo = async () => {
+  //     try {
+  //       const user = await fetchUserInfo();
+
+  //       if (user) {
+  //         setUserInfo(user);
+  //       } else {
+  //         if (!hasAlerted) {
+  //           setHasAlerted(true);
+  //           navigate("/login", { replace: true });
+  //         }
+  //       }
+  //     } catch (error) {
+  //       console.error("Failed to fetch user info:", error);
+  //       if (!hasAlerted) {
+  //         setHasAlerted(true);
+  //         navigate("/login", { replace: true });
+  //       }
+  //     }
+  //   };
+
+  //   getUserInfo();
+  // }, [hasAlerted, navigate]);
 
   const handleEditClick = () => {
     navigate("/user/info-update");

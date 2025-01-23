@@ -98,7 +98,7 @@ const WalkingRecordUpdate = ({
           }
 
           const response = await axios.get(
-            `http://localhost:4040/api/v1/walking-record/petId/${petId}/walkingRecordId/${walkingRecordId}`,
+            `http://localhost:4040/api/v1/walking-records/${petId}/${walkingRecordId}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -256,7 +256,7 @@ const WalkingRecordUpdate = ({
       await addExistingFilesToFormData();
 
       const response = await axios.put(
-        `http://localhost:4040/api/v1/walking-record/petId/${petId}/walkingRecordId/${walkingRecordId}`,
+        `http://localhost:4040/api/v1/walking-records/${petId}/${walkingRecordId}`,
         formData,
         {
           headers: {

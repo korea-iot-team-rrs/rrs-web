@@ -77,7 +77,7 @@ export default function UserInfoUpdate() {
           return;
         }
 
-        const response = await axios.get(`http://localhost:4040/api/v1/users`, {
+        const response = await axios.get(`http://localhost:4040/api/v1/users/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
@@ -101,14 +101,14 @@ export default function UserInfoUpdate() {
               setProfilePreview(imageUrl);
             }
           } else {
-            setProfilePreview(userDefaultImage); // 기본 이미지 설정
+            setProfilePreview(userDefaultImage);
           }
-          setLoading(false); // 데이터 로딩 완료 후 false로 변경
+          setLoading(false); 
         }
       } catch (error) {
         console.error("Error fetching user info:", error);
         alert("회원 정보를 불러오는 중 오류가 발생했습니다.");
-        setLoading(false); // 오류가 발생하더라도 로딩 상태를 종료
+        setLoading(false); 
       }
     };
 

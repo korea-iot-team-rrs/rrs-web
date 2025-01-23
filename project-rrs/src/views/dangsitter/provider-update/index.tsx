@@ -26,7 +26,7 @@ const ProviderUpdate = () => {
 
     const fetchRole = async () => {
       try {
-        const response = await axios.get(`http://localhost:4040/api/v1/role`, {
+        const response = await axios.get(`http://localhost:4040/api/v1/providers/role/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -53,7 +53,7 @@ const ProviderUpdate = () => {
       const roleData = { isActive: newIsActive };
 
       const response = await axios.put(
-        `http://localhost:4040/api/v1/role`,
+        `http://localhost:4040/api/v1/providers/role/me`,
         roleData,
         {
           headers: {
@@ -85,7 +85,7 @@ const ProviderUpdate = () => {
     const fetchProviderInfo = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4040/api/v1/provider/profile`,
+          `http://localhost:4040/api/v1/providers/me`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -160,7 +160,7 @@ const ProviderUpdate = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:4040/api/v1/provider/profile`,
+        `http://localhost:4040/api/v1/provider/providers/me`,
         data,
         {
           headers: {
