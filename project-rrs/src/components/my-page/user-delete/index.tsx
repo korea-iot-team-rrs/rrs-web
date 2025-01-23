@@ -15,7 +15,7 @@ export default function UserDelete() {
     const token = cookies.token || localStorage.getItem("token");
     if (!token) {
       alert("로그인 정보가 없습니다.");
-      navigate("/");
+      navigate("/login");
     }
   }, [cookies, navigate]);
 
@@ -31,7 +31,7 @@ export default function UserDelete() {
       const token = cookies.token || localStorage.getItem("token");
 
       const response = await axios.delete(
-        "http://localhost:4040/api/v1/users",
+        "http://localhost:4040/api/v1/users/me",
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -1,0 +1,36 @@
+.walking-time {
+  display: flex;
+}
+
+.walking-time-inputs {
+  display: flex;
+  gap: 10px; 
+  align-items: center; 
+}
+
+.walking-time-inputs p {
+  margin: 0 2px;
+  white-space: nowrap; 
+}
+
+.walking-time-inputs input {
+  width: 50%; 
+  padding: 10px;
+}
+
+.walking-time-inputs label {
+  margin-right: 15px;
+}
+
+.weather-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.select-weather {
+  width: 200px; 
+  height: 40px; 
+  justify-content: space-between;
+  border-radius: 8px; 
+  font-size: 16px;
+}

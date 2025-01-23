@@ -15,14 +15,14 @@ export default function PetList() {
     const token = localStorage.getItem("token");
     if (!token) {
       alert("로그인 정보가 없습니다.");
-      navigate("/");
+      navigate("/login");
       return;
     }
 
     const fetchPets = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4040/api/v1/users/pet",
+          "http://localhost:4040/api/v1/pets",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -74,7 +74,7 @@ export default function PetList() {
     if (confirmDelete) {
       try {
         const response = await axios.delete(
-          `http://localhost:4040/api/v1/users/pet/${petId}`,
+          `http://localhost:4040/api/v1/pets/${petId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import userDefaultImage from "../../../../assets/images/dogIllust02.jpeg";
+import "../../../../styles/my-page/profileModal.css";
 import { useRefreshStore } from "../../../../stores/refresh.store";
 
 export default function UserInfoUpdate() {
@@ -12,8 +13,7 @@ export default function UserInfoUpdate() {
   const {incrementRefreshKey} = useRefreshStore();
   const [cookies] = useCookies(["token"]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [profilePreview, setProfilePreview] =
-    useState<string>(userDefaultImage);
+  const [profilePreview, setProfilePreview] = useState(userDefaultImage);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
@@ -75,45 +75,39 @@ export default function UserInfoUpdate() {
         const token = cookies.token || localStorage.getItem("token");
         if (!token) {
           alert("로그인 정보가 없습니다.");
-          navigate("/");
+          navigate("/login");
           return;
         }
 
-        const response = await axios.get(`http://localhost:4040/api/v1/users`, {
+        const response = await axios.get(`http://localhost:4040/api/v1/users/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
         });
 
-        console.log("GetResponse: ", response.data);
-        if (response.status === 200) {
-          const data = response.data.data;
-          setUserInfo({
-            username: data.username,
-            name: data.name,
-            nickname: data.nickname,
-            address: data.address,
-            addressDetail: data.addressDetail,
-            email: data.email,
-            phone: data.phone,
-            profileImageUrl: data.profileImageUrl,
-          });
+        if (response.data && response.data.data) {
+          const userData = response.data.data;
+          setUserInfo(userData);
+          setOriginalUserInfo(userData);
 
-          const isDefaultImage =
-            data.profileImageUrl &&
-            data.profileImageUrl.includes("dogIllust02.jpeg");
-
-          // 기본 이미지가 아닌 경우 사용자 지정 이미지 경로 설정
-          const imageUrl = isDefaultImage
-            ? userDefaultImage // 기본 이미지
-            : `http://localhost:4040/${data.profileImageUrl}`; // 사용자 지정 이미지
-
-          setProfilePreview(imageUrl);
-          setLoading(false);
+          if (
+            userData.profileImageUrl &&
+            userData.profileImageUrl !== userDefaultImage
+          ) {
+            if (userData.profileImageUrl instanceof File) {
+              const fileUrl = URL.createObjectURL(userData.profileImageUrl);
+              setProfilePreview(fileUrl);
+            } else {
+            setProfilePreview(userDefaultImage);
+          }
+        }
+          setLoading(false); 
         }
       } catch (error) {
         console.error("Error fetching user info:", error);
+        alert("회원 정보를 불러오는 중 오류가 발생했습니다.");
+        setLoading(false); 
       }
     };
 
@@ -224,7 +218,7 @@ export default function UserInfoUpdate() {
       const token = cookies.token || localStorage.getItem("token");
 
       const response = await axios.put(
-        "http://localhost:4040/api/v1/users",
+        "http://localhost:4040/api/v1/users/me",
         formData,
         {
           headers: {
@@ -233,12 +227,8 @@ export default function UserInfoUpdate() {
           },
         }
       );
-
-      console.log("Response: ", response);
-
       if (response.status === 200) {
         alert("유저 정보가 수정되었습니다.");
-
         const updateData = response.data.data;
         setUserInfo(updateData);
         setProfilePreview(updateData.profileImageUrl);
@@ -246,6 +236,7 @@ export default function UserInfoUpdate() {
         goBack();
       } else if (response.data.message === "Phone already exists.") {
         alert("이미 등록된 전화번호입니다.");
+        console.log("ResponseMessage: ", response.data.message);
       }
     } catch (error) {
       console.error("Error updating user info", error);
@@ -262,25 +253,21 @@ export default function UserInfoUpdate() {
           <h2>회원 정보 수정</h2>
           <form onSubmit={handleSubmit} className="userUpdateContent">
             <div className="userUpdateElement">
-              <label>개인 프로필 사진</label>
-              <img
-                src={
-                  selectedFile
-                    ? URL.createObjectURL(selectedFile)
-                    : userDefaultImage
-                }
-                alt="프로필 이미지"
-                onClick={handleImageClick}
-                style={{ cursor: "pointer", width: "150px", height: "150px" }}
-                onError={(e) => {
-                  const imgElement = e.target as HTMLImageElement;
-                  imgElement.src = userDefaultImage;
-                }}
-              />
+              <label htmlFor="profileImageUrl">개인 프로필 사진</label>
+              <div onClick={handleImageClick} style={{ cursor: "pointer" }}>
+                <img
+                  src={profilePreview}
+                  alt="프로필 사진"
+                  onError={(e) => {
+                    const imgElement = e.target as HTMLImageElement;
+                    imgElement.src = userDefaultImage;
+                  }}
+                />
+              </div>
 
               {showModal && (
-                <div className="modal">
-                  <div>
+                <div className="profile-modal">
+                  <div className="profile-modal-content">
                     <button
                       type="button"
                       onClick={() =>
@@ -345,7 +332,6 @@ export default function UserInfoUpdate() {
                 onChange={handleInputChange}
                 className="address"
               />
-              <button className="address-search">주소 검색</button>
             </div>
 
             <div className="userUpdateElement">

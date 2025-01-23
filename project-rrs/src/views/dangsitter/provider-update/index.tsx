@@ -20,13 +20,13 @@ const ProviderUpdate = () => {
     const token = cookies.token || localStorage.getItem("token");
     if (!token) {
       alert("로그인 정보가 없습니다.");
-      navigate("/");
+      navigate("/login");
       return;
     }
 
     const fetchRole = async () => {
       try {
-        const response = await axios.get(`http://localhost:4040/api/v1/role`, {
+        const response = await axios.get(`http://localhost:4040/api/v1/providers/role/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -53,7 +53,7 @@ const ProviderUpdate = () => {
       const roleData = { isActive: newIsActive };
 
       const response = await axios.put(
-        `http://localhost:4040/api/v1/role`,
+        `http://localhost:4040/api/v1/providers/role/me`,
         roleData,
         {
           headers: {
@@ -78,14 +78,14 @@ const ProviderUpdate = () => {
     const token = cookies.token || localStorage.getItem("token");
     if (!token) {
       alert("로그인 정보가 없습니다.");
-      navigate("/");
+      navigate("/login");
       return;
     }
 
     const fetchProviderInfo = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4040/api/v1/provider/profile`,
+          `http://localhost:4040/api/v1/providers/me`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -160,7 +160,7 @@ const ProviderUpdate = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:4040/api/v1/provider/profile`,
+        `http://localhost:4040/api/v1/providers/me`,
         data,
         {
           headers: {

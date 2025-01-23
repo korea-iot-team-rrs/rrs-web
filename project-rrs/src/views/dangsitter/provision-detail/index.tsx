@@ -6,6 +6,8 @@ import { MAIN_URL, PROVISION_PATH, FILE_URL } from "../../../constants";
 import { Provision, ReservationStatus } from "../../../types/provisionType";
 import { Button, Chip } from "@mui/material";
 import "../../../styles/reservation/reservationUserDetail.css";
+import userDefaultImage from "../../../assets/images/dogIllust02.jpeg";
+import petDefaultImage from "../../../assets/images/pet-default-profile.jpg";
 
 export default function ProvisionDetail() {
   const [cookies] = useCookies(["token"]);
@@ -25,7 +27,7 @@ export default function ProvisionDetail() {
     const token = cookies.token || localStorage.getItem("token");
     if (!token) {
       alert("로그인 정보가 없습니다.");
-      navigate("/");
+      navigate("/login");
       return;
     }
 
@@ -118,8 +120,16 @@ export default function ProvisionDetail() {
             <div className="reservation-detail-title">
               <span>사용자 정보</span>
               <img
-                src={`${FILE_URL}${provision.profileImageUrl}`}
+                src={
+                  provision.profileImageUrl
+                    ? `${FILE_URL}${provision.profileImageUrl}`
+                    : userDefaultImage
+                }
                 alt="프로필 이미지"
+                onError={(e) => {
+                  const imgElement = e.target as HTMLImageElement;
+                  imgElement.src = userDefaultImage;
+                }}
               />
               <p>닉네임: {provision.nickname}</p>
               <p>연락처: {provision.phone}</p>
@@ -134,8 +144,16 @@ export default function ProvisionDetail() {
               {provision.pets.map((pet, index) => (
                 <div key={index} className="pet">
                   <img
-                    src={`${FILE_URL}${pet.petImageUrl}`}
-                    alt="강아지지 이미지"
+                    src={
+                      pet.petImageUrl
+                        ? `${FILE_URL}${pet.petImageUrl}`
+                        : petDefaultImage
+                    }
+                    alt="프로필 이미지"
+                    onError={(e) => {
+                      const imgElement = e.target as HTMLImageElement;
+                      imgElement.src = petDefaultImage;
+                    }}
                   />
                   <p>강아지 이름: {pet.petName}</p>
                   <p>성별: {Number(pet.petGender) === 0 ? "수컷" : "암컷"}</p>

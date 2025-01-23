@@ -4,7 +4,6 @@ import { IoMdSunny } from "react-icons/io";
 import { IoCloudy, IoRainy } from "react-icons/io5";
 import { TbSnowman } from "react-icons/tb";
 import Select, { components } from "react-select";
-import "../../../../../styles/pet-diary/walkingRecord.css";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -12,6 +11,8 @@ import { FaFolder } from "react-icons/fa";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useRefreshStore } from "../../../../../stores/refresh.store";
+import "../../../../../styles/pet-diary/health-record/healthRecordCreate.css";
+import "../../../../../styles/pet-diary/walking-record/walkingRecordCreate.css";
 
 interface WalkingRecordCreateProps {
   selectedPet: Pet | null;
@@ -59,7 +60,7 @@ const WalkingRecordCreate = ({
     console.log("token:", token);
     if (!token) {
       alert("로그인 정보가 없습니다.");
-      navigate("/");
+      navigate("/login");
       return;
     }
   }, [cookies, navigate]);
@@ -193,7 +194,7 @@ const WalkingRecordCreate = ({
       const petId = selectedPet?.petId;
 
       const response = await axios.post(
-        `http://localhost:4040/api/v1/walking-record/petId/${petId}`,
+        `http://localhost:4040/api/v1/walking-records/${petId}`,
         formData,
         {
           headers: {
@@ -206,6 +207,7 @@ const WalkingRecordCreate = ({
       addWalkingRecord(response.data.data);
       incrementRefreshKey();
       goBack();
+      console.log(petId);
     } catch (error) {
       console.error("산책기록 저장 실패:", error);
       alert("산책기록 저장 실패");
@@ -221,14 +223,15 @@ const WalkingRecordCreate = ({
   };
 
   return (
-    <div>
-      <h3>산책기록 작성</h3>
+    <div className="healthCreateContainer">
+      <h3 className="walkingRecord-title">산책기록 작성</h3>
       <img
         src={selectedPet?.petImageUrl}
         alt={`${selectedPet?.petName}의 사진`}
+        className="healthCreatePetImage"
       />
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form onSubmit={handleSubmit} className="healthCreateForm">
+        <div className="healthCreateDateSection">
           <label htmlFor="create-date">작성 날짜</label>
           <span id="create-date">
             {selectedDate && (
@@ -256,64 +259,75 @@ const WalkingRecordCreate = ({
           />
         </div>
 
-        <div>
+        <div className="healthCreateInputSection">
           <label htmlFor="walking-time">산책 시간</label>
-          <input
-            type="number"
-            id="walking-time"
-            value={hours}
-            onChange={(e) => setHours(Number(e.target.value))}
-            min="0"
-          />{" "}
-          시간
-          <input
-            type="number"
-            id="walking-time"
-            value={minutes}
-            onChange={(e) => setMinutes(Number(e.target.value))}
-            min="0"
-          />{" "}
-          분
+          <div className="walking-time-inputs">
+            <input
+              type="number"
+              id="walking-time"
+              value={hours}
+              className="healthCreateInput"
+              onChange={(e) => setHours(Number(e.target.value))}
+              min="0"
+            />{" "}
+            <p>시간</p>
+            <input
+              type="number"
+              id="walking-time"
+              value={minutes}
+              className="healthCreateInput"
+              onChange={(e) => setMinutes(Number(e.target.value))}
+              min="0"
+            />{" "}
+            <p>분</p>
+          </div>
         </div>
 
-        <div>
-          <label htmlFor="walking-distance">산책 거리</label>
+        <div className="healthCreateInputSection">
+          <label htmlFor="walking-distance">산책 거리 (m)</label>
           <input
             type="number"
+            className="healthCreateInput"
             id="walking-distance"
             name="walkingRecordDistance"
             value={walkingRecord.walkingRecordDistance}
             onChange={handleInputChange}
             min="0"
           />{" "}
-          m
         </div>
 
-        <div>
+        <div className="healthCreateInputSection">
           <label htmlFor="memo">메모</label>
           <textarea
             id="memo"
             name="walkingRecordMemo"
+            className="healthCreateTextarea"
             value={walkingRecord ? walkingRecord.walkingRecordMemo : ""}
             onChange={handleInputChange}
           />
         </div>
 
-        <div>
+        <div className="healthCreateFileSection">
           <label htmlFor="files">사진</label>
-          <input type="file" id="files" multiple onChange={handleFileChange} />
+          <input
+            type="file"
+            id="files"
+            multiple
+            onChange={handleFileChange}
+            className="healthCreateFileInput"
+          />
 
-          <ul className="file-list">
+          <ul className="healthCreateFileList">
             {files.map((file, index) => (
-              <li key={index} className="file-item">
+              <li key={index} className="healthCreateFileItem">
                 <span>
                   <FaFolder />
                 </span>
-                <span className="file-name">{file.name}</span>
+                <span className="healthCreateFileName">{file.name}</span>
 
                 <IconButton
                   onClick={() => removeFile(index)}
-                  className="delete-btn"
+                  className="healthCreateDeleteButton"
                 >
                   <DeleteIcon color="primary" />
                 </IconButton>
@@ -322,10 +336,18 @@ const WalkingRecordCreate = ({
           </ul>
         </div>
 
-        <button type="button" onClick={handleCancel}>
-          취소
-        </button>
-        <button type="submit">확인</button>
+        <div className="healthCreateButtonSection">
+          <button type="submit" className="healthCreateSubmitButton">
+            확인
+          </button>
+          <button
+            type="button"
+            onClick={handleCancel}
+            className="healthCreateCancelButton"
+          >
+            취소
+          </button>
+        </div>
       </form>
     </div>
   );
