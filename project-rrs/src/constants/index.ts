@@ -24,11 +24,10 @@ export const RESERVATION_GET_PATH = (reservationId: number) =>
   `/reservations/${reservationId}`;
 export const RESERVATION_PUT_PATH = (reservationId: number) =>
   `/reservations/${reservationId}`;
-export const RESERVATION_PUT_STATUS_PATH = (reservationId: number) =>
-  `/reservations/${reservationId}/status`;
+export const RESERVATION_PUT_STATUS_PATH = `/reservations/status`;
 export const RESERVATION_GET_AVAILABLE_PROVIDER = `/reservations/available-providers`;
 export const RESERVATION_HAS_REVIEW_PATH = (reservationId: number) =>
-  `/api/v1/reservations/${reservationId}/review`;
+  `/reservations/${reservationId}/review`;
 
 // Review
 export const REVIEW_POST_PATH = "/reviews";
