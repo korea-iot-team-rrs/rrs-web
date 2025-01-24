@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PetDiaryCalendar from "../pet-diary-calendar";
 import PetDiaryContents from "../pet-diary-contents";
 import "../../../styles/pet-diary/petDiary.css";

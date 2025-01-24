@@ -63,7 +63,6 @@ export default function ReservationForm() {
       try {
         const findDangSitter = await fetchprovidersByDate(data, token);
         setFindPetSitter(findDangSitter);
-        console.log(findDangSitter);
         setIsSearched(true);
       } catch (e) {
         console.error("Failed to fetch providers", e);

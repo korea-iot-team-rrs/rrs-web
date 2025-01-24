@@ -45,7 +45,6 @@ export default function CommunityList() {
     const fetchPosts = async () => {
       try {
         const data = await getCommunity();
-        console.log(data);
         setAllData(
           data.map((item: any) => ({
             id: item.communityId,

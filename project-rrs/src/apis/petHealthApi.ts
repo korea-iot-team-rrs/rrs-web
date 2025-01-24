@@ -9,7 +9,6 @@ import { getToken } from "../utils/auth";
 const BASE_URL = "http://localhost:4040/api/v1";
 const HEALTH_RECORD_API_URL = `${BASE_URL}/health-records`;
 
-// FormData 생성 함수
 const createFormData = (
   data: Partial<HealthRecord> & { files?: File[] }
 ): FormData => {
