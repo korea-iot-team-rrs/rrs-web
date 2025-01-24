@@ -92,15 +92,17 @@ export default function PetUpdate() {
     e.preventDefault();
 
     // 유효성 검사
-    if (
-      pet.petName === originalPetInfo.petName &&
-      pet.petGender === originalPetInfo.petGender &&
-      pet.petBirthDate === originalPetInfo.petBirthDate &&
-      pet.petWeight === originalPetInfo.petWeight &&
-      pet.petNeutralityYn === originalPetInfo.petNeutralityYn &&
-      pet.petAddInfo === originalPetInfo.petAddInfo &&
-      pet.petImageUrl === originalPetInfo.petImageUrl
-    ) {
+    const isImageChanged = !!selectedFile || !!petDefaultImage; 
+
+    const isInfoChanged =
+      pet.petName !== originalPetInfo.petName ||
+      pet.petGender !== originalPetInfo.petGender ||
+      pet.petBirthDate !== originalPetInfo.petBirthDate ||
+      pet.petWeight !== originalPetInfo.petWeight ||
+      pet.petNeutralityYn !== originalPetInfo.petNeutralityYn ||
+      pet.petAddInfo !== originalPetInfo.petAddInfo;
+    
+    if (!isInfoChanged && !isImageChanged) {
       alert("변경된 내용이 없습니다.");
       return;
     }

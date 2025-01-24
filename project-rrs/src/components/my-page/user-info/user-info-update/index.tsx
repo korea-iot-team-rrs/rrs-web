@@ -129,7 +129,7 @@ export default function UserInfoUpdate() {
     const profileImageUrl = selectedFile ? selectedFile : null;
     const profileUrl = userInfo.profileImageUrl || defaultImageUrl;
 
-    const isImageChanged = !!selectedFile;
+    const isImageChanged = !!selectedFile || !!userDefaultImage;
 
     const isInfoChanged =
       userInfo.name !== originalUserInfo.name ||

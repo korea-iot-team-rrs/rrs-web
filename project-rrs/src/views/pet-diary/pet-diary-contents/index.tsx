@@ -8,6 +8,7 @@ import { RiTodoLine } from "react-icons/ri";
 import { PiDogFill } from "react-icons/pi";
 import { FaNotesMedical } from "react-icons/fa";
 import LoginModal from "../../../components/login-modal";
+import useAuthStore from "../../../stores/useAuth.store";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -40,9 +41,10 @@ function a11yProps(index: number) {
 export default function PetDiaryContents({ selectedDate }: PetDiaryMainProps) {
   const [value, setValue] = React.useState(0);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const { isLoggedIn } = useAuthStore();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    if (newValue === 1) { 
+    if (newValue === 1 && !isLoggedIn) { 
       setIsLoginModalOpen(true);
       return;
     }
