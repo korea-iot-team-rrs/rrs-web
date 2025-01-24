@@ -179,7 +179,6 @@ const ProviderUpdate = () => {
   return (
     <div>
       <div>
-        <p>현재 역할: {isActive ? "ROLE_USER, ROLE_PROVIDER" : "ROLE_USER"}</p>
         <AntSwitch checked={isActive} onChange={handleRoleToggle} />
       </div>
 

@@ -10,7 +10,7 @@ import { useRefreshStore } from "../../../../stores/refresh.store";
 
 export default function UserInfoUpdate() {
   const navigate = useNavigate();
-  const {incrementRefreshKey} = useRefreshStore();
+  const { incrementRefreshKey } = useRefreshStore();
   const [cookies] = useCookies(["token"]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [profilePreview, setProfilePreview] = useState(userDefaultImage);
@@ -79,12 +79,15 @@ export default function UserInfoUpdate() {
           return;
         }
 
-        const response = await axios.get(`http://localhost:4040/api/v1/users/me`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        const response = await axios.get(
+          `http://localhost:4040/api/v1/users/me`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
 
         if (response.data && response.data.data) {
           const userData = response.data.data;
@@ -99,15 +102,18 @@ export default function UserInfoUpdate() {
               const fileUrl = URL.createObjectURL(userData.profileImageUrl);
               setProfilePreview(fileUrl);
             } else {
+              const imageUrl = `http://localhost:4040/${userData.profileImageUrl}`;
+              setProfilePreview(imageUrl);
+            }
+          } else {
             setProfilePreview(userDefaultImage);
           }
-        }
-          setLoading(false); 
+          setLoading(false);
         }
       } catch (error) {
         console.error("Error fetching user info:", error);
         alert("회원 정보를 불러오는 중 오류가 발생했습니다.");
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
@@ -123,20 +129,15 @@ export default function UserInfoUpdate() {
     const profileImageUrl = selectedFile ? selectedFile : null;
     const profileUrl = userInfo.profileImageUrl || defaultImageUrl;
 
-    const isImageChanged =
-      userInfo.profileImageUrl !== originalUserInfo.profileImageUrl ||
-      (userInfo.profileImageUrl === defaultImageUrl &&
-        originalUserInfo.profileImageUrl !== defaultImageUrl) ||
-      (userInfo.profileImageUrl !== defaultImageUrl &&
-        originalUserInfo.profileImageUrl === defaultImageUrl);
+    const isImageChanged = !!selectedFile || !!userDefaultImage;
 
-    const isInfoUnchanged =
-      userInfo.name === originalUserInfo.name &&
-      userInfo.address === originalUserInfo.address &&
-      userInfo.addressDetail === originalUserInfo.addressDetail &&
-      userInfo.phone === originalUserInfo.phone;
+    const isInfoChanged =
+      userInfo.name !== originalUserInfo.name ||
+      userInfo.address !== originalUserInfo.address ||
+      userInfo.addressDetail !== originalUserInfo.addressDetail ||
+      userInfo.phone !== originalUserInfo.phone;
 
-    if (!isInfoUnchanged && !selectedFile && !isImageChanged) {
+    if (!isInfoChanged && !isImageChanged) {
       alert("변경된 내용이 없습니다.");
       return;
     }
@@ -234,14 +235,32 @@ export default function UserInfoUpdate() {
         setProfilePreview(updateData.profileImageUrl);
         incrementRefreshKey();
         goBack();
-      } else if (response.data.message === "Phone already exists.") {
-        alert("이미 등록된 전화번호입니다.");
-        console.log("ResponseMessage: ", response.data.message);
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        const errorMessage = error.response?.data?.message;
+        if (errorMessage === "Phone already exists.") {
+          alert("이미 등록된 전화번호입니다.");
+        } else {
+          alert("다시 시도해주세요.");
+        }
+      } else {
+        alert("네트워크 오류가 발생했습니다. 다시 시도해주세요.");
+      }
+
       console.error("Error updating user info", error);
-      alert("다시 시도해주세요.");
     }
+  };
+
+  const handleAddressSearch = () => {
+    new (window as any).daum.Postcode({
+      oncomplete: function (data: any) {
+        setUserInfo((prev) => ({
+          ...prev,
+          address: data.address,
+        }));
+      },
+    }).open();
   };
 
   return (
@@ -332,6 +351,13 @@ export default function UserInfoUpdate() {
                 onChange={handleInputChange}
                 className="address"
               />
+              <button
+                type="button"
+                onClick={handleAddressSearch}
+                className="address-search"
+              >
+                주소검색
+              </button>
             </div>
 
             <div className="userUpdateElement">
