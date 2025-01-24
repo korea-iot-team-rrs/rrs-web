@@ -48,6 +48,10 @@ export default function PetDiaryContents({ selectedDate }: PetDiaryMainProps) {
       setIsLoginModalOpen(true);
       return;
     }
+    if (newValue === 2 && !isLoggedIn) { 
+      setIsLoginModalOpen(true);
+      return;
+    }
     setValue(newValue);
   };
 

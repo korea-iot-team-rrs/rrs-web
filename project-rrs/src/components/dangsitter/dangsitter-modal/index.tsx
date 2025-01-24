@@ -76,7 +76,7 @@ export default function DangSitterModal({
             <div className="dangSitterImg">
               <img
                 src={`http://localhost:4040/${
-                  petSitterProps.profileImageUrl || "file/default-profile.jpg"
+                  petSitterProps.profileImageUrl || "file/default-profile.png"
                 }`}
                 alt="댕시터 프로필 이미지"
               />
@@ -106,13 +106,12 @@ export default function DangSitterModal({
             <div className="userInfo">
               <div>
                 <div className="userImg">
-                  <img
-                    src={`http://localhost:4040/${
-                      latesetReview.profileImageUrl ||
-                      "file/default-profile.jpg"
-                    }`}
-                    alt="댕시터 이미지"
-                  />
+                <img
+                src={`http://localhost:4040/${
+                  "file/default-profile.png"
+                }`}
+                alt="유저저 프로필 이미지"
+              />
                 </div>
                 <div>
                   <span className="userName">{latesetReview.userNickname}</span>
