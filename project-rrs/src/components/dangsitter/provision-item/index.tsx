@@ -78,9 +78,7 @@ export default function ProvisionItem({
   };
 
   const isCompletionAllowed = () => {
-    const endDate = new Date(provision.reservationEndDate);
-    const currentDate = new Date();
-    return currentDate > endDate;
+    return true;
   };
 
   return (
