@@ -6,7 +6,7 @@ export const fetchOneProviderInfo = async (
   token: string
 ): Promise<DangSitter> => {
   const response = await axios.get(
-    `http://localhost:4040/api/v1/provider/${providerId}`,
+    `http://localhost:4040/api/v1/providers/${providerId}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

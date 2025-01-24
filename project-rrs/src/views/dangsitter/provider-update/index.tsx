@@ -15,7 +15,6 @@ const ProviderUpdate = () => {
   const [selectedDates, setSelectedDates] = useState<Date[]>([]);
   const [providerIntroduction, setProviderIntroduction] = useState<string>("");
 
-  // Role 조회
   useEffect(() => {
     const token = cookies.token || localStorage.getItem("token");
     if (!token) {
@@ -44,7 +43,6 @@ const ProviderUpdate = () => {
     fetchRole();
   }, [cookies.token, navigate]);
 
-  // Role 수정
   const handleRoleToggle = async () => {
     const token = cookies.token || localStorage.getItem("token");
 
@@ -73,7 +71,6 @@ const ProviderUpdate = () => {
     window.history.back();
   };
 
-  // Provider 정보 조회 (근무 일정, 소개)
   useEffect(() => {
     const token = cookies.token || localStorage.getItem("token");
     if (!token) {
@@ -138,7 +135,6 @@ const ProviderUpdate = () => {
   const handleSubmit = async () => {
     const token = cookies.token || localStorage.getItem("token");
 
-    // 유효성 검사
     if (selectedDates.length === 0) {
       alert("하나의 이상의 근무일을 선택해주세요.");
       return;

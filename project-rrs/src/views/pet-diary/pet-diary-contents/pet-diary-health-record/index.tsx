@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import usePetStore, { Pet } from "../../../../stores/usePet.store";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import "../../../../styles/health-record/pethealthRecordList.css";
+import "../../../../styles/pet-diary/health-record/healthRecordList.css";
 import { PetDiaryTodoProps } from "../../../../types/petDiaryType";
 import { FaPlusCircle } from "react-icons/fa";
 import HealthRecordCreate from "./health-record-create";
@@ -107,7 +107,7 @@ export default function PetDiaryHealthRecord({
     }
 
     try {
-      const response = await fetch("http://localhost:4040/api/v1/users/pet", {
+      const response = await fetch("http://localhost:4040/api/v1/pets", {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
