@@ -9,7 +9,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Pet } from "../../../../../types/entityType";
 import { HealthRecordResponse } from "../../../../../types/healthType";
 import { useRefreshStore } from "../../../../../stores/refresh.store";
-import "../../../../../styles/health-record/pethealthRecordUpdate.css";
+import "../../../../../styles/pet-diary/health-record/healthRecordUpdate.css";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const MAX_FILE_COUNT = 5;

@@ -9,7 +9,6 @@ import { getToken } from "../utils/auth";
 const BASE_URL = "http://localhost:4040/api/v1";
 const HEALTH_RECORD_API_URL = `${BASE_URL}/health-records`;
 
-// FormData 생성 함수
 const createFormData = (
   data: Partial<HealthRecord> & { files?: File[] }
 ): FormData => {
@@ -151,7 +150,6 @@ export const fetchAllHealthRecordsByUserId = async (
     );
 
     if (response.data && response.data.result) {
-      console.log(response.data);
       return response.data.data;
     } else {
       console.error("Failed to fetch health records: ", response.data.message);

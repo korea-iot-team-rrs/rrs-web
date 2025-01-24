@@ -12,7 +12,7 @@ export const fetchUserInfo = async (): Promise<User> => {
 
   try {
     const response = await axios.get<{ data: User }>(
-      "http://localhost:4040/api/v1/users",
+      "http://localhost:4040/api/v1/users/me",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -20,6 +20,7 @@ export const fetchUserInfo = async (): Promise<User> => {
         },
       }
     );
+    console.log(response.data.data)
     return response.data.data;
   } catch (error) {
     console.log("Failed to fetch user info:", error);
@@ -32,7 +33,6 @@ interface UpdateUserResponse {
   data: User;
 }
 
-// 사용자 정보 수정
 export const updateUserInfo = async (
   userData: Partial<User>
 ): Promise<UpdateUserResponse> => {
@@ -43,7 +43,7 @@ export const updateUserInfo = async (
 
   try {
     const response = await axios.put<UpdateUserResponse>(
-      "http://localhost:4040/api/v1/users",
+      "http://localhost:4040/api/v1/users/me",
       userData,
       {
         headers: {
@@ -52,18 +52,17 @@ export const updateUserInfo = async (
         },
       }
     );
-    console.log("Response Data:", response.data); // 응답 데이터 확인
+    console.log("Response Data:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Error in updateUserInfo:", error); // 에러 로그 추가
+    console.error("Error in updateUserInfo:", error);
     if (axios.isAxiosError(error)) {
-      console.error("Axios error response:", error.response); // axios 오류 응답 로그
+      console.error("Axios error response:", error.response);
     }
     throw error;
   }
 };
 
-// 사용자 정보 삭제
 export const deleteUserInfo = async (password: string): Promise<void> => {
   const token = getToken();
   if (!token) {
@@ -71,7 +70,7 @@ export const deleteUserInfo = async (password: string): Promise<void> => {
   }
 
   try {
-    const response = await axios.delete("http://localhost:4040/api/v1/users", {
+    const response = await axios.delete("http://localhost:4040/api/v1/users/me", {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -95,7 +94,7 @@ export const fetchUserInfoForCertification = async (
 ): Promise<User> => {
   try {
     const response = await axios.get<{ data: User }>(
-      "http://localhost:4040/api/v1/users",
+      "http://localhost:4040/api/v1/users/me",
       {
         headers: {
           Authorization: `Bearer ${token}`,

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getHealthRecordById } from "../../../../../apis/petHealthApi";
 import { fetchAttachmentsByHealthRecordId } from "../../../../../apis/healthRecordAttachmentApi";
-import "../../../../../styles/health-record/pethealthRecordDetail.css";
+import "../../../../../styles/pet-diary/health-record/healthRecordDetail.css";
 import { HealthRecordResponse } from "../../../../../types/healthType";
 import { useRefreshStore } from "../../../../../stores/refresh.store";
 
