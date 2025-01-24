@@ -55,6 +55,7 @@ export default function CommunityDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const token = getToken();
+  console.log(token)
 
   const [userInfo, setUserInfo] = useState<User | null>(null);
   const [isAuthor, setIsAuthor] = useState<boolean>(false);
@@ -76,7 +77,6 @@ export default function CommunityDetail() {
       try {
         const fetchedUserInfo = await fetchUserInfo();
         setUserInfo(fetchedUserInfo);
-
         if (id) {
           const data = await getCommunityById(Number(id));
           if (data) {

@@ -150,7 +150,6 @@ export const fetchAllHealthRecordsByUserId = async (
     );
 
     if (response.data && response.data.result) {
-      console.log(response.data);
       return response.data.data;
     } else {
       console.error("Failed to fetch health records: ", response.data.message);

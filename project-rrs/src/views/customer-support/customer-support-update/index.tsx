@@ -20,8 +20,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import "../../../styles/customer-support/customerSupportUpdate.css";
 
 export default function CustomerSupportUpdate() {
-  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-  const MAX_TOTAL_SIZE = 20 * 1024 * 1024; // 20MB
+  const MAX_FILE_SIZE = 5 * 1024 * 1024;
+  const MAX_TOTAL_SIZE = 20 * 1024 * 1024;
 
   const { id } = useParams<{ id: string }>();
   const [cookies] = useCookies(["token"]);

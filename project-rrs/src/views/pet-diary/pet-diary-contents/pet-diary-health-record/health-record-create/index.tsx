@@ -7,7 +7,7 @@ import { FaFolder } from "react-icons/fa";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useRefreshStore } from "../../../../../stores/refresh.store";
-import "../../../../../styles/health-record/pethealthRecordCreate.css";
+import "../../../../../styles/pet-diary/health-record/healthRecordCreate.css";
 
 interface HealthCreateProps {
   selectedPet: Pet | null;

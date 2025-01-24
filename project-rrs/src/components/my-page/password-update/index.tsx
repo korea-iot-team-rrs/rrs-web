@@ -3,10 +3,12 @@ import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import "../../../styles/my-page/passwordUpdate.css";
+import useAuthStore from "../../../stores/useAuth.store";
 
 export default function PasswordUpdate() {
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
+  const { logout } = useAuthStore();
   const [formData, setFormData] = useState({
     currentPassword: "",
     newPassword: "",
@@ -60,7 +62,7 @@ export default function PasswordUpdate() {
       console.log(newPassword);
       console.log(confirmPassword);
       const response = await axios.post(
-        "http://localhost:4040/api/v1/users/update-password",
+        "http://localhost:4040/api/v1/users/me/password",
         {
           currentPassword,
           newPassword,
@@ -75,8 +77,8 @@ export default function PasswordUpdate() {
       );
 
       if (response.status === 200) {
-        alert("비밀번호가 변경되었습니다.");
-        goBack();
+        alert("비밀번호가 변경되었습니다.\n다시 로그인 하세요.");
+        logout();
       } else {
         alert("비밀번호 수정 중 오류가 발생했습니다.");
       }

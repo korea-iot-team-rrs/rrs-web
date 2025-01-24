@@ -20,6 +20,7 @@ export const fetchUserInfo = async (): Promise<User> => {
         },
       }
     );
+    console.log(response.data.data)
     return response.data.data;
   } catch (error) {
     console.log("Failed to fetch user info:", error);
