@@ -165,7 +165,7 @@ export default function PetCreate() {
     <div className="petContent">
       <h2>반려 동물 등록</h2>
       <div className="petCreateContent">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="pet-form">
           <div className="petCreateElement">
             <label htmlFor="petImageUrl">강아지 프로필 사진</label>
             <div onClick={handleImageClick} style={{ cursor: "pointer" }}>
@@ -201,6 +201,7 @@ export default function PetCreate() {
           <div className="petCreateElement">
             <label htmlFor="petName">강아지 이름</label>
             <input
+              className="text-input"
               type="text"
               id="petName"
               name="petName"
@@ -212,6 +213,7 @@ export default function PetCreate() {
           <div className="petCreateElement">
             <label htmlFor="petGender">성별</label>
             <input
+              className="radio-input"
               type="radio"
               id="petGender"
               name="petGender"
@@ -219,8 +221,9 @@ export default function PetCreate() {
               checked={pet.petGender === "0"}
               onChange={handleInputChange}
             />
-            남
+            <span className="radio-span">남</span>
             <input
+              className="radio-input"
               type="radio"
               id="petGender"
               name="petGender"
@@ -228,12 +231,13 @@ export default function PetCreate() {
               checked={pet.petGender === "1"}
               onChange={handleInputChange}
             />
-            여
+            <span>여</span>
           </div>
 
           <div className="petCreateElement">
             <label htmlFor="petBirthDate">생년월일</label>
             <input
+              className="text-input"
               type="text"
               id="petBirthDate"
               name="petBirthDate"
@@ -246,6 +250,7 @@ export default function PetCreate() {
           <div className="petCreateElement">
             <label htmlFor="petWeight">몸무게</label>
             <input
+              className="text-input"
               type="number"
               id="petWeight"
               name="petWeight"
@@ -257,7 +262,11 @@ export default function PetCreate() {
 
           <div className="petCreateElement">
             <label htmlFor="petNeutralityYn">중성화 여부</label>
+            <div>
+              
+            </div>
             <input
+              className="radio-input"
               type="radio"
               id="petNeutralityYn"
               name="petNeutralityYn"
@@ -265,8 +274,9 @@ export default function PetCreate() {
               checked={pet.petNeutralityYn === "0"}
               onChange={handleInputChange}
             />{" "}
-            아니오
+            <span className="radio-span">아니오</span>
             <input
+              className="radio-input"
               type="radio"
               id="petNeutralityYn"
               name="petNeutralityYn"
@@ -274,12 +284,13 @@ export default function PetCreate() {
               checked={pet.petNeutralityYn === "1"}
               onChange={handleInputChange}
             />{" "}
-            예
+            <span>예</span>
           </div>
 
           <div className="petCreateElement">
             <label htmlFor="petAddInfo">추가 정보</label>
             <input
+              className="text-input"
               type="text"
               id="petAddInfo"
               name="petAddInfo"

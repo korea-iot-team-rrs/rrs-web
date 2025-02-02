@@ -36,7 +36,7 @@
   margin: 35px 0 60px 0;
 }
 
-.myPage input {
+.text-input {
   border-radius: 10px;
   border: 1px solid #959595;
   height: 30px;
@@ -44,6 +44,16 @@
   width: 200px;
 }
 
+.radio-input {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
 .myPage input:disabled {
   background-color: #ccc;
+}
+
+.radio-span {
+  margin-right: 20px;
 }

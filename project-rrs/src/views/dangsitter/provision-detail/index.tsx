@@ -6,6 +6,7 @@ import { MAIN_URL, PROVISION_PATH, FILE_URL } from "../../../constants";
 import { Provision, ReservationStatus } from "../../../types/provisionType";
 import { Button, Chip } from "@mui/material";
 import "../../../styles/reservation/reservationUserDetail.css";
+import "../../../styles/provision/provisionDetail.css";
 import userDefaultImage from "../../../assets/images/dogIllust02.jpeg";
 import petDefaultImage from "../../../assets/images/pet-default-profile.jpg";
 
@@ -81,7 +82,7 @@ export default function ProvisionDetail() {
       <div></div>
       <div className="reservation-detail-wrapper">
         <div className="reservation-header">
-          <div className="reservation-detail-title">
+          <div className="provision-detail-title">
             <span>예약 날짜</span>
           </div>
           <div>
@@ -104,7 +105,7 @@ export default function ProvisionDetail() {
 
         {provision && (
           <>
-            <div className="reservation-detail-title">
+            <div className="provision-detail-title">
               <span>예약 현황</span>
             </div>
             <div className="reservation-detail-status">
@@ -117,8 +118,9 @@ export default function ProvisionDetail() {
 
         {provision && provision.pets && provision.pets.length > 0 ? (
           <>
-            <div className="reservation-detail-title">
+            <div className="provision-detail-title">
               <span>사용자 정보</span>
+              <div className="userInfo">
               <img
                 src={
                   provision.profileImageUrl
@@ -131,18 +133,21 @@ export default function ProvisionDetail() {
                   imgElement.src = userDefaultImage;
                 }}
               />
-              <p>닉네임: {provision.nickname}</p>
-              <p>연락처: {provision.phone}</p>
-              <p>주소: {provision.address}</p>
+              <div>
+              <p><span className="bold-label">닉네임:</span> {provision.nickname}</p>
+              <p><span className="bold-label">연락처:</span> {provision.phone}</p>
+              <p><span className="bold-label">주소:</span> {provision.address}</p>
+              </div>
             </div>
+              </div>
+              
 
-            <div className="reservation-detail-title">
+            <div className="provision-detail-title">
               <span>반려동물 정보</span>
-            </div>
-
-            <div className="pet-info">
+            
+            <div className="petList">
               {provision.pets.map((pet, index) => (
-                <div key={index} className="pet">
+                <div key={index} className="petInfo">
                   <img
                     src={
                       pet.petImageUrl
@@ -155,19 +160,23 @@ export default function ProvisionDetail() {
                       imgElement.src = petDefaultImage;
                     }}
                   />
-                  <p>강아지 이름: {pet.petName}</p>
-                  <p>성별: {Number(pet.petGender) === 0 ? "수컷" : "암컷"}</p>
-                  <p>생년월일일: {formatBirthDate(pet.petBirthDate)}</p>
-                  <p>몸무게: {pet.petWeight}</p>
-                  <p>
-                    중성화 여부: {Number(pet.petWeight) === 0 ? "아니오" : "예"}
+                  <div>
+                  <p><span className="bold-label">강아지 이름:</span> {pet.petName}</p>
+                  <p><span className="bold-label">성별:</span> {Number(pet.petGender) === 0 ? "수컷" : "암컷"}</p>
+                  <p><span className="bold-label">생년월일:</span> {formatBirthDate(pet.petBirthDate)}</p>
+                  <p><span className="bold-label">몸무게:</span> {pet.petWeight}</p>
+                  <p><span className="bold-label">
+                    중성화 여부:</span> {Number(pet.petWeight) === 0 ? "아니오" : "예"}
                   </p>
-                  <p>
-                    추가 정보:{" "}
+                  <p><span className="bold-label">
+                    추가 정보:</span>{" "}
                     {pet.petAddInfo === null || " " ? "없음" : pet.petAddInfo}
                   </p>
+                  </div>
                 </div>
+              
               ))}
+            </div>
             </div>
           </>
         ) : (
@@ -177,7 +186,7 @@ export default function ProvisionDetail() {
         {provision && (
           <>
             <div className="reservation-detail-bottom">
-              <div className="reservation-detail-title">
+              <div className="provision-detail-title">
                 <span>댕시터에게 전하는 말</span>
               </div>
               <div className="memo">
