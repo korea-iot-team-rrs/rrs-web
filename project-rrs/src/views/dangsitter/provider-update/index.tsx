@@ -190,12 +190,11 @@ const ProviderUpdate = () => {
           </div>
         </div>
 
-        {isActive ? (
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label>근무 일정</label>
-
-              <div className={styles.calendarContainer}>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>근무 일정</label>
+            <div className={styles.calendarContainer}>
+              {isActive ? (
                 <Calendar
                   className={styles.calendar}
                   locale="en-US"
@@ -221,19 +220,31 @@ const ProviderUpdate = () => {
                     date.toLocaleString("ko-KR", { weekday: "short" }).charAt(0)
                   }
                 />
-              </div>
+              ) : (
+                <div className="isActive-container">
+                  <p>댕시터를 활성화 해주세요</p>
+                </div>
+              )}
             </div>
+          </div>
 
-            <div>
-              <label>소개</label>
-              <div className="introduction">
+          <div>
+            <label>소개</label>
+            <div className="introduction">
+              {isActive ? (
                 <textarea
                   value={providerIntroduction}
                   onChange={(e) => setProviderIntroduction(e.target.value)}
                 />
-              </div>
+              ) : (
+                <div className="isActive-container">
+                  <p>댕시터를 활성화 해주세요</p>
+                </div>
+              )}
             </div>
+          </div>
 
+          {isActive ? (
             <div className="button-group">
               <button
                 type="button"
@@ -246,24 +257,14 @@ const ProviderUpdate = () => {
                 취소
               </button>
             </div>
-          </form>
-        ) : (
-          <div>
-            <div>
-              <label>근무 일정</label>
-              <p>댕시터를 활성화 해주세요</p>
+          ) : (
+            <div className="button-group">
+              <button type="button" onClick={goBack} className="cancle-button">
+                취소
+              </button>
             </div>
-
-            <div>
-              <label>소개</label>
-              <p>댕시터를 활성화 해주세요</p>
-            </div>
-
-            <button type="button" onClick={goBack}>
-              취소
-            </button>
-          </div>
-        )}
+          )}
+        </form>
       </div>
     </div>
   );
