@@ -38,3 +38,11 @@
   align-self: flex-end;
   margin: 80px 50px 40px 0;
 }
+
+.delete-container input {
+  width: 250px;
+  padding-left: 15px;
+  height: 35px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}

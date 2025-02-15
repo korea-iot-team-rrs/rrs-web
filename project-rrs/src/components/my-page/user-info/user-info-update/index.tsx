@@ -367,6 +367,7 @@ export default function UserInfoUpdate() {
                 name="addressDetail"
                 value={userInfo.addressDetail}
                 onChange={handleInputChange}
+                className="addressDetail"
               />
             </div>
 
