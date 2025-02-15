@@ -110,7 +110,7 @@ export default function PetInfo() {
 
         <div className="petInfoElement">
           <label>추가 정보</label>
-          <p>{pet.petName}</p>
+          <p>{pet.petAddInfo}</p>
         </div>
 
         <button type="button" onClick={goBack}>

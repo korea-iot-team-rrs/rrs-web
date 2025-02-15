@@ -76,10 +76,10 @@ export default function PetUpdate() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      setSelectedFile(file); // 파일 선택 상태 설정
+      setSelectedFile(file); 
 
-      const previewUrl = URL.createObjectURL(file); // 파일을 URL로 변환
-      setImagePreview(previewUrl); // 미리보기 이미지 상태 업데이트
+      const previewUrl = URL.createObjectURL(file); 
+      setImagePreview(previewUrl); 
       setShowOptions(false);
     }
   };
@@ -210,7 +210,8 @@ export default function PetUpdate() {
   return (
     <div className="petContent">
         <h2>반려동물 정보 수정</h2>
-        <form onSubmit={handleSubmit} className="petUpdateContent">
+        <div className="petUpdateContent">
+        <form onSubmit={handleSubmit} className="pet-form">
           <div className="petUpdateElement">
             <label htmlFor="petImageUrl">강아지 프로필 사진</label>
             <div onClick={handleImageClick} style={{ cursor: "pointer" }}>
@@ -248,6 +249,7 @@ export default function PetUpdate() {
             <label>강아지 이름</label>
             <input
               type="text"
+              className="text-input"
               name="petName"
               value={pet?.petName}
               onChange={handleInputChange}
@@ -258,28 +260,31 @@ export default function PetUpdate() {
             <label htmlFor="petGender">성별</label>
             <input
               type="radio"
+              className="radio-input"
               id="petGender"
               name="petGender"
               value="0"
               checked={pet?.petGender === "0"}
               onChange={handleInputChange}
             />
-            남
+            <span className="radio-span">남</span>
             <input
               type="radio"
+              className="radio-input"
               id="petGender"
               name="petGender"
               value="1"
               checked={pet?.petGender === "1"}
               onChange={handleInputChange}
             />
-            여
+            <span className="radio-span">여</span>
           </div>
 
           <div className="petUpdateElement">
             <label>생년월일</label>
             <input
               type="text"
+              className="text-input"
               name="petBirthDate"
               value={pet?.petBirthDate}
               onChange={handleInputChange}
@@ -290,6 +295,7 @@ export default function PetUpdate() {
             <label>몸무게</label>
             <input
               type="number"
+              className="text-input"
               name="petWeight"
               value={pet?.petWeight}
               onChange={handleInputChange}
@@ -300,28 +306,31 @@ export default function PetUpdate() {
             <label htmlFor="petNeutralityYn">중성화 여부</label>
             <input
               type="radio"
+              className="radio-input"
               id="petNeutralityYn"
               name="petNeutralityYn"
               value="0"
               checked={pet?.petNeutralityYn === "0"}
               onChange={handleInputChange}
             />
-            아니오
+            <span className="radio-span">아니오</span>
             <input
               type="radio"
+              className="radio-input"
               id="petNeutralityYn"
               name="petNeutralityYn"
               value="1"
               checked={pet?.petNeutralityYn === "1"}
               onChange={handleInputChange}
             />
-            예
+            <span className="radio-span">예</span>
           </div>
 
           <div className="petUpdateElement">
             <label htmlFor="petAddInfo">추가 정보</label>
             <input
               type="text"
+              className="text-input"
               id="petAddInfo"
               name="petAddInfo"
               value={pet?.petAddInfo}
@@ -336,6 +345,7 @@ export default function PetUpdate() {
             </button>
           </div>
         </form>
+        </div>
       </div>
   );
 }

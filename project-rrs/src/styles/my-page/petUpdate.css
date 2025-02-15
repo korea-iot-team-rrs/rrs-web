@@ -30,15 +30,16 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 70%;
-  flex-wrap: wrap;
+  width: 100%;
+  flex-wrap: nowrap;
+  margin-bottom: 20px;
 }
 
 .petUpdateElement label {
   font-weight: bold;
   text-align: right;
   color: #1c82e0;
-  min-width: 150px;
+  min-width: 400px;
   font-size: 18px;
   margin-right: 50px;
 }

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { AntSwitch } from "../../../styles/dangsitter/dangsitterCommon";
-import { useNavigate } from "react-router-dom";
+import { data, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import styles from "../../../styles/dangsitter/providerCalendar.module.css";
 import "../../../styles/dangsitter/provider.css";
 
 const ProviderUpdate = () => {
@@ -25,12 +26,15 @@ const ProviderUpdate = () => {
 
     const fetchRole = async () => {
       try {
-        const response = await axios.get(`http://localhost:4040/api/v1/providers/role/me`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await axios.get(
+          `http://localhost:4040/api/v1/providers/role/me`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         const isProviderActive = response.data.data.isActive;
         setRole(isProviderActive);
@@ -68,7 +72,7 @@ const ProviderUpdate = () => {
   };
 
   const goBack = () => {
-    window.history.back();
+    navigate(-1);
   };
 
   useEffect(() => {
@@ -132,7 +136,8 @@ const ProviderUpdate = () => {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
     const token = cookies.token || localStorage.getItem("token");
 
     if (selectedDates.length === 0) {
@@ -177,61 +182,90 @@ const ProviderUpdate = () => {
   };
 
   return (
-    <div>
-      <div>
-        <AntSwitch checked={isActive} onChange={handleRoleToggle} />
-      </div>
-
-      {isActive ? (
-        <form action="">
+    <div className="provider-container">
+      <div className="provider-content">
+        <div className="provider-switch">
           <div>
-            <label>근무 일정</label>
-            <Calendar
-              onClickDay={handleCalendarChange}
-              tileClassName={({ date }) =>
-                selectedDates.some(
-                  (selectedDate) =>
-                    selectedDate.toDateString() === date.toDateString()
-                )
-                  ? "selected-date"
-                  : ""
-              }
-            />
+            <AntSwitch checked={isActive} onChange={handleRoleToggle} />
           </div>
-
-          <div>
-            <label>소개</label>
-            <input
-              type="text"
-              value={providerIntroduction}
-              onChange={(e) => setProviderIntroduction(e.target.value)}
-            />
-          </div>
-
-          <button type="button" onClick={goBack}>
-            취소
-          </button>
-          <button type="button" onClick={handleSubmit}>
-            저장
-          </button>
-        </form>
-      ) : (
-        <div>
-          <div>
-            <label>근무 일정</label>
-            <p>댕시터를 활성화 해주세요</p>
-          </div>
-
-          <div>
-            <label>소개</label>
-            <p>댕시터를 활성화 해주세요</p>
-          </div>
-
-          <button type="button" onClick={goBack}>
-            취소
-          </button>
         </div>
-      )}
+
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>근무 일정</label>
+            <div className={styles.calendarContainer}>
+              {isActive ? (
+                <Calendar
+                  className={styles.calendar}
+                  locale="en-US"
+                  onClickDay={handleCalendarChange}
+                  tileClassName={({ date }) =>
+                    selectedDates.some(
+                      (selectedDate) =>
+                        selectedDate.toDateString() === date.toDateString()
+                    )
+                      ? styles.selectedDate
+                      : styles.calendarTile
+                  }
+                  formatMonthYear={(locale, date) =>
+                    date.toLocaleString("ko-KR", {
+                      year: "numeric",
+                      month: "long",
+                    })
+                  }
+                  formatMonth={(locale, date) =>
+                    date.toLocaleString("ko-KR", { month: "long" })
+                  }
+                  formatShortWeekday={(locale, date) =>
+                    date.toLocaleString("ko-KR", { weekday: "short" }).charAt(0)
+                  }
+                />
+              ) : (
+                <div className="isActive-container">
+                  <p>댕시터를 활성화 해주세요</p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div>
+            <label>소개</label>
+            <div className="introduction">
+              {isActive ? (
+                <textarea
+                  value={providerIntroduction}
+                  onChange={(e) => setProviderIntroduction(e.target.value)}
+                />
+              ) : (
+                <div className="isActive-container">
+                  <p>댕시터를 활성화 해주세요</p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {isActive ? (
+            <div className="button-group">
+              <button
+                type="button"
+                onClick={handleSubmit}
+                className="ok-button"
+              >
+                저장
+              </button>
+              <button type="button" onClick={goBack} className="cancle-button">
+                취소
+              </button>
+            </div>
+          ) : (
+            <div className="button-group">
+              <button type="button" onClick={goBack} className="cancle-button">
+                취소
+              </button>
+            </div>
+          )}
+        </form>
+      </div>
     </div>
   );
 };
